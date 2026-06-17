@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>人鉴八字日练</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh;display:flex;justify-content:center}
+.app{width:100%;max-width:480px;min-height:100vh}
+@media(min-width:600px){body{background:#060d1b;padding:20px 0}.app{border-radius:24px;overflow:hidden;box-shadow:0 8px 60px rgba(0,0,0,.7)}.screen{min-height:0!important}}
+.screen{display:none;flex-direction:column;padding:14px 14px 28px;min-height:100vh}
+.screen.active{display:flex}
+.tbar{display:flex;align-items:center;padding:4px 0 10px;gap:8px;flex-shrink:0}
+.tbk{background:none;border:none;color:#64748b;font-size:20px;cursor:pointer;padding:4px 8px;border-radius:8px}
+.tbk:hover{background:#1e293b;color:#94a3b8}
+.tbtitle{flex:1;text-align:center;font-size:14px;color:#94a3b8}
+.tbr{font-size:12px;color:#475569;white-space:nowrap}
+.btn{width:100%;padding:13px;font-size:14px;font-weight:bold;border:none;border-radius:12px;cursor:pointer;transition:all .15s;user-select:none;letter-spacing:1px}
+.btn:active{transform:scale(.98)}
+.btn-g{background:#10b981;color:#fff;letter-spacing:2px}.btn-g:hover{background:#059669}
+.btn-b{background:#1e3a8a;color:#93c5fd}.btn-b:hover{background:#1e40af}
+.btn-d{background:#1e293b;color:#94a3b8}.btn-d:hover{background:#273549}
+.btn-a{background:#78350f;color:#fcd34d}.btn-a:hover{background:#92400e}
+.btn-sm{padding:8px 12px;font-size:12px;border-radius:9px;width:auto}
+.card{background:#1e293b;border-radius:14px;padding:13px 15px;margin:5px 0}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#334155;color:#e2e8f0;padding:10px 20px;border-radius:20px;font-size:13px;opacity:0;pointer-events:none;z-index:300;transition:opacity .3s;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.5)}
+.toast.show{opacity:1}
+.spop{position:fixed;top:38%;left:50%;transform:translate(-50%,-50%) scale(.8);background:#10b981;color:#fff;padding:10px 26px;border-radius:22px;font-size:22px;font-weight:bold;pointer-events:none;opacity:0;z-index:100;transition:opacity .2s,transform .2s;white-space:nowrap}
+.spop.show{opacity:1;transform:translate(-50%,-65%) scale(1)}
+
+/* HOME */
+.hlogo{text-align:center;padding:26px 0 12px}
+.hlogo-t{font-size:25px;font-weight:bold;color:#10b981;letter-spacing:5px}
+.hlogo-s{font-size:11px;color:#475569;margin-top:4px;letter-spacing:3px}
+.hdate{background:#1e293b;border-radius:12px;padding:10px 14px;text-align:center;font-size:14px;color:#94a3b8;margin:6px 0 10px}
+.hstats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:10px}
+.hstat{background:#1e293b;border-radius:12px;padding:11px 6px;text-align:center}
+.hstat-v{font-size:22px;font-weight:bold;color:#10b981}
+.hstat-l{font-size:10px;color:#475569;margin-top:2px}
+.mcard{background:#1e293b;border-radius:16px;padding:13px 15px;margin-bottom:9px;border:2px solid transparent;transition:border-color .15s}
+.mcard:hover{border-color:#1e3a5f}
+.mcard-head{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.mcard-icon{font-size:22px;width:34px;text-align:center;flex-shrink:0}
+.mcard-name{font-size:15px;font-weight:bold;color:#e2e8f0}
+.mcard-desc{font-size:11px;color:#475569;margin-top:1px}
+.mcard-btns{display:flex;gap:7px;flex-wrap:wrap}
+.mcard-btns .btn{flex:1;min-width:60px;padding:9px 4px;font-size:12px}
+.nt-label{font-size:10px;color:#64748b;background:#0f172a;border-radius:4px;padding:1px 5px;margin-left:2px}
+.nb-card{background:#1a1500;border:1px solid #78350f40;border-radius:16px;padding:13px 15px;margin-bottom:9px;cursor:pointer}
+.nb-card:hover{border-color:#f59e0b60}
+.nb-card-row{display:flex;align-items:center;gap:10px}
+.nb-badge{background:#92400e;color:#fcd34d;font-size:12px;font-weight:bold;padding:2px 8px;border-radius:10px}
+.hhist{font-size:11px;color:#475569;margin-bottom:6px}
+.hrow{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid #0f172a;font-size:12px}
+.hrow:last-child{border-bottom:none}
+
+/* MODE 1 GAME */
+.prog-row{display:flex;align-items:center;gap:8px;padding:2px 0 8px;flex-shrink:0}
+.prog-txt{font-size:12px;color:#64748b;white-space:nowrap}
+.prog-wrap{flex:1;height:5px;background:#1e293b;border-radius:3px}
+.prog-bar{height:100%;border-radius:3px;background:#10b981;transition:width .3s}
+.hud{display:flex;gap:7px;margin-bottom:8px;flex-shrink:0}
+.hud-box{background:#1e293b;border-radius:9px;padding:6px 10px;flex:1;text-align:center}
+.hud-l{font-size:10px;color:#475569}
+.hud-v{font-size:19px;font-weight:bold;color:#10b981;line-height:1.2}
+.qcard{background:#1e293b;border-radius:18px;padding:16px 14px;flex:1;display:flex;flex-direction:column}
+.tbar-t{height:5px;background:#334155;border-radius:3px;margin-bottom:14px;overflow:hidden;flex-shrink:0;transition:opacity .3s}
+.tbar-b{height:100%;border-radius:3px;background:#10b981;transition:width .08s linear}
+.qmain{text-align:center;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:88px}
+.bigc{font-size:80px;font-weight:bold;color:#f1f5f9;line-height:1}
+.bigc.sm{font-size:58px}
+@media(min-width:480px){.bigc{font-size:96px}.bigc.sm{font-size:72px}}
+.cpair{display:flex;align-items:center;gap:12px}
+.vs{font-size:20px;color:#475569;font-weight:bold}
+.qsub{font-size:14px;color:#94a3b8;margin-top:7px}
+.qsub b{color:#e2e8f0}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px;flex-shrink:0}
+.opt{padding:14px 6px;font-size:24px;font-weight:bold;background:#334155;color:#e2e8f0;border:2px solid transparent;border-radius:12px;cursor:pointer;min-height:58px;display:flex;align-items:center;justify-content:center;transition:background .1s;width:100%;position:relative;-webkit-appearance:none}
+.opt:hover:not(:disabled){background:#3d526a}
+.opt:active:not(:disabled){transform:scale(.97)}
+.opt.correct{background:#064e3b;border-color:#10b981;color:#10b981}
+.opt.wrong{background:#450a0a;border-color:#ef4444;color:#ef4444}
+.opt.reveal{background:#064e3b;border-color:#10b981;color:#10b981;opacity:.5}
+.opt:disabled{cursor:default}
+.kh{position:absolute;top:5px;left:7px;font-size:10px;color:#475569;font-weight:normal}
+.fb{text-align:center;margin-top:10px;font-size:12px;min-height:28px;color:#64748b;line-height:1.5;flex-shrink:0}
+.fb-ok{color:#10b981}.fb-err{color:#ef4444}
+.nt-badge{text-align:center;font-size:11px;color:#f59e0b;background:#1c0f00;border-radius:8px;padding:3px 10px;margin-bottom:6px;flex-shrink:0}
+
+/* MODE 1 RESULT */
+.rhead{text-align:center;padding:18px 0 10px;flex-shrink:0}
+.rgrade{font-size:46px;margin-bottom:4px}
+.rscore{font-size:66px;font-weight:bold;color:#10b981;line-height:1}
+.rlbl{font-size:11px;color:#475569;margin-top:3px;letter-spacing:2px}
+.rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:9px 0}
+.ri{background:#1e293b;border-radius:11px;padding:10px 6px;text-align:center}
+.ri-v{font-size:17px;font-weight:bold;color:#e2e8f0}
+.ri-l{font-size:10px;color:#475569;margin-top:2px}
+.bd-row{display:flex;align-items:center;padding:5px 0;gap:6px;font-size:12px;border-bottom:1px solid #0f172a}
+.bd-row:last-child{border-bottom:none}
+.bd-n{color:#94a3b8;width:68px;flex-shrink:0;font-size:11px}
+.bd-d{display:flex;gap:3px;flex:1;flex-wrap:wrap}
+.dot{width:13px;height:13px;border-radius:50%;flex-shrink:0}
+.dot.ok{background:#10b981}.dot.fail{background:#ef4444}
+.bd-f{color:#475569;font-size:11px;white-space:nowrap}
+.share-box{background:#1e293b;border-radius:12px;padding:12px 14px;font-size:12px;line-height:1.9;color:#94a3b8;white-space:pre-line;word-break:break-all;margin:6px 0}
+/* wrong question list */
+.wq-hdr{font-size:12px;color:#ef4444;margin:10px 0 6px;font-weight:bold}
+.wq-item{background:#1c0a0a;border-radius:10px;padding:9px 11px;margin:4px 0;border-left:3px solid #ef4444}
+.wq-top{display:flex;align-items:center;gap:8px;margin-bottom:3px}
+.wq-chars{font-size:22px;font-weight:bold;color:#f87171;display:flex;gap:4px}
+.wq-cat{font-size:10px;color:#64748b;background:#0f172a;border-radius:4px;padding:1px 5px}
+.wq-detail{font-size:12px;color:#94a3b8;line-height:1.6}
+.wq-ans{color:#10b981;font-weight:bold}
+.wq-mine{color:#ef4444}
+
+/* MODE 2 SELECT */
+.p2grp{margin-bottom:14px}
+.p2grp-lbl{font-size:11px;color:#475569;letter-spacing:2px;margin-bottom:7px;padding:0 2px;font-weight:bold}
+.p2grp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.p2btn{background:#1e293b;border:2px solid transparent;border-radius:12px;cursor:pointer;padding:11px 6px;text-align:center;transition:all .15s}
+.p2btn:hover{border-color:#1e3a5f}.p2btn:active{transform:scale(.97)}
+.p2btn-name{font-size:13px;font-weight:bold;color:#e2e8f0}
+.p2btn-n{font-size:10px;color:#475569;margin-top:3px}
+.p2btn.clr-zhi{border-color:#1e3a5f}.p2btn.clr-gan{border-color:#3b1a5f}.p2btn.clr-gs{border-color:#1a3a2f}
+/* MODE 2 GAME */
+.m2stat{text-align:center;font-size:12px;color:#64748b;margin-bottom:9px;min-height:16px;flex-shrink:0}
+.match-area{display:flex;gap:6px;flex:1;min-height:0}
+.match-col{display:flex;flex-direction:column;gap:6px;flex:1;min-height:0}
+.mi{flex:1;min-height:44px;max-height:90px;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:bold;background:#1e293b;border:2px solid transparent;border-radius:12px;cursor:pointer;transition:all .12s;color:#e2e8f0;user-select:none}
+.mi:active:not(.mat):not(.dis){transform:scale(.96)}
+.mi.sel{background:#1e3a8a;border-color:#3b82f6;color:#93c5fd}
+.mi.mat{background:#022c22;border-color:#10b981;color:#10b981;cursor:default}
+.mi.err{background:#450a0a;border-color:#ef4444;color:#ef4444}
+.mi.dis{cursor:default;opacity:.4}
+.match-mid{display:flex;flex-direction:column;justify-content:space-around;align-items:center;width:14px;flex-shrink:0}
+.mm-dot{width:4px;height:4px;border-radius:50%;background:#1e293b;flex-shrink:0}
+.mm-dot.on{background:#10b981}
+/* mode 2 result */
+.m2res{text-align:center;padding:30px 20px 20px}
+.m2res-icon{font-size:52px;margin-bottom:10px}
+.m2res-t{font-size:34px;font-weight:bold;color:#10b981;margin-bottom:6px}
+.m2res-sub{font-size:13px;color:#64748b;line-height:2}
+
+/* MODE 3 */
+.m3nav{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-shrink:0}
+.m3name{font-size:15px;font-weight:bold;color:#10b981;flex:1;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.m3nb{background:#1e293b;border:none;color:#64748b;padding:7px 12px;border-radius:10px;cursor:pointer;font-size:12px;white-space:nowrap}
+.m3nb:hover{background:#273549;color:#94a3b8}
+.bz-wrap{background:#1e293b;border-radius:18px;padding:13px 10px;flex-shrink:0}
+.bz-labels{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:5px}
+.bz-lb{text-align:center;font-size:10px;color:#475569;letter-spacing:2px}
+.bz-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:1fr 1fr;gap:5px}
+.bz-cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:bold;background:#334155;border:3px solid transparent;border-radius:12px;cursor:pointer;transition:all .13s;color:#f1f5f9;user-select:none;position:relative}
+@media(min-width:400px){.bz-cell{font-size:40px;border-radius:14px}}
+.bz-cell:hover:not(.s0):not(.s1){background:#3d526a}
+.bz-cell.rz{color:#60a5fa}
+.bz-cell.s0{background:#1e3a8a;border-color:#3b82f6;color:#93c5fd}
+.bz-cell.s1{background:#2d1657;border-color:#7c3aed;color:#c4b5fd}
+.bz-type{position:absolute;bottom:3px;right:5px;font-size:9px;color:#475569}
+.rel-panel{background:#1e293b;border-radius:14px;padding:14px;margin-top:8px;flex:1;overflow-y:auto;min-height:110px}
+.rel-hint{text-align:center;color:#475569;font-size:13px;padding:20px 0;line-height:2}
+.rel-pair-header{display:flex;align-items:center;gap:8px;margin-bottom:9px}
+.rph-chars{display:flex;align-items:center;gap:6px}
+.rph-c{font-size:34px;font-weight:bold}
+.rph-c.c0{color:#93c5fd}.rph-c.c1{color:#c4b5fd}
+.rph-vs{color:#475569;font-size:14px;font-weight:bold}
+.rph-lbl{font-size:11px;color:#475569;flex:1}
+.rel-item{font-size:13px;padding:7px 10px;background:#0f172a;border-radius:9px;margin:4px 0;color:#e2e8f0;line-height:1.5;border-left:3px solid #334155}
+.rel-item.none{color:#475569;border-left-color:#1e293b}
+.rel-item.rel-chong{border-left-color:#ef4444}
+.rel-item.rel-he{border-left-color:#10b981}
+.rel-item.rel-tong{border-left-color:#f59e0b}
+.rel-item.rel-xing{border-left-color:#8b5cf6}
+.rel-item.rel-gen{border-left-color:#64748b}
+.m3footer{display:flex;gap:8px;margin-top:8px;flex-shrink:0}
+
+/* 错题本 */
+.nb-screen-hdr{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-shrink:0}
+.nb-count-badge{background:#92400e;color:#fcd34d;font-size:13px;font-weight:bold;padding:3px 10px;border-radius:10px}
+.nb-empty{text-align:center;color:#475569;font-size:14px;padding:40px 0;line-height:2.2}
+.nb-list{flex:1;overflow-y:auto}
+.nb-q{background:#1e293b;border-radius:12px;padding:11px 13px;margin:5px 0;display:flex;align-items:center;gap:10px}
+.nb-q-main{font-size:26px;font-weight:bold;color:#e2e8f0;min-width:36px;text-align:center}
+.nb-q-info{flex:1}
+.nb-q-type{font-size:10px;color:#475569;margin-bottom:2px}
+.nb-q-ans{font-size:13px;color:#10b981;font-weight:bold}
+.nb-q-del{background:none;border:none;color:#475569;font-size:18px;cursor:pointer;padding:4px 8px;border-radius:6px;flex-shrink:0}
+.nb-q-del:hover{background:#334155;color:#ef4444}
+.nb-q-date{font-size:10px;color:#334155;margin-top:2px}
+.nb-footer{display:flex;gap:8px;margin-top:10px;flex-shrink:0}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- HOME -->
+<div id="ph" class="screen active">
+  <div class="hlogo"><div class="hlogo-t">人鉴八字日练</div><div class="hlogo-s">干支知识 · 每日精进</div></div>
+  <div class="hdate" id="el-date"></div>
+  <div class="hstats">
+    <div class="hstat"><div class="hstat-v" id="el-streak">0</div><div class="hstat-l">连续打卡</div></div>
+    <div class="hstat"><div class="hstat-v" id="el-best">0</div><div class="hstat-l">闪卡最高</div></div>
+    <div class="hstat"><div class="hstat-v" id="el-total">0</div><div class="hstat-l">累计对题</div></div>
+  </div>
+  <div class="mcard">
+    <div class="mcard-head"><div class="mcard-icon">⚡</div><div><div class="mcard-name">闪卡速答</div><div class="mcard-desc">点选答案，干支知识全覆盖</div></div></div>
+    <div class="mcard-btns">
+      <button class="btn btn-g" id="btn-daily" onclick="startM1('daily')">今日挑战 ⏱️</button>
+      <button class="btn btn-d" onclick="startM1('daily-nt')">今日自由 🔓</button>
+    </div>
+    <div class="mcard-btns" style="margin-top:6px">
+      <button class="btn btn-d" onclick="startM1('free')">随机计时 ⏱️</button>
+      <button class="btn btn-d" onclick="startM1('free-nt')">随机自由 🔓</button>
+    </div>
+  </div>
+  <div class="mcard" onclick="show('p2-sel')" style="cursor:pointer">
+    <div class="mcard-head"><div class="mcard-icon">🔗</div><div><div class="mcard-name">配对连线 <span class="nt-label">无计时</span></div><div class="mcard-desc">六冲 · 六合 · 暗合 · 六穿 · 绝 · 五合 · 禄位…</div></div><div style="color:#475569;font-size:18px">›</div></div>
+  </div>
+  <div class="mcard">
+    <div class="mcard-head"><div class="mcard-icon">🔍</div><div><div class="mcard-name">八字排盘 <span class="nt-label">无计时</span></div><div class="mcard-desc">点任意两字查关系，人鉴117例</div></div></div>
+    <div class="mcard-btns">
+      <button class="btn btn-b" onclick="startM3(-1)">随机一例</button>
+      <button class="btn btn-d" onclick="startM3(0)">从第一例</button>
+    </div>
+  </div>
+  <div class="nb-card" onclick="show('p-nb')">
+    <div class="nb-card-row">
+      <div style="font-size:22px">📚</div>
+      <div style="flex:1"><div style="font-size:15px;font-weight:bold;color:#e2e8f0">错题本</div><div style="font-size:11px;color:#475569;margin-top:1px">收录做错的题，随时练习</div></div>
+      <div class="nb-badge" id="el-nb-badge">0 题</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="hhist">近期闪卡记录</div>
+    <div id="el-hist"><span style="color:#475569;font-size:12px">暂无记录</span></div>
+  </div>
+</div>
+
+<!-- MODE 1 GAME -->
+<div id="p1g" class="screen">
+  <div class="tbar">
+    <button class="tbk" onclick="goHome()">✕</button>
+    <div class="tbtitle" id="m1-lbl"></div>
+    <div class="tbr" id="m1-cat"></div>
+  </div>
+  <div class="nt-badge" id="el-nt-badge" style="display:none">🔓 无计时模式 — 轻松练习</div>
+  <div class="prog-row">
+    <span class="prog-txt" id="el-prog">1/20</span>
+    <div class="prog-wrap"><div class="prog-bar" id="el-pb" style="width:0%"></div></div>
+  </div>
+  <div class="hud">
+    <div class="hud-box"><div class="hud-l">得分</div><div class="hud-v" id="el-sc">0</div></div>
+    <div class="hud-box"><div class="hud-l">连击</div><div class="hud-v" id="el-ck">0</div></div>
+    <div class="hud-box"><div class="hud-l">倍率</div><div class="hud-v" id="el-mu">×1.0</div></div>
+  </div>
+  <div class="qcard">
+    <div class="tbar-t" id="el-tbar-t"><div class="tbar-b" id="el-tm" style="width:100%"></div></div>
+    <div class="qmain" id="el-qmain"></div>
+    <div class="opts" id="el-opts"></div>
+    <div class="fb" id="el-fb"></div>
+  </div>
+</div>
+
+<!-- MODE 1 RESULT -->
+<div id="p1r" class="screen">
+  <div class="tbar"><button class="tbk" onclick="goHome()">← 首页</button><div class="tbtitle" id="r1-lbl">本局结果</div></div>
+  <div class="rhead">
+    <div class="rgrade" id="el-grade"></div>
+    <div class="rscore" id="el-rscore"></div>
+    <div class="rlbl">本局得分</div>
+  </div>
+  <div class="rgrid">
+    <div class="ri"><div class="ri-v" id="el-rc"></div><div class="ri-l">正确</div></div>
+    <div class="ri"><div class="ri-v" id="el-rm"></div><div class="ri-l">最大连击</div></div>
+    <div class="ri"><div class="ri-v" id="el-rt"></div><div class="ri-l">用时</div></div>
+  </div>
+  <div class="card" id="el-bd"></div>
+  <!-- wrong questions -->
+  <div id="el-wq-section" style="display:none">
+    <div class="wq-hdr" id="el-wq-hdr"></div>
+    <div id="el-wq-list"></div>
+    <button class="btn btn-a" onclick="addAllWrongToNB()" style="margin:6px 0" id="el-add-nb-btn">📚 一键加入错题本</button>
+  </div>
+  <div class="share-box" id="el-share"></div>
+  <button class="btn btn-b" onclick="copyShare()" style="margin:4px 0">📋 复制结果发给队友</button>
+  <button class="btn btn-d" onclick="goHome()" style="margin:4px 0">← 返回首页</button>
+</div>
+
+<!-- MODE 2 SELECT -->
+<div id="p2-sel" class="screen">
+  <div class="tbar"><button class="tbk" onclick="goHome()">✕</button><div class="tbtitle">配对连线 · 选类别</div></div>
+  <div class="p2grp">
+    <div class="p2grp-lbl">🌀 地支关系</div>
+    <div class="p2grp-grid">
+      <button class="p2btn clr-zhi" onclick="startM2('六冲')"><div class="p2btn-name">六冲</div><div class="p2btn-n">6 对</div></button>
+      <button class="p2btn clr-zhi" onclick="startM2('六合-生合')"><div class="p2btn-name">六合·生合</div><div class="p2btn-n">3 对</div></button>
+      <button class="p2btn clr-zhi" onclick="startM2('六合-克合')"><div class="p2btn-name">六合·克合</div><div class="p2btn-n">3 对</div></button>
+      <button class="p2btn clr-zhi" onclick="startM2('暗合')"><div class="p2btn-name">暗合</div><div class="p2btn-n">3 对</div></button>
+      <button class="p2btn clr-zhi" onclick="startM2('六穿')"><div class="p2btn-name">六穿</div><div class="p2btn-n">6 对</div></button>
+      <button class="p2btn clr-zhi" onclick="startM2('绝')"><div class="p2btn-name">绝</div><div class="p2btn-n">4 对</div></button>
+    </div>
+  </div>
+  <div class="p2grp">
+    <div class="p2grp-lbl">☰ 天干关系</div>
+    <div class="p2grp-grid">
+      <button class="p2btn clr-gan" onclick="startM2('天干五合')"><div class="p2btn-name">天干五合</div><div class="p2btn-n">5 对</div></button>
+      <button class="p2btn clr-gan" onclick="startM2('患')"><div class="p2btn-name">患·同五行</div><div class="p2btn-n">5 对</div></button>
+    </div>
+  </div>
+  <div class="p2grp">
+    <div class="p2grp-lbl">↔ 干支关系</div>
+    <div class="p2grp-grid">
+      <button class="p2btn clr-gs" onclick="startM2('禄位')"><div class="p2btn-name">禄位互通</div><div class="p2btn-n">10 对</div></button>
+    </div>
+  </div>
+  <button class="btn btn-d" onclick="goHome()" style="margin-top:auto">← 首页</button>
+</div>
+
+<!-- MODE 2 GAME -->
+<div id="p2g" class="screen">
+  <div class="tbar">
+    <button class="tbk" onclick="show('p2-sel')">←</button>
+    <div class="tbtitle" id="m2-title">配对连线</div>
+    <div class="tbr" id="m2-prog">0/0</div>
+  </div>
+  <div class="m2stat" id="m2-stat">选左边，再选右边，完成配对</div>
+  <div class="match-area">
+    <div class="match-col" id="m2-left"></div>
+    <div class="match-mid" id="m2-mid"></div>
+    <div class="match-col" id="m2-right"></div>
+  </div>
+</div>
+
+<!-- MODE 2 RESULT -->
+<div id="p2r" class="screen">
+  <div class="tbar"><button class="tbk" onclick="show('p2-sel')">←</button><div class="tbtitle">配对完成</div></div>
+  <div class="m2res">
+    <div class="m2res-icon" id="m2r-icon">🎉</div>
+    <div class="m2res-t" id="m2r-score"></div>
+    <div class="m2res-sub" id="m2r-sub"></div>
+  </div>
+  <div id="el-m2wq-section" style="display:none">
+    <div class="wq-hdr" id="el-m2wq-hdr"></div>
+    <div id="el-m2wq-list"></div>
+    <button class="btn btn-a" onclick="addM2WrongToNB()" style="margin:6px 0">📚 一键加入错题本</button>
+  </div>
+  <button class="btn btn-g" id="m2r-retry" style="margin:6px 0">再来一局</button>
+  <button class="btn btn-d" onclick="goHome()" style="margin:4px 0">← 返回首页</button>
+</div>
+
+<!-- MODE 3 -->
+<div id="p3" class="screen">
+  <div class="tbar">
+    <button class="tbk" onclick="goHome()">✕</button>
+    <div class="tbtitle">八字排盘</div>
+    <div class="tbr" id="m3-idx"></div>
+  </div>
+  <div class="m3nav">
+    <button class="m3nb" onclick="m3Move(-1)">◀ 上一例</button>
+    <div class="m3name" id="m3-name"></div>
+    <button class="m3nb" onclick="m3Move(1)">下一例 ▶</button>
+  </div>
+  <div class="bz-wrap">
+    <div class="bz-labels"><div class="bz-lb">年</div><div class="bz-lb">月</div><div class="bz-lb">日</div><div class="bz-lb">时</div></div>
+    <div class="bz-grid" id="m3-grid"></div>
+  </div>
+  <div class="rel-panel" id="m3-rel"><div class="rel-hint">点击八字中任意两个字<br>即时查看它们之间的关系</div></div>
+  <div class="m3footer">
+    <button class="btn btn-d" onclick="startM3(-1)" style="flex:1;font-size:12px">🎲 随机换一例</button>
+    <button class="btn btn-d" onclick="m3ClearSel()" style="flex:1;font-size:12px">✕ 取消选中</button>
+  </div>
+</div>
+
+<!-- 错题本 -->
+<div id="p-nb" class="screen">
+  <div class="tbar">
+    <button class="tbk" onclick="goHome()">← 首页</button>
+    <div class="tbtitle">错题本</div>
+    <button class="btn-sm btn btn-d" onclick="nbClearAll()" style="width:auto;padding:5px 10px;font-size:11px">全部清除</button>
+  </div>
+  <div class="nb-screen-hdr">
+    <div style="font-size:15px;font-weight:bold;color:#e2e8f0;flex:1">收录的错题</div>
+    <div class="nb-count-badge" id="nb-count-badge">0 题</div>
+  </div>
+  <div class="nb-list" id="nb-list"></div>
+  <div class="nb-footer">
+    <button class="btn btn-g" onclick="startNBPractice()" style="flex:2">开始练习错题 🔓</button>
+    <button class="btn btn-d" onclick="goHome()" style="flex:1">← 首页</button>
+  </div>
+</div>
+
+<div class="spop" id="el-spop"></div>
+<div class="toast" id="el-toast"></div>
+</div>
+
+<script>
+// ══ BASE DATA ══
+const GAN=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+const ZHI=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+const WX5=['木','火','土','金','水'];
+const G_WX={甲:'木',乙:'木',丙:'火',丁:'火',戊:'土',己:'土',庚:'金',辛:'金',壬:'水',癸:'水'};
+const Z_WX={子:'水',丑:'土',寅:'木',卯:'木',辰:'土',巳:'火',午:'火',未:'土',申:'金',酉:'金',戌:'土',亥:'水'};
+const YY={甲:'阳',乙:'阴',丙:'阳',丁:'阴',戊:'阳',己:'阴',庚:'阳',辛:'阴',壬:'阳',癸:'阴'};
+const CHONG={子:'午',丑:'未',寅:'申',卯:'酉',辰:'戌',巳:'亥',午:'子',未:'丑',申:'寅',酉:'卯',戌:'辰',亥:'巳'};
+const TGHE={甲:'己',己:'甲',乙:'庚',庚:'乙',丙:'辛',辛:'丙',丁:'壬',壬:'丁',戊:'癸',癸:'戊'};
+const LIUHE={子:'丑',丑:'子',寅:'亥',亥:'寅',卯:'戌',戌:'卯',辰:'酉',酉:'辰',巳:'申',申:'巳',午:'未',未:'午'};
+const SHENGHE=new Set(['寅亥','亥寅','辰酉','酉辰','午未','未午']);
+const TONG={甲:'寅',乙:'卯',丙:'巳',丁:'午',戊:'巳',己:'午',庚:'申',辛:'酉',壬:'亥',癸:'子'};
+const WX_S={木:'火',火:'土',土:'金',金:'水',水:'木'};
+const WX_K={木:'土',火:'金',土:'水',金:'木',水:'火'};
+const SHENS=['比肩','劫财','食神','伤官','偏财','正财','七杀','正官','偏印','正印'];
+const REL_NAMES=['六冲','六合','暗合','破','六穿','绝','三刑','三合','伏吟','患'];
+const SANHE_DATA=[['申','子','辰','水'],['亥','卯','未','木'],['寅','午','戌','火'],['巳','酉','丑','金']];
+const SANHE_WX=['水','木','火','金'];
+const ZIXING_SET=new Set(['辰','午','酉','亥']);
+const ZHI_NOZIXING=ZHI.filter(z=>!ZIXING_SET.has(z));
+const CAT_NAME={wx:'五行归属',chong:'六冲',tghe:'天干五合',liuhe:'地支六合',tong:'干支互通',shen:'十神',sanhe:'三合补完',sanhetype:'三合识局',xing3:'三刑补完',po:'破识别',zixing:'自刑字'};
+const PILLAR=['年','月','日','时'];
+
+function getShen(rz,ot){
+  const rw=G_WX[rz],ow=G_WX[ot],sy=YY[rz]===YY[ot];
+  if(rw===ow)return sy?'比肩':'劫财';
+  if(WX_S[rw]===ow)return sy?'食神':'伤官';
+  if(WX_S[ow]===rw)return sy?'偏印':'正印';
+  if(WX_K[rw]===ow)return sy?'偏财':'正财';
+  if(WX_K[ow]===rw)return sy?'七杀':'正官';
+}
+
+// ══ MODE 3 RELATIONSHIP DETECTION ══
+const ANHE_SET=new Set(['申卯','卯申','亥午','午亥','丑寅','寅丑']);
+const SANHE=[['申','子','辰'],['亥','卯','未'],['寅','午','戌'],['巳','酉','丑']];
+const SANHUI=[['寅','卯','辰'],['巳','午','未'],['申','酉','戌'],['亥','子','丑']];
+const CHUAN_S=new Set(['寅巳','巳寅','丑午','午丑','申亥','亥申','酉戌','戌酉']);
+const CHUAN_K=new Set(['卯辰','辰卯','子未','未子']);
+const JUE_SET=new Set(['申卯','卯申','亥午','午亥','子巳','巳子','寅酉','酉寅']);
+const PO_SET=new Set(['子卯','卯子','子酉','酉子','卯午','午卯','午酉','酉午']);
+const XING3=[['寅','巳','申'],['丑','戌','未']];
+const ZIHE=new Set(['戊子','壬午','甲午','壬戌','丙戌','丁亥','己亥','辛巳','癸巳']);
+
+function detectPair(a,b){
+  const res=[];
+  if(a.t==='g'&&b.t==='g'){
+    const aw=G_WX[a.v],bw=G_WX[b.v];
+    if(WX_S[aw]===bw)res.push({txt:`天干生：${a.v}生${b.v}`,cls:'rel-gen'});
+    else if(WX_S[bw]===aw)res.push({txt:`天干生：${b.v}生${a.v}`,cls:'rel-gen'});
+    if(WX_K[aw]===bw)res.push({txt:`天干克：${a.v}克${b.v}`,cls:'rel-gen'});
+    else if(WX_K[bw]===aw)res.push({txt:`天干克：${b.v}克${a.v}`,cls:'rel-gen'});
+    if(TGHE[a.v]===b.v)res.push({txt:`合(克合)：${a.v}${b.v} 天干五合`,cls:'rel-he'});
+    if(aw===bw&&a.v!==b.v)res.push({txt:`患：${a.v}${b.v} 同${aw}不同字`,cls:'rel-gen'});
+    if(a.v===b.v)res.push({txt:`伏吟：${a.v} 重复`,cls:'rel-xing'});
+  }
+  if(a.t==='z'&&b.t==='z'){
+    const k=a.v+b.v;
+    if(CHONG[a.v]===b.v)res.push({txt:`冲：${a.v}${b.v}`,cls:'rel-chong'});
+    if(LIUHE[a.v]===b.v){const t=SHENGHE.has(k)||SHENGHE.has(b.v+a.v)?'生合':'克合';res.push({txt:`合(${t})：${a.v}${b.v} 六合`,cls:'rel-he'});}
+    if(ANHE_SET.has(k))res.push({txt:`暗合：${a.v}${b.v}`,cls:'rel-he'});
+    for(const g of SANHE)if(g.includes(a.v)&&g.includes(b.v)){res.push({txt:`半合/拱合：${a.v}${b.v}（${g.join('')}局）`,cls:'rel-he'});break;}
+    for(const g of SANHUI)if(g.includes(a.v)&&g.includes(b.v)){res.push({txt:`三会：${a.v}${b.v}（${g.join('')}方）`,cls:'rel-he'});break;}
+    if(CHUAN_S.has(k))res.push({txt:`穿(生穿)：${a.v}${b.v}`,cls:'rel-xing'});
+    else if(CHUAN_K.has(k))res.push({txt:`穿(克穿)：${a.v}${b.v}`,cls:'rel-xing'});
+    if(JUE_SET.has(k))res.push({txt:`绝：${a.v}${b.v}`,cls:'rel-chong'});
+    if(PO_SET.has(k))res.push({txt:`破：${a.v}${b.v}`,cls:'rel-xing'});
+    for(const g of XING3)if(g.includes(a.v)&&g.includes(b.v)){res.push({txt:`刑(半刑)：${a.v}${b.v}（${g.join('')}三刑）`,cls:'rel-xing'});break;}
+    if(a.v===b.v){
+      if(['辰','午','酉','亥'].includes(a.v))res.push({txt:`刑(自刑)：${a.v}`,cls:'rel-xing'});
+      res.push({txt:`伏吟：${a.v} 重复`,cls:'rel-xing'});
+    }
+  }
+  if(a.t!==b.t){
+    const go=a.t==='g'?a:b,zo=a.t==='z'?a:b;
+    if(TONG[go.v]===zo.v){
+      const lbl=go.p===zo.p?`${PILLAR[go.p]}柱（${go.v}${zo.v}）`:`${PILLAR[go.p]}干—${PILLAR[zo.p]}支（${go.v}${zo.v}）`;
+      res.push({txt:`干支互通：${lbl}`,cls:'rel-tong'});
+    }
+    if(go.p===zo.p&&ZIHE.has(go.v+zo.v))res.push({txt:`自合：${go.v}${zo.v}（${PILLAR[go.p]}柱）`,cls:'rel-he'});
+  }
+  return res;
+}
+
+// ══ RNG ══
+function mkRng(seed){
+  let s=seed>>>0;
+  return()=>{s=(s+0x6D2B79F5)>>>0;let t=Math.imul(s^(s>>>15),1|s);t^=t+Math.imul(t^(t>>>7),61|t);return((t^(t>>>14))>>>0)/4294967296;};
+}
+function shuffle(rng,arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=0|rng()*(i+1);[a[i],a[j]]=[a[j],a[i]];}return a;}
+function rpick(rng,arr,n){return shuffle(rng,arr).slice(0,n);}
+
+// ══ NOTEBOOK STORAGE ══
+function getNB(){try{return JSON.parse(localStorage.getItem('bazi_nb')||'[]')}catch{return[]}}
+function saveNB(nb){localStorage.setItem('bazi_nb',JSON.stringify(nb))}
+function nbAdd(q){
+  const nb=getNB();
+  if(nb.find(x=>x.id===q.id))return false;
+  nb.unshift({...q,added:todayStr()});
+  saveNB(nb);return true;
+}
+function nbRemove(id){saveNB(getNB().filter(x=>x.id!==id));renderNB();updateNBBadge();}
+function nbClearAll(){if(confirm('确认清除所有错题？')){{saveNB([]);renderNB();updateNBBadge();}}}
+function updateNBBadge(){
+  const n=getNB().length;
+  document.getElementById('el-nb-badge').textContent=n+' 题';
+  const nb=document.getElementById('nb-count-badge');
+  if(nb)nb.textContent=n+' 题';
+}
+
+// ══ QUESTION POOL (Mode 1) ══
+function mkOpts(rng,correct,pool,wrongPool){const wp=wrongPool||pool;return shuffle(rng,[correct,...rpick(rng,wp.filter(x=>x!==correct),3)]);}
+function poolForCat(cat){
+  if(cat==='wx'||cat==='sanhetype')return WX5;
+  if(cat==='tghe')return GAN;
+  if(cat==='shen')return SHENS;
+  if(cat==='po')return REL_NAMES;
+  return ZHI;
+}
+
+function buildPool(rng){
+  const qs=[];
+  // 五行
+  for(const g of GAN){const c=G_WX[g];qs.push({cat:'wx',main:[g],qt:'属于哪个<b>五行</b>？',correct:c,opts:mkOpts(rng,c,WX5),exp:`${g}（${YY[g]}${c}）`});}
+  for(const z of ZHI){const c=Z_WX[z];qs.push({cat:'wx',main:[z],qt:'属于哪个<b>五行</b>？',correct:c,opts:mkOpts(rng,c,WX5),exp:`${z}属${c}`});}
+  // 六冲
+  for(const z of ZHI){const c=CHONG[z];qs.push({cat:'chong',main:[z],qt:'与哪个地支<b>六冲</b>？',correct:c,opts:mkOpts(rng,c,ZHI),exp:`${z}⚡${c}`});}
+  // 天干五合
+  for(const g of GAN){const c=TGHE[g];qs.push({cat:'tghe',main:[g],qt:'与哪个天干<b>五合</b>？',correct:c,opts:mkOpts(rng,c,GAN),exp:`${g}${c}天干五合`});}
+  // 地支六合
+  for(const z of ZHI){const c=LIUHE[z],t=SHENGHE.has(z+c)?'生合':'克合';qs.push({cat:'liuhe',main:[z],qt:'与哪个地支<b>六合</b>？',correct:c,opts:mkOpts(rng,c,ZHI),exp:`${z}${c}六合（${t}）`});}
+  // 禄位
+  for(const g of GAN){const c=TONG[g];qs.push({cat:'tong',main:[g],qt:'<b>禄位</b>地支是？',correct:c,opts:mkOpts(rng,c,ZHI),exp:`${g}禄位在${c}`});}
+  // 十神
+  const pairs=[];for(const rz of GAN)for(const ot of GAN)if(rz!==ot)pairs.push([rz,ot]);
+  for(const[rz,ot]of rpick(rng,pairs,30)){const c=getShen(rz,ot);qs.push({cat:'shen',main:[rz,ot],qt:'日主左，见右，<b>十神</b>是？',correct:c,opts:mkOpts(rng,c,SHENS),exp:`${rz}日主，${ot}为${c}`});}
+  // 三合补完（给2支选缺的）
+  for(const[a,b,c,wx]of SANHE_DATA){
+    const g=[a,b,c];
+    for(let m=0;m<3;m++){
+      const shown=g.filter((_,i)=>i!==m),miss=g[m];
+      qs.push({cat:'sanhe',main:shown,qt:`三合<b>${wx}局</b>，缺的地支是？`,correct:miss,opts:mkOpts(rng,miss,ZHI),exp:`${g.join('')}三合${wx}局`});
+    }
+  }
+  // 三合识局（给3支，选五行）
+  for(const[a,b,c,wx]of SANHE_DATA){
+    qs.push({cat:'sanhetype',main:[a,b,c],qt:'三支<b>三合</b>，属哪个五行局？',correct:wx,opts:shuffle(rng,['水','木','火','金']),exp:`${a}${b}${c}三合${wx}局`});
+  }
+  // 三刑补完（给2支选缺的）
+  for(const g of[['寅','巳','申'],['丑','戌','未']]){
+    for(let m=0;m<3;m++){
+      const shown=g.filter((_,i)=>i!==m),miss=g[m];
+      qs.push({cat:'xing3',main:shown,qt:'<b>三刑</b>，补全第三支？',correct:miss,opts:mkOpts(rng,miss,ZHI),exp:`${g.join('')}三刑`});
+    }
+  }
+  // 破识别（给2支，选关系名）
+  for(const[a,b]of[['子','卯'],['子','酉'],['卯','午'],['午','酉']]){
+    qs.push({cat:'po',main:[a,b],qt:'这两支是什么<b>地支关系</b>？',correct:'破',opts:mkOpts(rng,'破',REL_NAMES),exp:`${a}${b}相破`});
+  }
+  // 自刑字（哪个地支会自刑）
+  for(const z of['辰','午','酉','亥']){
+    qs.push({cat:'zixing',main:[],qt:'哪个地支重复出现会<b>自刑</b>？',correct:z,opts:mkOpts(rng,z,ZHI,ZHI_NOZIXING),exp:`${z}${z}自刑`});
+  }
+  return qs;
+}
+function selectQs(seed){
+  const rng=mkRng(seed);const pool=buildPool(rng);
+  const byC={};for(const q of pool){if(!byC[q.cat])byC[q.cat]=[];byC[q.cat].push(q);}
+  const quota={wx:3,chong:2,tghe:2,liuhe:2,tong:3,shen:3,sanhe:3,sanhetype:2,xing3:2,po:2,zixing:1};
+  let picks=[];for(const[cat,n]of Object.entries(quota))picks.push(...rpick(rng,byC[cat]||[],n));
+  return shuffle(rng,picks);
+}
+
+// ══ STORAGE ══
+function getData(){try{return JSON.parse(localStorage.getItem('bazi')||'{}')}catch{return{}}}
+function saveData(d){localStorage.setItem('bazi',JSON.stringify(d))}
+function todayStr(){return new Date().toISOString().slice(0,10)}
+function dateSeed(){const d=new Date();return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();}
+function saveM1Result(score,correct,maxCombo,time){
+  const d=getData();d.history=d.history||[];
+  const today=todayStr(),idx=d.history.findIndex(h=>h.date===today);
+  const rec={date:today,score,correct,maxCombo,time};
+  if(idx>=0){if(score>d.history[idx].score)d.history[idx]=rec;}else{d.history.unshift(rec);d.history=d.history.slice(0,20);}
+  d.best=Math.max(d.best||0,score);d.totalCorrect=(d.totalCorrect||0)+correct;
+  let streak=0,dt=new Date();
+  for(let i=0;i<30;i++){const ds=dt.toISOString().slice(0,10);if(d.history.find(h=>h.date===ds)){streak++;dt.setDate(dt.getDate()-1);}else break;}
+  d.dayStreak=streak;saveData(d);
+}
+
+// ══ NAVIGATION ══
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');if(id==='p-nb')renderNB();}
+function goHome(){clearInterval(G1.timer);initHome();show('ph');}
+function toast(msg){const t=document.getElementById('el-toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+
+function initHome(){
+  const d=getData(),now=new Date(),days=['日','一','二','三','四','五','六'];
+  document.getElementById('el-date').textContent=`${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日 · 星期${days[now.getDay()]}`;
+  document.getElementById('el-streak').textContent=d.dayStreak||0;
+  document.getElementById('el-best').textContent=d.best||0;
+  document.getElementById('el-total').textContent=d.totalCorrect||0;
+  const hist=(d.history||[]).slice(0,5);
+  document.getElementById('el-hist').innerHTML=hist.length===0
+    ?'<span style="color:#475569;font-size:12px">暂无记录</span>'
+    :hist.map(h=>`<div class="hrow"><span style="color:#64748b">${h.date}</span><span style="color:#475569;font-size:11px">${h.correct}题</span><span style="color:#10b981;font-weight:bold;font-size:15px">${h.score}</span></div>`).join('');
+  const todayDone=(d.history||[]).find(h=>h.date===todayStr());
+  const btn=document.getElementById('btn-daily');
+  btn.textContent=todayDone?`今日已完成${todayDone.score}分 · 再刷 ⏱️`:'今日挑战 ⏱️';
+  btn.style.background=todayDone?'#065f46':'#10b981';
+  updateNBBadge();
+}
+
+// ══ MODE 1: GAME ══
+const TLIMIT=10000;
+const G1={qs:[],cur:0,score:0,streak:0,maxCombo:0,correct:0,t0:0,qt0:0,timer:null,answered:false,results:[],mode:'daily',timed:true,wrongQs:[]};
+let _opts=[];
+function getMult(s){return s>=10?2.0:s>=6?1.5:s>=3?1.2:1.0;}
+
+function startM1(mode){
+  const timed=!mode.includes('nt')&&mode!=='nb';
+  const daily=mode==='daily'||mode==='daily-nt';
+  const seed=daily?dateSeed():(Math.random()*0x100000000>>>0);
+  const qs=mode==='nb'?prepNBQuestions():selectQs(seed);
+  if(!qs||qs.length===0){toast('错题本是空的！');return;}
+  Object.assign(G1,{qs,cur:0,score:0,streak:0,maxCombo:0,correct:0,t0:Date.now(),qt0:0,timer:null,answered:false,results:[],mode,timed,wrongQs:[]});
+  const labels={daily:'今日挑战 ⏱️','daily-nt':'今日挑战 🔓',free:'随机计时 ⏱️','free-nt':'随机自由 🔓',nb:'错题本练习 🔓'};
+  document.getElementById('m1-lbl').textContent=labels[mode]||mode;
+  document.getElementById('el-nt-badge').style.display=timed?'none':'block';
+  document.getElementById('el-tbar-t').style.opacity=timed?'1':'0.2';
+  show('p1g');m1Next();
+}
+
+function prepNBQuestions(){
+  const nb=getNB();if(!nb.length)return null;
+  const rng=mkRng(Math.random()*0x100000000>>>0);
+  return shuffle(rng,nb.map(q=>({...q,opts:mkOpts(rng,q.correct,poolForCat(q.cat))})));
+}
+
+function m1Next(){
+  if(G1.cur>=G1.qs.length){m1End();return;}
+  const q=G1.qs[G1.cur];
+  G1.answered=false;G1.qt0=Date.now();_opts=q.opts;
+  document.getElementById('el-prog').textContent=`${G1.cur+1}/${G1.qs.length}`;
+  document.getElementById('el-pb').style.width=`${G1.cur/G1.qs.length*100}%`;
+  document.getElementById('el-sc').textContent=G1.score;
+  document.getElementById('el-ck').textContent=G1.streak;
+  document.getElementById('el-mu').textContent=`×${getMult(G1.streak).toFixed(1)}`;
+  document.getElementById('m1-cat').textContent=CAT_NAME[q.cat]||'';
+  const main=document.getElementById('el-qmain');
+  if(q.main.length===0){
+    main.innerHTML=`<div class="qsub" style="font-size:17px;padding:16px 0;line-height:2">${q.qt}</div>`;
+  }else if(q.main.length===1){
+    main.innerHTML=`<div class="bigc">${q.main[0]}</div><div class="qsub">${q.qt}</div>`;
+  }else if(q.main.length===2){
+    main.innerHTML=`<div class="cpair"><div class="bigc sm">${q.main[0]}</div><div class="vs">vs</div><div class="bigc sm">${q.main[1]}</div></div><div class="qsub">${q.qt}</div>`;
+  }else{
+    main.innerHTML=`<div class="cpair">${q.main.map(c=>`<div class="bigc sm">${c}</div>`).join('<div class="vs">·</div>')}</div><div class="qsub">${q.qt}</div>`;
+  }
+  const isMouse=window.matchMedia('(pointer:fine)').matches;
+  document.getElementById('el-opts').innerHTML=q.opts.map((opt,i)=>
+    `<button class="opt" id="opt${i}" onclick="m1Pick(${i})">${isMouse?`<span class="kh">${i+1}</span>`:''}<span>${opt}</span></button>`
+  ).join('');
+  document.getElementById('el-fb').textContent='';
+  document.getElementById('el-fb').className='fb';
+  if(G1.timed)m1StartTimer();
+}
+
+function m1StartTimer(){
+  clearInterval(G1.timer);
+  const bar=document.getElementById('el-tm');
+  bar.style.background='#10b981';bar.style.width='100%';
+  const t0=Date.now();
+  G1.timer=setInterval(()=>{
+    const pct=Math.max(0,1-(Date.now()-t0)/TLIMIT)*100;
+    bar.style.width=pct+'%';
+    bar.style.background=pct<25?'#ef4444':pct<55?'#f59e0b':'#10b981';
+    if(pct===0){clearInterval(G1.timer);if(!G1.answered)m1TimeUp();}
+  },60);
+}
+
+function m1TimeUp(){
+  G1.answered=true;const q=G1.qs[G1.cur];
+  document.querySelectorAll('.opt').forEach(b=>{b.disabled=true;if(b.querySelector('span:last-child')?.textContent===q.correct)b.className='opt reveal';});
+  document.getElementById('el-fb').innerHTML=`⏰ 超时！正确答案：<b>${q.correct}</b>`;
+  document.getElementById('el-fb').className='fb fb-err';
+  G1.streak=0;G1.results.push({cat:q.cat,ok:false,chosen:null});G1.cur++;
+  setTimeout(m1Next,1300);
+}
+
+function m1Pick(idx){
+  if(G1.answered)return;
+  G1.answered=true;clearInterval(G1.timer);
+  const q=G1.qs[G1.cur];const chosen=_opts[idx],ok=(chosen===q.correct);
+  const elapsed=Date.now()-G1.qt0,remain=Math.max(0,TLIMIT-elapsed);
+  document.querySelectorAll('.opt').forEach((b,i)=>{
+    b.disabled=true;
+    if(i===idx&&ok)b.className='opt correct';
+    else if(i===idx)b.className='opt wrong';
+    else if(_opts[i]===q.correct)b.className='opt reveal';
+  });
+  G1.results.push({cat:q.cat,ok,chosen});
+  if(ok){
+    G1.correct++;G1.streak++;if(G1.streak>G1.maxCombo)G1.maxCombo=G1.streak;
+    const m=getMult(G1.streak),spd=G1.timed?Math.floor(remain/1000*0.5):0,gain=Math.round((10+spd)*m);
+    G1.score+=gain;
+    document.getElementById('el-fb').innerHTML=`✓ 正确！+${gain}分 <span style="color:#64748b;font-size:11px">${q.exp}</span>`;
+    document.getElementById('el-fb').className='fb fb-ok';
+    if(G1.streak>=3&&G1.streak%3===0)m1ShowPop(G1.streak);
+  }else{
+    G1.streak=0;
+    document.getElementById('el-fb').innerHTML=`✗ 错了 <span style="color:#64748b;font-size:11px">${q.exp}</span>`;
+    document.getElementById('el-fb').className='fb fb-err';
+  }
+  document.getElementById('el-sc').textContent=G1.score;
+  document.getElementById('el-ck').textContent=G1.streak;
+  document.getElementById('el-mu').textContent=`×${getMult(G1.streak).toFixed(1)}`;
+  G1.cur++;setTimeout(m1Next,1200);
+}
+
+function m1ShowPop(n){
+  const pop=document.getElementById('el-spop');
+  pop.textContent={3:'三连击！',6:'六连击！🔥',9:'九连击！🔥🔥',12:'十二连！🔥🔥🔥'}[n]||(n+'连击🔥');
+  pop.classList.add('show');setTimeout(()=>pop.classList.remove('show'),900);
+}
+
+function m1End(){
+  clearInterval(G1.timer);
+  const elapsed=Date.now()-G1.t0,mins=0|elapsed/60000,secs=0|(elapsed%60000)/1000;
+  const timeStr=`${mins}:${String(secs).padStart(2,'0')}`;
+  const total=G1.qs.length;
+  if(G1.mode==='daily')saveM1Result(G1.score,G1.correct,G1.maxCombo,timeStr);
+  const acc=G1.correct/total;
+  const grade=acc>=.95?'🏆':acc>=.85?'🥇':acc>=.70?'🥈':acc>=.55?'🥉':acc>=.35?'🌿':'🌱';
+  document.getElementById('el-grade').textContent=grade;
+  document.getElementById('el-rscore').textContent=G1.score;
+  document.getElementById('el-rc').textContent=`${G1.correct}/${total}`;
+  document.getElementById('el-rm').textContent=G1.maxCombo;
+  document.getElementById('el-rt').textContent=timeStr;
+  document.getElementById('r1-lbl').textContent=G1.mode==='nb'?'错题本练习结果':'本局结果';
+
+  // category breakdown
+  const stats={};
+  for(const r of G1.results){if(!stats[r.cat])stats[r.cat]={ok:0,fail:0};stats[r.cat][r.ok?'ok':'fail']++;}
+  let bd='<div style="font-size:11px;color:#475569;margin-bottom:7px">各类别表现</div>';
+  for(const[key,name]of Object.entries(CAT_NAME)){
+    const s=stats[key];if(!s)continue;
+    const t=s.ok+s.fail;
+    bd+=`<div class="bd-row"><span class="bd-n">${name}</span><div class="bd-d">${Array(t).fill(0).map((_,i)=>`<div class="dot ${i<s.ok?'ok':'fail'}"></div>`).join('')}</div><span class="bd-f">${s.ok}/${t}</span></div>`;
+  }
+  document.getElementById('el-bd').innerHTML=bd;
+
+  // collect wrong questions
+  G1.wrongQs=G1.qs.map((q,i)=>({...q,chosen:G1.results[i]?.chosen,id:`m1_${q.cat}_${q.main.join('')}`}))
+                    .filter((_,i)=>!G1.results[i]?.ok);
+
+  const wqSec=document.getElementById('el-wq-section');
+  if(G1.wrongQs.length>0){
+    wqSec.style.display='block';
+    document.getElementById('el-wq-hdr').textContent=`本局错题（${G1.wrongQs.length} 题）`;
+    document.getElementById('el-wq-list').innerHTML=G1.wrongQs.map(q=>{
+      const mainHtml=q.main.length===0?'？':q.main.map(c=>`<span>${c}</span>`).join('·');
+      const chosenHtml=q.chosen?`你选：<span class="wq-mine">${q.chosen}</span>　`:'超时　';
+      return `<div class="wq-item">
+        <div class="wq-top"><div class="wq-chars">${mainHtml}</div><span class="wq-cat">${CAT_NAME[q.cat]||q.cat}</span></div>
+        <div class="wq-detail">${chosenHtml}正确：<span class="wq-ans">${q.correct}</span>　<span style="color:#475569">${q.exp}</span></div>
+      </div>`;
+    }).join('');
+    // check how many are already in notebook
+    const nb=getNB();
+    const newCount=G1.wrongQs.filter(q=>!nb.find(x=>x.id===q.id)).length;
+    const btn=document.getElementById('el-add-nb-btn');
+    if(newCount===0){btn.textContent='✓ 全部已在错题本中';btn.disabled=true;btn.style.opacity='.5';}
+    else{btn.textContent=`📚 加入错题本（${newCount} 道新题）`;btn.disabled=false;btn.style.opacity='1';}
+  }else{
+    wqSec.style.display='none';
+  }
+
+  // share
+  const emojis=G1.results.map(r=>r.ok?'✅':'❌').join('');
+  const nt=G1.timed?'':'🔓';
+  const shareText=`📅 人鉴八字日练${nt} ${todayStr()}\n🏆 得分：${G1.score} | 正确：${G1.correct}/${total}\n⚡ 最大连击：${G1.maxCombo} | ⏱️ 用时：${timeStr}\n${emojis}`;
+  document.getElementById('el-share').textContent=shareText;
+  window._shareText=shareText;
+  show('p1r');
+}
+
+function addAllWrongToNB(){
+  let added=0;
+  for(const q of G1.wrongQs){
+    const nbQ={id:q.id,cat:q.cat,main:q.main,qt:q.qt,correct:q.correct,exp:q.exp};
+    if(nbAdd(nbQ))added++;
+  }
+  updateNBBadge();
+  const btn=document.getElementById('el-add-nb-btn');
+  btn.textContent=added>0?`✓ 已加入 ${added} 道到错题本`:'✓ 全部已在错题本中';
+  btn.disabled=true;btn.style.opacity='.5';
+  if(added>0)toast(`已加入 ${added} 道到错题本 📚`);
+}
+
+function copyShare(){
+  const txt=window._shareText||'';
+  if(navigator.clipboard){navigator.clipboard.writeText(txt).then(()=>toast('已复制，快发给队友！🎉'));}
+  else{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);toast('已复制！🎉');}
+}
+
+// ══ MODE 2: 配对连线 ══
+const M2_CATS={
+  '六冲':      {label:'六冲',      pairs:[['子','午'],['丑','未'],['寅','申'],['卯','酉'],['辰','戌'],['巳','亥']]},
+  '六合-生合':  {label:'六合·生合', pairs:[['寅','亥'],['辰','酉'],['午','未']]},
+  '六合-克合':  {label:'六合·克合', pairs:[['子','丑'],['卯','戌'],['巳','申']]},
+  '暗合':      {label:'暗合',      pairs:[['申','卯'],['亥','午'],['丑','寅']]},
+  '六穿':      {label:'六穿',      pairs:[['寅','巳'],['丑','午'],['申','亥'],['酉','戌'],['卯','辰'],['子','未']]},
+  '绝':        {label:'绝',        pairs:[['申','卯'],['亥','午'],['子','巳'],['寅','酉']]},
+  '天干五合':   {label:'天干五合',  pairs:[['甲','己'],['乙','庚'],['丙','辛'],['丁','壬'],['戊','癸']]},
+  '患':        {label:'患·同五行', pairs:[['甲','乙'],['丙','丁'],['戊','己'],['庚','辛'],['壬','癸']]},
+  '禄位':      {label:'禄位互通',  pairs:[['甲','寅'],['乙','卯'],['丙','巳'],['丁','午'],['戊','巳'],['己','午'],['庚','申'],['辛','酉'],['壬','亥'],['癸','子']]}
+};
+function isM2Correct(lv,rv,cat){
+  if(cat==='六冲')return CHONG[lv]===rv;
+  if(cat==='六合-生合')return LIUHE[lv]===rv&&(SHENGHE.has(lv+rv)||SHENGHE.has(rv+lv));
+  if(cat==='六合-克合')return LIUHE[lv]===rv&&!(SHENGHE.has(lv+rv)||SHENGHE.has(rv+lv));
+  if(cat==='暗合')return ANHE_SET.has(lv+rv)||ANHE_SET.has(rv+lv);
+  if(cat==='六穿')return CHUAN_S.has(lv+rv)||CHUAN_K.has(lv+rv)||CHUAN_S.has(rv+lv)||CHUAN_K.has(rv+lv);
+  if(cat==='绝')return JUE_SET.has(lv+rv)||JUE_SET.has(rv+lv);
+  if(cat==='天干五合')return TGHE[lv]===rv;
+  if(cat==='患')return G_WX[lv]===G_WX[rv]&&lv!==rv;
+  if(cat==='禄位')return TONG[lv]===rv;
+  return false;
+}
+function getM2NbQ(lv,rv,cat){
+  const mp={
+    '六冲':     {nbcat:'chong',qt:'与哪个地支<b>六冲</b>？',   exp:`${lv}⚡${rv}`},
+    '六合-生合': {nbcat:'liuhe',qt:'<b>六合(生合)</b>另一支？',exp:`${lv}${rv}六合生合`},
+    '六合-克合': {nbcat:'liuhe',qt:'<b>六合(克合)</b>另一支？',exp:`${lv}${rv}六合克合`},
+    '暗合':     {nbcat:'liuhe',qt:'与哪个地支<b>暗合</b>？',   exp:`${lv}${rv}暗合`},
+    '六穿':     {nbcat:'chong',qt:'与哪个地支<b>六穿</b>？',   exp:`${lv}${rv}六穿`},
+    '绝':       {nbcat:'chong',qt:'与哪个地支形成<b>绝</b>？', exp:`${lv}${rv}绝`},
+    '天干五合':  {nbcat:'tghe', qt:'与哪个天干<b>五合</b>？',  exp:`${lv}${rv}天干五合`},
+    '患':       {nbcat:'tghe', qt:'同五行的<b>患</b>天干？',   exp:`${lv}${rv}同${G_WX[lv]}`},
+    '禄位':     {nbcat:'tong', qt:'<b>禄位</b>地支是？',      exp:`${lv}禄位在${rv}`},
+  };
+  const i=mp[cat]||{nbcat:'liuhe',qt:'配对？',exp:`${lv}→${rv}`};
+  return{id:`m2_${cat}_${lv}`,cat:i.nbcat,main:[lv],qt:i.qt,correct:rv,exp:i.exp};
+}
+let M2={cat:'',pairs:[],lOrd:[],rOrd:[],matchedL:new Set(),matchedR:new Set(),selL:-1,wrong:0,wrongPairIndices:new Set(),t0:0};
+
+function startM2(cat){
+  const rng=mkRng(Math.random()*0x100000000>>>0);
+  const n=M2_CATS[cat].pairs.length;
+  M2={cat,pairs:M2_CATS[cat].pairs,lOrd:shuffle(rng,[...Array(n).keys()]),rOrd:shuffle(rng,[...Array(n).keys()]),
+      matchedL:new Set(),matchedR:new Set(),selL:-1,wrong:0,wrongPairIndices:new Set(),t0:Date.now()};
+  document.getElementById('m2-title').textContent=M2_CATS[cat].label||cat;
+  document.getElementById('m2-prog').textContent=`0/${n}`;
+  document.getElementById('m2-stat').textContent=`选左边，再选右边，完成 ${n} 对配对`;
+  m2Render();show('p2g');
+}
+
+function m2Render(){
+  const{pairs,lOrd,rOrd,matchedL,matchedR,selL}=M2,n=pairs.length;
+  document.getElementById('m2-left').innerHTML=lOrd.map((pi,i)=>`<div class="mi ${matchedL.has(i)?'mat':selL===i?'sel':''}" onclick="m2ClickL(${i})">${pairs[pi][0]}</div>`).join('');
+  document.getElementById('m2-right').innerHTML=rOrd.map((pi,i)=>`<div class="mi ${matchedR.has(i)?'mat':''}" id="m2r${i}" onclick="m2ClickR(${i})">${pairs[pi][1]}</div>`).join('');
+  document.getElementById('m2-mid').innerHTML=Array(n).fill(0).map((_,i)=>`<div class="mm-dot ${matchedL.has(i)?'on':''}"></div>`).join('');
+}
+
+function m2ClickL(i){
+  if(M2.matchedL.has(i))return;
+  M2.selL=M2.selL===i?-1:i;m2Render();
+}
+
+function m2ClickR(rIdx){
+  if(M2.matchedR.has(rIdx))return;
+  if(M2.selL<0){document.getElementById('m2-stat').textContent='请先点左边的字';return;}
+  const lV=M2.pairs[M2.lOrd[M2.selL]][0],rV=M2.pairs[M2.rOrd[rIdx]][1];
+  if(isM2Correct(lV,rV,M2.cat)){
+    M2.matchedL.add(M2.selL);M2.matchedR.add(rIdx);M2.selL=-1;
+    const done=M2.matchedL.size;
+    document.getElementById('m2-prog').textContent=`${done}/${M2.pairs.length}`;
+    document.getElementById('m2-stat').textContent=`✓ ${lV}—${rV} 正确！${done===M2.pairs.length?'全部完成！':'还剩'+(M2.pairs.length-done)+'对'}`;
+    m2Render();if(done===M2.pairs.length)setTimeout(m2End,600);
+  }else{
+    M2.wrong++;
+    M2.wrongPairIndices.add(M2.lOrd[M2.selL]);
+    M2.selL=-1;
+    const rEl=document.getElementById('m2r'+rIdx);
+    if(rEl){rEl.classList.add('err');setTimeout(()=>{rEl.classList.remove('err');m2Render();},500);}
+    document.getElementById('m2-stat').textContent=`✗ ${lV}—${rV} 不对（累计错 ${M2.wrong} 次）`;
+    m2Render();
+  }
+}
+
+function m2End(){
+  const elapsed=Date.now()-M2.t0,mins=0|elapsed/60000,secs=0|(elapsed%60000)/1000;
+  const score=Math.max(0,M2.pairs.length*100-M2.wrong*10);
+  const icon=M2.wrong===0?'🏆':M2.wrong<=2?'🥇':M2.wrong<=5?'🥈':'🥉';
+  document.getElementById('m2r-icon').textContent=icon;
+  document.getElementById('m2r-score').textContent=score+'分';
+  document.getElementById('m2r-sub').textContent=`类别：${M2.cat}　用时：${mins}分${String(secs).padStart(2,'0')}秒\n总错误：${M2.wrong}次　每错一次 -10分`;
+  document.getElementById('m2r-retry').onclick=()=>startM2(M2.cat);
+
+  // wrong pairs section
+  const wrongPairs=[...M2.wrongPairIndices].map(pi=>M2.pairs[pi]);
+  const wqSec=document.getElementById('el-m2wq-section');
+  if(wrongPairs.length>0){
+    wqSec.style.display='block';
+    document.getElementById('el-m2wq-hdr').textContent=`出错的配对（${wrongPairs.length} 对）`;
+    document.getElementById('el-m2wq-list').innerHTML=wrongPairs.map(([lv,rv])=>`
+      <div class="wq-item">
+        <div class="wq-top"><div class="wq-chars"><span>${lv}</span></div><span class="wq-cat">${M2.cat}</span></div>
+        <div class="wq-detail">正确配对：<span class="wq-ans">${lv} — ${rv}</span></div>
+      </div>`).join('');
+    window._m2WrongQs=wrongPairs.map(([lv,rv])=>getM2NbQ(lv,rv,M2.cat));
+  }else{
+    wqSec.style.display='none';
+    window._m2WrongQs=[];
+  }
+  show('p2r');
+}
+
+function addM2WrongToNB(){
+  let added=0;
+  for(const q of(window._m2WrongQs||[]))if(nbAdd(q))added++;
+  updateNBBadge();
+  toast(added>0?`已加入 ${added} 道到错题本 📚`:'全部已在错题本中');
+  document.querySelector('#el-m2wq-section .btn-a').disabled=true;
+  document.querySelector('#el-m2wq-section .btn-a').textContent='✓ 已加入错题本';
+  document.querySelector('#el-m2wq-section .btn-a').style.opacity='.5';
+}
+
+// ══ MODE 3: 八字排盘 ══
+let M3={idx:0,sel:[]};
+function startM3(idx){if(idx<0)idx=0|Math.random()*CASES.length;M3={idx,sel:[]};m3Render();show('p3');}
+function m3Move(d){M3.idx=(M3.idx+d+CASES.length)%CASES.length;M3.sel=[];m3Render();}
+function m3ClearSel(){M3.sel=[];m3Render();}
+function m3Render(){
+  const c=CASES[M3.idx];
+  document.getElementById('m3-idx').textContent=`${M3.idx+1}/${CASES.length}`;
+  document.getElementById('m3-name').textContent=c.n;
+  const cells=[];
+  for(let row=0;row<2;row++){
+    for(let p=0;p<4;p++){
+      const ci=row*4+p,type=row===0?'g':'z',val=c.b[ci],isRz=(p===2&&row===0);
+      const si=M3.sel.findIndex(s=>s.ci===ci);
+      let cls=(isRz?'bz-cell rz':'bz-cell')+(si===0?' s0':si===1?' s1':'');
+      cells.push(`<div class="${cls}" onclick="m3Click(${ci},'${type}',${p},'${val}')">${val}<span class="bz-type">${row===0?'干':'支'}</span></div>`);
+    }
+  }
+  document.getElementById('m3-grid').innerHTML=cells.join('');
+  m3RenderRel();
+}
+function m3Click(ci,type,p,val){
+  const pos={ci,t:type,p,v:val};
+  const ex=M3.sel.findIndex(s=>s.ci===ci);
+  if(ex>=0)M3.sel.splice(ex,1);
+  else if(M3.sel.length<2)M3.sel.push(pos);
+  else M3.sel=[pos];
+  if(M3.sel.length===2)m3DetectAndRender();
+  else m3Render();
+}
+function m3DetectAndRender(){
+  m3Render();
+  const[a,b]=M3.sel;
+  const rels=detectPair(a,b);
+  const pn=x=>`${PILLAR[x.p]}${x.t==='g'?'干':'支'}`;
+  let html=`<div class="rel-pair-header"><div class="rph-chars"><div class="rph-c c0">${a.v}</div><div class="rph-vs">×</div><div class="rph-c c1">${b.v}</div></div><div class="rph-lbl">${pn(a)} ✕ ${pn(b)}</div></div><div>`;
+  html+=rels.length?rels.map(r=>`<div class="rel-item ${r.cls}">${r.txt}</div>`).join(''):`<div class="rel-item none">无关系</div>`;
+  html+='</div>';
+  document.getElementById('m3-rel').innerHTML=html;
+}
+function m3RenderRel(){
+  if(M3.sel.length===0)document.getElementById('m3-rel').innerHTML='<div class="rel-hint">点击八字中任意两个字<br>即时查看它们之间的关系</div>';
+  else if(M3.sel.length===1)document.getElementById('m3-rel').innerHTML=`<div class="rel-hint">已选：<b style="color:#93c5fd">${M3.sel[0].v}</b>（${PILLAR[M3.sel[0].p]}${M3.sel[0].t==='g'?'干':'支'}）<br>再点另一个字查看关系</div>`;
+}
+
+// ══ 错题本 SCREEN ══
+function renderNB(){
+  const nb=getNB();
+  document.getElementById('nb-count-badge').textContent=nb.length+' 题';
+  const list=document.getElementById('nb-list');
+  if(nb.length===0){
+    list.innerHTML='<div class="nb-empty">📭 暂无错题<br><span style="font-size:12px">做题后点"加入错题本"收录</span></div>';
+    return;
+  }
+  list.innerHTML=nb.map(q=>{
+    const mainHtml=q.main.length===0?'？':q.main.map(c=>`${c}`).join('・');
+    const safeId=q.id.replace(/'/g,"\\'");
+    return `<div class="nb-q">
+      <div class="nb-q-main">${mainHtml}</div>
+      <div class="nb-q-info">
+        <div class="nb-q-type">${CAT_NAME[q.cat]||q.cat}</div>
+        <div class="nb-q-ans">→ ${q.correct}</div>
+        <div class="nb-q-date">加入于 ${q.added||''}</div>
+      </div>
+      <button class="nb-q-del" onclick="nbRemove('${safeId}')" title="移除">×</button>
+    </div>`;
+  }).join('');
+}
+function startNBPractice(){
+  const nb=getNB();
+  if(nb.length===0){toast('错题本是空的！');return;}
+  startM1('nb');
+}
+
+// ══ CASES DATA ══
+const CASES=[{"n":"1.清孝钦太后","b":["乙","丁","乙","丁","未","亥","丑","亥"]},{"n":"2.黄兴","b":["甲","甲","甲","甲","戌","戌","寅","戌"]},{"n":"3.袁世凯","b":["己","癸","丁","丁","未","酉","巳","未"]},{"n":"4.冯国璋","b":["戊","乙","乙","庚","午","丑","巳","辰"]},{"n":"5.瞿鸿玑","b":["庚","癸","乙","丙","戌","未","亥","戌"]},{"n":"6.赵秉钧","b":["戊","乙","壬","乙","午","丑","申","巳"]},{"n":"7.钱能训","b":["己","丁","癸","丙","巳","丑","丑","辰"]},{"n":"8.姜桂题","b":["癸","丙","庚","辛","卯","辰","申","巳"]},{"n":"9.李纯","b":["乙","乙","己","庚","亥","酉","卯","午"]},{"n":"10.伍廷芳","b":["壬","丁","己","乙","寅","未","卯","亥"]},{"n":"11.杨士琦","b":["辛","辛","丁","甲","酉","丑","亥","辰"]},{"n":"12.汤化龙","b":["甲","乙","戊","癸","戌","亥","子","亥"]},{"n":"13.杨士骧","b":["庚","甲","癸","癸","申","申","丑","酉"]},{"n":"14.程璧光","b":["己","庚","戊","壬","未","午","戌","子"]},{"n":"15.朱瑞","b":["癸","乙","壬","庚","未","丑","戌","子"]},{"n":"16.蓝天蔚","b":["丁","癸","辛","戊","丑","卯","卯","戌"]},{"n":"17.威廉第二","b":["庚","己","癸","癸","申","丑","酉","丑"]},{"n":"18.孙中山","b":["乙","丁","丁","壬","丑","亥","酉","寅"]},{"n":"19.徐世昌","b":["乙","丙","癸","丙","卯","戌","酉","辰"]},{"n":"20.徐树铮","b":["庚","丁","甲","壬","辰","亥","辰","午"]},{"n":"21.黎元洪","b":["甲","甲","丁","癸","子","戌","巳","卯"]},{"n":"22.段祺瑞","b":["乙","己","乙","壬","丑","卯","亥","午"]},{"n":"23.王士珍","b":["辛","丙","庚","丙","酉","申","子","戌"]},{"n":"24.曹锟","b":["壬","壬","庚","丙","戌","子","子","子"]},{"n":"25.张作霖","b":["乙","己","庚","辛","亥","卯","辰","巳"]},{"n":"26.吴佩孚","b":["甲","戊","己","戊","戌","辰","酉","辰"]},{"n":"27.唐继尧","b":["癸","庚","庚","壬","未","申","寅","午"]},{"n":"28.冯玉祥","b":["壬","庚","己","庚","午","戌","酉","午"]},{"n":"29.卢永祥","b":["丁","庚","乙","丁","卯","戌","亥","丑"]},{"n":"30.齐燮元","b":["乙","庚","甲","己","酉","辰","寅","巳"]},{"n":"31.王承斌","b":["丁","戊","壬","丙","丑","申","戌","午"]},{"n":"32.萨镇冰","b":["己","丁","丁","乙","未","卯","卯","巳"]},{"n":"33.李经羲","b":["己","丁","丁","庚","未","卯","巳","子"]},{"n":"34.王一堂","b":["戊","辛","丁","丁","寅","酉","巳","未"]},{"n":"35.汪精卫","b":["癸","丙","戊","丁","未","辰","申","巳"]},{"n":"36.唐绍仪","b":["辛","庚","丙","己","酉","子","辰","丑"]},{"n":"37.岑春煊","b":["辛","壬","辛","戊","酉","辰","亥","子"]},{"n":"38.熊希龄","b":["庚","癸","庚","丁","午","未","申","亥"]},{"n":"39.靳云鹏","b":["丙","戊","甲","辛","子","戌","子","未"]},{"n":"40.孙宝琦","b":["丁","甲","丙","丙","卯","辰","子","申"]},{"n":"41.梁士诒","b":["己","戊","丙","甲","巳","辰","申","午"]},{"n":"42.张謇","b":["癸","戊","己","丁","丑","午","巳","卯"]},{"n":"43.汪大燮","b":["己","乙","癸","丙","未","亥","亥","辰"]},{"n":"44.张绍曾","b":["己","甲","乙","庚","卯","戌","亥","辰"]},{"n":"45.龚心湛","b":["己","己","甲","壬","巳","巳","子","申"]},{"n":"46.孙洪伊","b":["壬","辛","戊","甲","申","亥","辰","寅"]},{"n":"47.吴景濂","b":["癸","乙","己","己","酉","卯","巳","巳"]},{"n":"48.高凌霨","b":["庚","乙","辛","戊","午","酉","亥","戌"]},{"n":"49.王正廷","b":["壬","戊","己","戊","午","申","酉","辰"]},{"n":"50.顾维钧","b":["丁","癸","己","戊","亥","丑","亥","辰"]},{"n":"51.曹汝霖","b":["丙","辛","丙","戊","子","丑","申","子"]},{"n":"52.周学熙","b":["乙","己","丁","辛","丑","丑","亥","亥"]},{"n":"53.陈锦涛","b":["辛","甲","壬","丙","未","午","辰","午"]},{"n":"54.梁启超","b":["癸","甲","丙","癸","酉","寅","午","巳"]},{"n":"55.李思浩","b":["辛","壬","己","戊","巳","辰","亥","辰"]},{"n":"56.王克敏","b":["丙","壬","壬","乙","子","辰","申","巳"]},{"n":"57.张弧","b":["乙","乙","乙","乙","亥","酉","亥","酉"]},{"n":"58.王家襄","b":["壬","庚","丁","己","申","戌","未","酉"]},{"n":"59.潘复","b":["癸","癸","庚","戊","未","亥","午","寅"]},{"n":"60.许世英","b":["癸","辛","乙","辛","酉","酉","丑","巳"]},{"n":"61.曾毓隽","b":["乙","癸","己","辛","亥","未","亥","未"]},{"n":"62.王郅隆","b":["癸","庚","己","丙","亥","申","巳","寅"]},{"n":"63.朱启钤","b":["壬","辛","癸","丙","申","亥","酉","辰"]},{"n":"64.叶恭绰","b":["辛","己","壬","甲","巳","亥","戌","辰"]},{"n":"65.吴毓麟","b":["庚","己","丁","戊","午","丑","卯","申"]},{"n":"66.田文烈","b":["戊","癸","辛","庚","午","亥","酉","寅"]},{"n":"67.程克","b":["乙","辛","丙","壬","酉","巳","子","辰"]},{"n":"68.张志潭","b":["甲","乙","辛","戊","申","亥","巳","子"]},{"n":"69.周扶九","b":["甲","壬","乙","庚","午","申","未","辰"]},{"n":"70.李根源","b":["己","己","庚","辛","卯","巳","申","巳"]},{"n":"71.齐耀珊","b":["乙","癸","甲","甲","丑","未","子","子"]},{"n":"72.罗文干","b":["己","戊","丁","庚","丑","辰","巳","戌"]},{"n":"73.姚震","b":["乙","丙","庚","辛","酉","戌","申","巳"]},{"n":"74.章炳麟","b":["戊","乙","癸","庚","辰","丑","卯","申"]},{"n":"75.章士钊","b":["辛","辛","癸","乙","巳","卯","丑","卯"]},{"n":"76.胡适","b":["辛","庚","丁","丁","卯","子","丑","未"]},{"n":"77.张继","b":["壬","戊","壬","壬","午","申","寅","寅"]},{"n":"78.褚辅成","b":["癸","丁","己","甲","酉","巳","卯","戌"]},{"n":"79.谭延闿","b":["己","丁","癸","乙","卯","丑","丑","卯"]},{"n":"80.段芝贵","b":["己","甲","壬","庚","巳","戌","辰","子"]},{"n":"81.龙济光","b":["丁","丙","丙","壬","卯","午","子","辰"]},{"n":"82.王占元","b":["辛","庚","庚","丙","酉","寅","子","子"]},{"n":"83.朱庆澜","b":["甲","丁","丁","癸","戌","卯","卯","卯"]},{"n":"84.吴光新","b":["壬","丙","癸","癸","午","午","未","亥"]},{"n":"85.张作相","b":["辛","辛","辛","辛","巳","卯","丑","卯"]},{"n":"86.赵恒惕","b":["庚","戊","戊","庚","辰","子","子","申"]},{"n":"87.陈炯明","b":["丁","癸","辛","癸","丑","丑","卯","巳"]},{"n":"88.陈宦","b":["庚","己","辛","壬","午","卯","亥","辰"]},{"n":"89.陆锦","b":["庚","己","己","乙","辰","丑","酉","亥"]},{"n":"90.蔡成勋","b":["壬","庚","乙","乙","申","戌","卯","酉"]},{"n":"91.李厚基","b":["庚","己","壬","庚","午","卯","寅","戌"]},{"n":"92.孙传芳","b":["乙","庚","壬","己","酉","辰","寅","酉"]},{"n":"93.徐绍桢","b":["辛","甲","庚","庚","酉","午","戌","辰"]},{"n":"94.韩国均","b":["丁","癸","丙","癸","巳","卯","辰","巳"]},{"n":"95.孙发绪","b":["乙","壬","丙","庚","亥","午","午","寅"]},{"n":"96.黄郛","b":["庚","己","丙","戊","辰","卯","申","戌"]},{"n":"97.汤芗铭","b":["癸","辛","乙","丁","未","酉","亥","亥"]},{"n":"98.李鼎新","b":["壬","甲","辛","甲","戌","辰","亥","午"]},{"n":"99.廖仲恺","b":["戊","丙","庚","辛","寅","辰","申","巳"]},{"n":"100.许崇智","b":["丁","庚","甲","庚","亥","戌","子","午"]},{"n":"101.田中玉","b":["庚","丁","丙","乙","午","亥","辰","未"]},{"n":"102.屈映光","b":["癸","乙","丁","甲","未","卯","巳","辰"]},{"n":"103.张敬尧","b":["辛","丁","乙","己","巳","酉","卯","卯"]},{"n":"104.何丰林","b":["癸","丁","壬","丁","酉","巳","午","未"]},{"n":"105.江朝宗","b":["辛","辛","戊","辛","酉","丑","寅","酉"]},{"n":"106.倪嗣冲","b":["戊","甲","壬","壬","辰","寅","戌","寅"]},{"n":"107.刘冠雄","b":["辛","甲","丙","己","酉","午","戌","亥"]},{"n":"108.彭允彝","b":["戊","壬","甲","丙","寅","戌","子","寅"]},{"n":"109.宣统","b":["丙","庚","壬","丙","午","寅","午","午"]},{"n":"110.陈夔龙","b":["丁","乙","癸","丙","巳","巳","丑","辰"]},{"n":"111.陈宝琛","b":["戊","壬","癸","乙","申","戌","巳","卯"]},{"n":"112.郑孝胥","b":["庚","庚","丙","戊","申","辰","午","戌"]},{"n":"113.康有为","b":["戊","乙","壬","庚","午","卯","子","子"]},{"n":"114.梅兰芳","b":["甲","甲","丁","癸","午","戌","酉","卯"]},{"n":"115.琴雪芳","b":["甲","辛","己","戊","辰","未","酉","辰"]},{"n":"116.某女士","b":["己","己","丁","癸","丑","巳","未","卯"]},{"n":"117.陈炳焜","b":["戊","癸","辛","己","辰","亥","丑","亥"]}];
+
+// ══ KEYBOARD ══
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('p1g').classList.contains('active')){
+    const m={'1':0,'2':1,'3':2,'4':3};if(m[e.key]!==undefined)m1Pick(m[e.key]);
+  }
+  if(document.getElementById('p3').classList.contains('active')){
+    if(e.key==='ArrowLeft')m3Move(-1);if(e.key==='ArrowRight')m3Move(1);
+  }
+});
+
+// ══ INIT ══
+initHome();
+</script>
+</body>
+</html>
