@@ -325,11 +325,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   <div class="p2grp">
     <div class="p2grp-lbl">🎵 纳音五行</div>
     <div class="p2grp-grid">
-      <button class="p2btn clr-ny" onclick="startM2('纳音-甲乙')"><div class="p2btn-name">甲乙系</div><div class="p2btn-n">6 对</div></button>
-      <button class="p2btn clr-ny" onclick="startM2('纳音-丙丁')"><div class="p2btn-name">丙丁系</div><div class="p2btn-n">6 对</div></button>
-      <button class="p2btn clr-ny" onclick="startM2('纳音-戊己')"><div class="p2btn-name">戊己系</div><div class="p2btn-n">6 对</div></button>
-      <button class="p2btn clr-ny" onclick="startM2('纳音-庚辛')"><div class="p2btn-name">庚辛系</div><div class="p2btn-n">6 对</div></button>
-      <button class="p2btn clr-ny" onclick="startM2('纳音-壬癸')"><div class="p2btn-name">壬癸系</div><div class="p2btn-n">6 对</div></button>
+      <button class="p2btn clr-ny" onclick="startM2('纳音')"><div class="p2btn-name">纳音配对</div><div class="p2btn-n">随机6对</div></button>
     </div>
   </div>
   <button class="btn btn-d" onclick="goHome()" style="margin-top:auto">← 首页</button>
@@ -902,11 +898,14 @@ const M2_CATS={
   '禄位':      {label:'禄位互通',  pairs:[['甲','寅'],['乙','卯'],['丙','巳'],['丁','午'],['戊','巳'],['己','午'],['庚','申'],['辛','酉'],['壬','亥'],['癸','子']]},
   '阳干实支':   {label:'阳干·实支', pairs:[['甲','寅'],['丙','戌'],['戊','辰'],['庚','申'],['壬','子']]},
   '阴干实支':   {label:'阴干·实支', pairs:[['乙','亥'],['丁','巳'],['己','未'],['辛','丑'],['癸','酉']]},
-  '纳音-甲乙':  {label:'纳音·甲乙系', pairs:[['甲子','海中金'],['甲戌','山头火'],['甲申','泉中水'],['甲午','砂石金'],['甲辰','覆灯火'],['甲寅','太溪水']]},
-  '纳音-丙丁':  {label:'纳音·丙丁系', pairs:[['丙寅','炉中火'],['丙子','洞下水'],['丙戌','屋上土'],['丙申','山下火'],['丙午','天河水'],['丙辰','沙中土']]},
-  '纳音-戊己':  {label:'纳音·戊己系', pairs:[['戊辰','大林木'],['戊寅','城头土'],['戊子','霹雳火'],['戊戌','平地木'],['戊申','大驿土'],['戊午','天上火']]},
-  '纳音-庚辛':  {label:'纳音·庚辛系', pairs:[['庚午','路旁土'],['庚辰','白腊金'],['庚寅','松柏木'],['庚子','壁上土'],['庚戌','钗钏金'],['庚申','石榴木']]},
-  '纳音-壬癸':  {label:'纳音·壬癸系', pairs:[['壬申','剑锋金'],['壬午','杨柳木'],['壬辰','长流水'],['壬寅','金箔金'],['壬子','桑拓木'],['壬戌','大海水']]},
+  '纳音':       {label:'纳音五行', maxPairs:6, pairs:[
+    ['甲子','海中金'],['丙寅','炉中火'],['戊辰','大林木'],['庚午','路旁土'],['壬申','剑锋金'],
+    ['甲戌','山头火'],['丙子','洞下水'],['戊寅','城头土'],['庚辰','白腊金'],['壬午','杨柳木'],
+    ['甲申','泉中水'],['丙戌','屋上土'],['戊子','霹雳火'],['庚寅','松柏木'],['壬辰','长流水'],
+    ['甲午','砂石金'],['丙申','山下火'],['戊戌','平地木'],['庚子','壁上土'],['壬寅','金箔金'],
+    ['甲辰','覆灯火'],['丙午','天河水'],['戊申','大驿土'],['庚戌','钗钏金'],['壬子','桑拓木'],
+    ['甲寅','太溪水'],['丙辰','沙中土'],['戊午','天上火'],['庚申','石榴木'],['壬戌','大海水'],
+  ]},
 };
 function isM2Correct(lv,rv,cat){
   if(cat==='六冲')return CHONG[lv]===rv;
@@ -944,8 +943,11 @@ let M2={cat:'',pairs:[],lOrd:[],rOrd:[],matchedL:new Set(),matchedR:new Set(),se
 
 function startM2(cat){
   const rng=mkRng(Math.random()*0x100000000>>>0);
-  const n=M2_CATS[cat].pairs.length;
-  M2={cat,pairs:M2_CATS[cat].pairs,lOrd:shuffle(rng,[...Array(n).keys()]),rOrd:shuffle(rng,[...Array(n).keys()]),
+  let pairs=M2_CATS[cat].pairs;
+  const maxP=M2_CATS[cat].maxPairs;
+  if(maxP&&pairs.length>maxP)pairs=rpick(rng,pairs,maxP);
+  const n=pairs.length;
+  M2={cat,pairs,lOrd:shuffle(rng,[...Array(n).keys()]),rOrd:shuffle(rng,[...Array(n).keys()]),
       matchedL:new Set(),matchedR:new Set(),selL:-1,wrong:0,wrongPairIndices:new Set(),t0:Date.now()};
   document.getElementById('m2-title').textContent=M2_CATS[cat].label||cat;
   document.getElementById('m2-prog').textContent=`0/${n}`;
