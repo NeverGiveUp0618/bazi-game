@@ -123,7 +123,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .p2btn:hover{border-color:#1e3a5f}.p2btn:active{transform:scale(.97)}
 .p2btn-name{font-size:13px;font-weight:bold;color:#e2e8f0}
 .p2btn-n{font-size:10px;color:#475569;margin-top:3px}
-.p2btn.clr-zhi{border-color:#1e3a5f}.p2btn.clr-gan{border-color:#3b1a5f}.p2btn.clr-gs{border-color:#1a3a2f}.p2btn.clr-xu{border-color:#4a3000}.p2btn.clr-ny{border-color:#1a3a50}
+.p2btn.clr-zhi{border-color:#1e3a5f}.p2btn.clr-gan{border-color:#3b1a5f}.p2btn.clr-gs{border-color:#1a3a2f}.p2btn.clr-xu{border-color:#4a3000}.p2btn.clr-ny{border-color:#1a3a50}.p2btn.clr-lq{border-color:#5f1a2a}
 /* MODE 2 GAME */
 .m2stat{text-align:center;font-size:12px;color:#64748b;margin-bottom:9px;min-height:16px;flex-shrink:0}
 .match-area{display:flex;gap:6px;flex:1;min-height:0}
@@ -310,6 +310,15 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     </div>
   </div>
   <div class="p2grp">
+    <div class="p2grp-lbl">⚡ 生克关系</div>
+    <div class="p2grp-grid">
+      <button class="p2btn clr-gan" onclick="startM2('天干·相生')"><div class="p2btn-name">天干·相生</div><div class="p2btn-n">5 对</div></button>
+      <button class="p2btn clr-gan" onclick="startM2('天干·相克')"><div class="p2btn-name">天干·相克</div><div class="p2btn-n">5 对</div></button>
+      <button class="p2btn clr-lq" onclick="startM2('六亲·相生')"><div class="p2btn-name">六亲·相生</div><div class="p2btn-n">5 对</div></button>
+      <button class="p2btn clr-lq" onclick="startM2('六亲·相克')"><div class="p2btn-name">六亲·相克</div><div class="p2btn-n">5 对</div></button>
+    </div>
+  </div>
+  <div class="p2grp">
     <div class="p2grp-lbl">↔ 干支关系</div>
     <div class="p2grp-grid">
       <button class="p2btn clr-gs" onclick="startM2('禄位')"><div class="p2btn-name">禄位互通</div><div class="p2btn-n">10 对</div></button>
@@ -431,13 +440,20 @@ const SHENGHE=new Set(['寅亥','亥寅','辰酉','酉辰','午未','未午']);
 const TONG={甲:'寅',乙:'卯',丙:'巳',丁:'午',戊:'巳',己:'午',庚:'申',辛:'酉',壬:'亥',癸:'子'};
 const WX_S={木:'火',火:'土',土:'金',金:'水',水:'木'};
 const WX_K={木:'土',火:'金',土:'水',金:'木',水:'火'};
+const WX_GRP=[['甲','乙','木'],['丙','丁','火'],['戊','己','土'],['庚','辛','金'],['壬','癸','水']];
+const WGLB=['甲乙木','丙丁火','戊己土','庚辛金','壬癸水'];
+const WGSHENG={'甲乙木':'丙丁火','丙丁火':'戊己土','戊己土':'庚辛金','庚辛金':'壬癸水','壬癸水':'甲乙木'};
+const WGKE={'甲乙木':'戊己土','丙丁火':'庚辛金','戊己土':'壬癸水','庚辛金':'甲乙木','壬癸水':'丙丁火'};
+const LIUQIN=['比劫','食伤','财才','官杀','枭印'];
+const LQSHENG={'比劫':'食伤','食伤':'财才','财才':'官杀','官杀':'枭印','枭印':'比劫'};
+const LQKE={'比劫':'财才','食伤':'官杀','财才':'枭印','官杀':'比劫','枭印':'食伤'};
 const SHENS=['比肩','劫财','食神','伤官','偏财','正财','七杀','正官','偏印','正印'];
 const REL_NAMES=['六冲','六合','暗合','破','六穿','绝','三刑','三合','伏吟','患'];
 const SANHE_DATA=[['申','子','辰','水'],['亥','卯','未','木'],['寅','午','戌','火'],['巳','酉','丑','金']];
 const SANHE_WX=['水','木','火','金'];
 const ZIXING_SET=new Set(['辰','午','酉','亥']);
 const ZHI_NOZIXING=ZHI.filter(z=>!ZIXING_SET.has(z));
-const CAT_NAME={wx:'五行归属',chong:'六冲',tghe:'天干五合',liuhe:'地支六合',tong:'干支互通',shen:'十神',sanhe:'三合补完',sanhetype:'三合识局',xing3:'三刑补完',po:'破识别',zixing:'自刑字',xushi:'虚实判断',xushi2:'实支识别',nayin:'纳音五行',anhe:'地支暗合',zihe:'干支自合',num:'数字口诀'};
+const CAT_NAME={wx:'五行归属',chong:'六冲',tghe:'天干五合',liuhe:'地支六合',tong:'干支互通',shen:'十神',sanhe:'三合补完',sanhetype:'三合识局',xing3:'三刑补完',po:'破识别',zixing:'自刑字',xushi:'虚实判断',xushi2:'实支识别',nayin:'纳音五行',anhe:'地支暗合',zihe:'干支自合',num:'数字口诀',wxs:'天干相生',wxk:'天干相克',lqs:'六亲相生',lqk:'六亲相克'};
 const PILLAR=['年','月','日','时'];
 
 // 干支虚实表（天干有根有生者实，无根无生者虚）
@@ -635,6 +651,14 @@ function buildPool(rng){
   for(const z of['辰','午','酉','亥']){
     qs.push({cat:'zixing',main:[],qt:'哪个地支重复出现会<b>自刑</b>？',correct:z,opts:mkOpts(rng,z,ZHI,ZHI_NOZIXING),exp:`${z}${z}自刑`});
   }
+  // 天干五行相生（展示天干对，问生什么五行组）
+  for(const[g1,g2,wx]of WX_GRP){const lab=`${g1}${g2}${wx}`,s=WGSHENG[lab];qs.push({cat:'wxs',main:[g1,g2],qt:`同属<b>${wx}</b>，<b>生</b>什么五行组？`,correct:s,opts:mkOpts(rng,s,WGLB),exp:`${lab}生${s}`});}
+  // 天干五行相克（展示天干对，问克什么五行组）
+  for(const[g1,g2,wx]of WX_GRP){const lab=`${g1}${g2}${wx}`,k=WGKE[lab];qs.push({cat:'wxk',main:[g1,g2],qt:`同属<b>${wx}</b>，<b>克</b>什么五行组？`,correct:k,opts:mkOpts(rng,k,WGLB),exp:`${lab}克${k}`});}
+  // 六亲相生
+  for(const lq of LIUQIN){const s=LQSHENG[lq];qs.push({cat:'lqs',main:[],qt:`<b>${lq}</b>生什么六亲？`,correct:s,opts:mkOpts(rng,s,LIUQIN),exp:`${lq}生${s}`});}
+  // 六亲相克
+  for(const lq of LIUQIN){const k=LQKE[lq];qs.push({cat:'lqk',main:[],qt:`<b>${lq}</b>克什么六亲？`,correct:k,opts:mkOpts(rng,k,LIUQIN),exp:`${lq}克${k}`});}
   // 暗合（给1支，选暗合另一支）
   for(const[a,b]of[['申','卯'],['卯','申'],['亥','午'],['午','亥'],['丑','寅'],['寅','丑'],['子','巳'],['巳','子']]){
     qs.push({cat:'anhe',main:[a],qt:'与哪个地支<b>暗合</b>？',correct:b,opts:mkOpts(rng,b,ZHI),exp:`${a}${b}暗合`});
@@ -663,7 +687,7 @@ function buildPool(rng){
 function selectQs(seed){
   const rng=mkRng(seed);const pool=buildPool(rng);
   const byC={};for(const q of pool){if(!byC[q.cat])byC[q.cat]=[];byC[q.cat].push(q);}
-  const quota={wx:3,chong:2,tghe:2,liuhe:2,tong:3,shen:3,sanhe:3,sanhetype:2,xing3:2,po:2,zixing:1,xushi:3,xushi2:2,nayin:3,anhe:2,zihe:2};
+  const quota={wx:3,chong:2,tghe:2,liuhe:2,tong:3,shen:3,sanhe:3,sanhetype:2,xing3:2,po:2,zixing:1,xushi:3,xushi2:2,nayin:3,anhe:2,zihe:2,wxs:2,wxk:2,lqs:2,lqk:2};
   let picks=[];for(const[cat,n]of Object.entries(quota))picks.push(...rpick(rng,byC[cat]||[],n));
   return shuffle(rng,picks);
 }
@@ -911,6 +935,10 @@ const M2_CATS={
   '绝':        {label:'绝',        pairs:[['申','卯'],['亥','午'],['子','巳'],['寅','酉']]},
   '天干五合':   {label:'天干五合',  pairs:[['甲','己'],['乙','庚'],['丙','辛'],['丁','壬'],['戊','癸']]},
   '患':        {label:'患·同五行', pairs:[['甲','乙'],['丙','丁'],['戊','己'],['庚','辛'],['壬','癸']]},
+  '天干·相生':  {label:'天干·相生', pairs:[['甲乙木','丙丁火'],['丙丁火','戊己土'],['戊己土','庚辛金'],['庚辛金','壬癸水'],['壬癸水','甲乙木']]},
+  '天干·相克':  {label:'天干·相克', pairs:[['甲乙木','戊己土'],['丙丁火','庚辛金'],['戊己土','壬癸水'],['庚辛金','甲乙木'],['壬癸水','丙丁火']]},
+  '六亲·相生':  {label:'六亲·相生', pairs:[['比劫','食伤'],['食伤','财才'],['财才','官杀'],['官杀','枭印'],['枭印','比劫']]},
+  '六亲·相克':  {label:'六亲·相克', pairs:[['比劫','财才'],['食伤','官杀'],['财才','枭印'],['官杀','比劫'],['枭印','食伤']]},
   '禄位':      {label:'禄位互通',  pairs:[['甲','寅'],['乙','卯'],['丙','巳'],['丁','午'],['戊','巳'],['己','午'],['庚','申'],['辛','酉'],['壬','亥'],['癸','子']]},
   '干支自合':   {label:'干支自合',  pairs:[['戊','子'],['壬','午'],['甲','午'],['壬','戌'],['丙','戌'],['丁','亥'],['己','亥'],['辛','巳'],['癸','巳']]},
   '天干数字':   {label:'天干·数字', pairs:[['甲','1'],['乙','2'],['丙','3'],['丁','4'],['戊','5'],['己','6'],['庚','7'],['辛','8'],['壬','9'],['癸','0']]},
@@ -937,6 +965,7 @@ function isM2Correct(lv,rv,cat){
   if(cat==='患')return G_WX[lv]===G_WX[rv]&&lv!==rv;
   if(cat==='禄位')return TONG[lv]===rv;
   if(cat==='干支自合')return ZIHE.has(lv+rv);
+  if(cat==='天干·相生'||cat==='天干·相克'||cat==='六亲·相生'||cat==='六亲·相克')return M2_CATS[cat].pairs.some(([l,r])=>l===lv&&r===rv);
   if(cat==='天干数字'||cat==='地支数字')return M2_CATS[cat].pairs.some(([l,r])=>l===lv&&r===rv);
   if(cat==='阳干实支'||cat==='阴干实支')return M2_CATS[cat].pairs.some(([l,r])=>l===lv&&r===rv);
   if(cat.startsWith('纳音'))return NAYIN[lv]===rv;
@@ -955,6 +984,10 @@ function getM2NbQ(lv,rv,cat){
     '患':       {nbcat:'tghe', qt:'同五行的<b>患</b>天干？',   exp:`${lv}${rv}同${G_WX[lv]}`},
     '禄位':     {nbcat:'tong', qt:'<b>禄位</b>地支是？',      exp:`${lv}禄位在${rv}`},
     '干支自合':  {nbcat:'zihe', qt:'与哪个地支<b>干支自合</b>？',exp:`${lv}${rv}干支自合`},
+    '天干·相生': {nbcat:'wxs',  qt:'同五行，<b>生</b>什么五行组？',exp:`${lv}生${rv}`},
+    '天干·相克': {nbcat:'wxk',  qt:'同五行，<b>克</b>什么五行组？',exp:`${lv}克${rv}`},
+    '六亲·相生': {nbcat:'lqs',  qt:'<b>六亲相生</b>，生什么？',    exp:`${lv}生${rv}`},
+    '六亲·相克': {nbcat:'lqk',  qt:'<b>六亲相克</b>，克什么？',    exp:`${lv}克${rv}`},
     '天干数字':  {nbcat:'num',  qt:'<b>数字口诀</b>是？',         exp:`${lv}→${rv}`},
     '地支数字':  {nbcat:'num',  qt:'<b>数字口诀</b>是？',         exp:`${lv}→${rv}`},
     '阳干实支':  {nbcat:'xushi2',qt:'哪个地支使该天干<b>为实</b>？',exp:`${lv}+${rv}为实（有根有生）`},
