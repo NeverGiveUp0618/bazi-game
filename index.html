@@ -342,6 +342,14 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     </div>
   </div>
   <div class="p2grp">
+    <div class="p2grp-lbl">🕐 时辰脏腑</div>
+    <div class="p2grp-grid">
+      <button class="p2btn clr-zhi" onclick="startM2('十二时辰')"><div class="p2btn-name">十二时辰</div><div class="p2btn-n">12 对</div></button>
+      <button class="p2btn clr-gan" onclick="startM2('天干脏腑')"><div class="p2btn-name">天干脏腑</div><div class="p2btn-n">10 对</div></button>
+      <button class="p2btn clr-zhi" onclick="startM2('地支脏腑')"><div class="p2btn-name">地支脏腑</div><div class="p2btn-n">12 对</div></button>
+    </div>
+  </div>
+  <div class="p2grp">
     <div class="p2grp-lbl">📅 年份干支</div>
     <div class="p2grp-grid">
       <button class="p2btn clr-gs" onclick="startM2('年份干支')"><div class="p2btn-name">年份干支</div><div class="p2btn-n">随机6对</div></button>
@@ -462,9 +470,14 @@ const SANHE_WX=['水','木','火','金'];
 const ZIXING_SET=new Set(['辰','午','酉','亥']);
 const YANG_ZHI=new Set(['寅','申','巳','亥','辰','戌']);
 const ZHI_NOZIXING=ZHI.filter(z=>!ZIXING_SET.has(z));
-const CAT_NAME={wx:'五行归属',chong:'六冲',tghe:'天干五合',liuhe:'地支六合',tong:'干支互通',shen:'十神',sanhe:'三合补完',sanhetype:'三合识局',xing3:'三刑补完',po:'破识别',zixing:'自刑字',xushi:'虚实判断',xushi2:'实支识别',nayin:'纳音五行',anhe:'地支暗合',zihe:'干支自合',num:'数字口诀',wxs:'天干相生',wxk:'天干相克',lqs:'六亲相生',lqk:'六亲相克',tdyy:'天地阴阳',shuma:'数字编码',nfgz:'年份干支'};
+const CAT_NAME={wx:'五行归属',chong:'六冲',tghe:'天干五合',liuhe:'地支六合',tong:'干支互通',shen:'十神',sanhe:'三合补完',sanhetype:'三合识局',xing3:'三刑补完',po:'破识别',zixing:'自刑字',xushi:'虚实判断',xushi2:'实支识别',nayin:'纳音五行',anhe:'地支暗合',zihe:'干支自合',num:'数字口诀',wxs:'天干相生',wxk:'天干相克',lqs:'六亲相生',lqk:'六亲相克',tdyy:'天地阴阳',shuma:'数字编码',nfgz:'年份干支',shichen:'十二时辰',ganzang:'天干脏腑',zhizang:'地支脏腑'};
 const GZ60=(()=>{const g=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'],z=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];return Array.from({length:60},(_,i)=>g[i%10]+z[i%12]);})();
 const YR_GZ_PAIRS=(()=>{const g=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'],z=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];return Array.from({length:151},(_,i)=>{const y=1900+i;return[String(y),g[(y-4)%10]+z[(y-4)%12]];});})();
+const SHICHEN={子:'23-1时',丑:'1-3时',寅:'3-5时',卯:'5-7时',辰:'7-9时',巳:'9-11时',午:'11-13时',未:'13-15时',申:'15-17时',酉:'17-19时',戌:'19-21时',亥:'21-23时'};
+const SHICHEN_TIMES=['23-1时','1-3时','3-5时','5-7时','7-9时','9-11时','11-13时','13-15时','15-17时','17-19时','19-21时','21-23时'];
+const GAN_ZANG={甲:'胆',乙:'肝',丙:'小肠',丁:'心',戊:'胃',己:'脾',庚:'大肠',辛:'肺',壬:'膀胱',癸:'肾'};
+const ZHI_ZANG={子:'胆',丑:'肝',寅:'肺',卯:'大肠',辰:'胃',巳:'脾',午:'心',未:'小肠',申:'膀胱',酉:'肾',戌:'心包',亥:'三焦'};
+const ZANG12=['胆','肝','肺','大肠','胃','脾','心','小肠','膀胱','肾','心包','三焦'];
 const SHUMA_MAP={'00':'望远镜','01':'衣服','02':'耳朵','03':'大山','04':'寺庙','05':'老虎','06':'哨子','07':'镰刀','08':'葫芦','09':'啤酒','10':'棒球','11':'筷子','12':'鱼儿','13':'医生','14':'钥匙','15':'鹦鹉','16':'石榴','17':'仪器','18':'渔网','19':'药酒','20':'按铃','21':'鳄鱼','22':'双胞胎','23':'乔丹','24':'闹钟','25':'二胡','26':'河流','27':'耳机','28':'恶霸','29':'按钮','30':'山洞','31':'山药','32':'哪吒','33':'蝴蝶','34':'扇子','35':'珊瑚','36':'山路','37':'山鸡','38':'妇女','39':'三角','40':'司令','41':'司仪','42':'试卷','43':'雪山','44':'狮子','45':'水壶','46':'饲料','47':'司机','48':'蜘蛛','49':'死狗','50':'武林高手','51':'工人','52':'木耳','53':'午餐','54':'武士','55':'火车','56':'五楼','57':'大炮','58':'电脑','59':'武警','60':'榴莲','61':'儿童','62':'驴儿','63':'硫酸','64':'螺丝','65':'锣鼓','66':'绿豆','67':'楼梯','68':'喇叭','69':'鹿角','70':'冰激凌','71':'洗衣机','72':'企鹅','73':'旗杆','74':'骑士','75':'鸡毛掸子','76':'汽油','77':'鹊桥','78':'西瓜','79':'气球','80':'巴黎铁塔','81':'蚂蚁','82':'白鹅','83':'耙子','84':'巴士','85':'宝物盒','86':'八路','87':'热带雨林','88':'爸爸','89':'芭蕉叶','90':'精灵','91':'救生衣','92':'球儿','93':'旧伞','94':'酒刺','95':'酒壶','96':'旧炉','97':'香港脚','98':'球拍','99':'舅舅'};
 const PILLAR=['年','月','日','时'];
 
@@ -622,6 +635,8 @@ function poolForCat(cat){
   if(cat==='tdyy')return['阳','阴'];
   if(cat==='shuma')return Object.values(SHUMA_MAP);
   if(cat==='nfgz')return GZ60;
+  if(cat==='shichen')return SHICHEN_TIMES;
+  if(cat==='ganzang'||cat==='zhizang')return ZANG12;
   return ZHI;
 }
 
@@ -678,6 +693,12 @@ function buildPool(rng){
   for(const lq of LIUQIN){const k=LQKE[lq];qs.push({cat:'lqk',main:[],qt:`<b>${lq}</b>克什么六亲？`,correct:k,opts:mkOpts(rng,k,LIUQIN),exp:`${lq}克${k}`});}
   // 天地阴阳诀（给1支，判断阳还是阴）
   for(const z of ZHI){const c=YANG_ZHI.has(z)?'阳':'阴';qs.push({cat:'tdyy',main:[z],qt:'<b>天地阴阳诀</b>里，属阳还是阴？',correct:c,opts:shuffle(rng,['阳','阴']),exp:`${z}属${c}（寅申巳亥辰戌为阳，子午卯酉丑未为阴）`});}
+  // 十二时辰
+  for(const z of ZHI){const c=SHICHEN[z];qs.push({cat:'shichen',main:[z],qt:'<b>时辰</b>对应几点到几点？',correct:c,opts:mkOpts(rng,c,SHICHEN_TIMES),exp:`${z}时对应${c}`});}
+  // 天干脏腑
+  for(const g of GAN){const c=GAN_ZANG[g],ex=g==='壬'?`${g}→${c}（三焦寄属）`:g==='癸'?`${g}→${c}（心包寄属）`:`${g}→${c}`;qs.push({cat:'ganzang',main:[g],qt:'天干对应哪个<b>脏腑</b>？',correct:c,opts:mkOpts(rng,c,ZANG12),exp:ex});}
+  // 地支脏腑
+  for(const z of ZHI){const c=ZHI_ZANG[z];qs.push({cat:'zhizang',main:[z],qt:'地支对应哪个<b>脏腑</b>？',correct:c,opts:mkOpts(rng,c,ZANG12),exp:`${z}→${c}`});}
   // 暗合（给1支，选暗合另一支）
   for(const[a,b]of[['申','卯'],['卯','申'],['亥','午'],['午','亥'],['丑','寅'],['寅','丑'],['子','巳'],['巳','子']]){
     qs.push({cat:'anhe',main:[a],qt:'与哪个地支<b>暗合</b>？',correct:b,opts:mkOpts(rng,b,ZHI),exp:`${a}${b}暗合`});
@@ -706,7 +727,7 @@ function buildPool(rng){
 function selectQs(seed){
   const rng=mkRng(seed);const pool=buildPool(rng);
   const byC={};for(const q of pool){if(!byC[q.cat])byC[q.cat]=[];byC[q.cat].push(q);}
-  const quota={wx:3,chong:2,tghe:2,liuhe:2,tong:3,shen:3,sanhe:3,sanhetype:2,xing3:2,po:2,zixing:1,xushi:3,xushi2:2,nayin:3,anhe:2,zihe:2,wxs:2,wxk:2,lqs:2,lqk:2,tdyy:3};
+  const quota={wx:3,chong:2,tghe:2,liuhe:2,tong:3,shen:3,sanhe:3,sanhetype:2,xing3:2,po:2,zixing:1,xushi:3,xushi2:2,nayin:3,anhe:2,zihe:2,wxs:2,wxk:2,lqs:2,lqk:2,tdyy:3,shichen:2,ganzang:2,zhizang:2};
   let picks=[];for(const[cat,n]of Object.entries(quota))picks.push(...rpick(rng,byC[cat]||[],n));
   return shuffle(rng,picks);
 }
@@ -977,6 +998,9 @@ const M2_CATS={
   '地支数字':   {label:'地支·数字', pairs:[['子','1'],['丑','2'],['寅','3'],['卯','4'],['辰','5'],['巳','6'],['午','7'],['未','8'],['申','9'],['酉','0'],['戌','狗'],['亥','猪']]},
   '阳干实支':   {label:'阳干·实支', pairs:[['甲','寅'],['丙','戌'],['戊','辰'],['庚','申'],['壬','子']]},
   '阴干实支':   {label:'阴干·实支', pairs:[['乙','亥'],['丁','巳'],['己','未'],['辛','丑'],['癸','酉']]},
+  '十二时辰':    {label:'十二时辰', pairs:[['子','23-1时'],['丑','1-3时'],['寅','3-5时'],['卯','5-7时'],['辰','7-9时'],['巳','9-11时'],['午','11-13时'],['未','13-15时'],['申','15-17时'],['酉','17-19时'],['戌','19-21时'],['亥','21-23时']]},
+  '天干脏腑':    {label:'天干脏腑', pairs:[['甲','胆'],['乙','肝'],['丙','小肠'],['丁','心'],['戊','胃'],['己','脾'],['庚','大肠'],['辛','肺'],['壬','膀胱'],['癸','肾']]},
+  '地支脏腑':    {label:'地支脏腑', pairs:[['子','胆'],['丑','肝'],['寅','肺'],['卯','大肠'],['辰','胃'],['巳','脾'],['午','心'],['未','小肠'],['申','膀胱'],['酉','肾'],['戌','心包'],['亥','三焦']]},
   '年份干支':    {label:'年份干支', maxPairs:6, pairs:YR_GZ_PAIRS},
   '纳音':       {label:'纳音五行', maxPairs:6, pairs:[
     ['甲子','海中金'],['丙寅','炉中火'],['戊辰','大林木'],['庚午','路旁土'],['壬申','剑锋金'],
@@ -993,6 +1017,9 @@ function isM2Correct(lv,rv,cat){
   if(cat==='六合-克合')return LIUHE[lv]===rv&&!(SHENGHE.has(lv+rv)||SHENGHE.has(rv+lv));
   if(cat==='暗合')return ANHE_SET.has(lv+rv)||ANHE_SET.has(rv+lv);
   if(cat==='天地阴阳')return(YANG_ZHI.has(lv)&&rv==='阳')||(!YANG_ZHI.has(lv)&&rv==='阴');
+  if(cat==='十二时辰')return SHICHEN[lv]===rv;
+  if(cat==='天干脏腑')return GAN_ZANG[lv]===rv;
+  if(cat==='地支脏腑')return ZHI_ZANG[lv]===rv;
   if(cat==='六穿')return CHUAN_S.has(lv+rv)||CHUAN_K.has(lv+rv)||CHUAN_S.has(rv+lv)||CHUAN_K.has(rv+lv);
   if(cat==='绝')return JUE_SET.has(lv+rv)||JUE_SET.has(rv+lv);
   if(cat==='天干五合')return TGHE[lv]===rv;
@@ -1014,7 +1041,10 @@ function getM2NbQ(lv,rv,cat){
     '六合-生合': {nbcat:'liuhe',qt:'<b>六合(生合)</b>另一支？',exp:`${lv}${rv}六合生合`},
     '六合-克合': {nbcat:'liuhe',qt:'<b>六合(克合)</b>另一支？',exp:`${lv}${rv}六合克合`},
     '暗合':     {nbcat:'liuhe',qt:'与哪个地支<b>暗合</b>？',   exp:`${lv}${rv}暗合`},
-    '天地阴阳':  {nbcat:'tdyy', qt:'<b>天地阴阳诀</b>里，属阳还是阴？',exp:`${lv}属${rv}`},
+    '天地阴阳':  {nbcat:'tdyy',    qt:'<b>天地阴阳诀</b>里，属阳还是阴？', exp:`${lv}属${rv}`},
+    '十二时辰':  {nbcat:'shichen', qt:'<b>时辰</b>对应几点到几点？',       exp:`${lv}时=${rv}`},
+    '天干脏腑':  {nbcat:'ganzang', qt:'天干对应哪个<b>脏腑</b>？',         exp:`${lv}→${rv}`},
+    '地支脏腑':  {nbcat:'zhizang', qt:'地支对应哪个<b>脏腑</b>？',         exp:`${lv}→${rv}`},
     '六穿':     {nbcat:'chong',qt:'与哪个地支<b>六穿</b>？',   exp:`${lv}${rv}六穿`},
     '绝':       {nbcat:'chong',qt:'与哪个地支形成<b>绝</b>？', exp:`${lv}${rv}绝`},
     '天干五合':  {nbcat:'tghe', qt:'与哪个天干<b>五合</b>？',  exp:`${lv}${rv}天干五合`},
