@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>基础知识日练 · 使用说明</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;background:#0f172a;color:#e2e8f0;line-height:1.8;padding:24px 16px 60px}
+.wrap{max-width:720px;margin:0 auto}
+h1{font-size:24px;color:#10b981;letter-spacing:4px;text-align:center;padding:28px 0 6px}
+.sub{text-align:center;color:#475569;font-size:13px;letter-spacing:2px;margin-bottom:32px}
+h2{font-size:16px;color:#34d399;letter-spacing:2px;margin:32px 0 10px;padding-left:10px;border-left:3px solid #10b981}
+h3{font-size:14px;color:#94a3b8;margin:18px 0 6px}
+p{font-size:13px;color:#94a3b8;margin-bottom:6px}
+.card{background:#1e293b;border-radius:14px;padding:16px 18px;margin-bottom:12px}
+.card p{margin-bottom:4px}
+table{width:100%;border-collapse:collapse;font-size:12px;margin:8px 0}
+th{background:#0f172a;color:#64748b;padding:7px 10px;text-align:left;font-weight:normal;letter-spacing:1px}
+td{padding:7px 10px;border-bottom:1px solid #0f172a;color:#cbd5e1}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#273549}
+.tag{display:inline-block;background:#0c2a1a;color:#34d399;border-radius:6px;padding:1px 7px;font-size:11px;margin:2px 2px}
+.tag-b{background:#1e3a8a;color:#93c5fd}
+.tag-y{background:#78350f;color:#fcd34d}
+.badge{display:inline-block;background:#334155;color:#94a3b8;border-radius:5px;padding:1px 6px;font-size:11px}
+.tip{background:#1a3a2f;border-left:3px solid #10b981;border-radius:0 10px 10px 0;padding:10px 14px;margin:10px 0;font-size:12px;color:#6ee7b7}
+.warn{background:#1a1500;border-left:3px solid #f59e0b;border-radius:0 10px 10px 0;padding:10px 14px;margin:10px 0;font-size:12px;color:#fcd34d}
+.url{color:#60a5fa;word-break:break-all}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
+.m{background:#0f172a;border-radius:8px;padding:6px 10px;font-size:12px;color:#cbd5e1;flex:1;min-width:140px}
+.m b{color:#10b981}
+hr{border:none;border-top:1px solid #1e293b;margin:28px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>基础知识日练</h1>
+<div class="sub">干支知识 · 每日精进 · 使用说明书</div>
+
+<!-- 访问方式 -->
+<h2>📍 访问方式</h2>
+<div class="card">
+  <p><b>本地离线：</b>直接双击 <span class="badge">index.html</span> 用浏览器打开，无需网络</p>
+  <p style="margin-top:8px"><b>在线地址：</b><span class="url">https://NeverGiveUp0618.github.io/bazi-game</span></p>
+  <p style="margin-top:8px"><b>源代码：</b><span class="url">https://github.com/NeverGiveUp0618/bazi-game</span></p>
+  <div class="tip">所有进度（错题本、连续打卡、历史记录）存在浏览器本地存储（localStorage）。换浏览器或清除缓存会丢失存档。</div>
+</div>
+
+<hr>
+
+<!-- 模式一：闪卡速答 -->
+<h2>⚡ 模式一：闪卡速答</h2>
+<div class="card">
+  <p>每题展示干支字符，从4个选项中点选正确答案。答对得分，连击有加成；答错或超时记入本局错题。</p>
+  <h3>四种子模式</h3>
+  <table>
+    <tr><th>按钮</th><th>种子来源</th><th>计时</th><th>说明</th></tr>
+    <tr><td>今日挑战 ⏱️</td><td>当天日期（固定）</td><td>有</td><td>同一天同题，可与队友比分</td></tr>
+    <tr><td>今日自由 🔓</td><td>当天日期（固定）</td><td>无</td><td>同题不限时，从容作答</td></tr>
+    <tr><td>随机计时 ⏱️</td><td>每次随机</td><td>有</td><td>每次不同题组，计时挑战</td></tr>
+    <tr><td>随机自由 🔓</td><td>每次随机</td><td>无</td><td>每次不同题组，自由练习</td></tr>
+    <tr><td><b>自选挑战 🎯</b></td><td>每次随机</td><td>可选</td><td>自选知识点后开始（见下节）</td></tr>
+  </table>
+  <h3>计分规则</h3>
+  <table>
+    <tr><th>连击数</th><th>得分倍率</th></tr>
+    <tr><td>0–2 题</td><td>×1.0</td></tr>
+    <tr><td>3–5 题</td><td>×1.2</td></tr>
+    <tr><td>6–9 题</td><td>×1.5</td></tr>
+    <tr><td>10 题以上</td><td>×2.0</td></tr>
+  </table>
+  <div class="tip">键盘快捷键：数字键 1234 对应四个选项，桌面端可快速作答。</div>
+</div>
+
+<!-- 自选挑战 -->
+<h2>🎯 自选挑战（闪卡子功能）</h2>
+<div class="card">
+  <p>点首页"自选挑战 🎯"进入知识点选择界面，按分组勾选想练习的类别，再点"开始计时"或"开始自由"。</p>
+  <p>选择结果自动保存，下次打开保持上次选择。</p>
+  <h3>知识点分组</h3>
+  <div class="row">
+    <div class="m"><b>🧭 五行基础</b><br>五行归属、天地阴阳、五行系统</div>
+    <div class="m"><b>🌀 地支关系</b><br>六冲、地支六合、地支暗合、三合补完、三合识局、三刑补完、破识别、自刑字</div>
+    <div class="m"><b>☰ 天干关系</b><br>天干五合、干支互通、干支自合、十神</div>
+    <div class="m"><b>⚡ 生克关系</b><br>天干相生、天干相克、六亲相生、六亲相克</div>
+    <div class="m"><b>🔄 旺衰运势</b><br>旺衰十二运</div>
+    <div class="m"><b>⚖ 虚实纳音</b><br>虚实判断、实支识别、纳音五行</div>
+    <div class="m"><b>🕐 时辰历法</b><br>十二时辰、天干脏腑、地支脏腑、月建、节气月份</div>
+  </div>
+  <div class="tip">分享文本会自动标注"【自选】"并列出所选知识点，队友一眼看出你练了哪些。</div>
+</div>
+
+<hr>
+
+<!-- 闪卡知识点清单 -->
+<h2>📚 闪卡知识点清单（共28类）</h2>
+<div class="card">
+  <table>
+    <tr><th>类别</th><th>出题形式</th><th>每局题数</th></tr>
+    <tr><td>五行归属</td><td>天干/地支 → 属哪个五行</td><td>3</td></tr>
+    <tr><td>六冲</td><td>地支 → 与哪个地支六冲</td><td>2</td></tr>
+    <tr><td>天干五合</td><td>天干 → 与哪个天干五合</td><td>2</td></tr>
+    <tr><td>地支六合</td><td>地支 → 与哪个地支六合</td><td>2</td></tr>
+    <tr><td>干支互通</td><td>天干 → 禄位地支</td><td>3</td></tr>
+    <tr><td>十神</td><td>日主+另一天干 → 十神名称</td><td>3</td></tr>
+    <tr><td>三合补完</td><td>给2个地支 → 选缺的地支</td><td>3</td></tr>
+    <tr><td>三合识局</td><td>给3个地支 → 选五行局</td><td>2</td></tr>
+    <tr><td>三刑补完</td><td>给2个地支 → 选缺的地支</td><td>2</td></tr>
+    <tr><td>破识别</td><td>给2个地支 → 选关系名称</td><td>2</td></tr>
+    <tr><td>自刑字</td><td>哪个地支重复出现会自刑</td><td>1</td></tr>
+    <tr><td>虚实判断</td><td>给干支组合 → 虚/实 2选1</td><td>3</td></tr>
+    <tr><td>实支识别</td><td>天干 → 哪个地支使其为实</td><td>2</td></tr>
+    <tr><td>纳音五行</td><td>干支对 → 纳音名称</td><td>3</td></tr>
+    <tr><td>地支暗合</td><td>地支 → 与哪个地支暗合</td><td>2</td></tr>
+    <tr><td>干支自合</td><td>天干 → 与哪个地支自合</td><td>2</td></tr>
+    <tr><td>天干相生</td><td>天干对 → 生什么五行组</td><td>2</td></tr>
+    <tr><td>天干相克</td><td>天干对 → 克什么五行组</td><td>2</td></tr>
+    <tr><td>六亲相生</td><td>六亲 → 生什么六亲</td><td>2</td></tr>
+    <tr><td>六亲相克</td><td>六亲 → 克什么六亲</td><td>2</td></tr>
+    <tr><td>天地阴阳</td><td>地支 → 属阳还是阴（2选1）</td><td>3</td></tr>
+    <tr><td>十二时辰</td><td>时辰 → 对应几点到几点</td><td>2</td></tr>
+    <tr><td>天干脏腑</td><td>天干 → 对应脏腑</td><td>2</td></tr>
+    <tr><td>地支脏腑</td><td>地支 → 对应脏腑</td><td>2</td></tr>
+    <tr><td>旺衰十二运</td><td>天干+地支 → 旺衰状态名</td><td>3</td></tr>
+    <tr><td>月建</td><td>地支 → 对应几月（丑=正月起）</td><td>3</td></tr>
+    <tr><td>五行系统</td><td>五行 → 对应人体系统</td><td>2</td></tr>
+    <tr><td>节气月份</td><td>节气名 → 属公历几月</td><td>3</td></tr>
+  </table>
+</div>
+
+<hr>
+
+<!-- 模式二：配对连线 -->
+<h2>🔗 模式二：配对连线</h2>
+<div class="card">
+  <p>先在左栏选一项，再在右栏点对应项完成配对。全部配对正确即可完成，错误连线会高亮提示，记录错误次数。</p>
+  <p>无计时，适合理解性练习。错误答案可加入错题本复习。</p>
+</div>
+
+<h3 style="color:#94a3b8;padding-left:4px;margin-top:8px">配对连线全部类别</h3>
+
+<div class="card">
+  <table>
+    <tr><th>分组</th><th>类别</th><th>对数</th></tr>
+    <tr><td rowspan="7">🌀 地支关系</td><td>六冲</td><td>6</td></tr>
+    <tr><td>六合·生合</td><td>3</td></tr>
+    <tr><td>六合·克合</td><td>3</td></tr>
+    <tr><td>暗合</td><td>4（申卯·亥午·丑寅·子巳）</td></tr>
+    <tr><td>六穿</td><td>6</td></tr>
+    <tr><td>绝</td><td>4</td></tr>
+    <tr><td>天地阴阳</td><td>12（每支→阳/阴）</td></tr>
+    <tr><td rowspan="2">☰ 天干关系</td><td>天干五合</td><td>5</td></tr>
+    <tr><td>患·同五行</td><td>5</td></tr>
+    <tr><td rowspan="4">⚡ 生克关系</td><td>天干·相生</td><td>5</td></tr>
+    <tr><td>天干·相克</td><td>5</td></tr>
+    <tr><td>六亲·相生</td><td>5</td></tr>
+    <tr><td>六亲·相克</td><td>5</td></tr>
+    <tr><td rowspan="2">↔ 干支关系</td><td>禄位互通</td><td>10</td></tr>
+    <tr><td>干支自合</td><td>9</td></tr>
+    <tr><td rowspan="3">🔢 数字口诀</td><td>天干数字（甲1…癸0）</td><td>10</td></tr>
+    <tr><td>地支数字（子1…酉0，戌=狗，亥=猪）</td><td>12</td></tr>
+    <tr><td>数字编码（00–99图像记忆）</td><td>随机8对</td></tr>
+    <tr><td rowspan="2">⚖ 干支虚实</td><td>阳干实支</td><td>5</td></tr>
+    <tr><td>阴干实支</td><td>5</td></tr>
+    <tr><td rowspan="7">🔄 十二运旺衰</td><td>天干·长生</td><td>10</td></tr>
+    <tr><td>天干·帝旺</td><td>10</td></tr>
+    <tr><td>天干·墓库</td><td>10</td></tr>
+    <tr><td>五行·长生</td><td>5</td></tr>
+    <tr><td>五行·帝旺</td><td>5</td></tr>
+    <tr><td>五行·墓库</td><td>5</td></tr>
+    <tr><td>长生顺序（第①长生…第⑫养）</td><td>12</td></tr>
+    <tr><td rowspan="3">🕐 时辰脏腑</td><td>十二时辰</td><td>12</td></tr>
+    <tr><td>天干脏腑</td><td>10</td></tr>
+    <tr><td>地支脏腑</td><td>12</td></tr>
+    <tr><td rowspan="3">📅 时历推算</td><td>年份干支（1900–2050）</td><td>随机6对</td></tr>
+    <tr><td>月建</td><td>12</td></tr>
+    <tr><td>节气月份</td><td>随机8对</td></tr>
+    <tr><td>🔮 断命步骤</td><td>断命步骤（①天元入命…⑧大运流年）</td><td>8</td></tr>
+    <tr><td rowspan="2">🌿 五行象类</td><td>五行对应系统</td><td>5</td></tr>
+    <tr><td>五行状态（旺相休囚死）</td><td>开发中</td></tr>
+    <tr><td>🎵 纳音五行</td><td>纳音配对</td><td>随机6对</td></tr>
+  </table>
+</div>
+
+<hr>
+
+<!-- 模式三：八字排盘 -->
+<h2>🔍 模式三：八字排盘</h2>
+<div class="card">
+  <p>收录人鉴117例命盘，每例展示8个字（年月日时，天干地支）。</p>
+  <p>点选任意两个字，即时查看这两字之间的所有关系（六冲、六合、暗合、互通、自合、旺衰、脏腑等）。</p>
+  <table>
+    <tr><th>入口</th><th>说明</th></tr>
+    <tr><td>随机一例</td><td>随机跳转到某一命例</td></tr>
+    <tr><td>从第一例</td><td>从第1例开始，可逐例翻阅</td></tr>
+  </table>
+  <div class="tip">命盘中蓝色字为天干，紫色字为地支。日主（日柱天干）默认高亮。</div>
+</div>
+
+<hr>
+
+<!-- 错题本 -->
+<h2>📚 错题本</h2>
+<div class="card">
+  <p>闪卡答错、配对连线答错的题，均可手动加入错题本。</p>
+  <h3>闪卡错题</h3>
+  <p>每局结束后，错题区点"📚 加入错题本"，将本局所有错题一键收录。</p>
+  <h3>配对连线错题</h3>
+  <p>配对完成后，错误配对会被转换成闪卡题型加入错题本，下次从闪卡角度复习。</p>
+  <h3>错题本练习</h3>
+  <p>首页点"错题本"进入查看，或直接在闪卡区选"错题本练习"开始专项刷题。</p>
+  <div class="warn">错题本存储在浏览器本地，清除浏览器缓存或换浏览器会丢失。建议固定使用同一浏览器。</div>
+</div>
+
+<hr>
+
+<!-- 首页统计 -->
+<h2>📊 首页统计</h2>
+<div class="card">
+  <table>
+    <tr><th>统计项</th><th>说明</th></tr>
+    <tr><td>连续打卡</td><td>连续几天完成"今日挑战"的天数</td></tr>
+    <tr><td>闪卡最高</td><td>历史最高单局得分</td></tr>
+    <tr><td>累计对题</td><td>所有局合计答对题数</td></tr>
+  </table>
+  <p style="margin-top:8px">首页下方显示近期闪卡记录（日期·得分·正确率·连击）。</p>
+</div>
+
+<hr>
+
+<!-- 分享功能 -->
+<h2>📋 分享功能</h2>
+<div class="card">
+  <p>闪卡每局结束后，点"📋 复制结果发给队友"，自动复制如下格式的文本：</p>
+  <pre style="background:#0f172a;border-radius:10px;padding:12px 14px;font-size:12px;color:#94a3b8;margin-top:8px;line-height:2">📅 基础知识日练 2026-06-19
+🏆 得分：186 | 正确：28/30
+⚡ 最大连击：12 | ⏱️ 用时：4:32
+✅✅✅❌✅✅✅✅✅✅…</pre>
+  <p style="margin-top:8px">自选挑战会额外标注 <span class="badge">【自选】</span> 和所选知识点名称。</p>
+</div>
+
+<hr>
+
+<!-- 知识数据备查 -->
+<h2>🗂️ 关键知识数据备查</h2>
+
+<h3 style="color:#94a3b8;padding-left:4px;margin-top:12px">月建（丑月起）</h3>
+<div class="card">
+  <table>
+    <tr><th>地支</th><th>月份</th><th>地支</th><th>月份</th><th>地支</th><th>月份</th></tr>
+    <tr><td>子</td><td>十二月</td><td>丑</td><td>正月</td><td>寅</td><td>二月</td></tr>
+    <tr><td>卯</td><td>三月</td><td>辰</td><td>四月</td><td>巳</td><td>五月</td></tr>
+    <tr><td>午</td><td>六月</td><td>未</td><td>七月</td><td>申</td><td>八月</td></tr>
+    <tr><td>酉</td><td>九月</td><td>戌</td><td>十月</td><td>亥</td><td>十一月</td></tr>
+  </table>
+</div>
+
+<h3 style="color:#94a3b8;padding-left:4px;margin-top:12px">24节气·公历月份</h3>
+<div class="card">
+  <table>
+    <tr><th>月份</th><th>节气1</th><th>节气2</th></tr>
+    <tr><td>1月</td><td>小寒</td><td>大寒</td></tr>
+    <tr><td>2月</td><td>立春</td><td>雨水</td></tr>
+    <tr><td>3月</td><td>惊蛰</td><td>春分</td></tr>
+    <tr><td>4月</td><td>清明</td><td>谷雨</td></tr>
+    <tr><td>5月</td><td>立夏</td><td>小满</td></tr>
+    <tr><td>6月</td><td>芒种</td><td>夏至</td></tr>
+    <tr><td>7月</td><td>小暑</td><td>大暑</td></tr>
+    <tr><td>8月</td><td>立秋</td><td>处暑</td></tr>
+    <tr><td>9月</td><td>白露</td><td>秋分</td></tr>
+    <tr><td>10月</td><td>寒露</td><td>霜降</td></tr>
+    <tr><td>11月</td><td>立冬</td><td>小雪</td></tr>
+    <tr><td>12月</td><td>大雪</td><td>冬至</td></tr>
+  </table>
+</div>
+
+<h3 style="color:#94a3b8;padding-left:4px;margin-top:12px">五行对应人体系统</h3>
+<div class="card">
+  <table>
+    <tr><th>五行</th><th>对应系统</th></tr>
+    <tr><td>木</td><td>筋爪与神经肝胆</td></tr>
+    <tr><td>火</td><td>血脉心脑</td></tr>
+    <tr><td>土</td><td>肌腱与消化</td></tr>
+    <tr><td>金</td><td>皮毛与呼吸</td></tr>
+    <tr><td>水</td><td>骨发与内分泌</td></tr>
+  </table>
+</div>
+
+<h3 style="color:#94a3b8;padding-left:4px;margin-top:12px">十二运旺衰顺序</h3>
+<div class="card">
+  <table>
+    <tr><th>序</th><th>状态</th><th>序</th><th>状态</th><th>序</th><th>状态</th><th>序</th><th>状态</th></tr>
+    <tr><td>①</td><td>长生</td><td>②</td><td>沐浴</td><td>③</td><td>冠带</td><td>④</td><td>临官</td></tr>
+    <tr><td>⑤</td><td>帝旺</td><td>⑥</td><td>衰</td><td>⑦</td><td>病</td><td>⑧</td><td>死</td></tr>
+    <tr><td>⑨</td><td>墓</td><td>⑩</td><td>绝</td><td>⑪</td><td>胎</td><td>⑫</td><td>养</td></tr>
+  </table>
+</div>
+
+<h3 style="color:#94a3b8;padding-left:4px;margin-top:12px">断命八步骤</h3>
+<div class="card">
+  <table>
+    <tr><th>步骤</th><th>内容</th><th>步骤</th><th>内容</th></tr>
+    <tr><td>①</td><td>天元入命</td><td>②</td><td>确定状态</td></tr>
+    <tr><td>③</td><td>确定喜忌</td><td>④</td><td>干支意向</td></tr>
+    <tr><td>⑤</td><td>十神格局</td><td>⑥</td><td>作用方式</td></tr>
+    <tr><td>⑦</td><td>宫位大限</td><td>⑧</td><td>大运流年</td></tr>
+  </table>
+</div>
+
+<hr>
+
+<!-- 换电脑 -->
+<h2>💻 换电脑后如何继续</h2>
+<div class="card">
+  <p><b>游戏文件</b>：从 GitHub 下载最新版 index.html</p>
+  <p style="margin-top:4px"><span class="url">https://github.com/NeverGiveUp0618/bazi-game/blob/main/index.html</span></p>
+  <p style="margin-top:8px"><b>错题本/存档</b>：存在浏览器本地，无法自动迁移。新电脑重新从零积累。</p>
+  <p style="margin-top:8px"><b>继续开发</b>：告诉 Claude 这个 GitHub 地址，Claude 读一遍代码就能继续添加知识点。</p>
+  <div class="tip">每次向 Claude 提新需求时，提供 GitHub 地址可以帮助快速恢复项目上下文。</div>
+</div>
+
+<hr>
+
+<p style="text-align:center;color:#334155;font-size:12px;margin-top:32px">基础知识日练 · 持续更新中 · 2026</p>
+
+</div>
+</body>
+</html>
