@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>人鉴八字日练</title>
+<title>基础知识日练</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh;display:flex;justify-content:center}
@@ -208,7 +208,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 
 <!-- HOME -->
 <div id="ph" class="screen active">
-  <div class="hlogo"><div class="hlogo-t">人鉴八字日练</div><div class="hlogo-s">干支知识 · 每日精进</div></div>
+  <div class="hlogo"><div class="hlogo-t">基础知识日练</div><div class="hlogo-s">干支知识 · 每日精进</div></div>
   <div class="hdate" id="el-date"></div>
   <div class="hstats">
     <div class="hstat"><div class="hstat-v" id="el-streak">0</div><div class="hstat-l">连续打卡</div></div>
@@ -397,6 +397,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <div class="p2grp-grid">
       <button class="p2btn clr-gs" onclick="startM2('年份干支')"><div class="p2btn-name">年份干支</div><div class="p2btn-n">随机6对</div></button>
       <button class="p2btn clr-zhi" onclick="startM2('月建')"><div class="p2btn-name">月建</div><div class="p2btn-n">12 对</div></button>
+      <button class="p2btn clr-zhi" onclick="startM2('节气·月份')"><div class="p2btn-name">节气月份</div><div class="p2btn-n">随机8对</div></button>
     </div>
   </div>
   <div class="p2grp">
@@ -527,7 +528,7 @@ const SANHE_WX=['水','木','火','金'];
 const ZIXING_SET=new Set(['辰','午','酉','亥']);
 const YANG_ZHI=new Set(['寅','申','巳','亥','辰','戌']);
 const ZHI_NOZIXING=ZHI.filter(z=>!ZIXING_SET.has(z));
-const CAT_NAME={wx:'五行归属',chong:'六冲',tghe:'天干五合',liuhe:'地支六合',tong:'干支互通',shen:'十神',sanhe:'三合补完',sanhetype:'三合识局',xing3:'三刑补完',po:'破识别',zixing:'自刑字',xushi:'虚实判断',xushi2:'实支识别',nayin:'纳音五行',anhe:'地支暗合',zihe:'干支自合',num:'数字口诀',wxs:'天干相生',wxk:'天干相克',lqs:'六亲相生',lqk:'六亲相克',tdyy:'天地阴阳',shuma:'数字编码',nfgz:'年份干支',shichen:'十二时辰',ganzang:'天干脏腑',zhizang:'地支脏腑',ws12:'旺衰十二运',ws_zhi:'旺衰地支',wx_zhi:'五行长生',ws_order:'长生顺序',yuejian:'月建',duanming:'断命步骤',wxsys:'五行系统'};
+const CAT_NAME={wx:'五行归属',chong:'六冲',tghe:'天干五合',liuhe:'地支六合',tong:'干支互通',shen:'十神',sanhe:'三合补完',sanhetype:'三合识局',xing3:'三刑补完',po:'破识别',zixing:'自刑字',xushi:'虚实判断',xushi2:'实支识别',nayin:'纳音五行',anhe:'地支暗合',zihe:'干支自合',num:'数字口诀',wxs:'天干相生',wxk:'天干相克',lqs:'六亲相生',lqk:'六亲相克',tdyy:'天地阴阳',shuma:'数字编码',nfgz:'年份干支',shichen:'十二时辰',ganzang:'天干脏腑',zhizang:'地支脏腑',ws12:'旺衰十二运',ws_zhi:'旺衰地支',wx_zhi:'五行长生',ws_order:'长生顺序',yuejian:'月建',duanming:'断命步骤',wxsys:'五行系统',jieqi:'节气月份'};
 const GZ60=(()=>{const g=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'],z=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];return Array.from({length:60},(_,i)=>g[i%10]+z[i%12]);})();
 const YR_GZ_PAIRS=(()=>{const g=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'],z=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];return Array.from({length:151},(_,i)=>{const y=1900+i;return[String(y),g[(y-4)%10]+z[(y-4)%12]];});})();
 const SHICHEN={子:'23-1时',丑:'1-3时',寅:'3-5时',卯:'5-7时',辰:'7-9时',巳:'9-11时',午:'11-13时',未:'13-15时',申:'15-17时',酉:'17-19时',戌:'19-21时',亥:'21-23时'};
@@ -546,6 +547,9 @@ const DUANMING_KEYS=['①','②','③','④','⑤','⑥','⑦','⑧'];
 const DUANMING_STEPS={'①':'天元入命','②':'确定状态','③':'确定喜忌','④':'干支意向','⑤':'十神格局','⑥':'作用方式','⑦':'宫位大限','⑧':'大运流年'};
 const WX_SYS={木:'筋爪与神经肝胆',火:'血脉心脑',土:'肌腱与消化',金:'皮毛与呼吸',水:'骨发与内分泌'};
 const WX_SYS_VALS=['筋爪与神经肝胆','血脉心脑','肌腱与消化','皮毛与呼吸','骨发与内分泌'];
+const JIEQI={立春:'2月',雨水:'2月',惊蛰:'3月',春分:'3月',清明:'4月',谷雨:'4月',立夏:'5月',小满:'5月',芒种:'6月',夏至:'6月',小暑:'7月',大暑:'7月',立秋:'8月',处暑:'8月',白露:'9月',秋分:'9月',寒露:'10月',霜降:'10月',立冬:'11月',小雪:'11月',大雪:'12月',冬至:'12月',小寒:'1月',大寒:'1月'};
+const JIEQI_NAMES=['立春','雨水','惊蛰','春分','清明','谷雨','立夏','小满','芒种','夏至','小暑','大暑','立秋','处暑','白露','秋分','寒露','霜降','立冬','小雪','大雪','冬至','小寒','大寒'];
+const MONTHS_12=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
 const SHUMA_MAP={'00':'望远镜','01':'衣服','02':'耳朵','03':'大山','04':'寺庙','05':'老虎','06':'哨子','07':'镰刀','08':'葫芦','09':'啤酒','10':'棒球','11':'筷子','12':'鱼儿','13':'医生','14':'钥匙','15':'鹦鹉','16':'石榴','17':'仪器','18':'渔网','19':'药酒','20':'按铃','21':'鳄鱼','22':'双胞胎','23':'乔丹','24':'闹钟','25':'二胡','26':'河流','27':'耳机','28':'恶霸','29':'按钮','30':'山洞','31':'山药','32':'哪吒','33':'蝴蝶','34':'扇子','35':'珊瑚','36':'山路','37':'山鸡','38':'妇女','39':'三角','40':'司令','41':'司仪','42':'试卷','43':'雪山','44':'狮子','45':'水壶','46':'饲料','47':'司机','48':'蜘蛛','49':'死狗','50':'武林高手','51':'工人','52':'木耳','53':'午餐','54':'武士','55':'火车','56':'五楼','57':'大炮','58':'电脑','59':'武警','60':'榴莲','61':'儿童','62':'驴儿','63':'硫酸','64':'螺丝','65':'锣鼓','66':'绿豆','67':'楼梯','68':'喇叭','69':'鹿角','70':'冰激凌','71':'洗衣机','72':'企鹅','73':'旗杆','74':'骑士','75':'鸡毛掸子','76':'汽油','77':'鹊桥','78':'西瓜','79':'气球','80':'巴黎铁塔','81':'蚂蚁','82':'白鹅','83':'耙子','84':'巴士','85':'宝物盒','86':'八路','87':'热带雨林','88':'爸爸','89':'芭蕉叶','90':'精灵','91':'救生衣','92':'球儿','93':'旧伞','94':'酒刺','95':'酒壶','96':'旧炉','97':'香港脚','98':'球拍','99':'舅舅'};
 const PILLAR=['年','月','日','时'];
 
@@ -711,10 +715,11 @@ function poolForCat(cat){
   if(cat==='yuejian')return YUEJIAN_MONTHS;
   if(cat==='duanming')return DUANMING_KEYS;
   if(cat==='wxsys')return WX_SYS_VALS;
+  if(cat==='jieqi')return MONTHS_12;
   return ZHI;
 }
 
-const QUOTA={wx:3,chong:2,tghe:2,liuhe:2,tong:3,shen:3,sanhe:3,sanhetype:2,xing3:2,po:2,zixing:1,xushi:3,xushi2:2,nayin:3,anhe:2,zihe:2,wxs:2,wxk:2,lqs:2,lqk:2,tdyy:3,shichen:2,ganzang:2,zhizang:2,ws12:3,yuejian:3,wxsys:2};
+const QUOTA={wx:3,chong:2,tghe:2,liuhe:2,tong:3,shen:3,sanhe:3,sanhetype:2,xing3:2,po:2,zixing:1,xushi:3,xushi2:2,nayin:3,anhe:2,zihe:2,wxs:2,wxk:2,lqs:2,lqk:2,tdyy:3,shichen:2,ganzang:2,zhizang:2,ws12:3,yuejian:3,wxsys:2,jieqi:3};
 const CSEL_GROUPS=[
   {lbl:'🧭 五行基础', cats:['wx','tdyy','wxsys']},
   {lbl:'🌀 地支关系', cats:['chong','liuhe','anhe','sanhe','sanhetype','xing3','po','zixing']},
@@ -722,7 +727,7 @@ const CSEL_GROUPS=[
   {lbl:'⚡ 生克关系', cats:['wxs','wxk','lqs','lqk']},
   {lbl:'🔄 旺衰运势', cats:['ws12']},
   {lbl:'⚖ 虚实纳音', cats:['xushi','xushi2','nayin']},
-  {lbl:'🕐 时辰脏腑', cats:['shichen','ganzang','zhizang','yuejian']},
+  {lbl:'🕐 时辰历法', cats:['shichen','ganzang','zhizang','yuejian','jieqi']},
 ];
 let CUSTOM_CATS=new Set(JSON.parse(localStorage.getItem('bazi_custom_cats')||'[]'));
 
@@ -791,6 +796,8 @@ function buildPool(rng){
   for(const z of ZHI){const c=YUEJIAN[z];qs.push({cat:'yuejian',main:[z],qt:'对应哪个<b>月建</b>？',correct:c,opts:mkOpts(rng,c,YUEJIAN_MONTHS),exp:`${z}月→${c}`});}
   // 五行对应系统
   for(const wx of WX5){const c=WX_SYS[wx];qs.push({cat:'wxsys',main:[wx],qt:'对应哪个<b>人体系统</b>？',correct:c,opts:mkOpts(rng,c,WX_SYS_VALS),exp:`${wx}→${c}`});}
+  // 节气月份
+  for(const jq of JIEQI_NAMES){const c=JIEQI[jq];qs.push({cat:'jieqi',main:[jq],qt:'属于<b>公历几月</b>？',correct:c,opts:mkOpts(rng,c,MONTHS_12),exp:`${jq}在${c}`});}
   // 暗合（给1支，选暗合另一支）
   for(const[a,b]of[['申','卯'],['卯','申'],['亥','午'],['午','亥'],['丑','寅'],['寅','丑'],['子','巳'],['巳','子']]){
     qs.push({cat:'anhe',main:[a],qt:'与哪个地支<b>暗合</b>？',correct:b,opts:mkOpts(rng,b,ZHI),exp:`${a}${b}暗合`});
@@ -1080,7 +1087,7 @@ function m1End(){
   const isCustom=G1.mode==='custom'||G1.mode==='custom-nt';
   const catLine=isCustom?`\n知识点：${[...CUSTOM_CATS].map(c=>CAT_NAME[c]||c).join('·')}`:'';
   const modeTag=isCustom?'【自选】':'';
-  const shareText=`📅 人鉴八字日练${nt}${modeTag} ${todayStr()}${catLine}\n🏆 得分：${G1.score} | 正确：${G1.correct}/${total}\n⚡ 最大连击：${G1.maxCombo} | ⏱️ 用时：${timeStr}\n${emojis}`;
+  const shareText=`📅 基础知识日练${nt}${modeTag} ${todayStr()}${catLine}\n🏆 得分：${G1.score} | 正确：${G1.correct}/${total}\n⚡ 最大连击：${G1.maxCombo} | ⏱️ 用时：${timeStr}\n${emojis}`;
   document.getElementById('el-share').textContent=shareText;
   window._shareText=shareText;
   show('p1r');
@@ -1160,6 +1167,7 @@ const M2_CATS={
   '月建':       {label:'月建',        pairs:[['子','十二月'],['丑','正月'],['寅','二月'],['卯','三月'],['辰','四月'],['巳','五月'],['午','六月'],['未','七月'],['申','八月'],['酉','九月'],['戌','十月'],['亥','十一月']]},
   '断命步骤':    {label:'断命步骤',    pairs:[['①','天元入命'],['②','确定状态'],['③','确定喜忌'],['④','干支意向'],['⑤','十神格局'],['⑥','作用方式'],['⑦','宫位大限'],['⑧','大运流年']]},
   '五行对应':    {label:'五行对应系统', pairs:[['木','筋爪与神经肝胆'],['火','血脉心脑'],['土','肌腱与消化'],['金','皮毛与呼吸'],['水','骨发与内分泌']]},
+  '节气·月份':   {label:'节气月份', maxPairs:8, pairs:[['立春','2月'],['雨水','2月'],['惊蛰','3月'],['春分','3月'],['清明','4月'],['谷雨','4月'],['立夏','5月'],['小满','5月'],['芒种','6月'],['夏至','6月'],['小暑','7月'],['大暑','7月'],['立秋','8月'],['处暑','8月'],['白露','9月'],['秋分','9月'],['寒露','10月'],['霜降','10月'],['立冬','11月'],['小雪','11月'],['大雪','12月'],['冬至','12月'],['小寒','1月'],['大寒','1月']]},
 };
 function isM2Correct(lv,rv,cat){
   if(cat==='六冲')return CHONG[lv]===rv;
@@ -1192,6 +1200,7 @@ function isM2Correct(lv,rv,cat){
   if(cat==='月建') return YUEJIAN[lv]===rv;
   if(cat==='断命步骤') return DUANMING_STEPS[lv]===rv;
   if(cat==='五行对应') return WX_SYS[lv]===rv;
+  if(cat==='节气·月份') return JIEQI[lv]===rv;
   return false;
 }
 function getM2NbQ(lv,rv,cat){
@@ -1231,6 +1240,7 @@ function getM2NbQ(lv,rv,cat){
     '月建':     {nbcat:'yuejian', qt:'对应哪个<b>月建</b>？',          exp:`${lv}→${rv}`},
     '断命步骤':  {nbcat:'duanming',qt:'断命第几步？',                  exp:`${lv}${rv}`},
     '五行对应':  {nbcat:'wxsys',   qt:'对应哪个<b>人体系统</b>？',      exp:`${lv}→${rv}`},
+    '节气·月份': {nbcat:'jieqi',   qt:'这个节气在<b>公历几月</b>？',     exp:`${lv}在${rv}`},
   };
   const i=mp[cat]||{nbcat:'liuhe',qt:'配对？',exp:`${lv}→${rv}`};
   return{id:`m2_${cat}_${lv}`,cat:i.nbcat,main:[lv],qt:i.qt,correct:rv,exp:i.exp};
