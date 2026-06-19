@@ -190,6 +190,17 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .nb-q-del:hover{background:#334155;color:#ef4444}
 .nb-q-date{font-size:10px;color:#334155;margin-top:2px}
 .nb-footer{display:flex;gap:8px;margin-top:10px;flex-shrink:0}
+/* CUSTOM SELECT */
+.csel-grp{margin-bottom:13px}
+.csel-lbl{font-size:11px;color:#475569;letter-spacing:2px;margin-bottom:6px;padding:0 2px;font-weight:bold}
+.csel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.ctog{background:#1e293b;border:2px solid #1e293b;border-radius:10px;cursor:pointer;padding:8px 4px;text-align:center;transition:all .15s;color:#64748b;font-size:11px;font-weight:bold;line-height:1.4;width:100%}
+.ctog:active{transform:scale(.97)}
+.ctog.on{background:#0c2a1a;border-color:#10b981;color:#34d399}
+.csel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;flex-shrink:0}
+.csel-count{font-size:13px;color:#10b981;font-weight:bold}
+.csel-actbtn{background:#1e293b;border:none;color:#64748b;font-size:11px;padding:5px 10px;border-radius:8px;cursor:pointer}
+.csel-actbtn:hover{color:#94a3b8;background:#273549}
 </style>
 </head>
 <body>
@@ -214,6 +225,9 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
       <button class="btn btn-d" onclick="startM1('free')">随机计时 ⏱️</button>
       <button class="btn btn-d" onclick="startM1('free-nt')">随机自由 🔓</button>
     </div>
+    <div class="mcard-btns" style="margin-top:6px">
+      <button class="btn btn-b" onclick="show('p-custom');renderCustomSel()">自选挑战 🎯</button>
+    </div>
   </div>
   <div class="mcard" onclick="show('p2-sel')" style="cursor:pointer">
     <div class="mcard-head"><div class="mcard-icon">🔗</div><div><div class="mcard-name">配对连线 <span class="nt-label">无计时</span></div><div class="mcard-desc">六冲 · 六合 · 暗合 · 六穿 · 绝 · 五合 · 禄位 · 虚实 · 纳音…</div></div><div style="color:#475569;font-size:18px">›</div></div>
@@ -235,6 +249,23 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   <div class="card">
     <div class="hhist">近期闪卡记录</div>
     <div id="el-hist"><span style="color:#475569;font-size:12px">暂无记录</span></div>
+  </div>
+</div>
+
+<!-- CUSTOM SELECT -->
+<div id="p-custom" class="screen">
+  <div class="tbar"><button class="tbk" onclick="goHome()">✕</button><div class="tbtitle">⚡ 自选闪卡挑战</div></div>
+  <div class="csel-head">
+    <span class="csel-count" id="el-csel-count">已选 0 个知识点</span>
+    <div style="display:flex;gap:6px">
+      <button class="csel-actbtn" onclick="selAllCats()">全选</button>
+      <button class="csel-actbtn" onclick="clearAllCats()">清空</button>
+    </div>
+  </div>
+  <div id="el-csel-body" style="flex:1;overflow-y:auto"></div>
+  <div style="display:flex;gap:8px;flex-shrink:0;padding-top:10px">
+    <button class="btn btn-g" onclick="startM1Custom(true)" style="flex:1">开始计时 ⏱️</button>
+    <button class="btn btn-d" onclick="startM1Custom(false)" style="flex:1">开始自由 🔓</button>
   </div>
 </div>
 
@@ -683,6 +714,18 @@ function poolForCat(cat){
   return ZHI;
 }
 
+const QUOTA={wx:3,chong:2,tghe:2,liuhe:2,tong:3,shen:3,sanhe:3,sanhetype:2,xing3:2,po:2,zixing:1,xushi:3,xushi2:2,nayin:3,anhe:2,zihe:2,wxs:2,wxk:2,lqs:2,lqk:2,tdyy:3,shichen:2,ganzang:2,zhizang:2,ws12:3,yuejian:3,wxsys:2};
+const CSEL_GROUPS=[
+  {lbl:'🧭 五行基础', cats:['wx','tdyy','wxsys']},
+  {lbl:'🌀 地支关系', cats:['chong','liuhe','anhe','sanhe','sanhetype','xing3','po','zixing']},
+  {lbl:'☰ 天干关系', cats:['tghe','tong','zihe','shen']},
+  {lbl:'⚡ 生克关系', cats:['wxs','wxk','lqs','lqk']},
+  {lbl:'🔄 旺衰运势', cats:['ws12']},
+  {lbl:'⚖ 虚实纳音', cats:['xushi','xushi2','nayin']},
+  {lbl:'🕐 时辰脏腑', cats:['shichen','ganzang','zhizang','yuejian']},
+];
+let CUSTOM_CATS=new Set(JSON.parse(localStorage.getItem('bazi_custom_cats')||'[]'));
+
 function buildPool(rng){
   const qs=[];
   // 五行
@@ -776,8 +819,7 @@ function buildPool(rng){
 function selectQs(seed){
   const rng=mkRng(seed);const pool=buildPool(rng);
   const byC={};for(const q of pool){if(!byC[q.cat])byC[q.cat]=[];byC[q.cat].push(q);}
-  const quota={wx:3,chong:2,tghe:2,liuhe:2,tong:3,shen:3,sanhe:3,sanhetype:2,xing3:2,po:2,zixing:1,xushi:3,xushi2:2,nayin:3,anhe:2,zihe:2,wxs:2,wxk:2,lqs:2,lqk:2,tdyy:3,shichen:2,ganzang:2,zhizang:2,ws12:3,yuejian:3,wxsys:2};
-  let picks=[];for(const[cat,n]of Object.entries(quota))picks.push(...rpick(rng,byC[cat]||[],n));
+  let picks=[];for(const[cat,n]of Object.entries(QUOTA))picks.push(...rpick(rng,byC[cat]||[],n));
   return shuffle(rng,picks);
 }
 
@@ -843,6 +885,51 @@ function prepNBQuestions(){
   const nb=getNB();if(!nb.length)return null;
   const rng=mkRng(Math.random()*0x100000000>>>0);
   return shuffle(rng,nb.map(q=>({...q,opts:mkOpts(rng,q.correct,poolForCat(q.cat))})));
+}
+
+function renderCustomSel(){
+  const body=document.getElementById('el-csel-body');
+  if(!body)return;
+  body.innerHTML=CSEL_GROUPS.map(g=>`
+    <div class="csel-grp">
+      <div class="csel-lbl">${g.lbl}</div>
+      <div class="csel-grid">${g.cats.map(c=>`<button class="ctog${CUSTOM_CATS.has(c)?' on':''}" onclick="toggleCat('${c}')">${CAT_NAME[c]||c}</button>`).join('')}</div>
+    </div>`).join('');
+  document.getElementById('el-csel-count').textContent=`已选 ${CUSTOM_CATS.size} 个知识点`;
+}
+function toggleCat(cat){
+  if(CUSTOM_CATS.has(cat))CUSTOM_CATS.delete(cat);else CUSTOM_CATS.add(cat);
+  localStorage.setItem('bazi_custom_cats',JSON.stringify([...CUSTOM_CATS]));
+  renderCustomSel();
+}
+function selAllCats(){
+  CSEL_GROUPS.forEach(g=>g.cats.forEach(c=>CUSTOM_CATS.add(c)));
+  localStorage.setItem('bazi_custom_cats',JSON.stringify([...CUSTOM_CATS]));
+  renderCustomSel();
+}
+function clearAllCats(){
+  CUSTOM_CATS.clear();
+  localStorage.setItem('bazi_custom_cats',JSON.stringify([]));
+  renderCustomSel();
+}
+function selectQsCustom(seed,catArr){
+  const rng=mkRng(seed);const pool=buildPool(rng);
+  const byC={};for(const q of pool){if(!byC[q.cat])byC[q.cat]=[];byC[q.cat].push(q);}
+  let picks=[];
+  for(const cat of catArr)picks.push(...rpick(rng,byC[cat]||[],QUOTA[cat]||2));
+  return shuffle(rng,picks);
+}
+function startM1Custom(timed){
+  if(CUSTOM_CATS.size===0){toast('请先选择至少一个知识点');return;}
+  const seed=Math.random()*0x100000000>>>0;
+  const qs=selectQsCustom(seed,[...CUSTOM_CATS]);
+  if(!qs||qs.length===0){toast('选中的知识点暂无题目');return;}
+  const mode=timed?'custom':'custom-nt';
+  Object.assign(G1,{qs,cur:0,score:0,streak:0,maxCombo:0,correct:0,t0:Date.now(),qt0:0,timer:null,answered:false,results:[],mode,timed,wrongQs:[]});
+  document.getElementById('m1-lbl').textContent=timed?'自选挑战 ⏱️':'自选自由 🔓';
+  document.getElementById('el-nt-badge').style.display=timed?'none':'block';
+  document.getElementById('el-tbar-t').style.opacity=timed?'1':'0.2';
+  show('p1g');m1Next();
 }
 
 function m1Next(){
@@ -947,7 +1034,8 @@ function m1End(){
   document.getElementById('el-rc').textContent=`${G1.correct}/${total}`;
   document.getElementById('el-rm').textContent=G1.maxCombo;
   document.getElementById('el-rt').textContent=timeStr;
-  document.getElementById('r1-lbl').textContent=G1.mode==='nb'?'错题本练习结果':'本局结果';
+  const rlbls={'nb':'错题本练习结果','custom':'自选挑战结果','custom-nt':'自选挑战结果'};
+  document.getElementById('r1-lbl').textContent=rlbls[G1.mode]||'本局结果';
 
   // category breakdown
   const stats={};
@@ -989,7 +1077,10 @@ function m1End(){
   // share
   const emojis=G1.results.map(r=>r.ok?'✅':'❌').join('');
   const nt=G1.timed?'':'🔓';
-  const shareText=`📅 人鉴八字日练${nt} ${todayStr()}\n🏆 得分：${G1.score} | 正确：${G1.correct}/${total}\n⚡ 最大连击：${G1.maxCombo} | ⏱️ 用时：${timeStr}\n${emojis}`;
+  const isCustom=G1.mode==='custom'||G1.mode==='custom-nt';
+  const catLine=isCustom?`\n知识点：${[...CUSTOM_CATS].map(c=>CAT_NAME[c]||c).join('·')}`:'';
+  const modeTag=isCustom?'【自选】':'';
+  const shareText=`📅 人鉴八字日练${nt}${modeTag} ${todayStr()}${catLine}\n🏆 得分：${G1.score} | 正确：${G1.correct}/${total}\n⚡ 最大连击：${G1.maxCombo} | ⏱️ 用时：${timeStr}\n${emojis}`;
   document.getElementById('el-share').textContent=shareText;
   window._shareText=shareText;
   show('p1r');
