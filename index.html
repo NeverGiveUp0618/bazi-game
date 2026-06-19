@@ -332,6 +332,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
       <button class="p2btn clr-zhi" onclick="startM2('六穿')"><div class="p2btn-name">六穿</div><div class="p2btn-n">6 对</div></button>
       <button class="p2btn clr-zhi" onclick="startM2('绝')"><div class="p2btn-name">绝</div><div class="p2btn-n">4 对</div></button>
       <button class="p2btn clr-zhi" onclick="startM2('天地阴阳')"><div class="p2btn-name">天地阴阳</div><div class="p2btn-n">12 对</div></button>
+      <button class="p2btn clr-zhi" onclick="startM2('地支藏干')"><div class="p2btn-name">地支藏干</div><div class="p2btn-n">12 对</div></button>
     </div>
   </div>
   <div class="p2grp">
@@ -473,6 +474,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   <div class="rel-panel" id="m3-rel"><div class="rel-hint">点击八字中任意两个字<br>即时查看它们之间的关系</div></div>
   <div class="m3footer">
     <button class="btn btn-d" onclick="startM3(-1)" style="flex:1;font-size:12px">🎲 随机换一例</button>
+    <button class="btn btn-b" onclick="m3ShowAll()" style="flex:1;font-size:12px">📋 全局关系</button>
     <button class="btn btn-d" onclick="m3ClearSel()" style="flex:1;font-size:12px">✕ 取消选中</button>
   </div>
 </div>
@@ -528,7 +530,7 @@ const SANHE_WX=['水','木','火','金'];
 const ZIXING_SET=new Set(['辰','午','酉','亥']);
 const YANG_ZHI=new Set(['寅','申','巳','亥','辰','戌']);
 const ZHI_NOZIXING=ZHI.filter(z=>!ZIXING_SET.has(z));
-const CAT_NAME={wx:'五行归属',chong:'六冲',tghe:'天干五合',liuhe:'地支六合',tong:'干支互通',shen:'十神',sanhe:'三合补完',sanhetype:'三合识局',xing3:'三刑补完',po:'破识别',zixing:'自刑字',xushi:'虚实判断',xushi2:'实支识别',nayin:'纳音五行',anhe:'地支暗合',zihe:'干支自合',num:'数字口诀',wxs:'天干相生',wxk:'天干相克',lqs:'六亲相生',lqk:'六亲相克',tdyy:'天地阴阳',shuma:'数字编码',nfgz:'年份干支',shichen:'十二时辰',ganzang:'天干脏腑',zhizang:'地支脏腑',ws12:'旺衰十二运',ws_zhi:'旺衰地支',wx_zhi:'五行长生',ws_order:'长生顺序',yuejian:'月建',duanming:'断命步骤',wxsys:'五行系统',jieqi:'节气月份'};
+const CAT_NAME={wx:'五行归属',chong:'六冲',tghe:'天干五合',liuhe:'地支六合',tong:'干支互通',shen:'十神',sanhe:'三合补完',sanhetype:'三合识局',xing3:'三刑补完',po:'破识别',zixing:'自刑字',xushi:'虚实判断',xushi2:'实支识别',nayin:'纳音五行',anhe:'地支暗合',zihe:'干支自合',num:'数字口诀',wxs:'天干相生',wxk:'天干相克',lqs:'六亲相生',lqk:'六亲相克',tdyy:'天地阴阳',shuma:'数字编码',nfgz:'年份干支',shichen:'十二时辰',ganzang:'天干脏腑',zhizang:'地支脏腑',ws12:'旺衰十二运',ws_zhi:'旺衰地支',wx_zhi:'五行长生',ws_order:'长生顺序',yuejian:'月建',duanming:'断命步骤',wxsys:'五行系统',jieqi:'节气月份',cang:'地支藏干'};
 const GZ60=(()=>{const g=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'],z=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];return Array.from({length:60},(_,i)=>g[i%10]+z[i%12]);})();
 const YR_GZ_PAIRS=(()=>{const g=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'],z=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];return Array.from({length:151},(_,i)=>{const y=1900+i;return[String(y),g[(y-4)%10]+z[(y-4)%12]];});})();
 const SHICHEN={子:'23-1时',丑:'1-3时',寅:'3-5时',卯:'5-7时',辰:'7-9时',巳:'9-11时',午:'11-13时',未:'13-15时',申:'15-17时',酉:'17-19时',戌:'19-21时',亥:'21-23时'};
@@ -536,6 +538,9 @@ const SHICHEN_TIMES=['23-1时','1-3时','3-5时','5-7时','7-9时','9-11时','11
 const GAN_ZANG={甲:'胆',乙:'肝',丙:'小肠',丁:'心',戊:'胃',己:'脾',庚:'大肠',辛:'肺',壬:'膀胱',癸:'肾'};
 const ZHI_ZANG={子:'胆',丑:'肝',寅:'肺',卯:'大肠',辰:'胃',巳:'脾',午:'心',未:'小肠',申:'膀胱',酉:'肾',戌:'心包',亥:'三焦'};
 const ZANG12=['胆','肝','肺','大肠','胃','脾','心','小肠','膀胱','肾','心包','三焦'];
+const ZHI_CANG={子:['癸'],丑:['己','癸','辛'],寅:['丙','戊','甲'],卯:['乙'],辰:['癸','戊','乙'],巳:['丙','戊','庚'],午:['丁','己'],未:['乙','丁','己'],申:['戊','壬','庚'],酉:['辛'],戌:['戊','辛','丁'],亥:['甲','壬']};
+const ZHI_CANG_STR=Object.fromEntries(ZHI.map(z=>[z,ZHI_CANG[z].join('')]));
+const CANG_STRS=ZHI.map(z=>ZHI_CANG_STR[z]);
 const WANGSHUAI_STATES=['长生','沐浴','冠带','临官','帝旺','衰','病','死','墓','绝','胎','养'];
 const WANGSHUAI={甲:['亥','子','丑','寅','卯','辰','巳','午','未','申','酉','戌'],乙:['午','巳','辰','卯','寅','丑','子','亥','戌','酉','申','未'],丙:['寅','卯','辰','巳','午','未','申','酉','戌','亥','子','丑'],丁:['酉','申','未','午','巳','辰','卯','寅','丑','子','亥','戌'],戊:['寅','卯','辰','巳','午','未','申','酉','戌','亥','子','丑'],己:['酉','申','未','午','巳','辰','卯','寅','丑','子','亥','戌'],庚:['巳','午','未','申','酉','戌','亥','子','丑','寅','卯','辰'],辛:['子','亥','戌','酉','申','未','午','巳','辰','卯','寅','丑'],壬:['申','酉','戌','亥','子','丑','寅','卯','辰','巳','午','未'],癸:['卯','寅','丑','子','亥','戌','酉','申','未','午','巳','辰']};
 const WX_WANGSHUAI={木:['亥','子','丑','寅','卯','辰','巳','午','未','申','酉','戌'],火:['寅','卯','辰','巳','午','未','申','酉','戌','亥','子','丑'],土:['寅','卯','辰','巳','午','未','申','酉','戌','亥','子','丑'],金:['巳','午','未','申','酉','戌','亥','子','丑','寅','卯','辰'],水:['申','酉','戌','亥','子','丑','寅','卯','辰','巳','午','未']};
@@ -639,6 +644,8 @@ function detectPair(a,b){
   }
   if(a.t==='z'&&b.t==='z'){
     const k=a.v+b.v;
+    const zaw=Z_WX[a.v],zbw=Z_WX[b.v];
+    if(zaw===zbw&&a.v!==b.v)res.push({txt:`患：${a.v}${b.v} 同${zaw}不同支`,cls:'rel-gen'});
     if(CHONG[a.v]===b.v)res.push({txt:`冲：${a.v}${b.v}`,cls:'rel-chong'});
     if(LIUHE[a.v]===b.v){const t=SHENGHE.has(k)||SHENGHE.has(b.v+a.v)?'生合':'克合';res.push({txt:`合(${t})：${a.v}${b.v} 六合`,cls:'rel-he'});}
     if(ANHE_SET.has(k))res.push({txt:`暗合：${a.v}${b.v}`,cls:'rel-he'});
@@ -663,6 +670,10 @@ function detectPair(a,b){
     if(go.p===zo.p&&ZIHE.has(go.v+zo.v))res.push({txt:`自合：${go.v}${zo.v}（${PILLAR[go.p]}柱）`,cls:'rel-he'});
     const xs=getXuShi(go.v,zo.v);
     if(xs!==null)res.push({txt:`虚实：天干${go.v}遇地支${zo.v}，为${xs}（${xs==='实'?'有根有生':'无根无生'}）`,cls:xs==='实'?'rel-he':'rel-gen'});
+    const wsArr=WANGSHUAI[go.v];
+    if(wsArr){const wsIdx=wsArr.indexOf(zo.v);if(wsIdx>=0)res.push({txt:`十二运：${go.v}在${zo.v}——${WANGSHUAI_STATES[wsIdx]}`,cls:'rel-gen'});}
+    const nyKey=go.v+zo.v;
+    if(NAYIN[nyKey])res.push({txt:`纳音：${nyKey} ${NAYIN[nyKey]}`,cls:'rel-gen'});
   }
   return res;
 }
@@ -716,13 +727,14 @@ function poolForCat(cat){
   if(cat==='duanming')return DUANMING_KEYS;
   if(cat==='wxsys')return WX_SYS_VALS;
   if(cat==='jieqi')return MONTHS_12;
+  if(cat==='cang')return CANG_STRS;
   return ZHI;
 }
 
-const QUOTA={wx:3,chong:2,tghe:2,liuhe:2,tong:3,shen:3,sanhe:3,sanhetype:2,xing3:2,po:2,zixing:1,xushi:3,xushi2:2,nayin:3,anhe:2,zihe:2,wxs:2,wxk:2,lqs:2,lqk:2,tdyy:3,shichen:2,ganzang:2,zhizang:2,ws12:3,yuejian:3,wxsys:2,jieqi:3};
+const QUOTA={wx:3,chong:2,tghe:2,liuhe:2,tong:3,shen:3,sanhe:3,sanhetype:2,xing3:2,po:2,zixing:1,xushi:3,xushi2:2,nayin:3,anhe:2,zihe:2,wxs:2,wxk:2,lqs:2,lqk:2,tdyy:3,shichen:2,ganzang:2,zhizang:2,ws12:3,yuejian:3,wxsys:2,jieqi:3,cang:3};
 const CSEL_GROUPS=[
   {lbl:'🧭 五行基础', cats:['wx','tdyy','wxsys']},
-  {lbl:'🌀 地支关系', cats:['chong','liuhe','anhe','sanhe','sanhetype','xing3','po','zixing']},
+  {lbl:'🌀 地支关系', cats:['chong','liuhe','anhe','sanhe','sanhetype','xing3','po','zixing','cang']},
   {lbl:'☰ 天干关系', cats:['tghe','tong','zihe','shen']},
   {lbl:'⚡ 生克关系', cats:['wxs','wxk','lqs','lqk']},
   {lbl:'🔄 旺衰运势', cats:['ws12']},
@@ -821,6 +833,8 @@ function buildPool(rng){
       qs.push({cat:'nayin',main:pair,qt:'这组干支的<b>纳音</b>是？',correct:ny,opts:mkOpts(rng,ny,NAYIN_NAMES),exp:`${pair.join('')}纳音${ny}`});
     }
   }
+  // 地支藏干
+  for(const z of ZHI){const c=ZHI_CANG_STR[z];qs.push({cat:'cang',main:[z],qt:'该地支<b>藏哪些天干</b>？',correct:c,opts:mkOpts(rng,c,CANG_STRS),exp:`${z}藏${c}`});}
   return qs;
 }
 function selectQs(seed){
@@ -1168,6 +1182,7 @@ const M2_CATS={
   '断命步骤':    {label:'断命步骤',    pairs:[['①','天元入命'],['②','确定状态'],['③','确定喜忌'],['④','干支意向'],['⑤','十神格局'],['⑥','作用方式'],['⑦','宫位大限'],['⑧','大运流年']]},
   '五行对应':    {label:'五行对应系统', pairs:[['木','筋爪与神经肝胆'],['火','血脉心脑'],['土','肌腱与消化'],['金','皮毛与呼吸'],['水','骨发与内分泌']]},
   '节气·月份':   {label:'节气月份', maxPairs:8, pairs:[['立春','2月'],['雨水','2月'],['惊蛰','3月'],['春分','3月'],['清明','4月'],['谷雨','4月'],['立夏','5月'],['小满','5月'],['芒种','6月'],['夏至','6月'],['小暑','7月'],['大暑','7月'],['立秋','8月'],['处暑','8月'],['白露','9月'],['秋分','9月'],['寒露','10月'],['霜降','10月'],['立冬','11月'],['小雪','11月'],['大雪','12月'],['冬至','12月'],['小寒','1月'],['大寒','1月']]},
+  '地支藏干':    {label:'地支藏干', pairs:ZHI.map(z=>[z,ZHI_CANG_STR[z]])},
 };
 function isM2Correct(lv,rv,cat){
   if(cat==='六冲')return CHONG[lv]===rv;
@@ -1201,6 +1216,7 @@ function isM2Correct(lv,rv,cat){
   if(cat==='断命步骤') return DUANMING_STEPS[lv]===rv;
   if(cat==='五行对应') return WX_SYS[lv]===rv;
   if(cat==='节气·月份') return JIEQI[lv]===rv;
+  if(cat==='地支藏干') return ZHI_CANG_STR[lv]===rv;
   return false;
 }
 function getM2NbQ(lv,rv,cat){
@@ -1241,6 +1257,7 @@ function getM2NbQ(lv,rv,cat){
     '断命步骤':  {nbcat:'duanming',qt:'断命第几步？',                  exp:`${lv}${rv}`},
     '五行对应':  {nbcat:'wxsys',   qt:'对应哪个<b>人体系统</b>？',      exp:`${lv}→${rv}`},
     '节气·月份': {nbcat:'jieqi',   qt:'这个节气在<b>公历几月</b>？',     exp:`${lv}在${rv}`},
+    '地支藏干':  {nbcat:'cang',    qt:'该地支<b>藏哪些天干</b>？',        exp:`${lv}藏${rv}`},
   };
   const i=mp[cat]||{nbcat:'liuhe',qt:'配对？',exp:`${lv}→${rv}`};
   return{id:`m2_${cat}_${lv}`,cat:i.nbcat,main:[lv],qt:i.qt,correct:rv,exp:i.exp};
@@ -1333,10 +1350,11 @@ function addM2WrongToNB(){
 }
 
 // ══ MODE 3: 八字排盘 ══
-let M3={idx:0,sel:[]};
-function startM3(idx){if(idx<0)idx=0|Math.random()*CASES.length;M3={idx,sel:[]};m3Render();show('p3');}
-function m3Move(d){M3.idx=(M3.idx+d+CASES.length)%CASES.length;M3.sel=[];m3Render();}
-function m3ClearSel(){M3.sel=[];m3Render();}
+let M3={idx:0,sel:[],allView:false};
+function startM3(idx){if(idx<0)idx=0|Math.random()*CASES.length;M3={idx,sel:[],allView:false};m3Render();show('p3');}
+function m3Move(d){M3.idx=(M3.idx+d+CASES.length)%CASES.length;M3.sel=[];M3.allView=false;m3Render();}
+function m3ClearSel(){M3.sel=[];M3.allView=false;m3Render();}
+function m3ShowAll(){M3.sel=[];M3.allView=true;m3Render();}
 function m3Render(){
   const c=CASES[M3.idx];
   document.getElementById('m3-idx').textContent=`${M3.idx+1}/${CASES.length}`;
@@ -1354,6 +1372,7 @@ function m3Render(){
   m3RenderRel();
 }
 function m3Click(ci,type,p,val){
+  M3.allView=false;
   const pos={ci,t:type,p,v:val};
   const ex=M3.sel.findIndex(s=>s.ci===ci);
   if(ex>=0)M3.sel.splice(ex,1);
@@ -1366,6 +1385,8 @@ function m3DetectAndRender(){
   m3Render();
   const[a,b]=M3.sel;
   const rels=detectPair(a,b);
+  if(a.t==='z')rels.push({txt:`${a.v} 藏干：${ZHI_CANG_STR[a.v]}`,cls:'rel-gen'});
+  if(b.t==='z')rels.push({txt:`${b.v} 藏干：${ZHI_CANG_STR[b.v]}`,cls:'rel-gen'});
   const pn=x=>`${PILLAR[x.p]}${x.t==='g'?'干':'支'}`;
   let html=`<div class="rel-pair-header"><div class="rph-chars"><div class="rph-c c0">${a.v}</div><div class="rph-vs">×</div><div class="rph-c c1">${b.v}</div></div><div class="rph-lbl">${pn(a)} ✕ ${pn(b)}</div></div><div>`;
   html+=rels.length?rels.map(r=>`<div class="rel-item ${r.cls}">${r.txt}</div>`).join(''):`<div class="rel-item none">无关系</div>`;
@@ -1373,8 +1394,43 @@ function m3DetectAndRender(){
   document.getElementById('m3-rel').innerHTML=html;
 }
 function m3RenderRel(){
+  if(M3.allView){
+    const c=CASES[M3.idx];
+    const cells=[];
+    for(let row=0;row<2;row++)for(let p=0;p<4;p++){const ci=row*4+p,type=row===0?'g':'z',val=c.b[ci];cells.push({t:type,p,v:val,ci});}
+    let html='<div style="font-size:11px;color:#94a3b8;font-weight:bold;letter-spacing:2px;margin-bottom:6px">▸ 天干信息</div>';
+    for(const cell of cells.filter(x=>x.t==='g'))
+      html+=`<div class="rel-item rel-gen">${PILLAR[cell.p]}干 <b>${cell.v}</b>：脏腑 ${GAN_ZANG[cell.v]}</div>`;
+    html+='<div style="font-size:11px;color:#94a3b8;font-weight:bold;letter-spacing:2px;margin:8px 0 6px">▸ 地支信息</div>';
+    for(const cell of cells.filter(x=>x.t==='z'))
+      html+=`<div class="rel-item rel-gen">${PILLAR[cell.p]}支 <b>${cell.v}</b>：藏 ${ZHI_CANG_STR[cell.v]} · 脏腑 ${ZHI_ZANG[cell.v]} · ${SHICHEN[cell.v]}</div>`;
+    html+='<div style="font-size:11px;color:#94a3b8;font-weight:bold;letter-spacing:2px;margin:10px 0 6px">▸ 全部关系</div>';
+    const pn=x=>`${PILLAR[x.p]}${x.t==='g'?'干':'支'}`;
+    let hasAny=false;
+    for(let i=0;i<cells.length;i++)for(let j=i+1;j<cells.length;j++){
+      const a=cells[i],b=cells[j],rels=detectPair(a,b);
+      if(rels.length){
+        hasAny=true;
+        html+=`<div style="font-size:10px;color:#64748b;margin-top:8px;margin-bottom:3px">${a.v}(${pn(a)}) × ${b.v}(${pn(b)})</div>`;
+        html+=rels.map(r=>`<div class="rel-item ${r.cls}">${r.txt}</div>`).join('');
+      }
+    }
+    if(!hasAny)html+='<div class="rel-item none">（无关系）</div>';
+    document.getElementById('m3-rel').innerHTML=html;
+    return;
+  }
   if(M3.sel.length===0)document.getElementById('m3-rel').innerHTML='<div class="rel-hint">点击八字中任意两个字<br>即时查看它们之间的关系</div>';
-  else if(M3.sel.length===1)document.getElementById('m3-rel').innerHTML=`<div class="rel-hint">已选：<b style="color:#93c5fd">${M3.sel[0].v}</b>（${PILLAR[M3.sel[0].p]}${M3.sel[0].t==='g'?'干':'支'}）<br>再点另一个字查看关系</div>`;
+  else if(M3.sel.length===1){
+    const s=M3.sel[0];
+    let extra='';
+    if(s.t==='z'){
+      extra+=`<br><span style="color:#fcd34d;font-size:12px">藏干：${ZHI_CANG_STR[s.v]}</span>`;
+      extra+=`<br><span style="color:#94a3b8;font-size:12px">脏腑：${ZHI_ZANG[s.v]} · 时辰：${SHICHEN[s.v]}</span>`;
+    }else{
+      extra+=`<br><span style="color:#94a3b8;font-size:12px">脏腑：${GAN_ZANG[s.v]}</span>`;
+    }
+    document.getElementById('m3-rel').innerHTML=`<div class="rel-hint">已选：<b style="color:#93c5fd">${s.v}</b>（${PILLAR[s.p]}${s.t==='g'?'干':'支'}）${extra}<br>再点另一个字查看关系</div>`;
+  }
 }
 
 // ══ 错题本 SCREEN ══
