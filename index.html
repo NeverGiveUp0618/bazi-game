@@ -176,6 +176,15 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .rel-item.rel-gen{border-left-color:#64748b}
 .m3footer{display:flex;gap:8px;margin-top:8px;flex-shrink:0}
 
+/* ALLVIEW 格子标注 */
+.bz-grid.allview{grid-template-rows:auto auto auto auto auto auto}
+.bz-grid.allview .bz-cell{aspect-ratio:auto;height:60px;font-size:30px}
+@media(min-width:400px){.bz-grid.allview .bz-cell{font-size:34px;height:66px}}
+.bz-ann{display:flex;align-items:center;justify-content:center;text-align:center;padding:2px 1px;font-size:11px;line-height:1.2}
+.bz-ann-shen{color:#c4b5fd;font-weight:bold}
+.bz-ann-cang{color:#64748b;font-size:10px;letter-spacing:1px}
+.bz-ann-ny{color:#475569;font-size:9px;letter-spacing:.5px}
+
 /* 错题本 */
 .nb-screen-hdr{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-shrink:0}
 .nb-count-badge{background:#92400e;color:#fcd34d;font-size:13px;font-weight:bold;padding:3px 10px;border-radius:10px}
@@ -1400,6 +1409,57 @@ function addM2WrongToNB(){
   document.querySelector('#el-m2wq-section .btn-a').style.opacity='.5';
 }
 
+// ══ 共用：八字格子渲染（含 allView 标注） ══
+const ZHI_BENQI={子:'癸',丑:'己',寅:'甲',卯:'乙',辰:'戊',巳:'丙',午:'丁',未:'己',申:'庚',酉:'辛',戌:'戊',亥:'壬'};
+
+function renderBaziGrid(bazi,sel,allView,gridId,clickFn){
+  const gridEl=document.getElementById(gridId);
+  let html='';
+  if(allView){
+    gridEl.className='bz-grid allview';
+    const rz=bazi[2];
+    // 天干十神行
+    for(let p=0;p<4;p++){
+      const shen=p===2?'日主':(getShen(rz,bazi[p])||'');
+      html+=`<div class="bz-ann bz-ann-shen">${shen}</div>`;
+    }
+    // 天干 + 地支 格子
+    for(let row=0;row<2;row++){
+      for(let p=0;p<4;p++){
+        const ci=row*4+p,type=row===0?'g':'z',val=bazi[ci],isRz=(p===2&&row===0);
+        const si=sel.findIndex(s=>s.ci===ci);
+        let cls=(isRz?'bz-cell rz':'bz-cell')+(si===0?' s0':si===1?' s1':'');
+        html+=`<div class="${cls}" onclick="${clickFn}(${ci},'${type}',${p},'${val}')">${val}<span class="bz-type">${row===0?'干':'支'}</span></div>`;
+      }
+    }
+    // 地支十神 + 阴阳行
+    for(let p=0;p<4;p++){
+      const z=bazi[4+p],bq=ZHI_BENQI[z],shen=bq?getShen(rz,bq)||'':'';
+      const yyCol=YANG_ZHI.has(z)?'#f59e0b':'#93c5fd';
+      html+=`<div class="bz-ann bz-ann-shen"><span style="color:${yyCol}">${YANG_ZHI.has(z)?'阳':'阴'}</span>${shen?'·'+shen:''}</div>`;
+    }
+    // 藏干行
+    for(let p=0;p<4;p++){
+      html+=`<div class="bz-ann bz-ann-cang">${ZHI_CANG_STR[bazi[4+p]]}</div>`;
+    }
+    // 纳音行
+    for(let p=0;p<4;p++){
+      html+=`<div class="bz-ann bz-ann-ny">${NAYIN[bazi[p]+bazi[4+p]]||''}</div>`;
+    }
+  } else {
+    gridEl.className='bz-grid';
+    for(let row=0;row<2;row++){
+      for(let p=0;p<4;p++){
+        const ci=row*4+p,type=row===0?'g':'z',val=bazi[ci],isRz=(p===2&&row===0);
+        const si=sel.findIndex(s=>s.ci===ci);
+        let cls=(isRz?'bz-cell rz':'bz-cell')+(si===0?' s0':si===1?' s1':'');
+        html+=`<div class="${cls}" onclick="${clickFn}(${ci},'${type}',${p},'${val}')">${val}<span class="bz-type">${row===0?'干':'支'}</span></div>`;
+      }
+    }
+  }
+  gridEl.innerHTML=html;
+}
+
 // ══ MODE 3: 八字排盘 ══
 let M3={idx:0,sel:[],allView:false};
 function startM3(idx){if(idx<0)idx=0|Math.random()*CASES.length;M3={idx,sel:[],allView:false};m3Render();show('p3');}
@@ -1410,16 +1470,7 @@ function m3Render(){
   const c=CASES[M3.idx];
   document.getElementById('m3-idx').textContent=`${M3.idx+1}/${CASES.length}`;
   document.getElementById('m3-name').textContent=c.n;
-  const cells=[];
-  for(let row=0;row<2;row++){
-    for(let p=0;p<4;p++){
-      const ci=row*4+p,type=row===0?'g':'z',val=c.b[ci],isRz=(p===2&&row===0);
-      const si=M3.sel.findIndex(s=>s.ci===ci);
-      let cls=(isRz?'bz-cell rz':'bz-cell')+(si===0?' s0':si===1?' s1':'');
-      cells.push(`<div class="${cls}" onclick="m3Click(${ci},'${type}',${p},'${val}')">${val}<span class="bz-type">${row===0?'干':'支'}</span></div>`);
-    }
-  }
-  document.getElementById('m3-grid').innerHTML=cells.join('');
+  renderBaziGrid(c.b,M3.sel,M3.allView,'m3-grid','m3Click');
   m3RenderRel();
 }
 function m3Click(ci,type,p,val){
@@ -1459,7 +1510,7 @@ function m3RenderRel(){
       html+=`<div class="rel-item rel-gen">${PILLAR[cell.p]}干 <b>${cell.v}</b>：脏腑 ${GAN_ZANG[cell.v]}</div>`;
     html+=secHdr('地支信息');
     for(const cell of zCells)
-      html+=`<div class="rel-item rel-gen">${PILLAR[cell.p]}支 <b>${cell.v}</b>：藏 ${ZHI_CANG_STR[cell.v]} · 脏腑 ${ZHI_ZANG[cell.v]} · ${SHICHEN[cell.v]} · 月建 ${YUEJIAN[cell.v]}</div>`;
+      html+=`<div class="rel-item rel-gen">${PILLAR[cell.p]}支 <b>${cell.v}</b>：脏腑 ${ZHI_ZANG[cell.v]} · ${SHICHEN[cell.v]} · 月建 ${YUEJIAN[cell.v]}</div>`;
     // 天干关系：按关系类型聚合，把所有柱对同类关系列在一起
     const ggTh=txt=>txt.startsWith('天干生')||txt.startsWith('天干克')?'生克':txt.startsWith('合(')?'合（五合）':txt.startsWith('患')?'患':txt.startsWith('伏吟')?'伏吟':null;
     const ggMap={};
@@ -1592,16 +1643,7 @@ function startM4(){
 }
 
 function m4Render(){
-  let gh='';
-  for(let row=0;row<2;row++){
-    for(let p=0;p<4;p++){
-      const ci=row*4+p,type=row===0?'g':'z',val=M4.bazi[ci],isRz=(p===2&&row===0);
-      const si=M4.sel.findIndex(s=>s.ci===ci);
-      let cls=(isRz?'bz-cell rz':'bz-cell')+(si===0?' s0':si===1?' s1':'');
-      gh+=`<div class="${cls}" onclick="m4Click(${ci},'${type}',${p},'${val}')">${val}<span class="bz-type">${row===0?'干':'支'}</span></div>`;
-    }
-  }
-  document.getElementById('m4-grid').innerHTML=gh;
+  renderBaziGrid(M4.bazi,M4.sel,M4.allView,'m4-grid','m4Click');
   m4RenderRel();
 }
 
@@ -1640,7 +1682,7 @@ function m4RenderRel(){
     let html=secHdr('天干信息');
     for(const cell of gCells)html+=`<div class="rel-item rel-gen">${PILLAR[cell.p]}干 <b>${cell.v}</b>：脏腑 ${GAN_ZANG[cell.v]}</div>`;
     html+=secHdr('地支信息');
-    for(const cell of zCells)html+=`<div class="rel-item rel-gen">${PILLAR[cell.p]}支 <b>${cell.v}</b>：藏 ${ZHI_CANG_STR[cell.v]} · 脏腑 ${ZHI_ZANG[cell.v]} · ${SHICHEN[cell.v]} · 月建 ${YUEJIAN[cell.v]}</div>`;
+    for(const cell of zCells)html+=`<div class="rel-item rel-gen">${PILLAR[cell.p]}支 <b>${cell.v}</b>：脏腑 ${ZHI_ZANG[cell.v]} · ${SHICHEN[cell.v]} · 月建 ${YUEJIAN[cell.v]}</div>`;
     const ggTh=txt=>txt.startsWith('天干生')||txt.startsWith('天干克')?'生克':txt.startsWith('合(')?'合（五合）':txt.startsWith('患')?'患':txt.startsWith('伏吟')?'伏吟':null;
     const ggMap={};
     for(let i=0;i<gCells.length;i++)for(let j=i+1;j<gCells.length;j++){
