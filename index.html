@@ -1398,24 +1398,50 @@ function m3RenderRel(){
     const c=CASES[M3.idx];
     const cells=[];
     for(let row=0;row<2;row++)for(let p=0;p<4;p++){const ci=row*4+p,type=row===0?'g':'z',val=c.b[ci];cells.push({t:type,p,v:val,ci});}
-    let html='<div style="font-size:11px;color:#94a3b8;font-weight:bold;letter-spacing:2px;margin-bottom:6px">▸ 天干信息</div>';
-    for(const cell of cells.filter(x=>x.t==='g'))
-      html+=`<div class="rel-item rel-gen">${PILLAR[cell.p]}干 <b>${cell.v}</b>：脏腑 ${GAN_ZANG[cell.v]}</div>`;
-    html+='<div style="font-size:11px;color:#94a3b8;font-weight:bold;letter-spacing:2px;margin:8px 0 6px">▸ 地支信息</div>';
-    for(const cell of cells.filter(x=>x.t==='z'))
-      html+=`<div class="rel-item rel-gen">${PILLAR[cell.p]}支 <b>${cell.v}</b>：藏 ${ZHI_CANG_STR[cell.v]} · 脏腑 ${ZHI_ZANG[cell.v]} · ${SHICHEN[cell.v]}</div>`;
-    html+='<div style="font-size:11px;color:#94a3b8;font-weight:bold;letter-spacing:2px;margin:10px 0 6px">▸ 全部关系</div>';
     const pn=x=>`${PILLAR[x.p]}${x.t==='g'?'干':'支'}`;
-    let hasAny=false;
-    for(let i=0;i<cells.length;i++)for(let j=i+1;j<cells.length;j++){
-      const a=cells[i],b=cells[j],rels=detectPair(a,b);
+    const gCells=cells.filter(x=>x.t==='g');
+    const zCells=cells.filter(x=>x.t==='z');
+    const secHdr=txt=>`<div style="font-size:11px;color:#94a3b8;font-weight:bold;letter-spacing:2px;margin:10px 0 6px">▸ ${txt}</div>`;
+    let html=secHdr('天干信息');
+    for(const cell of gCells)
+      html+=`<div class="rel-item rel-gen">${PILLAR[cell.p]}干 <b>${cell.v}</b>：脏腑 ${GAN_ZANG[cell.v]}</div>`;
+    html+=secHdr('地支信息');
+    for(const cell of zCells)
+      html+=`<div class="rel-item rel-gen">${PILLAR[cell.p]}支 <b>${cell.v}</b>：藏 ${ZHI_CANG_STR[cell.v]} · 脏腑 ${ZHI_ZANG[cell.v]} · ${SHICHEN[cell.v]} · 月建 ${YUEJIAN[cell.v]}</div>`;
+    let ggHtml='';
+    for(let i=0;i<gCells.length;i++)for(let j=i+1;j<gCells.length;j++){
+      const a=gCells[i],b=gCells[j],rels=detectPair(a,b);
       if(rels.length){
-        hasAny=true;
-        html+=`<div style="font-size:10px;color:#64748b;margin-top:8px;margin-bottom:3px">${a.v}(${pn(a)}) × ${b.v}(${pn(b)})</div>`;
-        html+=rels.map(r=>`<div class="rel-item ${r.cls}">${r.txt}</div>`).join('');
+        ggHtml+=`<div style="font-size:10px;color:#64748b;margin-top:8px;margin-bottom:3px">${a.v}(${pn(a)}) × ${b.v}(${pn(b)})</div>`;
+        ggHtml+=rels.map(r=>`<div class="rel-item ${r.cls}">${r.txt}</div>`).join('');
       }
     }
-    if(!hasAny)html+='<div class="rel-item none">（无关系）</div>';
+    if(ggHtml)html+=secHdr('天干关系')+ggHtml;
+    let zzHtml='';
+    for(let i=0;i<zCells.length;i++)for(let j=i+1;j<zCells.length;j++){
+      const a=zCells[i],b=zCells[j],rels=detectPair(a,b);
+      if(rels.length){
+        zzHtml+=`<div style="font-size:10px;color:#64748b;margin-top:8px;margin-bottom:3px">${a.v}(${pn(a)}) × ${b.v}(${pn(b)})</div>`;
+        zzHtml+=rels.map(r=>`<div class="rel-item ${r.cls}">${r.txt}</div>`).join('');
+      }
+    }
+    if(zzHtml)html+=secHdr('地支关系')+zzHtml;
+    const gzTong=[],gzXushi=[],gzWs12=[],gzNayin=[];
+    for(const g of gCells)for(const z of zCells){
+      const rels=detectPair(g,z);
+      for(const r of rels){
+        if(r.txt.startsWith('干支互通')||r.txt.startsWith('自合'))gzTong.push(r);
+        else if(r.txt.startsWith('虚实'))gzXushi.push(r);
+        else if(r.txt.startsWith('十二运'))gzWs12.push(r);
+        else if(r.txt.startsWith('纳音'))gzNayin.push(r);
+      }
+    }
+    if(gzTong.length)html+=secHdr('干支互通 · 自合')+gzTong.map(r=>`<div class="rel-item ${r.cls}">${r.txt}</div>`).join('');
+    if(gzXushi.length)html+=secHdr('虚实')+gzXushi.map(r=>`<div class="rel-item ${r.cls}">${r.txt}</div>`).join('');
+    if(gzWs12.length)html+=secHdr('十二运')+gzWs12.map(r=>`<div class="rel-item ${r.cls}">${r.txt}</div>`).join('');
+    if(gzNayin.length)html+=secHdr('纳音')+gzNayin.map(r=>`<div class="rel-item ${r.cls}">${r.txt}</div>`).join('');
+    if(!ggHtml&&!zzHtml&&!gzTong.length&&!gzXushi.length&&!gzWs12.length&&!gzNayin.length)
+      html+='<div class="rel-item none">（无关系）</div>';
     document.getElementById('m3-rel').innerHTML=html;
     return;
   }
