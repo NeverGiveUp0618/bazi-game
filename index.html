@@ -1438,9 +1438,11 @@ function m3RenderRel(){
     for(const g of gCells)for(const z of zCells){
       for(const r of detectPair(g,z)){
         if(r.txt.startsWith('干支互通')||r.txt.startsWith('自合'))gzTong.push(r);
-        else if(r.txt.startsWith('虚实'))gzXushi.push(r);
-        else if(r.txt.startsWith('十二运'))gzWs12.push(r);
-        else if(r.txt.startsWith('纳音'))gzNayin.push(r);
+        else if(g.p===z.p){
+          if(r.txt.startsWith('虚实'))gzXushi.push(r);
+          else if(r.txt.startsWith('十二运'))gzWs12.push(r);
+          else if(r.txt.startsWith('纳音'))gzNayin.push(r);
+        }
       }
     }
     if(gzTong.length)html+=secHdr('干支互通 · 自合')+gzTong.map(r=>`<div class="rel-item ${r.cls}">${r.txt}</div>`).join('');
