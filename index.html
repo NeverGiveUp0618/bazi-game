@@ -190,6 +190,20 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .nb-q-del:hover{background:#334155;color:#ef4444}
 .nb-q-date{font-size:10px;color:#334155;margin-top:2px}
 .nb-footer{display:flex;gap:8px;margin-top:10px;flex-shrink:0}
+/* MODE 4 – 选字器 & 圆圈 */
+.m4-pick-panel{background:#1a2332;border-radius:18px;padding:14px 6px 12px;flex-shrink:0}
+.m4-pick-row{display:flex;justify-content:space-around;margin:0}
+.m4-pick-ch{font-size:clamp(28px,8.5vw,42px);font-weight:bold;color:#475569;cursor:pointer;padding:5px 2px;border-radius:10px;transition:all .12s;min-width:36px;text-align:center;line-height:1.1;border:none;background:none;-webkit-appearance:none;flex:1}
+.m4-pick-ch:active{transform:scale(.85)}
+.m4-pick-ch.cur{color:#10b981}
+.m4-pick-ch:hover:not(.cur){color:#cbd5e1}
+.m4-pillar-hdr{display:grid;grid-template-columns:repeat(4,1fr);text-align:center;font-size:11px;color:#475569;letter-spacing:2px;margin-bottom:8px;flex-shrink:0}
+.m4-circles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px 10px;flex-shrink:0}
+.m4-circ{aspect-ratio:1;border-radius:50%;background:#1e293b;border:3px solid transparent;display:flex;align-items:center;justify-content:center;font-size:clamp(22px,6.5vw,34px);font-weight:bold;cursor:pointer;color:#e2e8f0;transition:all .15s;user-select:none;width:100%}
+.m4-circ:active{transform:scale(.9)}
+.m4-circ.sel{background:#1e3a8a;border-color:#3b82f6;color:#93c5fd}
+.m4-circ.rz{color:#60a5fa}
+
 /* CUSTOM SELECT */
 .csel-grp{margin-bottom:13px}
 .csel-lbl{font-size:11px;color:#475569;letter-spacing:2px;margin-bottom:6px;padding:0 2px;font-weight:bold}
@@ -237,6 +251,12 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <div class="mcard-btns">
       <button class="btn btn-b" onclick="startM3(-1)">随机一例</button>
       <button class="btn btn-d" onclick="startM3(0)">从第一例</button>
+    </div>
+  </div>
+  <div class="mcard">
+    <div class="mcard-head"><div class="mcard-icon">✏️</div><div><div class="mcard-name">自定义排盘 <span class="nt-label">无计时</span></div><div class="mcard-desc">输入任意八字，即时查干支关系</div></div></div>
+    <div class="mcard-btns">
+      <button class="btn btn-b" onclick="startM4Input()">输入八字 →</button>
     </div>
   </div>
   <div class="nb-card" onclick="show('p-nb')">
@@ -476,6 +496,37 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <button class="btn btn-d" onclick="startM3(-1)" style="flex:1;font-size:12px">🎲 随机换一例</button>
     <button class="btn btn-b" onclick="m3ShowAll()" style="flex:1;font-size:12px">📋 全局关系</button>
     <button class="btn btn-d" onclick="m3ClearSel()" style="flex:1;font-size:12px">✕ 取消选中</button>
+  </div>
+</div>
+
+<!-- MODE 4 INPUT -->
+<div id="p4-input" class="screen">
+  <div class="tbar"><button class="tbk" onclick="goHome()">✕</button><div class="tbtitle">自定义排盘 · 输入八字</div></div>
+  <div class="m4-pick-panel">
+    <div id="m4-picker-chars"></div>
+  </div>
+  <div style="flex:1;min-height:10px"></div>
+  <div class="m4-pillar-hdr"><div>年柱</div><div>月柱</div><div>日柱</div><div>时柱</div></div>
+  <div class="m4-circles" id="m4-circles"></div>
+  <button class="btn btn-g" onclick="startM4()" style="flex-shrink:0;margin-top:14px">开始排盘 →</button>
+</div>
+
+<!-- MODE 4 PLAY -->
+<div id="p4" class="screen">
+  <div class="tbar">
+    <button class="tbk" onclick="show('p4-input');m4RenderInput()">←</button>
+    <div class="tbtitle">自定义排盘</div>
+    <div class="tbr" style="color:#10b981;font-size:11px">自定义</div>
+  </div>
+  <div class="bz-wrap">
+    <div class="bz-labels"><div class="bz-lb">年</div><div class="bz-lb">月</div><div class="bz-lb">日</div><div class="bz-lb">时</div></div>
+    <div class="bz-grid" id="m4-grid"></div>
+  </div>
+  <div class="rel-panel" id="m4-rel"><div class="rel-hint">点击八字中任意两个字<br>即时查看它们之间的关系</div></div>
+  <div class="m3footer">
+    <button class="btn btn-d" onclick="show('p4-input');m4RenderInput()" style="flex:1;font-size:12px">✏️ 重新输入</button>
+    <button class="btn btn-b" onclick="m4ShowAll()" style="flex:1;font-size:12px">📋 全局关系</button>
+    <button class="btn btn-d" onclick="m4ClearSel()" style="flex:1;font-size:12px">✕ 取消选中</button>
   </div>
 </div>
 
@@ -1499,6 +1550,144 @@ function startNBPractice(){
 
 // ══ CASES DATA ══
 const CASES=[{"n":"1.清孝钦太后","b":["乙","丁","乙","丁","未","亥","丑","亥"]},{"n":"2.黄兴","b":["甲","甲","甲","甲","戌","戌","寅","戌"]},{"n":"3.袁世凯","b":["己","癸","丁","丁","未","酉","巳","未"]},{"n":"4.冯国璋","b":["戊","乙","乙","庚","午","丑","巳","辰"]},{"n":"5.瞿鸿玑","b":["庚","癸","乙","丙","戌","未","亥","戌"]},{"n":"6.赵秉钧","b":["戊","乙","壬","乙","午","丑","申","巳"]},{"n":"7.钱能训","b":["己","丁","癸","丙","巳","丑","丑","辰"]},{"n":"8.姜桂题","b":["癸","丙","庚","辛","卯","辰","申","巳"]},{"n":"9.李纯","b":["乙","乙","己","庚","亥","酉","卯","午"]},{"n":"10.伍廷芳","b":["壬","丁","己","乙","寅","未","卯","亥"]},{"n":"11.杨士琦","b":["辛","辛","丁","甲","酉","丑","亥","辰"]},{"n":"12.汤化龙","b":["甲","乙","戊","癸","戌","亥","子","亥"]},{"n":"13.杨士骧","b":["庚","甲","癸","癸","申","申","丑","酉"]},{"n":"14.程璧光","b":["己","庚","戊","壬","未","午","戌","子"]},{"n":"15.朱瑞","b":["癸","乙","壬","庚","未","丑","戌","子"]},{"n":"16.蓝天蔚","b":["丁","癸","辛","戊","丑","卯","卯","戌"]},{"n":"17.威廉第二","b":["庚","己","癸","癸","申","丑","酉","丑"]},{"n":"18.孙中山","b":["乙","丁","丁","壬","丑","亥","酉","寅"]},{"n":"19.徐世昌","b":["乙","丙","癸","丙","卯","戌","酉","辰"]},{"n":"20.徐树铮","b":["庚","丁","甲","壬","辰","亥","辰","午"]},{"n":"21.黎元洪","b":["甲","甲","丁","癸","子","戌","巳","卯"]},{"n":"22.段祺瑞","b":["乙","己","乙","壬","丑","卯","亥","午"]},{"n":"23.王士珍","b":["辛","丙","庚","丙","酉","申","子","戌"]},{"n":"24.曹锟","b":["壬","壬","庚","丙","戌","子","子","子"]},{"n":"25.张作霖","b":["乙","己","庚","辛","亥","卯","辰","巳"]},{"n":"26.吴佩孚","b":["甲","戊","己","戊","戌","辰","酉","辰"]},{"n":"27.唐继尧","b":["癸","庚","庚","壬","未","申","寅","午"]},{"n":"28.冯玉祥","b":["壬","庚","己","庚","午","戌","酉","午"]},{"n":"29.卢永祥","b":["丁","庚","乙","丁","卯","戌","亥","丑"]},{"n":"30.齐燮元","b":["乙","庚","甲","己","酉","辰","寅","巳"]},{"n":"31.王承斌","b":["丁","戊","壬","丙","丑","申","戌","午"]},{"n":"32.萨镇冰","b":["己","丁","丁","乙","未","卯","卯","巳"]},{"n":"33.李经羲","b":["己","丁","丁","庚","未","卯","巳","子"]},{"n":"34.王一堂","b":["戊","辛","丁","丁","寅","酉","巳","未"]},{"n":"35.汪精卫","b":["癸","丙","戊","丁","未","辰","申","巳"]},{"n":"36.唐绍仪","b":["辛","庚","丙","己","酉","子","辰","丑"]},{"n":"37.岑春煊","b":["辛","壬","辛","戊","酉","辰","亥","子"]},{"n":"38.熊希龄","b":["庚","癸","庚","丁","午","未","申","亥"]},{"n":"39.靳云鹏","b":["丙","戊","甲","辛","子","戌","子","未"]},{"n":"40.孙宝琦","b":["丁","甲","丙","丙","卯","辰","子","申"]},{"n":"41.梁士诒","b":["己","戊","丙","甲","巳","辰","申","午"]},{"n":"42.张謇","b":["癸","戊","己","丁","丑","午","巳","卯"]},{"n":"43.汪大燮","b":["己","乙","癸","丙","未","亥","亥","辰"]},{"n":"44.张绍曾","b":["己","甲","乙","庚","卯","戌","亥","辰"]},{"n":"45.龚心湛","b":["己","己","甲","壬","巳","巳","子","申"]},{"n":"46.孙洪伊","b":["壬","辛","戊","甲","申","亥","辰","寅"]},{"n":"47.吴景濂","b":["癸","乙","己","己","酉","卯","巳","巳"]},{"n":"48.高凌霨","b":["庚","乙","辛","戊","午","酉","亥","戌"]},{"n":"49.王正廷","b":["壬","戊","己","戊","午","申","酉","辰"]},{"n":"50.顾维钧","b":["丁","癸","己","戊","亥","丑","亥","辰"]},{"n":"51.曹汝霖","b":["丙","辛","丙","戊","子","丑","申","子"]},{"n":"52.周学熙","b":["乙","己","丁","辛","丑","丑","亥","亥"]},{"n":"53.陈锦涛","b":["辛","甲","壬","丙","未","午","辰","午"]},{"n":"54.梁启超","b":["癸","甲","丙","癸","酉","寅","午","巳"]},{"n":"55.李思浩","b":["辛","壬","己","戊","巳","辰","亥","辰"]},{"n":"56.王克敏","b":["丙","壬","壬","乙","子","辰","申","巳"]},{"n":"57.张弧","b":["乙","乙","乙","乙","亥","酉","亥","酉"]},{"n":"58.王家襄","b":["壬","庚","丁","己","申","戌","未","酉"]},{"n":"59.潘复","b":["癸","癸","庚","戊","未","亥","午","寅"]},{"n":"60.许世英","b":["癸","辛","乙","辛","酉","酉","丑","巳"]},{"n":"61.曾毓隽","b":["乙","癸","己","辛","亥","未","亥","未"]},{"n":"62.王郅隆","b":["癸","庚","己","丙","亥","申","巳","寅"]},{"n":"63.朱启钤","b":["壬","辛","癸","丙","申","亥","酉","辰"]},{"n":"64.叶恭绰","b":["辛","己","壬","甲","巳","亥","戌","辰"]},{"n":"65.吴毓麟","b":["庚","己","丁","戊","午","丑","卯","申"]},{"n":"66.田文烈","b":["戊","癸","辛","庚","午","亥","酉","寅"]},{"n":"67.程克","b":["乙","辛","丙","壬","酉","巳","子","辰"]},{"n":"68.张志潭","b":["甲","乙","辛","戊","申","亥","巳","子"]},{"n":"69.周扶九","b":["甲","壬","乙","庚","午","申","未","辰"]},{"n":"70.李根源","b":["己","己","庚","辛","卯","巳","申","巳"]},{"n":"71.齐耀珊","b":["乙","癸","甲","甲","丑","未","子","子"]},{"n":"72.罗文干","b":["己","戊","丁","庚","丑","辰","巳","戌"]},{"n":"73.姚震","b":["乙","丙","庚","辛","酉","戌","申","巳"]},{"n":"74.章炳麟","b":["戊","乙","癸","庚","辰","丑","卯","申"]},{"n":"75.章士钊","b":["辛","辛","癸","乙","巳","卯","丑","卯"]},{"n":"76.胡适","b":["辛","庚","丁","丁","卯","子","丑","未"]},{"n":"77.张继","b":["壬","戊","壬","壬","午","申","寅","寅"]},{"n":"78.褚辅成","b":["癸","丁","己","甲","酉","巳","卯","戌"]},{"n":"79.谭延闿","b":["己","丁","癸","乙","卯","丑","丑","卯"]},{"n":"80.段芝贵","b":["己","甲","壬","庚","巳","戌","辰","子"]},{"n":"81.龙济光","b":["丁","丙","丙","壬","卯","午","子","辰"]},{"n":"82.王占元","b":["辛","庚","庚","丙","酉","寅","子","子"]},{"n":"83.朱庆澜","b":["甲","丁","丁","癸","戌","卯","卯","卯"]},{"n":"84.吴光新","b":["壬","丙","癸","癸","午","午","未","亥"]},{"n":"85.张作相","b":["辛","辛","辛","辛","巳","卯","丑","卯"]},{"n":"86.赵恒惕","b":["庚","戊","戊","庚","辰","子","子","申"]},{"n":"87.陈炯明","b":["丁","癸","辛","癸","丑","丑","卯","巳"]},{"n":"88.陈宦","b":["庚","己","辛","壬","午","卯","亥","辰"]},{"n":"89.陆锦","b":["庚","己","己","乙","辰","丑","酉","亥"]},{"n":"90.蔡成勋","b":["壬","庚","乙","乙","申","戌","卯","酉"]},{"n":"91.李厚基","b":["庚","己","壬","庚","午","卯","寅","戌"]},{"n":"92.孙传芳","b":["乙","庚","壬","己","酉","辰","寅","酉"]},{"n":"93.徐绍桢","b":["辛","甲","庚","庚","酉","午","戌","辰"]},{"n":"94.韩国均","b":["丁","癸","丙","癸","巳","卯","辰","巳"]},{"n":"95.孙发绪","b":["乙","壬","丙","庚","亥","午","午","寅"]},{"n":"96.黄郛","b":["庚","己","丙","戊","辰","卯","申","戌"]},{"n":"97.汤芗铭","b":["癸","辛","乙","丁","未","酉","亥","亥"]},{"n":"98.李鼎新","b":["壬","甲","辛","甲","戌","辰","亥","午"]},{"n":"99.廖仲恺","b":["戊","丙","庚","辛","寅","辰","申","巳"]},{"n":"100.许崇智","b":["丁","庚","甲","庚","亥","戌","子","午"]},{"n":"101.田中玉","b":["庚","丁","丙","乙","午","亥","辰","未"]},{"n":"102.屈映光","b":["癸","乙","丁","甲","未","卯","巳","辰"]},{"n":"103.张敬尧","b":["辛","丁","乙","己","巳","酉","卯","卯"]},{"n":"104.何丰林","b":["癸","丁","壬","丁","酉","巳","午","未"]},{"n":"105.江朝宗","b":["辛","辛","戊","辛","酉","丑","寅","酉"]},{"n":"106.倪嗣冲","b":["戊","甲","壬","壬","辰","寅","戌","寅"]},{"n":"107.刘冠雄","b":["辛","甲","丙","己","酉","午","戌","亥"]},{"n":"108.彭允彝","b":["戊","壬","甲","丙","寅","戌","子","寅"]},{"n":"109.宣统","b":["丙","庚","壬","丙","午","寅","午","午"]},{"n":"110.陈夔龙","b":["丁","乙","癸","丙","巳","巳","丑","辰"]},{"n":"111.陈宝琛","b":["戊","壬","癸","乙","申","戌","巳","卯"]},{"n":"112.郑孝胥","b":["庚","庚","丙","戊","申","辰","午","戌"]},{"n":"113.康有为","b":["戊","乙","壬","庚","午","卯","子","子"]},{"n":"114.梅兰芳","b":["甲","甲","丁","癸","午","戌","酉","卯"]},{"n":"115.琴雪芳","b":["甲","辛","己","戊","辰","未","酉","辰"]},{"n":"116.某女士","b":["己","己","丁","癸","丑","巳","未","卯"]},{"n":"117.陈炳焜","b":["戊","癸","辛","己","辰","亥","丑","亥"]}];
+
+// ══ MODE 4: 自定义八字排盘 ══
+let M4={bazi:['甲','甲','甲','甲','子','子','子','子'],selCell:0,sel:[],allView:false};
+
+function startM4Input(){
+  M4.selCell=0;
+  show('p4-input');
+  m4RenderInput();
+}
+
+function m4RenderInput(){
+  // 8 圆圈
+  let ch='';
+  for(let row=0;row<2;row++){
+    for(let p=0;p<4;p++){
+      const ci=row*4+p,val=M4.bazi[ci],isSel=M4.selCell===ci,isRz=(p===2&&row===0);
+      ch+=`<div class="m4-circ${isSel?' sel':''}${isRz&&!isSel?' rz':''}" onclick="m4SelCell(${ci})">${val}</div>`;
+    }
+  }
+  document.getElementById('m4-circles').innerHTML=ch;
+  // 选字区
+  const ci=M4.selCell,isGan=ci<4,pool=isGan?GAN:ZHI,cur=M4.bazi[ci],sz=isGan?5:6;
+  let ph='';
+  for(let i=0;i<pool.length;i+=sz){
+    ph+=`<div class="m4-pick-row">${pool.slice(i,i+sz).map(c=>`<button class="m4-pick-ch${c===cur?' cur':''}" onclick="m4PickChar('${c}')">${c}</button>`).join('')}</div>`;
+  }
+  document.getElementById('m4-picker-chars').innerHTML=ph;
+}
+
+function m4SelCell(ci){M4.selCell=ci;m4RenderInput();}
+
+function m4PickChar(ch){
+  M4.bazi[M4.selCell]=ch;
+  m4RenderInput();
+}
+
+function startM4(){
+  M4.sel=[];M4.allView=false;
+  m4Render();show('p4');
+}
+
+function m4Render(){
+  let gh='';
+  for(let row=0;row<2;row++){
+    for(let p=0;p<4;p++){
+      const ci=row*4+p,type=row===0?'g':'z',val=M4.bazi[ci],isRz=(p===2&&row===0);
+      const si=M4.sel.findIndex(s=>s.ci===ci);
+      let cls=(isRz?'bz-cell rz':'bz-cell')+(si===0?' s0':si===1?' s1':'');
+      gh+=`<div class="${cls}" onclick="m4Click(${ci},'${type}',${p},'${val}')">${val}<span class="bz-type">${row===0?'干':'支'}</span></div>`;
+    }
+  }
+  document.getElementById('m4-grid').innerHTML=gh;
+  m4RenderRel();
+}
+
+function m4Click(ci,type,p,val){
+  M4.allView=false;
+  const pos={ci,t:type,p,v:val},ex=M4.sel.findIndex(s=>s.ci===ci);
+  if(ex>=0)M4.sel.splice(ex,1);
+  else if(M4.sel.length<2)M4.sel.push(pos);
+  else M4.sel=[pos];
+  if(M4.sel.length===2)m4DetectAndRender();else m4Render();
+}
+
+function m4DetectAndRender(){
+  m4Render();
+  const[a,b]=M4.sel,rels=detectPair(a,b);
+  if(a.t==='z')rels.push({txt:`${a.v} 藏干：${ZHI_CANG_STR[a.v]}`,cls:'rel-gen'});
+  if(b.t==='z')rels.push({txt:`${b.v} 藏干：${ZHI_CANG_STR[b.v]}`,cls:'rel-gen'});
+  const pn=x=>`${PILLAR[x.p]}${x.t==='g'?'干':'支'}`;
+  let html=`<div class="rel-pair-header"><div class="rph-chars"><div class="rph-c c0">${a.v}</div><div class="rph-vs">×</div><div class="rph-c c1">${b.v}</div></div><div class="rph-lbl">${pn(a)} ✕ ${pn(b)}</div></div><div>`;
+  html+=rels.length?rels.map(r=>`<div class="rel-item ${r.cls}">${r.txt}</div>`).join(''):'<div class="rel-item none">无关系</div>';
+  html+='</div>';
+  document.getElementById('m4-rel').innerHTML=html;
+}
+
+function m4ShowAll(){M4.sel=[];M4.allView=true;m4Render();}
+function m4ClearSel(){M4.sel=[];M4.allView=false;m4Render();}
+
+function m4RenderRel(){
+  if(M4.allView){
+    const cells=[];
+    for(let row=0;row<2;row++)for(let p=0;p<4;p++){const ci=row*4+p,type=row===0?'g':'z',val=M4.bazi[ci];cells.push({t:type,p,v:val,ci});}
+    const pn=x=>`${PILLAR[x.p]}${x.t==='g'?'干':'支'}`;
+    const gCells=cells.filter(x=>x.t==='g'),zCells=cells.filter(x=>x.t==='z');
+    const secHdr=txt=>`<div style="font-size:11px;color:#94a3b8;font-weight:bold;letter-spacing:2px;margin:10px 0 6px">▸ ${txt}</div>`;
+    const subHdr=txt=>`<div style="font-size:10px;color:#64748b;font-weight:bold;margin-top:7px;margin-bottom:2px;padding-left:2px">· ${txt}</div>`;
+    let html=secHdr('天干信息');
+    for(const cell of gCells)html+=`<div class="rel-item rel-gen">${PILLAR[cell.p]}干 <b>${cell.v}</b>：脏腑 ${GAN_ZANG[cell.v]}</div>`;
+    html+=secHdr('地支信息');
+    for(const cell of zCells)html+=`<div class="rel-item rel-gen">${PILLAR[cell.p]}支 <b>${cell.v}</b>：藏 ${ZHI_CANG_STR[cell.v]} · 脏腑 ${ZHI_ZANG[cell.v]} · ${SHICHEN[cell.v]} · 月建 ${YUEJIAN[cell.v]}</div>`;
+    const ggTh=txt=>txt.startsWith('天干生')||txt.startsWith('天干克')?'生克':txt.startsWith('合(')?'合（五合）':txt.startsWith('患')?'患':txt.startsWith('伏吟')?'伏吟':null;
+    const ggMap={};
+    for(let i=0;i<gCells.length;i++)for(let j=i+1;j<gCells.length;j++){
+      const a=gCells[i],b=gCells[j];
+      for(const r of detectPair(a,b)){const t=ggTh(r.txt);if(t){if(!ggMap[t])ggMap[t]=[];ggMap[t].push({...r,pair:`${a.v}(${pn(a)})·${b.v}(${pn(b)})`});}}
+    }
+    let ggHtml='';
+    for(const t of['生克','合（五合）','患','伏吟']){if(ggMap[t]&&ggMap[t].length){ggHtml+=subHdr(t)+ggMap[t].map(r=>`<div class="rel-item ${r.cls}">${r.txt} <span style="color:#475569;font-size:10px">（${r.pair}）</span></div>`).join('');}}
+    if(ggHtml)html+=secHdr('天干关系')+ggHtml;
+    const zzTh=txt=>txt.startsWith('冲')?'冲':txt.startsWith('合(')?'合（六合）':txt.startsWith('暗合')?'暗合':txt.startsWith('半合')||txt.startsWith('拱合')?'拱合':txt.startsWith('三会')?'三会':txt.startsWith('穿')?'穿':txt.startsWith('绝')?'绝':txt.startsWith('破')?'破':txt.startsWith('刑')?'刑':txt.startsWith('患')?'患':txt.startsWith('伏吟')?'伏吟':null;
+    const zzMap={};
+    for(let i=0;i<zCells.length;i++)for(let j=i+1;j<zCells.length;j++){
+      const a=zCells[i],b=zCells[j];
+      for(const r of detectPair(a,b)){const t=zzTh(r.txt);if(t){if(!zzMap[t])zzMap[t]=[];zzMap[t].push({...r,pair:`${a.v}(${pn(a)})·${b.v}(${pn(b)})`});}}
+    }
+    let zzHtml='';
+    for(const t of['冲','合（六合）','暗合','拱合','三会','穿','绝','破','刑','患','伏吟']){if(zzMap[t]&&zzMap[t].length){zzHtml+=subHdr(t)+zzMap[t].map(r=>`<div class="rel-item ${r.cls}">${r.txt} <span style="color:#475569;font-size:10px">（${r.pair}）</span></div>`).join('');}}
+    if(zzHtml)html+=secHdr('地支关系')+zzHtml;
+    const gzTong=[],gzXushi=[],gzWs12=[],gzNayin=[];
+    for(const g of gCells)for(const z of zCells){
+      for(const r of detectPair(g,z)){
+        if(r.txt.startsWith('干支互通')||r.txt.startsWith('自合'))gzTong.push(r);
+        else if(g.p===z.p){
+          if(r.txt.startsWith('虚实'))gzXushi.push(r);
+          else if(r.txt.startsWith('十二运'))gzWs12.push(r);
+          else if(r.txt.startsWith('纳音'))gzNayin.push(r);
+        }
+      }
+    }
+    if(gzTong.length)html+=secHdr('干支互通 · 自合')+gzTong.map(r=>`<div class="rel-item ${r.cls}">${r.txt}</div>`).join('');
+    if(gzXushi.length)html+=secHdr('虚实')+gzXushi.map(r=>`<div class="rel-item ${r.cls}">${r.txt}</div>`).join('');
+    if(gzWs12.length)html+=secHdr('十二运')+gzWs12.map(r=>`<div class="rel-item ${r.cls}">${r.txt}</div>`).join('');
+    if(gzNayin.length)html+=secHdr('纳音')+gzNayin.map(r=>`<div class="rel-item ${r.cls}">${r.txt}</div>`).join('');
+    if(!ggHtml&&!zzHtml&&!gzTong.length&&!gzXushi.length&&!gzWs12.length&&!gzNayin.length)html+='<div class="rel-item none">（无关系）</div>';
+    document.getElementById('m4-rel').innerHTML=html;
+    return;
+  }
+  if(M4.sel.length===0){
+    document.getElementById('m4-rel').innerHTML='<div class="rel-hint">点击八字中任意两个字<br>即时查看它们之间的关系</div>';
+  }else if(M4.sel.length===1){
+    const s=M4.sel[0];
+    let extra='';
+    if(s.t==='z'){extra+=`<br><span style="color:#fcd34d;font-size:12px">藏干：${ZHI_CANG_STR[s.v]}</span>`;extra+=`<br><span style="color:#94a3b8;font-size:12px">脏腑：${ZHI_ZANG[s.v]} · 时辰：${SHICHEN[s.v]}</span>`;}
+    else{extra+=`<br><span style="color:#94a3b8;font-size:12px">脏腑：${GAN_ZANG[s.v]}</span>`;}
+    document.getElementById('m4-rel').innerHTML=`<div class="rel-hint">已选：<b style="color:#93c5fd">${s.v}</b>（${PILLAR[s.p]}${s.t==='g'?'干':'支'}）${extra}<br>再点另一个字查看关系</div>`;
+  }
+}
 
 // ══ KEYBOARD ══
 document.addEventListener('keydown',e=>{
