@@ -885,7 +885,7 @@ function buildPool(rng){
   }
   // 实支识别（给天干，选使其为实的地支，4选项）
   for(const[g,{实:shi}]of Object.entries(XUSHI)){
-    for(const z of shi){qs.push({cat:'xushi2',_id:`m1_xushi2_${g}_${z}`,main:[g],qt:'哪个地支使该天干<b>为实</b>？',correct:z,opts:mkOpts(rng,z,ZHI),exp:`${g}+${z}为实（有根有生）`});}
+    for(const z of shi){qs.push({cat:'xushi2',_id:`m1_xushi2_${g}_${z}`,main:[g],qt:'哪个地支使该天干<b>为实</b>？',correct:z,opts:mkOpts(rng,z,ZHI,ZHI.filter(x=>!shi.includes(x))),exp:`${g}+${z}为实（有根有生）`});}
   }
   // 纳音（给干支对，选纳音名）
   for(const[p1,p2,ny]of NAYIN_DATA){
@@ -1265,7 +1265,7 @@ function isM2Correct(lv,rv,cat){
   if(cat==='天干·相生'||cat==='天干·相克'||cat==='六亲·相生'||cat==='六亲·相克')return M2_CATS[cat].pairs.some(([l,r])=>l===lv&&r===rv);
   if(cat==='数字编码')return SHUMA_MAP[lv]===rv;
   if(cat==='天干数字'||cat==='地支数字')return M2_CATS[cat].pairs.some(([l,r])=>l===lv&&r===rv);
-  if(cat==='阳干实支'||cat==='阴干实支')return M2_CATS[cat].pairs.some(([l,r])=>l===lv&&r===rv);
+  if(cat==='阳干实支'||cat==='阴干实支'){const xs=XUSHI[lv];return xs&&xs.实.includes(rv);}
   if(cat==='年份干支'){const y=parseInt(lv),g=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'],z=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];return g[(y-4)%10]+z[(y-4)%12]===rv;}
   if(cat.startsWith('纳音'))return NAYIN[lv]===rv;
   if(cat==='五行·长生') return WX_WANGSHUAI[lv]&&WX_WANGSHUAI[lv][0]===rv;
@@ -1307,8 +1307,8 @@ function getM2NbQ(lv,rv,cat){
     '数字编码':  {nbcat:'shuma',qt:'这个数字<b>编码</b>对应什么？', exp:`${lv}→${rv}`},
     '天干数字':  {nbcat:'num',  qt:'<b>数字口诀</b>是？',         exp:`${lv}→${rv}`},
     '地支数字':  {nbcat:'num',  qt:'<b>数字口诀</b>是？',         exp:`${lv}→${rv}`},
-    '阳干实支':  {nbcat:'xushi2',qt:'哪个地支使该天干<b>为实</b>？',exp:`${lv}+${rv}为实（有根有生）`},
-    '阴干实支':  {nbcat:'xushi2',qt:'哪个地支使该天干<b>为实</b>？',exp:`${lv}+${rv}为实（有根有生）`},
+    '阳干实支':  {nbcat:'xushi2',qt:'该天干的<b>全部实支</b>有哪些？',exp:`${lv}的实支：${rv}`},
+    '阴干实支':  {nbcat:'xushi2',qt:'该天干的<b>全部实支</b>有哪些？',exp:`${lv}的实支：${rv}`},
     '五行·长生': {nbcat:'wx_zhi', qt:'五行的<b>长生</b>在哪个地支？',  exp:`${lv}长生在${rv}`},
     '五行·帝旺': {nbcat:'wx_zhi', qt:'五行的<b>帝旺</b>在哪个地支？',  exp:`${lv}帝旺在${rv}`},
     '五行·墓库': {nbcat:'wx_zhi', qt:'五行的<b>墓</b>在哪个地支？',    exp:`${lv}墓在${rv}`},
@@ -1381,7 +1381,11 @@ function m2End(){
   document.getElementById('m2r-retry').onclick=()=>startM2(M2.cat);
 
   // wrong pairs section
-  const wrongPairs=[...M2.wrongPairIndices].map(pi=>M2.pairs[pi]);
+  const wrongPairs=[...M2.wrongPairIndices].map(pi=>{
+    const[lv,rv]=M2.pairs[pi];
+    if(M2.cat==='阳干实支'||M2.cat==='阴干实支'){const xs=XUSHI[lv];return[lv,xs?xs.实.join(''): rv];}
+    return[lv,rv];
+  });
   const wqSec=document.getElementById('el-m2wq-section');
   if(wrongPairs.length>0){
     wqSec.style.display='block';
