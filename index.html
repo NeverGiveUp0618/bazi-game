@@ -288,6 +288,12 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .m5-tbl .c-xu{color:#475569}
 .m5-tbl .c-shi{color:#10b981;font-weight:bold}
 .m5-sub{font-size:10px;color:#64748b;letter-spacing:2px;margin:8px 0 4px 2px;font-weight:bold}
+/* 每日语录 */
+.hquote{text-align:center;font-size:12px;color:#64748b;padding:2px 14px 2px;letter-spacing:1px;line-height:1.8;background:#1e293b;border-radius:10px;margin:0 0 8px}
+/* 错题单题加入按钮 */
+.wq-add-btn{background:#1e3a8a;border:none;color:#93c5fd;font-size:12px;font-weight:bold;cursor:pointer;padding:3px 9px;border-radius:7px;flex-shrink:0;margin-left:auto;line-height:1.5;white-space:nowrap}
+.wq-add-btn:active{transform:scale(.93)}
+.wq-add-btn.added{background:#022c22;color:#10b981}
 </style>
 </head>
 <body>
@@ -296,6 +302,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 <!-- HOME -->
 <div id="ph" class="screen active">
   <div class="hlogo"><div class="hlogo-t">基础知识日练</div><div class="hlogo-s">干支知识 · 每日精进</div></div>
+  <div class="hquote" id="el-quote"></div>
   <div class="hdate" id="el-date"></div>
   <div class="hstats">
     <div class="hstat"><div class="hstat-v" id="el-streak">0</div><div class="hstat-l">连续打卡</div></div>
@@ -1042,6 +1049,38 @@ const JIEQI_NAMES=['立春','雨水','惊蛰','春分','清明','谷雨','立夏
 const MONTHS_12=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
 const SHUMA_MAP={'00':'望远镜','01':'衣服','02':'耳朵','03':'大山','04':'寺庙','05':'老虎','06':'哨子','07':'镰刀','08':'葫芦','09':'啤酒','10':'棒球','11':'筷子','12':'鱼儿','13':'医生','14':'钥匙','15':'鹦鹉','16':'石榴','17':'仪器','18':'渔网','19':'药酒','20':'按铃','21':'鳄鱼','22':'双胞胎','23':'乔丹','24':'闹钟','25':'二胡','26':'河流','27':'耳机','28':'恶霸','29':'按钮','30':'山洞','31':'山药','32':'哪吒','33':'蝴蝶','34':'扇子','35':'珊瑚','36':'山路','37':'山鸡','38':'妇女','39':'三角','40':'司令','41':'司仪','42':'试卷','43':'雪山','44':'狮子','45':'水壶','46':'饲料','47':'司机','48':'蜘蛛','49':'死狗','50':'武林高手','51':'工人','52':'木耳','53':'午餐','54':'武士','55':'火车','56':'五楼','57':'大炮','58':'电脑','59':'武警','60':'榴莲','61':'儿童','62':'驴儿','63':'硫酸','64':'螺丝','65':'锣鼓','66':'绿豆','67':'楼梯','68':'喇叭','69':'鹿角','70':'冰激凌','71':'洗衣机','72':'企鹅','73':'旗杆','74':'骑士','75':'鸡毛掸子','76':'汽油','77':'鹊桥','78':'西瓜','79':'气球','80':'巴黎铁塔','81':'蚂蚁','82':'白鹅','83':'耙子','84':'巴士','85':'宝物盒','86':'八路','87':'热带雨林','88':'爸爸','89':'芭蕉叶','90':'精灵','91':'救生衣','92':'球儿','93':'旧伞','94':'酒刺','95':'酒壶','96':'旧炉','97':'香港脚','98':'球拍','99':'舅舅'};
 const PILLAR=['年','月','日','时'];
+const DAILY_QUOTES=[
+  '滴水穿石，非一日之功；积学成才，非一时之功。',
+  '不怕慢，只怕站；一步一步，终至远方。',
+  '勤能补拙，恒能致远；日日精进，终见光芒。',
+  '千淘万漉虽辛苦，吹尽黄沙始见金。',
+  '宝剑锋从磨砺出，梅花香自苦寒来。',
+  '学如逆水行舟，不进则退；志如磐石立世，愈磨愈坚。',
+  '今日所积，他日所得；日日不辍，功到自成。',
+  '铁杵磨成针，在乎志与恒；功夫不负人，在乎勤与诚。',
+  '坚持是最好的天赋，努力是最长的捷径。',
+  '书山有路勤为径，学海无涯苦作舟。',
+  '朝学一遍，夕练一遍；日积月累，自有所成。',
+  '志不强者智不达，行不坚者功不成。',
+  '不积跬步，无以至千里；不积小流，无以成江海。',
+  '精进不辍，必有所得；坚心不移，终见彼岸。',
+  '路虽远，行则将至；事虽难，做则必成。',
+  '功不唐捐，玉汝于成；埋头苦练，厚积薄发。',
+  '每日坚持一小步，终成人生一大步。',
+  '专注一事，久必登顶；锲而不舍，金石可镂。',
+  '勤学如春苗，不见其长，日有所增。',
+  '坚心若磐石，进学似流水，绵绵不绝，终成汪洋。',
+  '天道酬勤，地道酬善；人道酬诚，业道酬精。',
+  '越努力，越幸运；越坚持，越从容。',
+  '心静自然通，勤练自然精；日复一日，厚积薄发。',
+  '绳锯木断，水滴石穿；学道不辍，必有所成。',
+  '知易行难，贵在坚持；积沙成塔，终见高楼。',
+  '今日的汗水，是明日的基石；今日的坚持，是他日的荣光。',
+  '一分耕耘一分收获，十分坚持十分成就。',
+  '恒者事竟成，勤者业必精；莫问成果如何，但问耕耘几许。',
+  '不经一番寒彻骨，怎得梅花扑鼻香。',
+  '精卫填海志不移，愚公移山功自成。',
+];
 
 // 干支虚实表（天干有根有生者实，无根无生者虚）
 const XUSHI={
@@ -1405,6 +1444,8 @@ function toast(msg){const t=document.getElementById('el-toast');t.textContent=ms
 function initHome(){
   const d=getData(),now=new Date(),days=['日','一','二','三','四','五','六'];
   document.getElementById('el-date').textContent=`${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日 · 星期${days[now.getDay()]}`;
+  const qIdx=(now.getFullYear()*366+now.getMonth()*31+now.getDate())%DAILY_QUOTES.length;
+  document.getElementById('el-quote').textContent=DAILY_QUOTES[qIdx];
   document.getElementById('el-streak').textContent=d.dayStreak||0;
   document.getElementById('el-best').textContent=d.best||0;
   document.getElementById('el-total').textContent=d.totalCorrect||0;
@@ -1614,20 +1655,20 @@ function m1End(){
   if(G1.wrongQs.length>0){
     wqSec.style.display='block';
     document.getElementById('el-wq-hdr').textContent=`本局错题（${G1.wrongQs.length} 题）`;
-    document.getElementById('el-wq-list').innerHTML=G1.wrongQs.map(q=>{
+    const nb=getNB();
+    document.getElementById('el-wq-list').innerHTML=G1.wrongQs.map((q,i)=>{
       const mainHtml=q.main.length===0?'？':q.main.map(c=>`<span>${c}</span>`).join('·');
       const chosenHtml=q.chosen?`你选：<span class="wq-mine">${q.chosen}</span>　`:'超时　';
+      const inNb=nb.find(x=>x.id===q.id);
       return `<div class="wq-item">
-        <div class="wq-top"><div class="wq-chars">${mainHtml}</div><span class="wq-cat">${CAT_NAME[q.cat]||q.cat}</span></div>
+        <div class="wq-top"><div class="wq-chars">${mainHtml}</div><span class="wq-cat">${CAT_NAME[q.cat]||q.cat}</span><button class="wq-add-btn${inNb?' added':''}" id="wq-add-${i}" onclick="addSingleToNB(${i})"${inNb?' disabled':''}>＋错题本</button></div>
         <div class="wq-detail">${chosenHtml}正确：<span class="wq-ans">${q.correct}</span>　<span style="color:#475569">${q.exp}</span></div>
       </div>`;
     }).join('');
-    // check how many are already in notebook
-    const nb=getNB();
     const newCount=G1.wrongQs.filter(q=>!nb.find(x=>x.id===q.id)).length;
     const btn=document.getElementById('el-add-nb-btn');
     if(newCount===0){btn.textContent='✓ 全部已在错题本中';btn.disabled=true;btn.style.opacity='.5';}
-    else{btn.textContent=`📚 加入错题本（${newCount} 道新题）`;btn.disabled=false;btn.style.opacity='1';}
+    else{btn.textContent=`📚 一键全加（${newCount} 道新题）`;btn.disabled=false;btn.style.opacity='1';}
   }else{
     wqSec.style.display='none';
   }
@@ -1876,12 +1917,14 @@ function m2End(){
   if(wrongPairs.length>0){
     wqSec.style.display='block';
     document.getElementById('el-m2wq-hdr').textContent=`出错的配对（${wrongPairs.length} 对）`;
-    document.getElementById('el-m2wq-list').innerHTML=wrongPairs.map(([lv,rv])=>`
-      <div class="wq-item">
-        <div class="wq-top"><div class="wq-chars"><span>${lv}</span></div><span class="wq-cat">${M2.cat}</span></div>
-        <div class="wq-detail">正确配对：<span class="wq-ans">${lv} — ${rv}</span></div>
-      </div>`).join('');
     window._m2WrongQs=wrongPairs.map(([lv,rv])=>getM2NbQ(lv,rv,M2.cat));
+    const nb2=getNB();
+    document.getElementById('el-m2wq-list').innerHTML=wrongPairs.map(([lv,rv],i)=>{
+      const q=window._m2WrongQs[i];const inNb=nb2.find(x=>x.id===q.id);
+      return`<div class="wq-item">
+        <div class="wq-top"><div class="wq-chars"><span>${lv}</span></div><span class="wq-cat">${M2.cat}</span><button class="wq-add-btn${inNb?' added':''}" id="m2wq-add-${i}" onclick="addM2SingleToNB(${i})"${inNb?' disabled':''}>＋错题本</button></div>
+        <div class="wq-detail">正确配对：<span class="wq-ans">${lv} — ${rv}</span></div>
+      </div>`;}).join('');
   }else{
     wqSec.style.display='none';
     window._m2WrongQs=[];
@@ -1897,6 +1940,31 @@ function addM2WrongToNB(){
   document.querySelector('#el-m2wq-section .btn-a').disabled=true;
   document.querySelector('#el-m2wq-section .btn-a').textContent='✓ 已加入错题本';
   document.querySelector('#el-m2wq-section .btn-a').style.opacity='.5';
+  // update individual buttons
+  (window._m2WrongQs||[]).forEach((_,i)=>{const b=document.getElementById(`m2wq-add-${i}`);if(b){b.textContent='✓';b.disabled=true;b.classList.add('added');}});
+}
+function addM2SingleToNB(idx){
+  const q=(window._m2WrongQs||[])[idx];if(!q)return;
+  const added=nbAdd(q);updateNBBadge();
+  const btn=document.getElementById(`m2wq-add-${idx}`);
+  if(btn){btn.textContent='✓';btn.disabled=true;btn.classList.add('added');}
+  toast(added?'已加入错题本 📚':'已在错题本中');
+  const nb=getNB();
+  const newCount=(window._m2WrongQs||[]).filter(q=>!nb.find(x=>x.id===q.id)).length;
+  const bulk=document.querySelector('#el-m2wq-section .btn-a');
+  if(bulk&&newCount===0){bulk.textContent='✓ 全部已在错题本中';bulk.disabled=true;bulk.style.opacity='.5';}
+}
+function addSingleToNB(idx){
+  const q=G1.wrongQs[idx];if(!q)return;
+  const added=nbAdd(q);updateNBBadge();
+  const btn=document.getElementById(`wq-add-${idx}`);
+  if(btn){btn.textContent='✓';btn.disabled=true;btn.classList.add('added');}
+  toast(added?'已加入错题本 📚':'已在错题本中');
+  const nb=getNB();
+  const newCount=G1.wrongQs.filter(q=>!nb.find(x=>x.id===q.id)).length;
+  const bulkBtn=document.getElementById('el-add-nb-btn');
+  if(newCount===0){bulkBtn.textContent='✓ 全部已在错题本中';bulkBtn.disabled=true;bulkBtn.style.opacity='.5';}
+  else{bulkBtn.textContent=`📚 一键全加（${newCount} 道新题）`;bulkBtn.disabled=false;bulkBtn.style.opacity='1';}
 }
 
 // ══ 共用：八字格子渲染（含 allView 标注） ══
