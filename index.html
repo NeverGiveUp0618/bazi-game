@@ -268,6 +268,26 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .td-zq{color:#f59e0b}
 .td-yq{color:#94a3b8}
 .td-none{color:#2d3748}
+
+/* MODE 5 知识速查 */
+.m5-sec{margin:4px 0}
+.m5-tog{width:100%;background:#1a2030;border:1px solid #334155;border-radius:10px;padding:9px 14px;color:#94a3b8;font-size:13px;font-weight:bold;cursor:pointer;text-align:left;letter-spacing:1px}
+.m5-tog.open{color:#10b981;border-color:#10b98140;background:#0c1f17}
+.m5-tog:active{background:#273549}
+.m5-body{padding:4px 2px 2px}
+.m5-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:4px 0 8px}
+.m5-tbl{border-collapse:collapse;font-size:12px;white-space:nowrap}
+.m5-tbl th{background:#1e293b;color:#64748b;font-size:10px;padding:6px 8px;text-align:center;letter-spacing:1px;border-bottom:2px solid #334155}
+.m5-tbl td{padding:6px 8px;text-align:center;border-bottom:1px solid #1e293b}
+.m5-tbl tr:nth-child(even) td{background:#161f2e}
+.m5-tbl .c-zhi{color:#60a5fa;font-size:14px;font-weight:bold}
+.m5-tbl .c-gan{color:#c4b5fd;font-size:14px;font-weight:bold}
+.m5-tbl .c-bq{color:#10b981;font-weight:bold}
+.m5-tbl .c-he{color:#10b981}
+.m5-tbl .c-chong{color:#ef4444}
+.m5-tbl .c-xu{color:#475569}
+.m5-tbl .c-shi{color:#10b981;font-weight:bold}
+.m5-sub{font-size:10px;color:#64748b;letter-spacing:2px;margin:8px 0 4px 2px;font-weight:bold}
 </style>
 </head>
 <body>
@@ -311,6 +331,9 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <div class="mcard-btns">
       <button class="btn btn-b" onclick="startM4Input()">输入八字 →</button>
     </div>
+  </div>
+  <div class="mcard" onclick="show('p5')" style="cursor:pointer">
+    <div class="mcard-head"><div class="mcard-icon">📖</div><div><div class="mcard-name">知识速查 <span class="nt-label">参考表</span></div><div class="mcard-desc">所有知识点折叠速查表，随时翻阅复习</div></div><div style="color:#475569;font-size:18px">›</div></div>
   </div>
   <div class="nb-card" onclick="show('p-nb')">
     <div class="nb-card-row">
@@ -502,30 +525,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     </div>
   </div>
   <div class="sq-section">
-    <button class="sq-toggle" onclick="toggleSanqiTable(this)">📖 地支藏干三气参考表 ▼</button>
-    <div id="sanqi-table-body" style="display:none;margin-top:6px">
-      <div class="sq-tip">本气＞中气＞余气　力量依次递减</div>
-      <div class="sq-table-wrap">
-        <table class="sq-table">
-          <thead><tr><th>地支</th><th>本气（主气）</th><th>中气</th><th>余气</th></tr></thead>
-          <tbody>
-            <tr><td class="td-zhi">子</td><td class="td-bq">癸水</td><td class="td-none">—</td><td class="td-none">—</td></tr>
-            <tr><td class="td-zhi">丑</td><td class="td-bq">己土</td><td class="td-zq">癸水</td><td class="td-yq">辛金</td></tr>
-            <tr><td class="td-zhi">寅</td><td class="td-bq">甲木</td><td class="td-zq">丙火</td><td class="td-yq">戊土</td></tr>
-            <tr><td class="td-zhi">卯</td><td class="td-bq">乙木</td><td class="td-none">—</td><td class="td-none">—</td></tr>
-            <tr><td class="td-zhi">辰</td><td class="td-bq">戊土</td><td class="td-zq">乙木</td><td class="td-yq">癸水</td></tr>
-            <tr><td class="td-zhi">巳</td><td class="td-bq">丙火</td><td class="td-zq">庚金</td><td class="td-yq">戊土</td></tr>
-            <tr><td class="td-zhi">午</td><td class="td-bq">丁火</td><td class="td-zq">己土</td><td class="td-none">—</td></tr>
-            <tr><td class="td-zhi">未</td><td class="td-bq">己土</td><td class="td-zq">乙木</td><td class="td-yq">丁火</td></tr>
-            <tr><td class="td-zhi">申</td><td class="td-bq">庚金</td><td class="td-zq">壬水</td><td class="td-yq">戊土</td></tr>
-            <tr><td class="td-zhi">酉</td><td class="td-bq">辛金</td><td class="td-none">—</td><td class="td-none">—</td></tr>
-            <tr><td class="td-zhi">戌</td><td class="td-bq">戊土</td><td class="td-zq">辛金</td><td class="td-yq">丁火</td></tr>
-            <tr><td class="td-zhi">亥</td><td class="td-bq">壬水</td><td class="td-zq">甲木</td><td class="td-none">—</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="sq-note">子午卯酉 · 只有本气　　寅申巳亥 · 三气齐备<br>辰戌丑未 · 本气皆土，中气为库气（墓气）</div>
-    </div>
+    <button class="sq-toggle" onclick="show('p5');setTimeout(()=>{const el=document.getElementById('m5-sanqi');if(el)el.scrollIntoView({behavior:'smooth'})},80)">📖 藏干三气参考表 → 在知识速查中查看</button>
   </div>
   <button class="btn btn-d" onclick="goHome()" style="margin-top:8px">← 首页</button>
 </div>
@@ -675,6 +675,294 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   <div class="nb-footer">
     <button class="btn btn-g" onclick="startNBPractice()" style="flex:2">开始练习错题 🔓</button>
     <button class="btn btn-d" onclick="goHome()" style="flex:1">← 首页</button>
+  </div>
+</div>
+
+<!-- MODE 5: 知识速查 -->
+<div id="p5" class="screen">
+  <div class="tbar">
+    <button class="tbk" onclick="goHome()">✕</button>
+    <div class="tbtitle">📖 知识速查</div>
+  </div>
+  <div style="flex:1;overflow-y:auto;padding-bottom:20px">
+
+    <!-- 五行基础 -->
+    <div class="m5-sec">
+      <button class="m5-tog" onclick="m5Toggle(this)">▶ 🧭 五行基础</button>
+      <div class="m5-body" style="display:none">
+        <div class="m5-sub">天干五行阴阳</div>
+        <div class="m5-wrap"><table class="m5-tbl">
+          <tr><th>天干</th><td class="c-gan">甲</td><td class="c-gan">乙</td><td class="c-gan">丙</td><td class="c-gan">丁</td><td class="c-gan">戊</td><td class="c-gan">己</td><td class="c-gan">庚</td><td class="c-gan">辛</td><td class="c-gan">壬</td><td class="c-gan">癸</td></tr>
+          <tr><th>五行</th><td>木</td><td>木</td><td>火</td><td>火</td><td>土</td><td>土</td><td>金</td><td>金</td><td>水</td><td>水</td></tr>
+          <tr><th>阴阳</th><td>阳</td><td>阴</td><td>阳</td><td>阴</td><td>阳</td><td>阴</td><td>阳</td><td>阴</td><td>阳</td><td>阴</td></tr>
+        </table></div>
+        <div class="m5-sub">地支五行</div>
+        <div class="m5-wrap"><table class="m5-tbl">
+          <tr><th>地支</th><td class="c-zhi">子</td><td class="c-zhi">丑</td><td class="c-zhi">寅</td><td class="c-zhi">卯</td><td class="c-zhi">辰</td><td class="c-zhi">巳</td><td class="c-zhi">午</td><td class="c-zhi">未</td><td class="c-zhi">申</td><td class="c-zhi">酉</td><td class="c-zhi">戌</td><td class="c-zhi">亥</td></tr>
+          <tr><th>五行</th><td>水</td><td>土</td><td>木</td><td>木</td><td>土</td><td>火</td><td>火</td><td>土</td><td>金</td><td>金</td><td>土</td><td>水</td></tr>
+        </table></div>
+        <div class="m5-sub">五行生克</div>
+        <div class="m5-wrap"><table class="m5-tbl">
+          <tr><th>相生</th><td style="color:#10b981;text-align:left;padding:6px 10px">木 → 火 → 土 → 金 → 水 → 木</td></tr>
+          <tr><th>相克</th><td style="color:#ef4444;text-align:left;padding:6px 10px">木 → 土 → 水 → 火 → 金 → 木</td></tr>
+        </table></div>
+        <div class="m5-sub">五行人体系统</div>
+        <div class="m5-wrap"><table class="m5-tbl">
+          <thead><tr><th>五行</th><th style="min-width:130px;text-align:left">对应系统</th></tr></thead>
+          <tr><td>木</td><td style="text-align:left">筋爪与神经肝胆</td></tr>
+          <tr><td>火</td><td style="text-align:left">血脉心脑</td></tr>
+          <tr><td>土</td><td style="text-align:left">肌腱与消化</td></tr>
+          <tr><td>金</td><td style="text-align:left">皮毛与呼吸</td></tr>
+          <tr><td>水</td><td style="text-align:left">骨发与内分泌</td></tr>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- 地支关系 -->
+    <div class="m5-sec">
+      <button class="m5-tog" onclick="m5Toggle(this)">▶ 🌀 地支关系</button>
+      <div class="m5-body" style="display:none">
+        <div class="m5-sub">六冲</div>
+        <div class="m5-wrap"><table class="m5-tbl">
+          <tr><th>支</th><td class="c-zhi">子</td><td class="c-zhi">丑</td><td class="c-zhi">寅</td><td class="c-zhi">卯</td><td class="c-zhi">辰</td><td class="c-zhi">巳</td></tr>
+          <tr><th>冲</th><td class="c-chong">午</td><td class="c-chong">未</td><td class="c-chong">申</td><td class="c-chong">酉</td><td class="c-chong">戌</td><td class="c-chong">亥</td></tr>
+        </table></div>
+        <div class="m5-sub">六合</div>
+        <div class="m5-wrap"><table class="m5-tbl">
+          <thead><tr><th>合对</th><th>类型</th></tr></thead>
+          <tr><td><span class="c-zhi">子</span>＋<span class="c-zhi">丑</span></td><td class="c-xu">克合</td></tr>
+          <tr><td><span class="c-zhi">寅</span>＋<span class="c-zhi">亥</span></td><td class="c-he">生合</td></tr>
+          <tr><td><span class="c-zhi">卯</span>＋<span class="c-zhi">戌</span></td><td class="c-he">生合</td></tr>
+          <tr><td><span class="c-zhi">辰</span>＋<span class="c-zhi">酉</span></td><td class="c-he">生合</td></tr>
+          <tr><td><span class="c-zhi">巳</span>＋<span class="c-zhi">申</span></td><td class="c-xu">克合</td></tr>
+          <tr><td><span class="c-zhi">午</span>＋<span class="c-zhi">未</span></td><td class="c-xu">克合</td></tr>
+        </table></div>
+        <div class="m5-sub">暗合</div>
+        <div class="m5-wrap"><table class="m5-tbl">
+          <tr><td class="c-zhi">申</td><td>↔</td><td class="c-zhi">卯</td><td style="width:16px"></td><td class="c-zhi">亥</td><td>↔</td><td class="c-zhi">午</td></tr>
+          <tr><td class="c-zhi">丑</td><td>↔</td><td class="c-zhi">寅</td><td></td><td class="c-zhi">子</td><td>↔</td><td class="c-zhi">巳</td></tr>
+        </table></div>
+        <div class="m5-sub">六穿</div>
+        <div class="m5-wrap"><table class="m5-tbl">
+          <thead><tr><th>穿对</th><th>类型</th><th>穿对</th><th>类型</th></tr></thead>
+          <tr><td><span class="c-zhi">寅</span>＋<span class="c-zhi">巳</span></td><td style="color:#f59e0b">生穿</td><td><span class="c-zhi">酉</span>＋<span class="c-zhi">戌</span></td><td style="color:#f59e0b">生穿</td></tr>
+          <tr><td><span class="c-zhi">丑</span>＋<span class="c-zhi">午</span></td><td style="color:#f59e0b">生穿</td><td><span class="c-zhi">卯</span>＋<span class="c-zhi">辰</span></td><td style="color:#8b5cf6">克穿</td></tr>
+          <tr><td><span class="c-zhi">申</span>＋<span class="c-zhi">亥</span></td><td style="color:#f59e0b">生穿</td><td><span class="c-zhi">子</span>＋<span class="c-zhi">未</span></td><td style="color:#8b5cf6">克穿</td></tr>
+        </table></div>
+        <div class="m5-sub">绝</div>
+        <div class="m5-wrap"><table class="m5-tbl">
+          <tr><td class="c-zhi">申</td><td>＋</td><td class="c-zhi">卯</td><td style="width:16px"></td><td class="c-zhi">亥</td><td>＋</td><td class="c-zhi">午</td></tr>
+          <tr><td class="c-zhi">子</td><td>＋</td><td class="c-zhi">巳</td><td></td><td class="c-zhi">寅</td><td>＋</td><td class="c-zhi">酉</td></tr>
+        </table></div>
+        <div class="m5-sub">三合局</div>
+        <div class="m5-wrap"><table class="m5-tbl">
+          <tr><td><span class="c-zhi">申</span>子辰</td><td>水局</td><td style="width:12px"></td><td><span class="c-zhi">亥</span>卯未</td><td>木局</td></tr>
+          <tr><td><span class="c-zhi">寅</span>午戌</td><td>火局</td><td></td><td><span class="c-zhi">巳</span>酉丑</td><td>金局</td></tr>
+        </table></div>
+        <div class="m5-sub">天地阴阳诀</div>
+        <div class="m5-wrap"><table class="m5-tbl">
+          <tr><th>阳</th><td class="c-zhi">寅</td><td class="c-zhi">申</td><td class="c-zhi">巳</td><td class="c-zhi">亥</td><td class="c-zhi">辰</td><td class="c-zhi">戌</td></tr>
+          <tr><th>阴</th><td class="c-zhi">子</td><td class="c-zhi">午</td><td class="c-zhi">卯</td><td class="c-zhi">酉</td><td class="c-zhi">丑</td><td class="c-zhi">未</td></tr>
+        </table></div>
+        <div class="m5-sub">自刑</div>
+        <div class="m5-wrap"><table class="m5-tbl">
+          <tr><th>自刑支</th><td class="c-zhi">辰</td><td class="c-zhi">午</td><td class="c-zhi">酉</td><td class="c-zhi">亥</td></tr>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- 藏干三气 -->
+    <div class="m5-sec" id="m5-sanqi">
+      <button class="m5-tog" onclick="m5Toggle(this)">▶ 🌿 藏干三气</button>
+      <div class="m5-body" style="display:none">
+        <div style="font-size:11px;color:#475569;text-align:center;padding:4px 0 6px;letter-spacing:1px">本气＞中气＞余气　力量依次递减</div>
+        <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+          <thead><tr><th>地支</th><th style="color:#10b981">本气（主气）</th><th style="color:#f59e0b">中气</th><th style="color:#94a3b8">余气</th></tr></thead>
+          <tbody>
+            <tr><td class="c-zhi">子</td><td class="c-bq">癸水</td><td class="c-xu">—</td><td class="c-xu">—</td></tr>
+            <tr><td class="c-zhi">丑</td><td class="c-bq">己土</td><td style="color:#f59e0b">癸水</td><td style="color:#94a3b8">辛金</td></tr>
+            <tr><td class="c-zhi">寅</td><td class="c-bq">甲木</td><td style="color:#f59e0b">丙火</td><td style="color:#94a3b8">戊土</td></tr>
+            <tr><td class="c-zhi">卯</td><td class="c-bq">乙木</td><td class="c-xu">—</td><td class="c-xu">—</td></tr>
+            <tr><td class="c-zhi">辰</td><td class="c-bq">戊土</td><td style="color:#f59e0b">乙木</td><td style="color:#94a3b8">癸水</td></tr>
+            <tr><td class="c-zhi">巳</td><td class="c-bq">丙火</td><td style="color:#f59e0b">庚金</td><td style="color:#94a3b8">戊土</td></tr>
+            <tr><td class="c-zhi">午</td><td class="c-bq">丁火</td><td style="color:#f59e0b">己土</td><td class="c-xu">—</td></tr>
+            <tr><td class="c-zhi">未</td><td class="c-bq">己土</td><td style="color:#f59e0b">乙木</td><td style="color:#94a3b8">丁火</td></tr>
+            <tr><td class="c-zhi">申</td><td class="c-bq">庚金</td><td style="color:#f59e0b">壬水</td><td style="color:#94a3b8">戊土</td></tr>
+            <tr><td class="c-zhi">酉</td><td class="c-bq">辛金</td><td class="c-xu">—</td><td class="c-xu">—</td></tr>
+            <tr><td class="c-zhi">戌</td><td class="c-bq">戊土</td><td style="color:#f59e0b">辛金</td><td style="color:#94a3b8">丁火</td></tr>
+            <tr><td class="c-zhi">亥</td><td class="c-bq">壬水</td><td style="color:#f59e0b">甲木</td><td class="c-xu">—</td></tr>
+          </tbody>
+        </table></div>
+        <div style="font-size:10px;color:#334155;text-align:center;padding:6px 0 2px;line-height:1.8;letter-spacing:.5px">子午卯酉·只有本气　　寅申巳亥·三气齐备<br>辰戌丑未·本气皆土，中气为库气（墓气）</div>
+      </div>
+    </div>
+
+    <!-- 天干关系 -->
+    <div class="m5-sec">
+      <button class="m5-tog" onclick="m5Toggle(this)">▶ ☰ 天干关系</button>
+      <div class="m5-body" style="display:none">
+        <div class="m5-sub">天干五合</div>
+        <div class="m5-wrap"><table class="m5-tbl">
+          <tr><td><span class="c-gan">甲</span>＋<span class="c-gan">己</span></td><td style="width:10px"></td><td><span class="c-gan">乙</span>＋<span class="c-gan">庚</span></td><td style="width:10px"></td><td><span class="c-gan">丙</span>＋<span class="c-gan">辛</span></td></tr>
+          <tr><td><span class="c-gan">丁</span>＋<span class="c-gan">壬</span></td><td></td><td><span class="c-gan">戊</span>＋<span class="c-gan">癸</span></td><td></td><td></td></tr>
+        </table></div>
+        <div class="m5-sub">禄位（干支互通）</div>
+        <div class="m5-wrap"><table class="m5-tbl">
+          <tr><th>天干</th><td class="c-gan">甲</td><td class="c-gan">乙</td><td class="c-gan">丙</td><td class="c-gan">丁</td><td class="c-gan">戊</td><td class="c-gan">己</td><td class="c-gan">庚</td><td class="c-gan">辛</td><td class="c-gan">壬</td><td class="c-gan">癸</td></tr>
+          <tr><th>禄位</th><td class="c-zhi">寅</td><td class="c-zhi">卯</td><td class="c-zhi">巳</td><td class="c-zhi">午</td><td class="c-zhi">巳</td><td class="c-zhi">午</td><td class="c-zhi">申</td><td class="c-zhi">酉</td><td class="c-zhi">亥</td><td class="c-zhi">子</td></tr>
+        </table></div>
+        <div class="m5-sub">干支自合（同柱）</div>
+        <div class="m5-wrap"><table class="m5-tbl">
+          <tr>
+            <td><span class="c-gan">戊</span><span class="c-zhi">子</span></td>
+            <td><span class="c-gan">壬</span><span class="c-zhi">午</span></td>
+            <td><span class="c-gan">甲</span><span class="c-zhi">午</span></td>
+            <td><span class="c-gan">壬</span><span class="c-zhi">戌</span></td>
+            <td><span class="c-gan">丙</span><span class="c-zhi">戌</span></td>
+          </tr>
+          <tr>
+            <td><span class="c-gan">丁</span><span class="c-zhi">亥</span></td>
+            <td><span class="c-gan">己</span><span class="c-zhi">亥</span></td>
+            <td><span class="c-gan">辛</span><span class="c-zhi">巳</span></td>
+            <td><span class="c-gan">癸</span><span class="c-zhi">巳</span></td>
+            <td></td>
+          </tr>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- 生克关系 -->
+    <div class="m5-sec">
+      <button class="m5-tog" onclick="m5Toggle(this)">▶ ⚡ 生克关系</button>
+      <div class="m5-body" style="display:none">
+        <div class="m5-sub">天干五行相生相克</div>
+        <div class="m5-wrap"><table class="m5-tbl">
+          <thead><tr><th>五行组</th><th style="color:#10b981">生</th><th style="color:#ef4444">克</th></tr></thead>
+          <tr><td>甲乙木</td><td class="c-he">丙丁火</td><td class="c-chong">戊己土</td></tr>
+          <tr><td>丙丁火</td><td class="c-he">戊己土</td><td class="c-chong">庚辛金</td></tr>
+          <tr><td>戊己土</td><td class="c-he">庚辛金</td><td class="c-chong">壬癸水</td></tr>
+          <tr><td>庚辛金</td><td class="c-he">壬癸水</td><td class="c-chong">甲乙木</td></tr>
+          <tr><td>壬癸水</td><td class="c-he">甲乙木</td><td class="c-chong">丙丁火</td></tr>
+        </table></div>
+        <div class="m5-sub">六亲相生相克</div>
+        <div class="m5-wrap"><table class="m5-tbl">
+          <thead><tr><th>六亲</th><th style="color:#10b981">生</th><th style="color:#ef4444">克</th></tr></thead>
+          <tr><td>比劫</td><td class="c-he">食伤</td><td class="c-chong">财才</td></tr>
+          <tr><td>食伤</td><td class="c-he">财才</td><td class="c-chong">官杀</td></tr>
+          <tr><td>财才</td><td class="c-he">官杀</td><td class="c-chong">枭印</td></tr>
+          <tr><td>官杀</td><td class="c-he">枭印</td><td class="c-chong">比劫</td></tr>
+          <tr><td>枭印</td><td class="c-he">比劫</td><td class="c-chong">食伤</td></tr>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- 旺衰十二运 -->
+    <div class="m5-sec">
+      <button class="m5-tog" onclick="m5Toggle(this)">▶ 🔄 旺衰十二运</button>
+      <div class="m5-body" style="display:none">
+        <div style="font-size:10px;color:#475569;text-align:center;padding:4px 0;letter-spacing:.5px">← 左右滑动查看 →</div>
+        <div class="m5-wrap"><div id="m5-wangshuai-tbl"></div></div>
+      </div>
+    </div>
+
+    <!-- 干支虚实 -->
+    <div class="m5-sec">
+      <button class="m5-tog" onclick="m5Toggle(this)">▶ ⚖ 干支虚实</button>
+      <div class="m5-body" style="display:none">
+        <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+          <thead><tr><th>天干</th><th style="color:#10b981">实支（有根有生）</th><th style="color:#475569">虚支（无根无生）</th></tr></thead>
+          <tr><td class="c-gan">甲</td><td class="c-shi">寅 辰 子</td><td class="c-xu">申 戌 午</td></tr>
+          <tr><td class="c-gan">乙</td><td class="c-shi">亥 卯 未</td><td class="c-xu">巳 酉 丑</td></tr>
+          <tr><td class="c-gan">丙</td><td class="c-shi">寅 午 戌</td><td class="c-xu">子 申 辰</td></tr>
+          <tr><td class="c-gan">丁</td><td class="c-shi">巳 卯 未</td><td class="c-xu">亥 丑 酉</td></tr>
+          <tr><td class="c-gan">戊</td><td class="c-shi">戌 午 辰</td><td class="c-xu">子 申 寅</td></tr>
+          <tr><td class="c-gan">己</td><td class="c-shi">巳 未 丑</td><td class="c-xu">亥 酉 卯</td></tr>
+          <tr><td class="c-gan">庚</td><td class="c-shi">申 辰</td><td class="c-xu">子 午 寅 戌</td></tr>
+          <tr><td class="c-gan">辛</td><td class="c-shi">丑 酉</td><td class="c-xu">巳 亥 未 卯</td></tr>
+          <tr><td class="c-gan">壬</td><td class="c-shi">申 子 辰</td><td class="c-xu">戌 午 寅</td></tr>
+          <tr><td class="c-gan">癸</td><td class="c-shi">亥 酉 丑</td><td class="c-xu">巳 未 卯</td></tr>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- 纳音五行 -->
+    <div class="m5-sec">
+      <button class="m5-tog" onclick="m5Toggle(this)">▶ 🎵 纳音五行</button>
+      <div class="m5-body" style="display:none">
+        <div class="m5-wrap"><div id="m5-nayin-tbl"></div></div>
+      </div>
+    </div>
+
+    <!-- 脏腑时辰 -->
+    <div class="m5-sec">
+      <button class="m5-tog" onclick="m5Toggle(this)">▶ 🏥 脏腑时辰</button>
+      <div class="m5-body" style="display:none">
+        <div class="m5-sub">天干脏腑</div>
+        <div class="m5-wrap"><table class="m5-tbl">
+          <tr><th>天干</th><td class="c-gan">甲</td><td class="c-gan">乙</td><td class="c-gan">丙</td><td class="c-gan">丁</td><td class="c-gan">戊</td><td class="c-gan">己</td><td class="c-gan">庚</td><td class="c-gan">辛</td><td class="c-gan">壬</td><td class="c-gan">癸</td></tr>
+          <tr><th>脏腑</th><td>胆</td><td>肝</td><td>小肠</td><td>心</td><td>胃</td><td>脾</td><td>大肠</td><td>肺</td><td>膀胱</td><td>肾</td></tr>
+        </table></div>
+        <div class="m5-sub">地支脏腑·时辰</div>
+        <div class="m5-wrap"><table class="m5-tbl">
+          <thead><tr><th>地支</th><th>脏腑</th><th>时辰</th><th>地支</th><th>脏腑</th><th>时辰</th></tr></thead>
+          <tr><td class="c-zhi">子</td><td>胆</td><td>23-1时</td><td class="c-zhi">午</td><td>心</td><td>11-13时</td></tr>
+          <tr><td class="c-zhi">丑</td><td>肝</td><td>1-3时</td><td class="c-zhi">未</td><td>小肠</td><td>13-15时</td></tr>
+          <tr><td class="c-zhi">寅</td><td>肺</td><td>3-5时</td><td class="c-zhi">申</td><td>膀胱</td><td>15-17时</td></tr>
+          <tr><td class="c-zhi">卯</td><td>大肠</td><td>5-7时</td><td class="c-zhi">酉</td><td>肾</td><td>17-19时</td></tr>
+          <tr><td class="c-zhi">辰</td><td>胃</td><td>7-9时</td><td class="c-zhi">戌</td><td>心包</td><td>19-21时</td></tr>
+          <tr><td class="c-zhi">巳</td><td>脾</td><td>9-11时</td><td class="c-zhi">亥</td><td>三焦</td><td>21-23时</td></tr>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- 时历推算 -->
+    <div class="m5-sec">
+      <button class="m5-tog" onclick="m5Toggle(this)">▶ 📅 时历推算</button>
+      <div class="m5-body" style="display:none">
+        <div class="m5-sub">月建对照</div>
+        <div class="m5-wrap"><table class="m5-tbl">
+          <tr><th>月建</th><td class="c-zhi">寅</td><td class="c-zhi">卯</td><td class="c-zhi">辰</td><td class="c-zhi">巳</td><td class="c-zhi">午</td><td class="c-zhi">未</td><td class="c-zhi">申</td><td class="c-zhi">酉</td><td class="c-zhi">戌</td><td class="c-zhi">亥</td><td class="c-zhi">子</td><td class="c-zhi">丑</td></tr>
+          <tr><th>月份</th><td>2月</td><td>3月</td><td>4月</td><td>5月</td><td>6月</td><td>7月</td><td>8月</td><td>9月</td><td>10月</td><td>11月</td><td>12月</td><td>1月</td></tr>
+        </table></div>
+        <div class="m5-sub">节气月份对照</div>
+        <div class="m5-wrap"><table class="m5-tbl">
+          <thead><tr><th>节气</th><th>月份</th><th>节气</th><th>月份</th></tr></thead>
+          <tr><td>小寒·大寒</td><td>1月</td><td>小暑·大暑</td><td>7月</td></tr>
+          <tr><td>立春·雨水</td><td>2月</td><td>立秋·处暑</td><td>8月</td></tr>
+          <tr><td>惊蛰·春分</td><td>3月</td><td>白露·秋分</td><td>9月</td></tr>
+          <tr><td>清明·谷雨</td><td>4月</td><td>寒露·霜降</td><td>10月</td></tr>
+          <tr><td>立夏·小满</td><td>5月</td><td>立冬·小雪</td><td>11月</td></tr>
+          <tr><td>芒种·夏至</td><td>6月</td><td>大雪·冬至</td><td>12月</td></tr>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- 断命步骤 -->
+    <div class="m5-sec">
+      <button class="m5-tog" onclick="m5Toggle(this)">▶ 🔮 断命步骤</button>
+      <div class="m5-body" style="display:none">
+        <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+          <tr><td style="color:#f59e0b;font-weight:bold;width:32px">①</td><td style="text-align:left">天元入命</td></tr>
+          <tr><td style="color:#f59e0b;font-weight:bold">②</td><td style="text-align:left">确定状态</td></tr>
+          <tr><td style="color:#f59e0b;font-weight:bold">③</td><td style="text-align:left">确定喜忌</td></tr>
+          <tr><td style="color:#f59e0b;font-weight:bold">④</td><td style="text-align:left">干支意向</td></tr>
+          <tr><td style="color:#f59e0b;font-weight:bold">⑤</td><td style="text-align:left">十神格局</td></tr>
+          <tr><td style="color:#f59e0b;font-weight:bold">⑥</td><td style="text-align:left">作用方式</td></tr>
+          <tr><td style="color:#f59e0b;font-weight:bold">⑦</td><td style="text-align:left">宫位大限</td></tr>
+          <tr><td style="color:#f59e0b;font-weight:bold">⑧</td><td style="text-align:left">大运流年</td></tr>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- 数字编码 -->
+    <div class="m5-sec">
+      <button class="m5-tog" onclick="m5Toggle(this)">▶ 🔢 数字编码</button>
+      <div class="m5-body" style="display:none">
+        <div style="font-size:10px;color:#475569;text-align:center;padding:4px 0;letter-spacing:.5px">← 左右滑动查看 →</div>
+        <div class="m5-wrap"><div id="m5-shuma-tbl"></div></div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -1065,8 +1353,52 @@ function saveM1Result(score,correct,maxCombo,time){
 }
 
 // ══ NAVIGATION ══
-function toggleSanqiTable(btn){const body=document.getElementById('sanqi-table-body');const open=body.style.display==='none';body.style.display=open?'block':'none';btn.textContent=open?'📖 地支藏干三气参考表 ▲':'📖 地支藏干三气参考表 ▼';}
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');if(id==='p-nb')renderNB();}
+
+function m5Toggle(btn){
+  const body=btn.nextElementSibling;
+  const open=body.style.display==='none';
+  body.style.display=open?'block':'none';
+  btn.textContent=btn.textContent.replace(open?'▶':'▼',open?'▼':'▶');
+  btn.classList.toggle('open',open);
+  if(open){
+    const ws=body.querySelector('#m5-wangshuai-tbl');if(ws&&!ws.dataset.r)renderM5Wangshuai(ws);
+    const ny=body.querySelector('#m5-nayin-tbl');if(ny&&!ny.dataset.r)renderM5Nayin(ny);
+    const sm=body.querySelector('#m5-shuma-tbl');if(sm&&!sm.dataset.r)renderM5Shuma(sm);
+  }
+}
+function renderM5Wangshuai(el){
+  const st=WANGSHUAI_STATES;
+  let h=`<table class="m5-tbl"><thead><tr><th>天干</th>${st.map(s=>`<th>${s}</th>`).join('')}</tr></thead><tbody>`;
+  for(const g of GAN){
+    const arr=WANGSHUAI[g];
+    h+=`<tr><td class="c-gan">${g}</td>${arr.map((z,i)=>`<td class="c-zhi"${i===0?' style="color:#60a5fa"':i===4?' style="color:#10b981;font-weight:bold"':i===8||i===9?' style="color:#ef4444"':''}>${z}</td>`).join('')}</tr>`;
+  }
+  el.innerHTML=h+'</tbody></table>';el.dataset.r='1';
+}
+function renderM5Nayin(el){
+  let h='<table class="m5-tbl"><thead><tr><th>干支①</th><th>干支②</th><th>纳音</th><th>干支①</th><th>干支②</th><th>纳音</th></tr></thead><tbody>';
+  for(let i=0;i<NAYIN_DATA.length;i+=2){
+    const[p1a,p1b,ny1]=NAYIN_DATA[i],row2=NAYIN_DATA[i+1];
+    h+=`<tr><td><span class="c-gan">${p1a[0]}</span><span class="c-zhi">${p1a[1]}</span></td><td><span class="c-gan">${p1b[0]}</span><span class="c-zhi">${p1b[1]}</span></td><td>${ny1}</td>`;
+    if(row2){const[p2a,p2b,ny2]=row2;h+=`<td><span class="c-gan">${p2a[0]}</span><span class="c-zhi">${p2a[1]}</span></td><td><span class="c-gan">${p2b[0]}</span><span class="c-zhi">${p2b[1]}</span></td><td>${ny2}</td>`;}else h+=`<td colspan="3"></td>`;
+    h+='</tr>';
+  }
+  el.innerHTML=h+'</tbody></table>';el.dataset.r='1';
+}
+function renderM5Shuma(el){
+  const ent=Object.entries(SHUMA_MAP);
+  let h='<table class="m5-tbl"><thead><tr><th>码</th><th style="text-align:left">图像</th><th>码</th><th style="text-align:left">图像</th><th>码</th><th style="text-align:left">图像</th><th>码</th><th style="text-align:left">图像</th></tr></thead><tbody>';
+  for(let i=0;i<ent.length;i+=4){
+    h+='<tr>';
+    for(let j=0;j<4;j++){
+      if(i+j<ent.length){const[k,v]=ent[i+j];h+=`<td style="color:#f59e0b">${k}</td><td style="text-align:left">${v}</td>`;}
+      else h+='<td></td><td></td>';
+    }
+    h+='</tr>';
+  }
+  el.innerHTML=h+'</tbody></table>';el.dataset.r='1';
+}
 function goHome(){clearInterval(G1.timer);initHome();show('ph');}
 function toast(msg){const t=document.getElementById('el-toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
 
