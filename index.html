@@ -892,6 +892,82 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
       </div>
     </div>
 
+    <!-- 天干虚实喜忌 -->
+    <div class="m5-sec">
+      <button class="m5-tog" onclick="m5Toggle(this)">▶ 💡 天干虚实喜忌</button>
+      <div class="m5-body" style="display:none">
+
+        <div class="m5-sub">虚实总则</div>
+        <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+          <tr><th style="color:#10b981;width:30px">实</th><td style="text-align:left">通根（地支有同五行 或 生天干）→ 实质·物质·权力·财富</td></tr>
+          <tr><th style="color:#ef4444">虚</th><td style="text-align:left">无根（无同五行 且 不生天干）→ 抽象·精神·名气·才华</td></tr>
+        </table></div>
+        <div style="font-size:11px;color:#64748b;padding:2px 4px 8px;line-height:1.9">
+          金木为形，以通根论虚实<br>
+          水火为气，天生分虚实两态；状态一变，人生大变
+        </div>
+
+        <div class="m5-sub">水火丁壬癸虚实六柱</div>
+        <div class="m5-wrap"><table class="m5-tbl">
+          <thead><tr><th>天干</th><th style="color:#10b981">实（通根三柱）</th><th style="color:#ef4444">虚（透天三柱）</th><th>实象↔虚象</th></tr></thead>
+          <tr><td class="c-gan">丙</td><td class="c-shi">丙寅 丙午 丙戌</td><td class="c-xu">丙子 丙申 丙辰</td><td>炉火↔太阳</td></tr>
+          <tr><td class="c-gan">丁</td><td class="c-shi">丁丑 丁酉 丁亥</td><td class="c-xu">丁卯 丁巳 丁未</td><td>灯烛↔月亮</td></tr>
+          <tr><td class="c-gan">壬</td><td class="c-shi">壬申 壬子 壬辰</td><td class="c-xu">壬寅 壬午 壬戌</td><td>大海↔江河</td></tr>
+          <tr><td class="c-gan">癸</td><td class="c-shi">癸酉 癸亥 癸丑</td><td class="c-xu">癸卯 癸巳 癸未</td><td>溪流↔雨露</td></tr>
+        </table></div>
+
+        <div class="m5-sub">甲乙木·死活判断</div>
+        <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+          <thead><tr><th>状态</th><th style="text-align:left">条件</th><th>象</th></tr></thead>
+          <tr><td style="color:#10b981;font-weight:bold">活木</td><td style="text-align:left">有水（壬癸亥子）<b>且</b>有根（寅卯亥）</td><td>大树·花草</td></tr>
+          <tr><td style="color:#ef4444;font-weight:bold">死木</td><td style="text-align:left">缺水 或 缺根（二者缺一即死）</td><td>枯木·木材</td></tr>
+        </table></div>
+        <div style="font-size:10px;color:#475569;padding:0 4px 8px;line-height:1.8">辰土：仅甲辰自身可为根，其他柱辰不表根<br>未土：一般不表根，需特殊对待</div>
+
+        <div class="m5-sub">十天干喜忌速记</div>
+        <div class="m5-wrap"><table class="m5-tbl">
+          <thead><tr><th>天干</th><th>象</th><th style="color:#10b981">喜</th><th style="color:#ef4444">忌</th></tr></thead>
+          <tr><td class="c-gan">甲（活）</td><td>大树</td><td class="c-he">水·火</td><td class="c-chong">金</td></tr>
+          <tr><td class="c-gan">甲（死）</td><td>枯木</td><td class="c-he">金</td><td class="c-chong">水·火</td></tr>
+          <tr><td class="c-gan">乙（活）</td><td>花草</td><td class="c-he">癸水·丙火·己土</td><td class="c-chong">庚金·水过多</td></tr>
+          <tr><td class="c-gan">乙（死）</td><td>枯草</td><td class="c-he">金</td><td class="c-chong">水·火</td></tr>
+          <tr><td class="c-gan">丙（虚）</td><td>太阳</td><td class="c-he">壬水</td><td class="c-chong">癸水·辛金</td></tr>
+          <tr><td class="c-gan">丙（实）</td><td>炉火</td><td class="c-he">木生扶·比劫</td><td class="c-chong">坏根</td></tr>
+          <tr><td class="c-gan">丁（虚）</td><td>月亮</td><td class="c-he">壬水（丁壬合）</td><td class="c-chong">失时失局</td></tr>
+          <tr><td class="c-gan">丁（实）</td><td>灯烛</td><td class="c-he">甲乙木·比劫</td><td class="c-chong">坏根</td></tr>
+          <tr><td class="c-gan">戊</td><td>大地</td><td class="c-he">甲木疏·庚辛金泄</td><td class="c-chong">火生（冬除外）</td></tr>
+          <tr><td class="c-gan">己</td><td>田园</td><td class="c-he">乙木疏·辛金泄</td><td class="c-chong">火生·庚金过重</td></tr>
+          <tr><td class="c-gan">庚</td><td>矿石</td><td class="c-he">丁火炼·水泄</td><td class="c-chong">土埋·木克</td></tr>
+          <tr><td class="c-gan">辛</td><td>珠宝</td><td class="c-he">丙火照·癸水润·水泄</td><td class="c-chong">火炎·土重</td></tr>
+          <tr><td class="c-gan">壬（虚）</td><td>江河</td><td class="c-he">庚金·甲木·戊土</td><td class="c-chong">无特大忌</td></tr>
+          <tr><td class="c-gan">壬（实）</td><td>大海</td><td class="c-he">金生·比劫</td><td class="c-chong">燥土坏根</td></tr>
+          <tr><td class="c-gan">癸（虚）</td><td>雨露</td><td class="c-he">辛金·乙木</td><td class="c-chong">无特大忌</td></tr>
+          <tr><td class="c-gan">癸（实）</td><td>溪流</td><td class="c-he">金生·比劫</td><td class="c-chong">燥土坏根</td></tr>
+        </table></div>
+
+        <div class="m5-sub">取象核心对照</div>
+        <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+          <thead><tr><th></th><th style="color:#ef4444">虚透（天）</th><th style="color:#10b981">通根（地）</th></tr></thead>
+          <tr><th>象</th><td>精神·名气·才华</td><td>实质·财富·权力</td></tr>
+          <tr><th>最怕</th><td>落地（变为实）</td><td>根坏（变为虚）</td></tr>
+          <tr><th>印</th><td>声誉·学识象</td><td>实质权力</td></tr>
+          <tr><th>财</th><td>才华（非实财）</td><td>实际财富</td></tr>
+          <tr><th>官</th><td>名望声誉</td><td>实际职位</td></tr>
+        </table></div>
+
+        <div class="m5-sub">口诀速记</div>
+        <div style="background:#0f172a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.2;color:#94a3b8">
+          <div>🌞 <span style="color:#f59e0b">丙火明明一太阳，最喜壬水普阳光；</span></div>
+          <div style="padding-left:20px"><span style="color:#f59e0b">若逢癸水来遮日，雾云遮日暗无光</span></div>
+          <div>🌱 <span style="color:#10b981">戊见甲寅发大财</span></div>
+          <div>💎 <span style="color:#c4b5fd">金喜水泄，水泄则金秀，金白水清</span></div>
+          <div>🌿 <span style="color:#34d399">土喜木疏，喜金泄，不喜火生</span></div>
+          <div>🌙 <span style="color:#93c5fd">丁虚见壬→控制权力（丁壬合）</span></div>
+        </div>
+
+      </div>
+    </div>
+
     <!-- 纳音五行 -->
     <div class="m5-sec">
       <button class="m5-tog" onclick="m5Toggle(this)">▶ 🎵 纳音五行</button>
