@@ -145,8 +145,20 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 
 /* MODE 3 */
 .m3nav{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-shrink:0}
-.m3name{font-size:15px;font-weight:bold;color:#10b981;flex:1;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.m3name{font-size:15px;font-weight:bold;color:#10b981;flex:1;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;user-select:none}
 .m3nb{background:#1e293b;border:none;color:#64748b;padding:7px 12px;border-radius:10px;cursor:pointer;font-size:12px;white-space:nowrap}
+/* case picker */
+.m3pick-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;display:flex;align-items:flex-end}
+.m3pick-modal{background:#1e293b;width:100%;max-height:72vh;border-radius:14px 14px 0 0;overflow:hidden;display:flex;flex-direction:column}
+.m3pick-hdr{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid #334155;flex-shrink:0}
+.m3pick-hdr span{font-size:15px;font-weight:600;color:#e2e8f0}
+.m3pick-hdr button{background:none;border:none;color:#64748b;font-size:18px;cursor:pointer;line-height:1;padding:2px 6px}
+.m3pick-search{padding:8px 12px;flex-shrink:0}
+.m3pick-search input{width:100%;background:#0f172a;border:1px solid #334155;border-radius:8px;padding:7px 10px;color:#e2e8f0;font-size:14px;outline:none;box-sizing:border-box}
+.m3pick-list{overflow-y:auto;-webkit-overflow-scrolling:touch}
+.m3pick-item{padding:11px 16px;border-bottom:1px solid #1e293b55;color:#94a3b8;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:10px}
+.m3pick-item:active{background:#1e3a8a55}
+.m3pick-item.cur{background:#1e3a8a;color:#93c5fd}
 .m3nb:hover{background:#273549;color:#94a3b8}
 .bz-wrap{background:#1e293b;border-radius:18px;padding:13px 10px;flex-shrink:0}
 .bz-labels{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:5px}
@@ -484,6 +496,18 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   <button class="btn btn-d" onclick="goHome()" style="margin:4px 0">← 返回首页</button>
 </div>
 
+<!-- MODE 3 case picker overlay -->
+<div id="m3-picker" class="m3pick-overlay" style="display:none" onclick="if(event.target===this)closeCasePicker()">
+  <div class="m3pick-modal">
+    <div class="m3pick-hdr">
+      <span>选择例题（共 <span id="m3pk-cnt"></span> 例）</span>
+      <button onclick="closeCasePicker()">✕</button>
+    </div>
+    <div class="m3pick-search"><input id="m3pk-q" type="search" placeholder="搜索姓名…" oninput="m3FilterCases(this.value)"></div>
+    <div class="m3pick-list" id="m3-pick-list"></div>
+  </div>
+</div>
+
 <!-- MODE 3 -->
 <div id="p3" class="screen">
   <div class="tbar">
@@ -492,9 +516,9 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <div class="tbr" id="m3-idx"></div>
   </div>
   <div class="m3nav">
-    <button class="m3nb" onclick="m3Move(-1)">◀ 上一例</button>
-    <div class="m3name" id="m3-name"></div>
-    <button class="m3nb" onclick="m3Move(1)">下一例 ▶</button>
+    <button class="m3nb" onclick="m3Move(-1)">◀</button>
+    <div class="m3name" id="m3-name" onclick="openCasePicker()" title="点击选择例题"></div>
+    <button class="m3nb" onclick="m3Move(1)">▶</button>
   </div>
   <div class="bz-wrap">
     <div class="bz-labels"><div class="bz-lb">年</div><div class="bz-lb">月</div><div class="bz-lb">日</div><div class="bz-lb">时</div></div>
@@ -502,9 +526,10 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   </div>
   <div class="rel-panel" id="m3-rel"><div class="rel-hint">点击八字中任意两个字<br>即时查看它们之间的关系</div></div>
   <div class="m3footer">
-    <button class="btn btn-d" onclick="startM3(-1)" style="flex:1;font-size:12px">🎲 随机换一例</button>
-    <button class="btn btn-b" onclick="m3ShowAll()" style="flex:1;font-size:12px">📋 全局关系</button>
-    <button class="btn btn-d" onclick="m3ClearSel()" style="flex:1;font-size:12px">✕ 取消选中</button>
+    <button class="btn btn-d" onclick="startM3(-1)" style="flex:1;font-size:12px">🎲 随机</button>
+    <button class="btn btn-g" onclick="openCasePicker()" style="flex:1;font-size:12px">📜 选例</button>
+    <button class="btn btn-b" onclick="m3ShowAll()" style="flex:1;font-size:12px">📋 全局</button>
+    <button class="btn btn-d" onclick="m3ClearSel()" style="flex:1;font-size:12px">✕ 清选</button>
   </div>
 </div>
 
@@ -1470,6 +1495,25 @@ function startM3(idx){if(idx<0)idx=0|Math.random()*CASES.length;M3={idx,sel:[],a
 function m3Move(d){M3.idx=(M3.idx+d+CASES.length)%CASES.length;M3.sel=[];M3.allView=false;m3Render();}
 function m3ClearSel(){M3.sel=[];M3.allView=false;m3Render();}
 function m3ShowAll(){M3.sel=[];M3.allView=true;m3Render();}
+function openCasePicker(){
+  document.getElementById('m3pk-cnt').textContent=CASES.length;
+  document.getElementById('m3pk-q').value='';
+  m3FilterCases('');
+  const ov=document.getElementById('m3-picker');
+  ov.style.display='flex';
+  setTimeout(()=>{const cur=document.getElementById('m3-pick-list').querySelector('.cur');if(cur)cur.scrollIntoView({block:'center'});},80);
+}
+function closeCasePicker(){document.getElementById('m3-picker').style.display='none';}
+function m3FilterCases(q){
+  const kw=q.trim().toLowerCase();
+  const filtered=CASES.map((c,i)=>({c,i})).filter(({c})=>!kw||c.n.toLowerCase().includes(kw));
+  document.getElementById('m3-pick-list').innerHTML=filtered.map(({c,i})=>
+    `<div class="m3pick-item ${i===M3.idx?'cur':''}" onclick="startM3(${i});closeCasePicker()">
+      <span style="color:#475569;min-width:32px;font-size:12px">${i+1}</span>
+      <span>${c.n.replace(/^\d+\./,'')}</span>
+    </div>`
+  ).join('');
+}
 function m3Render(){
   const c=CASES[M3.idx];
   document.getElementById('m3-idx').textContent=`${M3.idx+1}/${CASES.length}`;
