@@ -1607,7 +1607,7 @@ function selectQs(seed){
 // ══ STORAGE ══
 function getData(){try{return JSON.parse(localStorage.getItem('bazi')||'{}')}catch{return{}}}
 function saveData(d){localStorage.setItem('bazi',JSON.stringify(d))}
-function todayStr(){return new Date().toISOString().slice(0,10)}
+function todayStr(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
 function dateSeed(){const d=new Date();return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();}
 function saveM1Result(score,correct,maxCombo,time){
   const d=getData();d.history=d.history||[];
@@ -1616,7 +1616,7 @@ function saveM1Result(score,correct,maxCombo,time){
   if(idx>=0){if(score>d.history[idx].score)d.history[idx]=rec;}else{d.history.unshift(rec);d.history=d.history.slice(0,20);}
   d.best=Math.max(d.best||0,score);d.totalCorrect=(d.totalCorrect||0)+correct;
   let streak=0,dt=new Date();
-  for(let i=0;i<30;i++){const ds=dt.toISOString().slice(0,10);if(d.history.find(h=>h.date===ds)){streak++;dt.setDate(dt.getDate()-1);}else break;}
+  for(let i=0;i<30;i++){const ds=`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;if(d.history.find(h=>h.date===ds)){streak++;dt.setDate(dt.getDate()-1);}else break;}
   d.dayStreak=streak;saveData(d);
 }
 
@@ -1854,7 +1854,7 @@ function m1End(){
   const elapsed=Date.now()-G1.t0,mins=0|elapsed/60000,secs=0|(elapsed%60000)/1000;
   const timeStr=`${mins}:${String(secs).padStart(2,'0')}`;
   const total=G1.qs.length;
-  if(G1.mode==='daily')saveM1Result(G1.score,G1.correct,G1.maxCombo,timeStr);
+  if(G1.mode!=='nb')saveM1Result(G1.score,G1.correct,G1.maxCombo,timeStr);
   const acc=G1.correct/total;
   const grade=acc>=.95?'🏆':acc>=.85?'🥇':acc>=.70?'🥈':acc>=.55?'🥉':acc>=.35?'🌿':'🌱';
   document.getElementById('el-grade').textContent=grade;
