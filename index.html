@@ -763,13 +763,13 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
         </table></div>
         <div class="m5-sub">三合局</div>
         <div class="m5-wrap"><table class="m5-tbl">
-          <tr><td>申<span style="color:#60a5fa;font-weight:bold">子</span>辰</td><td>水局</td><td style="width:12px"></td><td>亥<span style="color:#10b981;font-weight:bold">卯</span>未</td><td>木局</td></tr>
-          <tr><td>寅<span style="color:#ef4444;font-weight:bold">午</span>戌</td><td>火局</td><td></td><td>巳<span style="color:#f59e0b;font-weight:bold">酉</span>丑</td><td>金局</td></tr>
+          <tr><td><span style="color:#e2e8f0">申</span><span style="color:#60a5fa;font-weight:bold">子</span><span style="color:#e2e8f0">辰</span></td><td>水局</td><td style="width:12px"></td><td><span style="color:#e2e8f0">亥</span><span style="color:#10b981;font-weight:bold">卯</span><span style="color:#e2e8f0">未</span></td><td>木局</td></tr>
+          <tr><td><span style="color:#e2e8f0">寅</span><span style="color:#ef4444;font-weight:bold">午</span><span style="color:#e2e8f0">戌</span></td><td>火局</td><td></td><td><span style="color:#e2e8f0">巳</span><span style="color:#f59e0b;font-weight:bold">酉</span><span style="color:#e2e8f0">丑</span></td><td>金局</td></tr>
         </table></div>
         <div class="m5-sub">拱合（三合去中字）</div>
         <div class="m5-wrap"><table class="m5-tbl">
-          <tr><td><span class="c-zhi">申</span>辰 拱<span style="color:#60a5fa;font-weight:bold">子</span></td><td style="width:12px"></td><td><span class="c-zhi">亥</span>未 拱<span style="color:#10b981;font-weight:bold">卯</span></td></tr>
-          <tr><td><span class="c-zhi">寅</span>戌 拱<span style="color:#ef4444;font-weight:bold">午</span></td><td></td><td><span class="c-zhi">巳</span>丑 拱<span style="color:#f59e0b;font-weight:bold">酉</span></td></tr>
+          <tr><td>申辰 拱<span style="color:#60a5fa;font-weight:bold">子</span></td><td style="width:12px"></td><td>亥未 拱<span style="color:#10b981;font-weight:bold">卯</span></td></tr>
+          <tr><td>寅戌 拱<span style="color:#ef4444;font-weight:bold">午</span></td><td></td><td>巳丑 拱<span style="color:#f59e0b;font-weight:bold">酉</span></td></tr>
         </table></div>
         <div class="m5-sub">天地阴阳诀</div>
         <div class="m5-wrap"><table class="m5-tbl">
@@ -905,6 +905,21 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <div class="m5-sec">
       <button class="m5-tog" onclick="m5Toggle(this)">▶ 💡 天干虚实喜忌</button>
       <div class="m5-body" style="display:none">
+
+        <div class="m5-sub">天干取象总览</div>
+        <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+          <thead><tr><th>天干</th><th>静态类象</th><th>性格关键词</th><th>喜忌要点</th></tr></thead>
+          <tr><td class="c-gan">甲</td><td>参天大树</td><td>刚直开拓领导</td><td>活木喜水火，死木喜金</td></tr>
+          <tr><td class="c-gan">乙</td><td>花草藤蔓</td><td>柔韧依附技艺</td><td>藤萝系甲借势缠绕</td></tr>
+          <tr><td class="c-gan">丙</td><td>太阳/炉火</td><td>外放感染领袖</td><td>天火喜壬，地火怕坏根</td></tr>
+          <tr><td class="c-gan">丁</td><td>灯烛/月亮</td><td>细腻专注文化</td><td>丁壬合，丙夺丁光看虚实</td></tr>
+          <tr><td class="c-gan">戊</td><td>高山土</td><td>厚重平台守成</td><td>喜金泄秀，忌火土过重</td></tr>
+          <tr><td class="c-gan">己</td><td>田园土</td><td>务实细节策划</td><td>喜甲疏土，忌水多成沼</td></tr>
+          <tr><td class="c-gan">庚</td><td>矿石钢铁</td><td>果断规则破旧</td><td>喜壬水泄秀，怕厚土埋金</td></tr>
+          <tr><td class="c-gan">辛</td><td>珠玉首饰</td><td>审美精致品质</td><td>喜癸水清秀，忌土混水浊</td></tr>
+          <tr><td class="c-gan">壬</td><td>江河大水</td><td>智慧通达格局</td><td>喜堤岸导流，怕水满泛滥</td></tr>
+          <tr><td class="c-gan">癸</td><td>雨露溪泉</td><td>敏感隐忍精密</td><td>事以密成，忌燥土坏根</td></tr>
+        </table></div>
 
         <div class="m5-sub">虚实总则</div>
         <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
@@ -2190,14 +2205,14 @@ function m3RenderRel(){
     }
     if(ggHtml)html+=secHdr('天干关系')+ggHtml;
     // 地支关系：按关系类型聚合
-    const zzTh=txt=>txt.startsWith('冲')?'冲':txt.startsWith('合(')?'合（六合）':txt.startsWith('暗合')?'暗合':txt.startsWith('半合')||txt.startsWith('拱合')?'拱合':txt.startsWith('三会')?'三会':txt.startsWith('穿')?'穿':txt.startsWith('绝')?'绝':txt.startsWith('破')?'破':txt.startsWith('刑')?'刑':txt.startsWith('患')?'患':txt.startsWith('伏吟')?'伏吟':null;
+    const zzTh=txt=>txt.startsWith('冲')?'冲':txt.startsWith('合(')?'合（六合）':txt.startsWith('暗合')?'暗合':txt.startsWith('半合')||txt.startsWith('拱合')?'拱合':txt.startsWith('三会')?'三会':txt.startsWith('穿')?'穿':txt.startsWith('绝')?'绝':txt.startsWith('破')?'破':txt.startsWith('刑')?'刑':txt.startsWith('患')?'患':txt.startsWith('地支五行生')?'地支五行生':txt.startsWith('地支五行克')?'地支五行克':txt.startsWith('伏吟')?'伏吟':null;
     const zzMap={};
     for(let i=0;i<zCells.length;i++)for(let j=i+1;j<zCells.length;j++){
       const a=zCells[i],b=zCells[j];
       for(const r of detectPair(a,b)){const t=zzTh(r.txt);if(t){if(!zzMap[t])zzMap[t]=[];zzMap[t].push({...r,pair:`${a.v}(${pn(a)})·${b.v}(${pn(b)})`});}}
     }
     let zzHtml='';
-    for(const t of['冲','合（六合）','暗合','拱合','三会','穿','绝','破','刑','患','伏吟']){
+    for(const t of['冲','合（六合）','暗合','拱合','三会','穿','绝','破','刑','患','地支五行生','地支五行克','伏吟']){
       if(zzMap[t]&&zzMap[t].length){zzHtml+=subHdr(t)+zzMap[t].map(r=>`<div class="rel-item ${r.cls}">${r.txt} <span style="color:#475569;font-size:10px">（${r.pair}）</span></div>`).join('');}
     }
     if(zzHtml)html+=secHdr('地支关系')+zzHtml;
@@ -2419,14 +2434,14 @@ function m4RenderRel(){
     let ggHtml='';
     for(const t of['生克','合（五合）','患','伏吟']){if(ggMap[t]&&ggMap[t].length){ggHtml+=subHdr(t)+ggMap[t].map(r=>`<div class="rel-item ${r.cls}">${r.txt} <span style="color:#475569;font-size:10px">（${r.pair}）</span></div>`).join('');}}
     if(ggHtml)html+=secHdr('天干关系')+ggHtml;
-    const zzTh=txt=>txt.startsWith('冲')?'冲':txt.startsWith('合(')?'合（六合）':txt.startsWith('暗合')?'暗合':txt.startsWith('半合')||txt.startsWith('拱合')?'拱合':txt.startsWith('三会')?'三会':txt.startsWith('穿')?'穿':txt.startsWith('绝')?'绝':txt.startsWith('破')?'破':txt.startsWith('刑')?'刑':txt.startsWith('患')?'患':txt.startsWith('伏吟')?'伏吟':null;
+    const zzTh=txt=>txt.startsWith('冲')?'冲':txt.startsWith('合(')?'合（六合）':txt.startsWith('暗合')?'暗合':txt.startsWith('半合')||txt.startsWith('拱合')?'拱合':txt.startsWith('三会')?'三会':txt.startsWith('穿')?'穿':txt.startsWith('绝')?'绝':txt.startsWith('破')?'破':txt.startsWith('刑')?'刑':txt.startsWith('患')?'患':txt.startsWith('地支五行生')?'地支五行生':txt.startsWith('地支五行克')?'地支五行克':txt.startsWith('伏吟')?'伏吟':null;
     const zzMap={};
     for(let i=0;i<zCells.length;i++)for(let j=i+1;j<zCells.length;j++){
       const a=zCells[i],b=zCells[j];
       for(const r of detectPair(a,b)){const t=zzTh(r.txt);if(t){if(!zzMap[t])zzMap[t]=[];zzMap[t].push({...r,pair:`${a.v}(${pn(a)})·${b.v}(${pn(b)})`});}}
     }
     let zzHtml='';
-    for(const t of['冲','合（六合）','暗合','拱合','三会','穿','绝','破','刑','患','伏吟']){if(zzMap[t]&&zzMap[t].length){zzHtml+=subHdr(t)+zzMap[t].map(r=>`<div class="rel-item ${r.cls}">${r.txt} <span style="color:#475569;font-size:10px">（${r.pair}）</span></div>`).join('');}}
+    for(const t of['冲','合（六合）','暗合','拱合','三会','穿','绝','破','刑','患','地支五行生','地支五行克','伏吟']){if(zzMap[t]&&zzMap[t].length){zzHtml+=subHdr(t)+zzMap[t].map(r=>`<div class="rel-item ${r.cls}">${r.txt} <span style="color:#475569;font-size:10px">（${r.pair}）</span></div>`).join('');}}
     if(zzHtml)html+=secHdr('地支关系')+zzHtml;
     const gzTong=[],gzXushi=[],gzWs12=[],gzNayin=[];
     for(const g of gCells)for(const z of zCells){
