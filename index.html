@@ -1070,6 +1070,131 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
       </div>
     </div>
 
+    <!-- 天干取象 -->
+    <div class="m5-sec">
+      <button class="m5-tog" onclick="m5Toggle(this)">▶ 🌿 天干取象</button>
+      <div class="m5-body" style="display:none">
+        <div class="m5-sub">取象与动态</div>
+        <div style="font-size:10px;color:#475569;text-align:center;padding:4px 0;letter-spacing:.5px">← 左右滑动查看 →</div>
+        <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+          <thead><tr><th>天干</th><th>类象</th><th>动态阶段</th><th style="min-width:100px">性格/事业</th><th style="min-width:165px">学习重点</th></tr></thead>
+          <tr><td class="c-gan">甲</td><td>参天大树</td><td>破壳萌芽</td><td style="text-align:left">刚直、开拓、领导</td><td style="text-align:left">首重死活木；活木护根，死木雕琢。</td></tr>
+          <tr><td class="c-gan">乙</td><td>花草藤蔓</td><td>幼苗伸展</td><td style="text-align:left">柔韧、技术、艺术</td><td style="text-align:left">藤萝系甲，重依附、借势、缠绕。</td></tr>
+          <tr><td class="c-gan">丙</td><td>太阳火</td><td>快速成长</td><td style="text-align:left">外放、行动、感染</td><td style="text-align:left">分天火/地火；天火喜旺，地火怕坏根。</td></tr>
+          <tr><td class="c-gan">丁</td><td>灯烛火</td><td>稳定燃烧</td><td style="text-align:left">细腻、文化、玄学</td><td style="text-align:left">丁壬合，丙夺丁光，要先看虚实。</td></tr>
+          <tr><td class="c-gan">戊</td><td>高山土</td><td>规模承载</td><td style="text-align:left">厚重、平台、大局</td><td style="text-align:left">喜金泄秀，忌火土过重。</td></tr>
+          <tr><td class="c-gan">己</td><td>田园土</td><td>沉淀耕作</td><td style="text-align:left">务实、策划、整合</td><td style="text-align:left">喜甲疏土，忌水多泛滥。</td></tr>
+          <tr><td class="c-gan">庚</td><td>矿石钢铁</td><td>变革转折</td><td style="text-align:left">果断、制度、改革</td><td style="text-align:left">喜壬水泄秀，怕火旺坏根。</td></tr>
+          <tr><td class="c-gan">辛</td><td>珠玉首饰</td><td>精修成器</td><td style="text-align:left">审美、品质、挑剔</td><td style="text-align:left">喜癸水清秀，忌土混水浊。</td></tr>
+          <tr><td class="c-gan">壬</td><td>江河大水</td><td>圆满流动</td><td style="text-align:left">智慧、通达、趋势</td><td style="text-align:left">喜堤岸导流，防水满泛滥。</td></tr>
+          <tr><td class="c-gan">癸</td><td>雨露溪泉</td><td>潜藏孕育</td><td style="text-align:left">敏感、隐忍、精密</td><td style="text-align:left">事以密成，忌燥土坏根。</td></tr>
+        </table></div>
+        <div class="m5-sub">状态喜忌</div>
+        <div style="font-size:10px;color:#475569;text-align:center;padding:4px 0;letter-spacing:.5px">← 左右滑动查看 →</div>
+        <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+          <thead><tr><th>组别</th><th>状态</th><th style="min-width:120px">判定</th><th style="min-width:90px">喜用</th><th style="min-width:130px">忌点</th></tr></thead>
+          <tr><td>甲乙木</td><td style="color:#10b981">活木</td><td style="text-align:left">有根且有水，根水有实际关联。</td><td style="text-align:left;color:#10b981">水滋、火发荣。</td><td style="text-align:left;color:#ef4444">厚土克水、强金坏根。</td></tr>
+          <tr><td>甲乙木</td><td style="color:#64748b">死木</td><td style="text-align:left">缺根、缺水、根被阻断。</td><td style="text-align:left;color:#10b981">金雕琢成器。</td><td style="text-align:left;color:#ef4444">水腐、火焚，忌神相战另论。</td></tr>
+          <tr><td>丙丁火</td><td style="color:#f59e0b">天火</td><td style="text-align:left">虚透无强根。</td><td style="text-align:left;color:#10b981">壬水映照，格局清。</td><td style="text-align:left;color:#ef4444">混浊遮光。</td></tr>
+          <tr><td>丙丁火</td><td style="color:#ef4444">地火</td><td style="text-align:left">通根坐实。</td><td style="text-align:left;color:#10b981">木生火。</td><td style="text-align:left;color:#ef4444">水克、湿土坏根。</td></tr>
+          <tr><td>庚辛金</td><td style="color:#94a3b8">清金</td><td style="text-align:left">得水泄秀，气清。</td><td style="text-align:left;color:#10b981">壬/癸水泄秀。</td><td style="text-align:left;color:#ef4444">土混水、厚土埋金。</td></tr>
+          <tr><td>壬癸水</td><td style="color:#60a5fa">通源</td><td style="text-align:left">有源、有去、不过泛。</td><td style="text-align:left;color:#10b981">金生、土导、木泄。</td><td style="text-align:left;color:#ef4444">土混浊、水泛滥、燥土坏根。</td></tr>
+        </table></div>
+        <div class="m5-sub">借根/连根提醒</div>
+        <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+          <thead><tr><th style="width:70px">情形</th><th style="text-align:left">判断</th></tr></thead>
+          <tr><td style="color:#60a5fa;font-weight:bold">水接</td><td style="text-align:left">水能生木并接到根，最优先。</td></tr>
+          <tr><td style="color:#ef4444;font-weight:bold">火引</td><td style="text-align:left">需火印能引动木气，不可被湿土/金挡断。</td></tr>
+          <tr><td style="color:#f59e0b;font-weight:bold">土组</td><td style="text-align:left">土薄可穿透，土厚不连。</td></tr>
+          <tr><td style="color:#94a3b8;font-weight:bold">金挡</td><td style="text-align:left">金克木阻隔，多不连。</td></tr>
+          <tr><td style="color:#475569;font-weight:bold">年柱连根</td><td style="text-align:left">条件极严，不可滥用远根。</td></tr>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- 宫位大限 -->
+    <div class="m5-sec">
+      <button class="m5-tog" onclick="m5Toggle(this)">▶ 🏛️ 宫位大限</button>
+      <div class="m5-body" style="display:none">
+        <div style="font-size:10px;color:#475569;text-align:center;padding:4px 0;letter-spacing:.5px">← 左右滑动查看 →</div>
+        <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+          <thead><tr><th>宫位</th><th>大限</th><th>空间层级</th><th style="min-width:120px">六亲/人事</th><th style="min-width:90px">身体部位</th><th style="min-width:160px">学习提醒</th></tr></thead>
+          <tr><td style="color:#f59e0b;font-weight:bold">年柱</td><td>0/1-18</td><td>远、大、外</td><td style="text-align:left">祖上、长辈、早年、外地</td><td>腿脚、四肢</td><td style="text-align:left">也兼参父母，但不可越过月柱主位。</td></tr>
+          <tr><td style="color:#f59e0b;font-weight:bold">月柱</td><td>18-36</td><td>近、大/中、社会平台</td><td style="text-align:left">父母、兄弟、事业起点</td><td>腰腹、躯干</td><td style="text-align:left">事业、父母、青年阶段关键。</td></tr>
+          <tr><td style="color:#f59e0b;font-weight:bold">日柱</td><td>36-54</td><td>极近、主位、内</td><td style="text-align:left">自己、配偶、婚后家庭</td><td>胸腔、心脏、核心脏腑</td><td style="text-align:left">日支是夫妻宫，勿只看财官星。</td></tr>
+          <tr><td style="color:#f59e0b;font-weight:bold">时柱</td><td>54+</td><td>门户、远、小、私</td><td style="text-align:left">子女、晚辈、下属、晚年</td><td>头面、脑髓、下焦</td><td style="text-align:left">门脸、海外，最终归宿也常看时。</td></tr>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- 十神象义 -->
+    <div class="m5-sec">
+      <button class="m5-tog" onclick="m5Toggle(this)">▶ ⚡ 十神象义</button>
+      <div class="m5-body" style="display:none">
+        <div style="font-size:10px;color:#475569;text-align:center;padding:4px 0;letter-spacing:.5px">← 左右滑动查看 →</div>
+        <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+          <thead><tr><th>十神</th><th>关系</th><th style="min-width:130px">核心象义</th><th style="min-width:120px">六亲常用</th><th style="min-width:160px">最重要误区</th></tr></thead>
+          <tr><td style="color:#94a3b8;font-weight:bold">比劫</td><td>同我</td><td style="text-align:left">同辈、竞争、合作、人群、复制</td><td style="text-align:left">兄弟姐妹、朋友、同事</td><td style="text-align:left">喜则助，忌则夺；不可只当朋友。</td></tr>
+          <tr><td style="color:#10b981;font-weight:bold">食伤</td><td>我生</td><td style="text-align:left">才华、表达、技术、输出、子女</td><td style="text-align:left">子女、学生、晚辈</td><td style="text-align:left">可生财也可制官，受制则才华难伸。</td></tr>
+          <tr><td style="color:#f59e0b;font-weight:bold">财星</td><td>我克</td><td style="text-align:left">资源、财富、工具、掌控、现实</td><td style="text-align:left">父亲、妻缘、资产</td><td style="text-align:left;color:#ef4444">财多未必富，关键看是否归主。</td></tr>
+          <tr><td style="color:#ef4444;font-weight:bold">官杀</td><td>克我</td><td style="text-align:left">职位、规则、权力、压力、丈夫线</td><td style="text-align:left">丈夫、领导、法律、男命子女线</td><td style="text-align:left">有制为权，无制为压。</td></tr>
+          <tr><td style="color:#c4b5fd;font-weight:bold">印星</td><td>生我</td><td style="text-align:left">母亲、学历、房产、文书、庇护</td><td style="text-align:left">母亲、长辈、贵人</td><td style="text-align:left">印旺不一定吉，财坏印常伤学业名声。</td></tr>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- 干支作用 -->
+    <div class="m5-sec">
+      <button class="m5-tog" onclick="m5Toggle(this)">▶ 🔗 干支作用</button>
+      <div class="m5-body" style="display:none">
+        <div style="font-size:10px;color:#475569;text-align:center;padding:4px 0;letter-spacing:.5px">← 左右滑动查看 →</div>
+        <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+          <thead><tr><th>作用</th><th style="min-width:100px">本质</th><th style="min-width:120px">重点</th><th style="min-width:150px">常见断象</th></tr></thead>
+          <tr><td style="color:#10b981;font-weight:bold">合</td><td style="text-align:left">亲近、控制、闭库</td><td style="text-align:left">合中看克，分主动被动。</td><td style="text-align:left">合作、婚恋、合住、求财求官。</td></tr>
+          <tr><td style="color:#ef4444;font-weight:bold">冲</td><td style="text-align:left">动荡、位移、开库</td><td style="text-align:left">分远近顺逆、原局/运/岁。</td><td style="text-align:left">搬迁、车祸、变动、分离。</td></tr>
+          <tr><td style="color:#f59e0b;font-weight:bold">穿/害</td><td style="text-align:left">暗伤、互害</td><td style="text-align:left">生穿/克穿不同。</td><td style="text-align:left">慢性病、暗耗、关系不舒服。</td></tr>
+          <tr><td style="color:#f59e0b;font-weight:bold">刑</td><td style="text-align:left">矛盾、扭曲</td><td style="text-align:left">夹刑看阴阳与性别。</td><td style="text-align:left">炎症、官非、纠缠、内耗。</td></tr>
+          <tr><td style="color:#64748b;font-weight:bold">破</td><td style="text-align:left">纯则不生</td><td style="text-align:left">破坏生助路径。</td><td style="text-align:left">破缘、破财、循环不通。</td></tr>
+          <tr><td style="color:#64748b;font-weight:bold">绝</td><td style="text-align:left">无情之克</td><td style="text-align:left">木绝、水火绝常用。</td><td style="text-align:left">离散、无缘、血光。</td></tr>
+          <tr><td style="color:#94a3b8;font-weight:bold">墓库</td><td style="text-align:left">收藏、开闭</td><td style="text-align:left">开为库，闭为墓。</td><td style="text-align:left">得财、藏事、入墓不长久。</td></tr>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- 神煞速查 -->
+    <div class="m5-sec">
+      <button class="m5-tog" onclick="m5Toggle(this)">▶ 💫 神煞速查</button>
+      <div class="m5-body" style="display:none">
+        <div style="font-size:10px;color:#475569;text-align:center;padding:4px 0;letter-spacing:.5px">← 左右滑动查看 →</div>
+        <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+          <thead><tr><th>专题</th><th style="min-width:110px">查法/本质</th><th style="min-width:170px">正确用法</th><th style="min-width:140px">禁忌</th></tr></thead>
+          <tr><td style="color:#94a3b8;font-weight:bold">空亡</td><td style="text-align:left">一旬余两支为空亡。</td><td style="text-align:left">先查年日空亡，再看刑冲害绝或天干相合。</td><td style="text-align:left;color:#ef4444">不可见空亡就断无。</td></tr>
+          <tr><td style="color:#f59e0b;font-weight:bold">驿马</td><td style="text-align:left">动神，主迁移奔波。</td><td style="text-align:left">落宫位、配十神：马+财、马+官、马+印各不同。</td><td style="text-align:left;color:#ef4444">不看喜忌就断远行发财。</td></tr>
+          <tr><td style="color:#64748b;font-weight:bold">孤辰寡宿</td><td style="text-align:left">静、孤、淡缘。</td><td style="text-align:left">男女口诀结合日柱/月年/时柱落点。</td><td style="text-align:left;color:#ef4444">不可一见就断孤独终老。</td></tr>
+          <tr><td style="color:#10b981;font-weight:bold">禄神</td><td style="text-align:left">根基、饭碗、身体、享受。</td><td style="text-align:left">先判是否连体归我，再看受损程度。</td><td style="text-align:left;color:#ef4444">见禄就断好。</td></tr>
+          <tr><td style="color:#ef4444;font-weight:bold">羊刃</td><td style="text-align:left">极旺劫动，凶神。</td><td style="text-align:left">制用得当可为权，不制则争夺伤财。</td><td style="text-align:left;color:#ef4444">见刃就断凶或见制就断吉。</td></tr>
+          <tr><td style="color:#c4b5fd;font-weight:bold">天地门</td><td style="text-align:left">干支气脉连体改变虚实。</td><td style="text-align:left">虚实后重点护根；仍虚则重喜忌表象。</td><td style="text-align:left;color:#ef4444">单柱虚实一锤定音。</td></tr>
+          <tr><td style="color:#60a5fa;font-weight:bold">象法</td><td style="text-align:left">共象、合象、字象、倒象。</td><td style="text-align:left">多重信息交叉指向再下具体断语。</td><td style="text-align:left;color:#ef4444">脱离八步法空谈象。</td></tr>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- 财富取象 -->
+    <div class="m5-sec">
+      <button class="m5-tog" onclick="m5Toggle(this)">▶ 💰 财富取象</button>
+      <div class="m5-body" style="display:none">
+        <div class="m5-sub">各十神可代表财富的条件</div>
+        <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+          <thead><tr><th style="width:60px">入口</th><th style="text-align:left">可代表财富的条件</th></tr></thead>
+          <tr><td style="color:#f59e0b;font-weight:bold">财星</td><td style="text-align:left">资源归主、可支配、未被破坏。</td></tr>
+          <tr><td style="color:#c4b5fd;font-weight:bold">印星</td><td style="text-align:left">房产、文书、资质、平台可变现。</td></tr>
+          <tr><td style="color:#10b981;font-weight:bold">食伤</td><td style="text-align:left">技术、口才、作品、输出变现。</td></tr>
+          <tr><td style="color:#ef4444;font-weight:bold">官杀</td><td style="text-align:left">职位、权力、规则带来的资源。</td></tr>
+          <tr><td style="color:#94a3b8;font-weight:bold">比劫</td><td style="text-align:left">人群、团队、流量、组织力。</td></tr>
+        </table></div>
+      </div>
+    </div>
+
   </div>
 </div>
 
