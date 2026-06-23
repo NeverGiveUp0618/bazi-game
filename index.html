@@ -239,6 +239,16 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .m4saved-date{color:#475569;font-size:11px}
 .m4saved-del{background:none;border:none;color:#475569;font-size:17px;cursor:pointer;padding:4px 8px;flex-shrink:0;line-height:1}
 .m4saved-del:active{color:#ef4444}
+.del-confirming{background:#78350f!important;color:#fcd34d!important;border:1px solid #92400e!important;font-size:11px!important;padding:4px 10px!important;border-radius:7px!important}
+.bk-banner{background:#0c1a0c;border:1px solid #16a34a50;border-radius:12px;padding:10px 14px;margin-bottom:9px;display:none;align-items:center;gap:10px}
+.bk-banner.show{display:flex}
+.bk-banner-icon{font-size:20px;flex-shrink:0}
+.bk-banner-txt{flex:1;font-size:12px;color:#86efac;line-height:1.4}
+.bk-banner-btn{background:#166534;color:#86efac;border:none;border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.bk-banner-btn:hover{background:#15803d}
+.bk-row{display:flex;gap:8px;margin-bottom:9px}
+.bk-btn{flex:1;background:#1e293b;color:#64748b;border:none;border-radius:10px;padding:9px 6px;font-size:12px;cursor:pointer;text-align:center}
+.bk-btn:hover{background:#273549;color:#94a3b8}
 
 /* CUSTOM SELECT */
 .csel-grp{margin-bottom:13px}
@@ -352,6 +362,17 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   <div class="card">
     <div class="hhist">近期闪卡记录</div>
     <div id="el-hist"><span style="color:#475569;font-size:12px">暂无记录</span></div>
+  </div>
+  <!-- 备份提醒 -->
+  <div class="bk-banner" id="bk-remind">
+    <div class="bk-banner-icon">💾</div>
+    <div class="bk-banner-txt"><b id="bk-remind-days">15天</b>未备份，换手机前记得导出！</div>
+    <button class="bk-banner-btn" onclick="exportBackup()">立即备份</button>
+  </div>
+  <!-- 备份/恢复 -->
+  <div class="bk-row">
+    <button class="bk-btn" onclick="exportBackup()">📦 导出备份</button>
+    <button class="bk-btn" onclick="importBackup()">📂 导入恢复</button>
   </div>
 </div>
 
@@ -672,7 +693,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   <div class="tbar">
     <button class="tbk" onclick="goHome()">← 首页</button>
     <div class="tbtitle">错题本</div>
-    <button class="btn-sm btn btn-d" onclick="nbClearAll()" style="width:auto;padding:5px 10px;font-size:11px">全部清除</button>
+    <button class="btn-sm btn btn-d" onclick="nbClearAll(this)" style="width:auto;padding:5px 10px;font-size:11px">全部清除</button>
   </div>
   <div class="nb-screen-hdr">
     <div style="font-size:15px;font-weight:bold;color:#e2e8f0;flex:1">收录的错题</div>
@@ -1449,7 +1470,29 @@ function nbAdd(q){
   saveNB(nb);return true;
 }
 function nbRemove(id){saveNB(getNB().filter(x=>x.id!==id));renderNB();updateNBBadge();}
-function nbClearAll(){if(confirm('确认清除所有错题？')){{saveNB([]);renderNB();updateNBBadge();}}}
+function nbClearAll(el){askDel(el,()=>{saveNB([]);renderNB();updateNBBadge();},true);}
+
+// 删除确认：首次点击变为「确认删除」，再次点击执行；3秒或点击其他处自动取消
+var _delPending=null;
+function askDel(el,cb,isWarn){
+  if(_delPending){
+    if(_delPending.el===el){cb();_delCancel();return;}
+    _delCancel();
+  }
+  var orig=el.innerHTML,origCls=el.className;
+  el.innerHTML=isWarn?'⚠ 确认清除全部?':'确认删除?';
+  el.classList.add('del-confirming');
+  var timer=setTimeout(_delCancel,3000);
+  _delPending={el,orig,origCls,timer,cb};
+  setTimeout(function(){document.addEventListener('click',_delOutside,true);},0);
+}
+function _delCancel(){
+  if(!_delPending)return;
+  var d=_delPending;_delPending=null;clearTimeout(d.timer);
+  if(d.el&&d.el.isConnected){d.el.innerHTML=d.orig;d.el.className=d.origCls;}
+  document.removeEventListener('click',_delOutside,true);
+}
+function _delOutside(e){if(_delPending&&!_delPending.el.contains(e.target))_delCancel();}
 function updateNBBadge(){
   const n=getNB().length;
   document.getElementById('el-nb-badge').textContent=n+' 题';
@@ -1687,6 +1730,55 @@ function initHome(){
   btn.textContent=todayDone?`今日已完成${todayDone.score}分 · 再刷 ⏱️`:'今日挑战 ⏱️';
   btn.style.background=todayDone?'#065f46':'#10b981';
   updateNBBadge();
+  checkBkRemind();
+}
+
+const BK_DATE_KEY='bazi_backup_date';
+function checkBkRemind(){
+  const last=localStorage.getItem(BK_DATE_KEY);
+  const banner=document.getElementById('bk-remind');
+  if(!banner)return;
+  const days=last?Math.floor((Date.now()-new Date(last).getTime())/86400000):999;
+  if(days>=15){
+    document.getElementById('bk-remind-days').textContent=last?days+'天':'从未';
+    banner.classList.add('show');
+  }else{
+    banner.classList.remove('show');
+  }
+}
+function exportBackup(){
+  const data={v:1,date:todayStr(),bazi:getData(),nb:getNB(),m4saved:getSavedM4(),custom_cats:[...CUSTOM_CATS]};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=`八字日练备份_${todayStr()}.json`;a.click();
+  URL.revokeObjectURL(url);
+  localStorage.setItem(BK_DATE_KEY,todayStr());
+  checkBkRemind();
+  toast('备份已下载！妥善保存该文件');
+}
+function importBackup(){
+  const inp=document.createElement('input');
+  inp.type='file';inp.accept='.json';
+  inp.onchange=e=>{
+    const file=e.target.files[0];if(!file)return;
+    const reader=new FileReader();
+    reader.onload=ev=>{
+      try{
+        const d=JSON.parse(ev.target.result);
+        if(!d.v||!d.bazi)throw new Error();
+        saveData(d.bazi);
+        saveNB(d.nb||[]);
+        setSavedM4(d.m4saved||[]);
+        if(d.custom_cats){CUSTOM_CATS=new Set(d.custom_cats);localStorage.setItem('bazi_custom_cats',JSON.stringify([...CUSTOM_CATS]));}
+        localStorage.setItem(BK_DATE_KEY,todayStr());
+        toast('数据已恢复！');
+        setTimeout(()=>location.reload(),1200);
+      }catch{toast('文件格式错误，导入失败');}
+    };
+    reader.readAsText(file);
+  };
+  inp.click();
 }
 
 // ══ MODE 1: GAME ══
@@ -2395,7 +2487,7 @@ function renderNB(){
         <div class="nb-q-ans">→ ${q.correct}</div>
         <div class="nb-q-date">加入于 ${q.added||''}</div>
       </div>
-      <button class="nb-q-del" onclick="nbRemove('${safeId}')" title="移除">×</button>
+      <button class="nb-q-del" onclick="askDel(this,()=>nbRemove('${safeId}'))" title="移除">×</button>
     </div>`;
   }).join('');
 }
@@ -2521,7 +2613,7 @@ function m4RenderSavedList(){
         <div class="m4saved-bz">${r.bazi.slice(0,4).join('')}　${r.bazi.slice(4).join('')}</div>
         <div class="m4saved-date">${r.saved}</div>
       </div>
-      <button class="m4saved-del" onclick="m4DeleteSaved('${r.id}')">✕</button>
+      <button class="m4saved-del" onclick="askDel(this,()=>m4DeleteSaved('${r.id}'))">✕</button>
     </div>`).join('');
 }
 function m4LoadSaved(id){
