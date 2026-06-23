@@ -1426,8 +1426,8 @@ function detectPair(a,b){
     if(LIUHE[a.v]===b.v){const t=SHENGHE.has(k)||SHENGHE.has(b.v+a.v)?'生合':'克合';res.push({txt:`合(${t})：${a.v}${b.v} 六合`,cls:'rel-he'});}
     if(ANHE_SET.has(k))res.push({txt:`暗合：${a.v}${b.v}`,cls:'rel-he'});
     for(const g of SANHE)if(a.v!==b.v&&g.includes(a.v)&&g.includes(b.v)){res.push({txt:`半合/拱合：${a.v}${b.v}（${g.join('')}局）`,cls:'rel-he'});break;}
-    if(CHUAN_S.has(k)){const ck=CHUAN_S_CANON.has(k)?k:b.v+a.v;res.push({txt:`穿(生穿)：${ck}`,cls:'rel-xing'});}
-    else if(CHUAN_K.has(k)){const ck=CHUAN_K_CANON.has(k)?k:b.v+a.v;res.push({txt:`穿(克穿)：${ck}`,cls:'rel-xing'});}
+    if(CHUAN_S.has(k)){const ck=CHUAN_S_CANON.has(k)?k:b.v+a.v;res.push({txt:`穿：${ck}`,cls:'rel-xing'});}
+    else if(CHUAN_K.has(k)){const ck=CHUAN_K_CANON.has(k)?k:b.v+a.v;res.push({txt:`穿：${ck}`,cls:'rel-xing'});}
     if(JUE_SET.has(k))res.push({txt:`绝：${a.v}${b.v}`,cls:'rel-chong'});
     if(PO_SET.has(k))res.push({txt:`破：${a.v}${b.v}`,cls:'rel-xing'});
     for(const g of XING3)if(a.v!==b.v&&g.includes(a.v)&&g.includes(b.v)){res.push({txt:`刑(半刑)：${a.v}${b.v}（${g.join('')}三刑）`,cls:'rel-xing'});break;}
