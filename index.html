@@ -1398,6 +1398,8 @@ const CHUAN_K=new Set(['卯辰','辰卯','子未','未子']);
 const JUE_SET=new Set(['申卯','卯申','亥午','午亥','子巳','巳子','寅酉','酉寅']);
 const PO_SET=new Set(['子卯','卯子','子酉','酉子','卯午','午卯','午酉','酉午']);
 const XING3=[['寅','巳','申'],['丑','戌','未']];
+const CHUAN_S_CANON=new Set(['寅巳','午丑','申亥','戌酉']);
+const CHUAN_K_CANON=new Set(['卯辰','未子']);
 const ZIHE=new Set(['戊子','壬午','甲午','壬戌','丙戌','丁亥','己亥','辛巳','癸巳']);
 
 function detectPair(a,b){
@@ -1423,13 +1425,12 @@ function detectPair(a,b){
     if(CHONG[a.v]===b.v)res.push({txt:`冲：${a.v}${b.v}`,cls:'rel-chong'});
     if(LIUHE[a.v]===b.v){const t=SHENGHE.has(k)||SHENGHE.has(b.v+a.v)?'生合':'克合';res.push({txt:`合(${t})：${a.v}${b.v} 六合`,cls:'rel-he'});}
     if(ANHE_SET.has(k))res.push({txt:`暗合：${a.v}${b.v}`,cls:'rel-he'});
-    for(const g of SANHE)if(g.includes(a.v)&&g.includes(b.v)){res.push({txt:`半合/拱合：${a.v}${b.v}（${g.join('')}局）`,cls:'rel-he'});break;}
-    for(const g of SANHUI)if(g.includes(a.v)&&g.includes(b.v)){res.push({txt:`三会：${a.v}${b.v}（${g.join('')}方）`,cls:'rel-he'});break;}
-    if(CHUAN_S.has(k))res.push({txt:`穿(生穿)：${a.v}${b.v}`,cls:'rel-xing'});
-    else if(CHUAN_K.has(k))res.push({txt:`穿(克穿)：${a.v}${b.v}`,cls:'rel-xing'});
+    for(const g of SANHE)if(a.v!==b.v&&g.includes(a.v)&&g.includes(b.v)){res.push({txt:`半合/拱合：${a.v}${b.v}（${g.join('')}局）`,cls:'rel-he'});break;}
+    if(CHUAN_S.has(k)){const ck=CHUAN_S_CANON.has(k)?k:b.v+a.v;res.push({txt:`穿(生穿)：${ck}`,cls:'rel-xing'});}
+    else if(CHUAN_K.has(k)){const ck=CHUAN_K_CANON.has(k)?k:b.v+a.v;res.push({txt:`穿(克穿)：${ck}`,cls:'rel-xing'});}
     if(JUE_SET.has(k))res.push({txt:`绝：${a.v}${b.v}`,cls:'rel-chong'});
     if(PO_SET.has(k))res.push({txt:`破：${a.v}${b.v}`,cls:'rel-xing'});
-    for(const g of XING3)if(g.includes(a.v)&&g.includes(b.v)){res.push({txt:`刑(半刑)：${a.v}${b.v}（${g.join('')}三刑）`,cls:'rel-xing'});break;}
+    for(const g of XING3)if(a.v!==b.v&&g.includes(a.v)&&g.includes(b.v)){res.push({txt:`刑(半刑)：${a.v}${b.v}（${g.join('')}三刑）`,cls:'rel-xing'});break;}
     if(a.v===b.v){
       if(['辰','午','酉','亥'].includes(a.v))res.push({txt:`刑(自刑)：${a.v}`,cls:'rel-xing'});
       res.push({txt:`伏吟：${a.v} 重复`,cls:'rel-xing'});
@@ -2428,6 +2429,8 @@ function m3RenderRel(){
       const a=zCells[i],b=zCells[j];
       for(const r of detectPair(a,b)){const t=zzTh(r.txt);if(t){if(!zzMap[t])zzMap[t]=[];zzMap[t].push({...r,pair:`${a.v}(${pn(a)})·${b.v}(${pn(b)})`});}}
     }
+    for(const g of SANHUI){if(g.every(z=>zCells.some(c=>c.v===z))){const mc=g.map(z=>zCells.filter(c=>c.v===z)).flat();if(!zzMap['三会'])zzMap['三会']=[];zzMap['三会'].push({txt:`三会：${g.join('')}方`,cls:'rel-he',pair:mc.map(c=>`${c.v}(${pn(c)})`).join('·')});}}
+    for(const g of XING3){if(g.every(z=>zCells.some(c=>c.v===z))){const mc=g.map(z=>zCells.filter(c=>c.v===z)).flat();if(zzMap['刑'])zzMap['刑']=zzMap['刑'].filter(r=>!r.txt.includes(`（${g.join('')}三刑）`));if(!zzMap['刑'])zzMap['刑']=[];zzMap['刑'].push({txt:`刑(三刑)：${g.join('')}三刑`,cls:'rel-xing',pair:mc.map(c=>`${c.v}(${pn(c)})`).join('·')});}}
     let zzHtml='';
     for(const t of['冲','合（六合）','暗合','拱合','三会','穿','绝','破','刑','患','地支五行生','地支五行克','伏吟']){
       if(zzMap[t]&&zzMap[t].length){zzHtml+=subHdr(t)+zzMap[t].map(r=>`<div class="rel-item ${r.cls}">${r.txt} <span style="color:#475569;font-size:10px">（${r.pair}）</span></div>`).join('');}
@@ -2657,6 +2660,8 @@ function m4RenderRel(){
       const a=zCells[i],b=zCells[j];
       for(const r of detectPair(a,b)){const t=zzTh(r.txt);if(t){if(!zzMap[t])zzMap[t]=[];zzMap[t].push({...r,pair:`${a.v}(${pn(a)})·${b.v}(${pn(b)})`});}}
     }
+    for(const g of SANHUI){if(g.every(z=>zCells.some(c=>c.v===z))){const mc=g.map(z=>zCells.filter(c=>c.v===z)).flat();if(!zzMap['三会'])zzMap['三会']=[];zzMap['三会'].push({txt:`三会：${g.join('')}方`,cls:'rel-he',pair:mc.map(c=>`${c.v}(${pn(c)})`).join('·')});}}
+    for(const g of XING3){if(g.every(z=>zCells.some(c=>c.v===z))){const mc=g.map(z=>zCells.filter(c=>c.v===z)).flat();if(zzMap['刑'])zzMap['刑']=zzMap['刑'].filter(r=>!r.txt.includes(`（${g.join('')}三刑）`));if(!zzMap['刑'])zzMap['刑']=[];zzMap['刑'].push({txt:`刑(三刑)：${g.join('')}三刑`,cls:'rel-xing',pair:mc.map(c=>`${c.v}(${pn(c)})`).join('·')});}}
     let zzHtml='';
     for(const t of['冲','合（六合）','暗合','拱合','三会','穿','绝','破','刑','患','地支五行生','地支五行克','伏吟']){if(zzMap[t]&&zzMap[t].length){zzHtml+=subHdr(t)+zzMap[t].map(r=>`<div class="rel-item ${r.cls}">${r.txt} <span style="color:#475569;font-size:10px">（${r.pair}）</span></div>`).join('');}}
     if(zzHtml)html+=secHdr('地支关系')+zzHtml;
