@@ -1665,7 +1665,15 @@ function saveM1Result(score,correct,maxCombo,time){
 }
 
 // ══ NAVIGATION ══
-function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');if(id==='p-nb')renderNB();}
+const _scrollPos={};
+function show(id){
+  const cur=document.querySelector('.screen.active');
+  if(cur)_scrollPos[cur.id]=window.scrollY;
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(id==='p-nb')renderNB();
+  window.scrollTo(0,_scrollPos[id]||0);
+}
 
 function m5Toggle(btn){
   const body=btn.nextElementSibling;
