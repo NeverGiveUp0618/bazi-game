@@ -1885,7 +1885,7 @@ const SANHE_WX=['水','木','火','金'];
 const ZIXING_SET=new Set(['辰','午','酉','亥']);
 const YANG_ZHI=new Set(['寅','申','巳','亥','辰','戌']);
 const ZHI_NOZIXING=ZHI.filter(z=>!ZIXING_SET.has(z));
-const CAT_NAME={wx:'五行归属',chong:'六冲',tghe:'天干五合',liuhe:'地支六合',tong:'干支互通',shen:'十神',sanhe:'三合补完',sanhetype:'三合识局',xing3:'三刑补完',po:'破识别',zixing:'自刑字',xushi:'虚实判断',xushi2:'实支识别',nayin:'纳音五行',anhe:'地支暗合',zihe:'干支自合',num:'数字口诀',wxs:'天干相生',wxk:'天干相克',lqs:'六亲相生',lqk:'六亲相克',tdyy:'天地阴阳',shuma:'数字编码',nfgz:'年份干支',shichen:'十二时辰',ganzang:'天干脏腑',zhizang:'地支脏腑',ws12:'旺衰十二运',ws_zhi:'旺衰地支',wx_zhi:'五行长生',ws_order:'长生顺序',yuejian:'月建',duanming:'断命步骤',wxsys:'五行系统',jieqi:'节气月建',cang:'地支藏干',cang_bq:'三气·本气',cang_zq:'三气·中气',cang_yq:'三气·余气'};
+const CAT_NAME={tf_rel:'判断题',wx:'五行归属',chong:'六冲',tghe:'天干五合',liuhe:'地支六合',tong:'干支互通',shen:'十神',sanhe:'三合补完',sanhetype:'三合识局',xing3:'三刑补完',po:'破识别',zixing:'自刑字',xushi:'虚实判断',xushi2:'实支识别',nayin:'纳音五行',anhe:'地支暗合',zihe:'干支自合',num:'数字口诀',wxs:'天干相生',wxk:'天干相克',lqs:'六亲相生',lqk:'六亲相克',tdyy:'天地阴阳',shuma:'数字编码',nfgz:'年份干支',shichen:'十二时辰',ganzang:'天干脏腑',zhizang:'地支脏腑',ws12:'旺衰十二运',ws_zhi:'旺衰地支',wx_zhi:'五行长生',ws_order:'长生顺序',yuejian:'月建',duanming:'断命步骤',wxsys:'五行系统',jieqi:'节气月建',cang:'地支藏干',cang_bq:'三气·本气',cang_zq:'三气·中气',cang_yq:'三气·余气'};
 const GZ60=(()=>{const g=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'],z=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];return Array.from({length:60},(_,i)=>g[i%10]+z[i%12]);})();
 const YR_GZ_PAIRS=(()=>{const g=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'],z=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];return Array.from({length:151},(_,i)=>{const y=1900+i;return[String(y),g[(y-4)%10]+z[(y-4)%12]];});})();
 const SHICHEN={子:'23-1时',丑:'1-3时',寅:'3-5时',卯:'5-7时',辰:'7-9时',巳:'9-11时',午:'11-13时',未:'13-15时',申:'15-17时',酉:'17-19时',戌:'19-21时',亥:'21-23时'};
@@ -2137,6 +2137,7 @@ function updateNBBadge(){
 // ══ QUESTION POOL (Mode 1) ══
 function mkOpts(rng,correct,pool,wrongPool){const wp=wrongPool||pool;return shuffle(rng,[correct,...rpick(rng,wp.filter(x=>x!==correct),3)]);}
 function poolForCat(cat){
+  if(cat==='tf_rel')return['✓ 对','✗ 错'];
   if(cat==='wx'||cat==='sanhetype')return WX5;
   if(cat==='tghe')return GAN;
   if(cat==='shen')return SHENS;
@@ -2162,9 +2163,10 @@ function poolForCat(cat){
   return ZHI;
 }
 
-const QUOTA={wx:3,chong:2,tghe:2,liuhe:2,tong:3,shen:3,sanhe:3,sanhetype:2,xing3:2,po:2,zixing:1,xushi:3,xushi2:2,nayin:3,anhe:2,zihe:2,wxs:2,wxk:2,lqs:2,lqk:2,tdyy:3,shichen:2,ganzang:2,zhizang:2,ws12:5,ws_zhi:3,yuejian:3,wxsys:2,jieqi:3,cang:3,cang_bq:3,cang_zq:2,cang_yq:2};
+const QUOTA={tf_rel:4,wx:3,chong:2,tghe:2,liuhe:2,tong:3,shen:3,sanhe:3,sanhetype:2,xing3:2,po:2,zixing:1,xushi:3,xushi2:2,nayin:3,anhe:2,zihe:2,wxs:2,wxk:2,lqs:2,lqk:2,tdyy:3,shichen:2,ganzang:2,zhizang:2,ws12:5,ws_zhi:3,yuejian:3,wxsys:2,jieqi:3,cang:3,cang_bq:3,cang_zq:2,cang_yq:2};
 const CSEL_GROUPS=[
   {lbl:'🧭 五行基础', cats:['wx','tdyy','wxsys']},
+  {lbl:'✅ 判断题', cats:['tf_rel']},
   {lbl:'🌀 地支关系', cats:['chong','liuhe','anhe','sanhe','sanhetype','xing3','po','zixing','cang','cang_bq','cang_zq','cang_yq']},
   {lbl:'☰ 天干关系', cats:['tghe','tong','zihe','shen']},
   {lbl:'⚡ 生克关系', cats:['wxs','wxk','lqs','lqk']},
@@ -2176,6 +2178,16 @@ let CUSTOM_CATS=new Set(JSON.parse(localStorage.getItem('bazi_custom_cats')||'[]
 
 function buildPool(rng){
   const qs=[];
+  // 判断题·关系验证（2选项：对/错）
+  const tf=[];
+  // 六冲判断
+  for(const z of ZHI){const r=CHONG[z];tf.push({main:[z,r],qt:'这两支<b>六冲</b>，对吗？',correct:'✓ 对',wrong:'✗ 错',exp:`${z}⚡${r}，六冲`});const w=rpick(rng,ZHI.filter(x=>x!==z&&x!==r),1)[0];tf.push({main:[z,w],qt:'这两支<b>六冲</b>，对吗？',correct:'✗ 错',wrong:'✓ 对',exp:`${z}与${w}不六冲`});}
+  // 天干五合判断
+  for(const g of GAN){const r=TGHE[g];tf.push({main:[g,r],qt:'这两干<b>天干五合</b>，对吗？',correct:'✓ 对',wrong:'✗ 错',exp:`${g}+${r}五合`});const w=rpick(rng,GAN.filter(x=>x!==g&&x!==r),1)[0];tf.push({main:[g,w],qt:'这两干<b>天干五合</b>，对吗？',correct:'✗ 错',wrong:'✓ 对',exp:`${g}与${w}不五合`});}
+  // 六合判断
+  for(const z of ZHI){const r=LIUHE[z];tf.push({main:[z,r],qt:'这两支<b>地支六合</b>，对吗？',correct:'✓ 对',wrong:'✗ 错',exp:`${z}+${r}六合`});const w=rpick(rng,ZHI.filter(x=>x!==z&&x!==r&&LIUHE[x]!==z),1)[0];tf.push({main:[z,w],qt:'这两支<b>地支六合</b>，对吗？',correct:'✗ 错',wrong:'✓ 对',exp:`${z}与${w}不六合`});}
+  for(const t of rpick(rng,tf,30)){const opts=shuffle(rng,[t.correct,t.wrong]);qs.push({cat:'tf_rel',main:t.main,qt:t.qt,correct:t.correct,opts,exp:t.exp});}
+
   // 五行
   for(const g of GAN){const c=G_WX[g];qs.push({cat:'wx',main:[g],qt:'属于哪个<b>五行</b>？',correct:c,opts:mkOpts(rng,c,WX5),exp:`${g}（${YY[g]}${c}）`});}
   for(const z of ZHI){const c=Z_WX[z];qs.push({cat:'wx',main:[z],qt:'属于哪个<b>五行</b>？',correct:c,opts:mkOpts(rng,c,WX5),exp:`${z}属${c}`});}
