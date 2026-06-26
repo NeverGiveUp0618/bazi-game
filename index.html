@@ -319,6 +319,22 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .wq-add-btn{background:#1e3a8a;border:none;color:#93c5fd;font-size:12px;font-weight:bold;cursor:pointer;padding:3px 9px;border-radius:7px;flex-shrink:0;margin-left:auto;line-height:1.5;white-space:nowrap}
 .wq-add-btn:active{transform:scale(.93)}
 .wq-add-btn.added{background:#022c22;color:#10b981}
+/* 掌握度面板 */
+.ms-sum{display:flex;align-items:center;gap:14px;background:#1e293b;border-radius:14px;padding:14px 16px;margin-bottom:12px}
+.ms-sum-ring{font-size:36px;font-weight:bold;color:#10b981;min-width:56px;text-align:center}
+.ms-sum-info{flex:1}
+.ms-sum-sub{font-size:11px;color:#475569;margin-top:3px;line-height:1.6}
+.ms-grp{margin-bottom:12px}
+.ms-grp-lbl{font-size:11px;color:#475569;letter-spacing:2px;margin-bottom:5px;font-weight:bold}
+.ms-row{display:flex;align-items:center;gap:7px;padding:6px 0;border-bottom:1px solid #1e293b}
+.ms-row:last-child{border-bottom:none}
+.ms-name{font-size:11px;color:#94a3b8;width:70px;flex-shrink:0}
+.ms-bar-wrap{flex:1;background:#0f172a;border-radius:99px;height:7px;overflow:hidden}
+.ms-bar{height:100%;border-radius:99px}
+.ms-pct{font-size:11px;width:36px;text-align:right;flex-shrink:0}
+.ms-ico{font-size:13px;width:18px;flex-shrink:0}
+.ms-new{font-size:10px;color:#334155;font-style:italic}
+
 /* PWA 安装横幅 */
 .pwa-banner{background:#1e3a5f;border:1px solid #3b82f6;border-radius:14px;padding:11px 14px;margin-bottom:10px;display:flex;align-items:center;gap:10px;flex-shrink:0}
 .pwa-banner-txt{flex:1;font-size:12px;color:#93c5fd;line-height:1.5}
@@ -422,6 +438,9 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   </div>
   <div class="mcard" onclick="show('p-gejue-sel')" style="cursor:pointer">
     <div class="mcard-head"><div class="mcard-icon">📜</div><div><div class="mcard-name">歌诀闪卡 <span class="nt-label">背诵</span></div><div class="mcard-desc">清纯·婚姻·三刑·寿元…14套歌诀翻卡背诵</div></div><div style="color:#475569;font-size:18px">›</div></div>
+  </div>
+  <div class="mcard" onclick="showMaster()" style="cursor:pointer">
+    <div class="mcard-head"><div class="mcard-icon">📊</div><div><div class="mcard-name">掌握度面板</div><div class="mcard-desc" id="el-master-sub">各类别正确率分析，找出薄弱知识点</div></div><div style="color:#475569;font-size:18px">›</div></div>
   </div>
   <div class="nb-card" onclick="show('p-nb')">
     <div class="nb-card-row">
@@ -1736,6 +1755,11 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 </div>
 
 <!-- 歌诀闪卡·选类别 -->
+<div id="p-master" class="screen">
+  <div class="tbar"><button class="tbk" onclick="goHome()">← 首页</button><div class="tbtitle">掌握度面板</div></div>
+  <div id="el-master-body"></div>
+</div>
+
 <div id="p-gejue-sel" class="screen">
   <div class="tbar"><button class="tbk" onclick="goHome()">✕</button><div class="tbtitle">📜 歌诀闪卡</div></div>
   <div class="gj-grp">
@@ -2358,6 +2382,14 @@ function initHome(){
   btn.style.background=todayDone?'#065f46':'#10b981';
   updateNBBadge();
   checkBkRemind();
+  // 掌握度副标题
+  const cs=getCatStats();const allCats=Object.keys(QUOTA);
+  const tested=allCats.filter(c=>cs[c]&&cs[c].a>=5).length;
+  if(tested>0){
+    let tot=0,ok=0;for(const s of Object.values(cs)){tot+=s.a;ok+=s.a-s.e;}
+    const sub=document.getElementById('el-master-sub');
+    if(sub)sub.textContent=`综合正确率 ${Math.round(ok/tot*100)}% · 已测 ${tested}/${allCats.length} 题型`;
+  }
 }
 
 const BK_DATE_KEY='bazi_backup_date';
@@ -3376,6 +3408,55 @@ function m4RenderRel(){
     else{extra+=`<br><span style="color:#94a3b8;font-size:12px">脏腑：${GAN_ZANG[s.v]}</span>`;}
     document.getElementById('m4-rel').innerHTML=`<div class="rel-hint">已选：<b style="color:#93c5fd">${s.v}</b>（${PILLAR[s.p]}${s.t==='g'?'干':'支'}）${extra}<br>再点另一个字查看关系</div>`;
   }
+}
+
+// ══ 掌握度面板 ══
+function showMaster(){
+  const cs=getCatStats();
+  let totalA=0,totalOk=0,testedCats=0;
+  for(const s of Object.values(cs)){totalA+=s.a;totalOk+=s.a-s.e;if(s.a>=5)testedCats++;}
+  const overall=totalA?Math.round(totalOk/totalA*100):0;
+  const allCats=Object.keys(QUOTA);
+  const tested=allCats.filter(c=>cs[c]&&cs[c].a>=5).length;
+
+  // summary
+  let html=`<div class="ms-sum">
+    <div class="ms-sum-ring">${overall}%</div>
+    <div class="ms-sum-info">
+      <div style="font-size:14px;font-weight:bold;color:#e2e8f0">综合正确率</div>
+      <div class="ms-sum-sub">已测 ${tested}/${allCats.length} 个题型 · 共答 ${totalA} 题<br>答对 ${totalOk} 题 · 答错 ${totalA-totalOk} 题</div>
+    </div>
+  </div>`;
+
+  // per group
+  for(const grp of CSEL_GROUPS){
+    const rows=grp.cats.map(cat=>{
+      const st=cs[cat];
+      const name=CAT_NAME[cat]||cat;
+      if(!st||st.a<3){
+        return `<div class="ms-row"><span class="ms-name">${name}</span><span class="ms-new ms-pct" style="width:auto;flex:1">未测试</span><span class="ms-ico">⬜</span></div>`;
+      }
+      const acc=Math.round((st.a-st.e)/st.a*100);
+      const barCol=acc>=90?'#34d399':acc>=75?'#10b981':acc>=50?'#f97316':'#ef4444';
+      const ico=acc>=90?'✅':acc>=75?'🟢':acc>=50?'🟡':'🔴';
+      const pctCol=acc>=75?'#10b981':acc>=50?'#f97316':'#ef4444';
+      return `<div class="ms-row">
+        <span class="ms-name">${name}</span>
+        <div class="ms-bar-wrap"><div class="ms-bar" style="width:${acc}%;background:${barCol}"></div></div>
+        <span class="ms-pct" style="color:${pctCol}">${acc}%</span>
+        <span class="ms-ico">${ico}</span>
+      </div>`;
+    }).join('');
+    html+=`<div class="ms-grp card"><div class="ms-grp-lbl">${grp.lbl}</div>${rows}</div>`;
+  }
+  document.getElementById('el-master-body').innerHTML=html;
+
+  // update home subtitle
+  const sub=document.getElementById('el-master-sub');
+  if(sub)sub.textContent=tested?`综合正确率 ${overall}% · 已测 ${tested}/${allCats.length} 题型`:'各类别正确率分析，找出薄弱知识点';
+
+  _scrollPos['p-master']=0;
+  show('p-master');
 }
 
 // ══ 歌诀闪卡 ══
