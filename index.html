@@ -347,6 +347,25 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .nf-ch.ok{background:#022c22;border-color:#10b981;color:#10b981;cursor:default}
 .nf-ch.bad{background:#450a0a;border-color:#ef4444;color:#ef4444;cursor:default}
 .nf-ch.show{background:#022c22;border-color:#10b981;color:#10b981;opacity:.6;cursor:default}
+/* 六十甲子 知识速查 */
+.jz-xun-block{background:#0f172a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;border-left:3px solid #3b82f6}
+.jz-xun-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.jz-xun-name{color:#60a5fa;font-size:13px;font-weight:bold;letter-spacing:1px}
+.jz-kong-tag{color:#ef4444;font-size:12px;font-weight:bold;letter-spacing:1px}
+.jz-pairs-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.jz-pair{text-align:center;padding:4px 2px;border-radius:6px;background:#1e293b;font-size:13px}
+.jz-pair .g{color:#c4b5fd;font-weight:bold}
+.jz-pair .z{color:#60a5fa;font-weight:bold}
+/* 六十甲子训练 */
+.jz-q-card{background:#1e293b;border-radius:16px;padding:20px 16px;margin:12px 0;text-align:center}
+.jz-q-type{font-size:10px;color:#475569;letter-spacing:2px;margin-bottom:6px;font-weight:bold;text-transform:uppercase}
+.jz-q-main{font-size:36px;font-weight:bold;color:#e2e8f0;letter-spacing:4px;line-height:1.2}
+.jz-q-ask{font-size:13px;color:#94a3b8;margin-top:10px}
+.jz-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+.jz-opt{background:#1e293b;border:2px solid #334155;border-radius:12px;padding:16px 4px;font-size:15px;color:#e2e8f0;cursor:pointer;font-weight:bold;letter-spacing:1px;-webkit-appearance:none;width:100%}
+.jz-opt:active{transform:scale(.96)}
+.jz-opt.ok{background:#022c22!important;border-color:#10b981!important;color:#10b981!important}
+.jz-opt.bad{background:#450a0a!important;border-color:#ef4444!important;color:#ef4444!important}
 .nf-score{font-size:11px;color:#475569}
 
 /* 周月统计 */
@@ -464,6 +483,9 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   </div>
   <div class="mcard" onclick="startNF()" style="cursor:pointer">
     <div class="mcard-head"><div class="mcard-icon">🗓️</div><div><div class="mcard-name">干支推算 <span class="nt-label">新</span></div><div class="mcard-desc">年份→干支 · 1900–2100年随机出题</div></div><div style="color:#475569;font-size:18px">›</div></div>
+  </div>
+  <div class="mcard" onclick="startJZ()" style="cursor:pointer">
+    <div class="mcard-head"><div class="mcard-icon">🀄</div><div><div class="mcard-name">六十甲子训练 <span class="nt-label">新</span></div><div class="mcard-desc">识旬 · 识空亡 · 认干支 · 三类题型随机出题</div></div><div style="color:#475569;font-size:18px">›</div></div>
   </div>
   <div class="mcard">
     <div class="mcard-head"><div class="mcard-icon">🔍</div><div><div class="mcard-name">八字排盘 <span class="nt-label">无计时</span></div><div class="mcard-desc">点任意两字查关系，人鉴117例</div></div></div>
@@ -948,6 +970,56 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
         <div class="m5-wrap"><table class="m5-tbl">
           <tr><th>自刑支</th><td class="c-zhi">辰</td><td class="c-zhi">午</td><td class="c-zhi">酉</td><td class="c-zhi">亥</td></tr>
         </table></div>
+      </div>
+    </div>
+
+    <!-- 六十甲子 -->
+    <div class="m5-sec">
+      <button class="m5-tog" onclick="m5Toggle(this)">▶ 🀄 六十甲子 · 空亡</button>
+      <div class="m5-body" style="display:none">
+        <div style="font-size:11px;color:#475569;text-align:center;padding:4px 0 8px;letter-spacing:1px">六十甲子分六旬 · 旬首天干均为甲 · 各旬末尾两支为空亡</div>
+        <div class="jz-xun-block">
+          <div class="jz-xun-head"><span class="jz-xun-name">甲子旬</span><span class="jz-kong-tag">空亡：戌 亥</span></div>
+          <div class="jz-pairs-grid">
+            <div class="jz-pair"><span class="g">甲</span><span class="z">子</span></div><div class="jz-pair"><span class="g">乙</span><span class="z">丑</span></div><div class="jz-pair"><span class="g">丙</span><span class="z">寅</span></div><div class="jz-pair"><span class="g">丁</span><span class="z">卯</span></div><div class="jz-pair"><span class="g">戊</span><span class="z">辰</span></div>
+            <div class="jz-pair"><span class="g">己</span><span class="z">巳</span></div><div class="jz-pair"><span class="g">庚</span><span class="z">午</span></div><div class="jz-pair"><span class="g">辛</span><span class="z">未</span></div><div class="jz-pair"><span class="g">壬</span><span class="z">申</span></div><div class="jz-pair"><span class="g">癸</span><span class="z">酉</span></div>
+          </div>
+        </div>
+        <div class="jz-xun-block">
+          <div class="jz-xun-head"><span class="jz-xun-name">甲戌旬</span><span class="jz-kong-tag">空亡：申 酉</span></div>
+          <div class="jz-pairs-grid">
+            <div class="jz-pair"><span class="g">甲</span><span class="z">戌</span></div><div class="jz-pair"><span class="g">乙</span><span class="z">亥</span></div><div class="jz-pair"><span class="g">丙</span><span class="z">子</span></div><div class="jz-pair"><span class="g">丁</span><span class="z">丑</span></div><div class="jz-pair"><span class="g">戊</span><span class="z">寅</span></div>
+            <div class="jz-pair"><span class="g">己</span><span class="z">卯</span></div><div class="jz-pair"><span class="g">庚</span><span class="z">辰</span></div><div class="jz-pair"><span class="g">辛</span><span class="z">巳</span></div><div class="jz-pair"><span class="g">壬</span><span class="z">午</span></div><div class="jz-pair"><span class="g">癸</span><span class="z">未</span></div>
+          </div>
+        </div>
+        <div class="jz-xun-block">
+          <div class="jz-xun-head"><span class="jz-xun-name">甲申旬</span><span class="jz-kong-tag">空亡：午 未</span></div>
+          <div class="jz-pairs-grid">
+            <div class="jz-pair"><span class="g">甲</span><span class="z">申</span></div><div class="jz-pair"><span class="g">乙</span><span class="z">酉</span></div><div class="jz-pair"><span class="g">丙</span><span class="z">戌</span></div><div class="jz-pair"><span class="g">丁</span><span class="z">亥</span></div><div class="jz-pair"><span class="g">戊</span><span class="z">子</span></div>
+            <div class="jz-pair"><span class="g">己</span><span class="z">丑</span></div><div class="jz-pair"><span class="g">庚</span><span class="z">寅</span></div><div class="jz-pair"><span class="g">辛</span><span class="z">卯</span></div><div class="jz-pair"><span class="g">壬</span><span class="z">辰</span></div><div class="jz-pair"><span class="g">癸</span><span class="z">巳</span></div>
+          </div>
+        </div>
+        <div class="jz-xun-block">
+          <div class="jz-xun-head"><span class="jz-xun-name">甲午旬</span><span class="jz-kong-tag">空亡：辰 巳</span></div>
+          <div class="jz-pairs-grid">
+            <div class="jz-pair"><span class="g">甲</span><span class="z">午</span></div><div class="jz-pair"><span class="g">乙</span><span class="z">未</span></div><div class="jz-pair"><span class="g">丙</span><span class="z">申</span></div><div class="jz-pair"><span class="g">丁</span><span class="z">酉</span></div><div class="jz-pair"><span class="g">戊</span><span class="z">戌</span></div>
+            <div class="jz-pair"><span class="g">己</span><span class="z">亥</span></div><div class="jz-pair"><span class="g">庚</span><span class="z">子</span></div><div class="jz-pair"><span class="g">辛</span><span class="z">丑</span></div><div class="jz-pair"><span class="g">壬</span><span class="z">寅</span></div><div class="jz-pair"><span class="g">癸</span><span class="z">卯</span></div>
+          </div>
+        </div>
+        <div class="jz-xun-block">
+          <div class="jz-xun-head"><span class="jz-xun-name">甲辰旬</span><span class="jz-kong-tag">空亡：寅 卯</span></div>
+          <div class="jz-pairs-grid">
+            <div class="jz-pair"><span class="g">甲</span><span class="z">辰</span></div><div class="jz-pair"><span class="g">乙</span><span class="z">巳</span></div><div class="jz-pair"><span class="g">丙</span><span class="z">午</span></div><div class="jz-pair"><span class="g">丁</span><span class="z">未</span></div><div class="jz-pair"><span class="g">戊</span><span class="z">申</span></div>
+            <div class="jz-pair"><span class="g">己</span><span class="z">酉</span></div><div class="jz-pair"><span class="g">庚</span><span class="z">戌</span></div><div class="jz-pair"><span class="g">辛</span><span class="z">亥</span></div><div class="jz-pair"><span class="g">壬</span><span class="z">子</span></div><div class="jz-pair"><span class="g">癸</span><span class="z">丑</span></div>
+          </div>
+        </div>
+        <div class="jz-xun-block">
+          <div class="jz-xun-head"><span class="jz-xun-name">甲寅旬</span><span class="jz-kong-tag">空亡：子 丑</span></div>
+          <div class="jz-pairs-grid">
+            <div class="jz-pair"><span class="g">甲</span><span class="z">寅</span></div><div class="jz-pair"><span class="g">乙</span><span class="z">卯</span></div><div class="jz-pair"><span class="g">丙</span><span class="z">辰</span></div><div class="jz-pair"><span class="g">丁</span><span class="z">巳</span></div><div class="jz-pair"><span class="g">戊</span><span class="z">午</span></div>
+            <div class="jz-pair"><span class="g">己</span><span class="z">未</span></div><div class="jz-pair"><span class="g">庚</span><span class="z">申</span></div><div class="jz-pair"><span class="g">辛</span><span class="z">酉</span></div><div class="jz-pair"><span class="g">壬</span><span class="z">戌</span></div><div class="jz-pair"><span class="g">癸</span><span class="z">亥</span></div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1836,6 +1908,28 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   </div>
   <div class="fb" id="nf-fb"></div>
   <button class="btn btn-g" id="nf-next-btn" style="display:none;margin-top:10px" onclick="nfNext()">下一题 →</button>
+</div>
+
+<!-- 六十甲子训练 -->
+<div id="p-jz" class="screen">
+  <div class="tbar">
+    <button class="tbk" onclick="goHome()">← 首页</button>
+    <div class="tbtitle">🀄 六十甲子训练</div>
+    <div class="tbr nf-score" id="jz-prog-r">1/30</div>
+  </div>
+  <div class="prog-row">
+    <span class="prog-txt" id="jz-prog-txt">1/30</span>
+    <div class="prog-wrap"><div class="prog-bar" id="jz-pb" style="width:0%"></div></div>
+  </div>
+  <div id="jz-q-wrap">
+    <div class="jz-q-card">
+      <div class="jz-q-type" id="jz-q-type">识旬</div>
+      <div class="jz-q-main" id="jz-q-main">甲子</div>
+      <div class="jz-q-ask" id="jz-q-ask">属于哪一旬？</div>
+    </div>
+    <div class="jz-opts" id="jz-opts"></div>
+    <div class="fb" id="jz-fb"></div>
+  </div>
 </div>
 
 <div id="p-stats" class="screen">
@@ -3896,6 +3990,122 @@ function gjExitPractice(){
   const viewed=gjState.mode==='couplet'?gjState.cidx+1:gjState.idx+1;
   saveGJResult(viewed,gjState.cat);
   show('p-gejue-sel');
+}
+
+// ══ 六十甲子训练 ══
+const JIAZI_XUN=[
+  {name:'甲子旬',pairs:['甲子','乙丑','丙寅','丁卯','戊辰','己巳','庚午','辛未','壬申','癸酉'],kong:'戌亥'},
+  {name:'甲戌旬',pairs:['甲戌','乙亥','丙子','丁丑','戊寅','己卯','庚辰','辛巳','壬午','癸未'],kong:'申酉'},
+  {name:'甲申旬',pairs:['甲申','乙酉','丙戌','丁亥','戊子','己丑','庚寅','辛卯','壬辰','癸巳'],kong:'午未'},
+  {name:'甲午旬',pairs:['甲午','乙未','丙申','丁酉','戊戌','己亥','庚子','辛丑','壬寅','癸卯'],kong:'辰巳'},
+  {name:'甲辰旬',pairs:['甲辰','乙巳','丙午','丁未','戊申','己酉','庚戌','辛亥','壬子','癸丑'],kong:'寅卯'},
+  {name:'甲寅旬',pairs:['甲寅','乙卯','丙辰','丁巳','戊午','己未','庚申','辛酉','壬戌','癸亥'],kong:'子丑'},
+];
+const JZ_TOTAL=30;
+let JZ={qs:[],idx:0,correct:0,answered:false};
+
+function makeJZQs(){
+  const rng=mkRng(Date.now()%99991+3);
+  const pool=JIAZI_XUN.flatMap((x,xi)=>x.pairs.map(p=>({p,xi})));
+  const sp=shuffle(rng,pool);
+  const qs=[];
+  for(let i=0;i<JZ_TOTAL;i++){
+    const{p,xi}=sp[i%sp.length];
+    const xun=JIAZI_XUN[xi];
+    const t=rng();
+    const oi=shuffle(rng,[0,1,2,3,4,5].filter(x=>x!==xi));
+    let q;
+    if(t<0.4){
+      // 识旬：给干支，选属于哪一旬
+      const opts=shuffle(rng,[xun.name,...oi.slice(0,3).map(x=>JIAZI_XUN[x].name)]);
+      q={type:'识旬',main:p,ask:'属于哪一旬？',correct:xun.name,opts};
+    }else if(t<0.72){
+      // 识空：给干支，选该旬空亡
+      const opts=shuffle(rng,[xun.kong,...oi.slice(0,3).map(x=>JIAZI_XUN[x].kong)]);
+      q={type:'识空',main:p,ask:'所在旬的空亡是？',correct:xun.kong,opts};
+    }else{
+      // 认旬：给旬名，选哪个干支属于此旬
+      const cp=xun.pairs[0|rng()*10];
+      const opts=shuffle(rng,[cp,...oi.slice(0,3).map(x=>JIAZI_XUN[x].pairs[0|rng()*10])]);
+      q={type:'认旬',main:xun.name,ask:'哪个干支属于此旬？',correct:cp,opts};
+    }
+    qs.push(q);
+  }
+  return qs;
+}
+
+function startJZ(){
+  JZ={qs:makeJZQs(),idx:0,correct:0,answered:false};
+  show('p-jz');
+  renderJZQ();
+}
+
+function renderJZQ(){
+  const{qs,idx}=JZ,q=qs[idx];
+  document.getElementById('jz-q-wrap').innerHTML=`
+    <div class="jz-q-card">
+      <div class="jz-q-type" id="jz-q-type">${q.type}</div>
+      <div class="jz-q-main" id="jz-q-main">${q.main}</div>
+      <div class="jz-q-ask" id="jz-q-ask">${q.ask}</div>
+    </div>
+    <div class="jz-opts" id="jz-opts">${q.opts.map((o,i)=>`<button class="jz-opt" id="jz-o${i}" onclick="jzPick('${o}')">${o}</button>`).join('')}</div>
+    <div class="fb" id="jz-fb"></div>
+  `;
+  document.getElementById('jz-prog-r').textContent=`${idx+1}/${JZ_TOTAL}`;
+  document.getElementById('jz-prog-txt').textContent=`${idx+1}/${JZ_TOTAL}`;
+  document.getElementById('jz-pb').style.width=`${idx/JZ_TOTAL*100}%`;
+  JZ.answered=false;
+}
+
+function jzPick(val){
+  if(JZ.answered)return;
+  JZ.answered=true;
+  const q=JZ.qs[JZ.idx];
+  const ok=val===q.correct;
+  if(ok)JZ.correct++;
+  q.opts.forEach((o,i)=>{
+    const el=document.getElementById(`jz-o${i}`);
+    if(!el)return;
+    if(o===q.correct)el.classList.add('ok');
+    else if(o===val&&!ok)el.classList.add('bad');
+    el.style.pointerEvents='none';
+  });
+  const fb=document.getElementById('jz-fb');
+  if(ok){
+    fb.style.color='#10b981';fb.textContent='✓ 正确！';
+  }else{
+    fb.style.color='#ef4444';
+    if(q.type!=='认旬'){
+      const xi=JIAZI_XUN.findIndex(x=>x.pairs.includes(q.main));
+      const xun=JIAZI_XUN[xi];
+      fb.textContent=`✗ ${q.main}属${xun.name}，空亡 ${xun.kong}`;
+    }else{
+      fb.textContent=`✗ 正确答案：${q.correct}`;
+    }
+  }
+  setTimeout(()=>{
+    JZ.idx++;
+    if(JZ.idx>=JZ_TOTAL)jzEnd();
+    else renderJZQ();
+  },ok?600:1400);
+}
+
+function jzEnd(){
+  const{correct}=JZ;
+  const acc=Math.round(correct/JZ_TOTAL*100);
+  const grade=acc>=95?'🏆':acc>=85?'🥇':acc>=70?'🥈':acc>=55?'🥉':'🌱';
+  document.getElementById('jz-q-wrap').innerHTML=`
+    <div style="text-align:center;padding:20px 0">
+      <div style="font-size:52px">${grade}</div>
+      <div style="font-size:42px;font-weight:bold;color:#e2e8f0;margin:8px 0">${acc}%</div>
+      <div style="color:#64748b;font-size:14px">答对 ${correct} / ${JZ_TOTAL} 题</div>
+    </div>
+    <button class="btn btn-b" onclick="startJZ()" style="margin:4px 0">再练一次 ↺</button>
+    <button class="btn btn-d" onclick="goHome()" style="margin:4px 0">← 首页</button>
+  `;
+  document.getElementById('jz-prog-r').textContent='完成';
+  document.getElementById('jz-pb').style.width='100%';
+  document.getElementById('jz-prog-txt').textContent=`${JZ_TOTAL}/${JZ_TOTAL}`;
 }
 
 // ══ KEYBOARD ══
