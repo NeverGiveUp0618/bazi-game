@@ -132,9 +132,10 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .p2btn.clr-zhi{border-color:#1e3a5f}.p2btn.clr-gan{border-color:#3b1a5f}.p2btn.clr-gs{border-color:#1a3a2f}.p2btn.clr-xu{border-color:#4a3000}.p2btn.clr-ny{border-color:#1a3a50}.p2btn.clr-lq{border-color:#5f1a2a}
 /* MODE 2 GAME */
 .m2stat{text-align:center;font-size:12px;color:#64748b;margin-bottom:9px;min-height:16px;flex-shrink:0}
-.match-area{display:flex;gap:6px;flex:1;min-height:0;position:relative}
-.m2-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
-@keyframes lineIn{from{stroke-dashoffset:200}to{stroke-dashoffset:0}}
+.match-area{display:flex;gap:6px;flex:1;min-height:0}
+.m2-diff{display:flex;gap:6px;padding:8px 12px 2px;flex-shrink:0}
+.m2-diff-btn{flex:1;padding:8px 0;border-radius:8px;font-size:13px;border:none;cursor:pointer;background:#1e293b;color:#64748b;font-weight:500}
+.m2-diff-btn.active{background:#10b981;color:#fff;font-weight:700}
 .match-col{display:flex;flex-direction:column;gap:6px;flex:1;min-height:0}
 .mi{flex:1;min-height:44px;max-height:90px;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:bold;background:#1e293b;border:2px solid transparent;border-radius:12px;cursor:pointer;transition:all .12s;color:#e2e8f0;user-select:none}
 .mi:active:not(.mat):not(.dis){transform:scale(.96)}
@@ -589,6 +590,10 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 <!-- MODE 2 SELECT -->
 <div id="p2-sel" class="screen">
   <div class="tbar"><button class="tbk" onclick="goHome()">✕</button><div class="tbtitle">配对连线 · 选类别</div></div>
+  <div class="m2-diff">
+    <button class="m2-diff-btn active" id="m2d-0" onclick="m2SetDiff(false)">普通</button>
+    <button class="m2-diff-btn" id="m2d-1" onclick="m2SetDiff(true)">困难 · 右侧每轮重排</button>
+  </div>
   <div class="p2grp">
     <div class="p2grp-lbl">🌀 地支关系</div>
     <div class="p2grp-grid">
@@ -710,7 +715,6 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   </div>
   <div class="m2stat" id="m2-stat">选左边，再选右边，完成配对</div>
   <div class="match-area" id="m2-area">
-    <svg class="m2-svg" id="m2-svg"></svg>
     <div class="match-col" id="m2-left"></div>
     <div class="match-mid" id="m2-mid"></div>
     <div class="match-col" id="m2-right"></div>
@@ -2980,7 +2984,15 @@ function getM2NbQ(lv,rv,cat){
   const i=mp[cat]||{nbcat:'liuhe',qt:'配对？',exp:`${lv}→${rv}`};
   return{id:`m2_${cat}_${lv}`,cat:i.nbcat,main:[lv],qt:i.qt,correct:rv,exp:i.exp};
 }
-let M2={cat:'',pairs:[],lOrd:[],rOrd:[],matchedL:new Set(),matchedR:new Set(),selL:-1,wrong:0,wrongPairIndices:new Set(),t0:0};
+let _m2hard=!!+localStorage.getItem('bazi_m2_hard');
+function m2SetDiff(h){
+  _m2hard=h;
+  localStorage.setItem('bazi_m2_hard',h?'1':'0');
+  document.getElementById('m2d-0').classList.toggle('active',!h);
+  document.getElementById('m2d-1').classList.toggle('active',h);
+}
+
+let M2={cat:'',pairs:[],lOrd:[],rOrd:[],matchedL:new Set(),matchedR:new Set(),matchedPairs:new Set(),selL:-1,wrong:0,wrongPairIndices:new Set(),t0:0,hard:false,waiting:false,flashR:-1};
 
 function startM2(cat){
   const rng=mkRng(Math.random()*0x100000000>>>0);
@@ -2989,98 +3001,58 @@ function startM2(cat){
   if(maxP&&pairs.length>maxP)pairs=rpick(rng,pairs,maxP);
   const n=pairs.length;
   M2={cat,pairs,lOrd:shuffle(rng,[...Array(n).keys()]),rOrd:shuffle(rng,[...Array(n).keys()]),
-      matchedL:new Set(),matchedR:new Set(),selL:-1,wrong:0,wrongPairIndices:new Set(),t0:Date.now()};
-  document.getElementById('m2-title').textContent=M2_CATS[cat].label||cat;
+      matchedL:new Set(),matchedR:new Set(),matchedPairs:new Set(),selL:-1,wrong:0,wrongPairIndices:new Set(),
+      t0:Date.now(),hard:_m2hard,waiting:false,flashR:-1};
+  document.getElementById('m2-title').textContent=(M2_CATS[cat].label||cat)+(_m2hard?' 🔥':'');
   document.getElementById('m2-prog').textContent=`0/${n}`;
-  document.getElementById('m2-stat').textContent=`选左边，再选右边，完成 ${n} 对配对`;
-  m2Render();show('p2g');setTimeout(m2SetupDrag,100);
+  document.getElementById('m2-stat').textContent=_m2hard?`困难模式：右侧每次配对后重排，完成 ${n} 对`:`选左边，再选右边，完成 ${n} 对配对`;
+  m2Render();show('p2g');
 }
 
 function m2Render(){
-  const{pairs,lOrd,rOrd,matchedL,matchedR,selL}=M2,n=pairs.length;
+  const{pairs,lOrd,rOrd,matchedL,matchedR,selL,hard,flashR}=M2,n=pairs.length;
   document.getElementById('m2-left').innerHTML=lOrd.map((pi,i)=>`<div class="mi ${matchedL.has(i)?'mat':selL===i?'sel':''}" id="m2l${i}" onclick="m2ClickL(${i})">${pairs[pi][0]}</div>`).join('');
-  document.getElementById('m2-right').innerHTML=rOrd.map((pi,i)=>`<div class="mi ${matchedR.has(i)?'mat':''}" id="m2r${i}" onclick="m2ClickR(${i})">${pairs[pi][1]}</div>`).join('');
+  document.getElementById('m2-right').innerHTML=rOrd.map((pi,i)=>`<div class="mi ${hard?(pi===flashR?'mat':''):(matchedR.has(i)?'mat':'')}" id="m2r${i}" onclick="m2ClickR(${i})">${pairs[pi][1]}</div>`).join('');
   document.getElementById('m2-mid').innerHTML=Array(n).fill(0).map((_,i)=>`<div class="mm-dot ${matchedL.has(i)?'on':''}"></div>`).join('');
-  setTimeout(drawM2Lines,30);
 }
 
 function m2ClickL(i){
-  if(M2.matchedL.has(i))return;
+  if(M2.waiting||M2.matchedL.has(i))return;
   M2.selL=M2.selL===i?-1:i;m2Render();
 }
 
 function m2ClickR(rIdx){
-  if(M2.matchedR.has(rIdx))return;
+  if(M2.waiting)return;
+  const rPairIdx=M2.rOrd[rIdx];
+  if(M2.hard?M2.matchedPairs.has(rPairIdx):M2.matchedR.has(rIdx))return;
   if(M2.selL<0){document.getElementById('m2-stat').textContent='请先点左边的字';return;}
-  const lV=M2.pairs[M2.lOrd[M2.selL]][0],rV=M2.pairs[M2.rOrd[rIdx]][1];
+  const lV=M2.pairs[M2.lOrd[M2.selL]][0],rV=M2.pairs[rPairIdx][1];
   if(isM2Correct(lV,rV,M2.cat)){
-    M2.matchedL.add(M2.selL);M2.matchedR.add(rIdx);M2.selL=-1;
-    const done=M2.matchedL.size;
-    document.getElementById('m2-prog').textContent=`${done}/${M2.pairs.length}`;
-    document.getElementById('m2-stat').textContent=`✓ ${lV}—${rV} 正确！${done===M2.pairs.length?'全部完成！':'还剩'+(M2.pairs.length-done)+'对'}`;
-    m2Render();if(done===M2.pairs.length)setTimeout(m2End,600);
-  }else{
-    M2.wrong++;
-    M2.wrongPairIndices.add(M2.lOrd[M2.selL]);
+    M2.matchedL.add(M2.selL);M2.matchedPairs.add(rPairIdx);
+    if(!M2.hard)M2.matchedR.add(rIdx);
     M2.selL=-1;
+    const done=M2.matchedL.size,total=M2.pairs.length;
+    document.getElementById('m2-prog').textContent=`${done}/${total}`;
+    document.getElementById('m2-stat').textContent=`✓ ${lV}—${rV} 正确！${done===total?'全部完成！':'还剩'+(total-done)+'对'}`;
+    if(M2.hard){
+      M2.waiting=true;M2.flashR=rPairIdx;m2Render();
+      setTimeout(()=>{
+        M2.waiting=false;M2.flashR=-1;
+        if(done===total){m2End();return;}
+        M2.rOrd=shuffle(mkRng(Math.random()*0x100000000>>>0),[...Array(total).keys()]);
+        m2Render();
+      },1000);
+    }else{
+      m2Render();
+      if(done===total)setTimeout(m2End,600);
+    }
+  }else{
+    M2.wrong++;M2.wrongPairIndices.add(M2.lOrd[M2.selL]);M2.selL=-1;
     const rEl=document.getElementById('m2r'+rIdx);
     if(rEl){rEl.classList.add('err');setTimeout(()=>{rEl.classList.remove('err');m2Render();},500);}
     document.getElementById('m2-stat').textContent=`✗ ${lV}—${rV} 不对（累计错 ${M2.wrong} 次）`;
     m2Render();
   }
-}
-
-// 拖拽连线
-let _m2drag={on:false,lIdx:-1,cx:0,cy:0};
-function drawM2Lines(){
-  const svg=document.getElementById('m2-svg');const area=document.getElementById('m2-area');
-  if(!svg||!area)return;
-  const ar=area.getBoundingClientRect();if(!ar.width)return;
-  svg.setAttribute('viewBox',`0 0 ${ar.width} ${ar.height}`);
-  let out='';
-  M2.matchedL.forEach(li=>{
-    const lpi=M2.lOrd[li];
-    let ri=-1;M2.matchedR.forEach(r=>{if(M2.rOrd[r]===lpi)ri=r;});
-    if(ri<0)return;
-    const lEl=document.getElementById('m2l'+li),rEl=document.getElementById('m2r'+ri);
-    if(!lEl||!rEl)return;
-    const lr=lEl.getBoundingClientRect(),rr=rEl.getBoundingClientRect();
-    const x1=lr.right-ar.left,y1=(lr.top+lr.bottom)/2-ar.top;
-    const x2=rr.left-ar.left,y2=(rr.top+rr.bottom)/2-ar.top;
-    const mx=(x1+x2)/2;
-    out+=`<path d="M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}" fill="none" stroke="#10b981" stroke-width="2.5" stroke-opacity=".8" stroke-dasharray="200" style="animation:lineIn .35s ease forwards"/>`;
-  });
-  // drag preview line
-  if(_m2drag.on&&M2.selL>=0){
-    const lEl=document.getElementById('m2l'+M2.selL);
-    if(lEl){const lr=lEl.getBoundingClientRect();const x1=lr.right-ar.left,y1=(lr.top+lr.bottom)/2-ar.top,x2=_m2drag.cx-ar.left,y2=_m2drag.cy-ar.top;
-      out+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#3b82f6" stroke-width="2" stroke-opacity=".6" stroke-dasharray="6,4"/>`;}
-  }
-  svg.innerHTML=out;
-}
-function m2SetupDrag(){
-  const area=document.getElementById('m2-area');if(!area)return;
-  area.addEventListener('touchstart',e=>{
-    const t=e.touches[0],el=document.elementFromPoint(t.clientX,t.clientY)?.closest('#m2-left .mi');
-    if(!el||el.classList.contains('mat'))return;
-    const li=[...document.querySelectorAll('#m2-left .mi')].indexOf(el);
-    if(li<0)return;
-    _m2drag={on:true,lIdx:li,cx:t.clientX,cy:t.clientY};
-    m2ClickL(li);e.preventDefault();
-  },{passive:false});
-  area.addEventListener('touchmove',e=>{
-    if(!_m2drag.on)return;
-    _m2drag.cx=e.touches[0].clientX;_m2drag.cy=e.touches[0].clientY;
-    drawM2Lines();e.preventDefault();
-  },{passive:false});
-  area.addEventListener('touchend',e=>{
-    if(!_m2drag.on)return;
-    const t=e.changedTouches[0];
-    _m2drag.on=false;
-    const el=document.elementFromPoint(t.clientX,t.clientY)?.closest('#m2-right .mi');
-    if(el){const ri=[...document.querySelectorAll('#m2-right .mi')].indexOf(el);if(ri>=0)m2ClickR(ri);}
-    drawM2Lines();
-  },{passive:false});
 }
 
 function m2End(){
@@ -3836,7 +3808,7 @@ document.addEventListener('keydown',e=>{
 });
 
 // ══ INIT ══
-initHome();
+initHome();m2SetDiff(_m2hard);
 
 // ══ PWA ══
 let _pwaPrompt=null;
