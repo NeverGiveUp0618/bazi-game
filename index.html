@@ -450,7 +450,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .gj-cq-dir{font-size:11px;color:#475569;letter-spacing:2px;margin-bottom:14px;text-align:center;width:100%}
 .gj-cq-shown{font-size:22px;font-weight:bold;color:#10b981;letter-spacing:3px;line-height:1.8;text-align:center;width:100%}
 .gj-cq-comma{font-size:16px;color:#334155;text-align:center;margin:4px 0}
-.gj-cq-blank{font-size:22px;letter-spacing:3px;color:#334155;text-align:center;padding:8px 0;min-height:44px;width:100%;transition:color .25s}
+.gj-cq-blank{font-size:22px;letter-spacing:3px;color:#64748b;text-align:center;padding:8px 0;min-height:44px;width:100%;transition:color .25s}
 .gj-cq-blank.revealed{color:#f59e0b;font-weight:bold}
 </style>
 </head>
@@ -2035,9 +2035,9 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <!-- 挖空模式 -->
     <div id="gj-cq-area" style="display:none;width:100%;text-align:center">
       <div class="gj-cq-dir" id="gj-cq-dir">▼ 请背出下句</div>
-      <div class="gj-cq-shown" id="gj-cq-shown"></div>
+      <div id="gj-cq-line1" class="gj-cq-shown"></div>
       <div class="gj-cq-comma">，</div>
-      <div class="gj-cq-blank" id="gj-cq-blank">＿ ＿ ＿ ＿ ＿ ＿</div>
+      <div id="gj-cq-line2" class="gj-cq-blank">＿ ＿ ＿ ＿ ＿ ＿</div>
     </div>
     <div class="gj-hint" id="gj-hint">点击卡片查看歌诀</div>
   </div>
@@ -3961,10 +3961,17 @@ function updateGJCard(){
     gjState.revealed=false;
     gjState.showUpper=Math.random()<.5;
     const su=gjState.showUpper;
+    const l1=document.getElementById('gj-cq-line1'),l2=document.getElementById('gj-cq-line2');
     document.getElementById('gj-cq-dir').textContent=su?'▼ 请背出下句':'▲ 请背出上句';
-    document.getElementById('gj-cq-shown').textContent=su?(cq.upper||''):(cq.lower||'');
-    document.getElementById('gj-cq-blank').textContent='＿ ＿ ＿ ＿ ＿ ＿';
-    document.getElementById('gj-cq-blank').classList.remove('revealed');
+    if(su){
+      // 显示上句，挖空下句：[上句shown]，[下句blank]
+      l1.className='gj-cq-shown';l1.textContent=cq.upper||'';
+      l2.className='gj-cq-blank';l2.textContent='＿ ＿ ＿ ＿ ＿ ＿';l2.classList.remove('revealed');
+    }else{
+      // 挖空上句，显示下句：[上句blank]，[下句shown]
+      l1.className='gj-cq-blank';l1.textContent='＿ ＿ ＿ ＿ ＿ ＿';l1.classList.remove('revealed');
+      l2.className='gj-cq-shown';l2.textContent=cq.lower||'';
+    }
     document.getElementById('gj-hint').textContent='点击卡片查看答案';
     document.getElementById('gj-hint').style.display='';
     document.getElementById('gj-btn-prev').textContent='◀ 上一句';
@@ -3992,8 +3999,10 @@ function toggleGJReveal(){
   gjState.revealed=!gjState.revealed;
   if(gjState.mode==='couplet'){
     const cq=gjState.couplets[gjState.cidx]||{};
-    const answer=gjState.showUpper?cq.lower:cq.upper;
-    const el=document.getElementById('gj-cq-blank');
+    const su=gjState.showUpper;
+    const answer=su?cq.lower:cq.upper;
+    // su=true时blank在line2，su=false时blank在line1
+    const el=document.getElementById(su?'gj-cq-line2':'gj-cq-line1');
     el.textContent=gjState.revealed?(answer||''):'＿ ＿ ＿ ＿ ＿ ＿';
     el.classList.toggle('revealed',gjState.revealed);
     document.getElementById('gj-hint').style.display=gjState.revealed?'none':'';
