@@ -319,6 +319,23 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .wq-add-btn{background:#1e3a8a;border:none;color:#93c5fd;font-size:12px;font-weight:bold;cursor:pointer;padding:3px 9px;border-radius:7px;flex-shrink:0;margin-left:auto;line-height:1.5;white-space:nowrap}
 .wq-add-btn:active{transform:scale(.93)}
 .wq-add-btn.added{background:#022c22;color:#10b981}
+/* 周月统计 */
+.cal-wrap{padding:8px 0}
+.cal-hdr{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px}
+.cal-wd{text-align:center;font-size:10px;color:#334155}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal-day{aspect-ratio:1;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#334155;background:#1e293b}
+.cal-day.done-lo{background:#065f46;color:#6ee7b7}
+.cal-day.done-md{background:#059669;color:#d1fae5}
+.cal-day.done-hi{background:#10b981;color:#fff;font-weight:bold}
+.cal-day.today{outline:2px solid #3b82f6;color:#93c5fd}
+.st-box{background:#1e293b;border-radius:12px;padding:14px 16px;margin:7px 0}
+.st-box-t{font-size:11px;color:#475569;letter-spacing:2px;margin-bottom:10px;font-weight:bold}
+.st-nums{display:flex;gap:0}
+.st-num{flex:1;text-align:center}
+.st-num-v{font-size:22px;font-weight:bold;color:#10b981}
+.st-num-l{font-size:10px;color:#475569;margin-top:2px}
+
 /* 掌握度面板 */
 .ms-sum{display:flex;align-items:center;gap:14px;background:#1e293b;border-radius:14px;padding:14px 16px;margin-bottom:12px}
 .ms-sum-ring{font-size:36px;font-weight:bold;color:#10b981;min-width:56px;text-align:center}
@@ -438,6 +455,9 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   </div>
   <div class="mcard" onclick="show('p-gejue-sel')" style="cursor:pointer">
     <div class="mcard-head"><div class="mcard-icon">📜</div><div><div class="mcard-name">歌诀闪卡 <span class="nt-label">背诵</span></div><div class="mcard-desc">清纯·婚姻·三刑·寿元…14套歌诀翻卡背诵</div></div><div style="color:#475569;font-size:18px">›</div></div>
+  </div>
+  <div class="mcard" onclick="showStats()" style="cursor:pointer">
+    <div class="mcard-head"><div class="mcard-icon">📅</div><div><div class="mcard-name">周月统计</div><div class="mcard-desc">打卡日历 · 近7天/30天练习汇总</div></div><div style="color:#475569;font-size:18px">›</div></div>
   </div>
   <div class="mcard" onclick="showMaster()" style="cursor:pointer">
     <div class="mcard-head"><div class="mcard-icon">📊</div><div><div class="mcard-name">掌握度面板</div><div class="mcard-desc" id="el-master-sub">各类别正确率分析，找出薄弱知识点</div></div><div style="color:#475569;font-size:18px">›</div></div>
@@ -1755,6 +1775,11 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 </div>
 
 <!-- 歌诀闪卡·选类别 -->
+<div id="p-stats" class="screen">
+  <div class="tbar"><button class="tbk" onclick="goHome()">← 首页</button><div class="tbtitle">周月统计</div></div>
+  <div id="el-stats-body"></div>
+</div>
+
 <div id="p-master" class="screen">
   <div class="tbar"><button class="tbk" onclick="goHome()">← 首页</button><div class="tbtitle">掌握度面板</div></div>
   <div id="el-master-body"></div>
@@ -2292,7 +2317,7 @@ function saveM1Result(score,correct,maxCombo,time){
   const d=getData();d.history=d.history||[];
   const today=todayStr(),idx=d.history.findIndex(h=>h.date===today);
   const rec={date:today,score,correct,maxCombo,time};
-  if(idx>=0){if(score>d.history[idx].score)d.history[idx]=rec;}else{d.history.unshift(rec);d.history=d.history.slice(0,20);}
+  if(idx>=0){if(score>d.history[idx].score)d.history[idx]=rec;}else{d.history.unshift(rec);d.history=d.history.slice(0,90);}
   d.best=Math.max(d.best||0,score);d.totalCorrect=(d.totalCorrect||0)+correct;
   let streak=0,dt=new Date();
   for(let i=0;i<30;i++){const ds=`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;if(d.history.find(h=>h.date===ds)){streak++;dt.setDate(dt.getDate()-1);}else break;}
@@ -3408,6 +3433,55 @@ function m4RenderRel(){
     else{extra+=`<br><span style="color:#94a3b8;font-size:12px">脏腑：${GAN_ZANG[s.v]}</span>`;}
     document.getElementById('m4-rel').innerHTML=`<div class="rel-hint">已选：<b style="color:#93c5fd">${s.v}</b>（${PILLAR[s.p]}${s.t==='g'?'干':'支'}）${extra}<br>再点另一个字查看关系</div>`;
   }
+}
+
+// ══ 周月统计 ══
+function showStats(){
+  const hist=getData().history||[];
+  const today=new Date();
+  function ds(dt){return`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`}
+  function sliceDays(n){const r=[];for(let i=0;i<n;i++){const dt=new Date(today);dt.setDate(dt.getDate()-i);const h=hist.find(x=>x.date===ds(dt));if(h)r.push(h);}return r;}
+  function calcSt(recs){if(!recs.length)return null;return{n:recs.length,tot:recs.reduce((s,h)=>s+h.correct,0),avg:Math.round(recs.reduce((s,h)=>s+h.score,0)/recs.length),best:Math.max(...recs.map(h=>h.score))};}
+  function stHtml(s,lbl){
+    if(!s)return`<div style="text-align:center;color:#475569;padding:10px 0">暂无${lbl}记录</div>`;
+    return`<div class="st-nums"><div class="st-num"><div class="st-num-v">${s.n}</div><div class="st-num-l">练习次数</div></div><div class="st-num"><div class="st-num-v">${s.tot}</div><div class="st-num-l">累计对题</div></div><div class="st-num"><div class="st-num-v">${s.avg}</div><div class="st-num-l">平均得分</div></div><div class="st-num"><div class="st-num-v">${s.best}</div><div class="st-num-l">最高得分</div></div></div>`;
+  }
+
+  // 30天打卡日历（从最早到今天）
+  const wds=['日','一','二','三','四','五','六'];
+  // 从35天前的周日开始，保证日历对齐
+  const startDay=new Date(today);startDay.setDate(startDay.getDate()-34);
+  const startWd=startDay.getDay();// 0=Sunday
+  // 找到本行的起始周日
+  startDay.setDate(startDay.getDate()-startWd);
+  const totalCells=35;
+  let calCells='';
+  for(let i=0;i<totalCells;i++){
+    const dt=new Date(startDay);dt.setDate(dt.getDate()+i);
+    const dstr=ds(dt),h=hist.find(x=>x.date===dstr),isToday=dstr===ds(today);
+    const isFuture=dt>today;
+    let cls='cal-day';
+    if(!isFuture){if(h){cls+=h.score>=150?' done-hi':h.score>=80?' done-md':' done-lo';}if(isToday)cls+=' today';}
+    calCells+=`<div class="${cls}">${isFuture?'':dt.getDate()}</div>`;
+  }
+  const hdrs=wds.map(w=>`<div class="cal-wd">${w}</div>`).join('');
+
+  const w7=calcSt(sliceDays(7)),m30=calcSt(sliceDays(30));
+  const html=`
+    <div class="card"><div class="cal-wrap">
+      <div style="font-size:11px;color:#475569;letter-spacing:2px;margin-bottom:6px">打卡日历 · 近35天</div>
+      <div style="display:flex;gap:8px;font-size:10px;color:#475569;margin-bottom:6px">
+        <span style="display:inline-flex;align-items:center;gap:3px"><span style="display:inline-block;width:10px;height:10px;background:#065f46;border-radius:2px"></span>已打卡</span>
+        <span style="display:inline-flex;align-items:center;gap:3px"><span style="display:inline-block;width:10px;height:10px;background:#10b981;border-radius:2px"></span>高分</span>
+      </div>
+      <div class="cal-hdr">${hdrs}</div>
+      <div class="cal-grid">${calCells}</div>
+    </div></div>
+    <div class="st-box"><div class="st-box-t">近7天</div>${stHtml(w7,'近7天')}</div>
+    <div class="st-box"><div class="st-box-t">近30天</div>${stHtml(m30,'近30天')}</div>`;
+  document.getElementById('el-stats-body').innerHTML=html;
+  _scrollPos['p-stats']=0;
+  show('p-stats');
 }
 
 // ══ 掌握度面板 ══
