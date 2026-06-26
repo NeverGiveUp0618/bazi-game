@@ -189,6 +189,8 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .m3footer{display:flex;gap:8px;margin-top:8px;flex-shrink:0}
 
 /* ALLVIEW 格子标注 */
+.bz-grid.with-shen{grid-template-rows:auto 1fr 1fr}
+.bz-ann-shen.is-rz{color:#10b981}
 .bz-grid.allview{grid-template-rows:auto auto auto auto auto auto}
 .bz-grid.allview .bz-cell{aspect-ratio:auto;height:60px;font-size:30px}
 @media(min-width:400px){.bz-grid.allview .bz-cell{font-size:34px;height:66px}}
@@ -2978,7 +2980,14 @@ function renderBaziGrid(bazi,sel,allView,gridId,clickFn){
       html+=`<div class="bz-ann bz-ann-ny">${NAYIN[bazi[p]+bazi[4+p]]||''}</div>`;
     }
   } else {
-    gridEl.className='bz-grid';
+    gridEl.className='bz-grid with-shen';
+    const rz=bazi[2];
+    // 天干十神行
+    for(let p=0;p<4;p++){
+      const shen=p===2?'日主':(getShen(rz,bazi[p])||'');
+      html+=`<div class="bz-ann bz-ann-shen${p===2?' is-rz':''}">${shen}</div>`;
+    }
+    // 天干 + 地支 格子
     for(let row=0;row<2;row++){
       for(let p=0;p<4;p++){
         const ci=row*4+p,type=row===0?'g':'z',val=bazi[ci],isRz=(p===2&&row===0);
