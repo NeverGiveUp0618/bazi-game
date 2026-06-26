@@ -261,6 +261,10 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .csel-count{font-size:13px;color:#10b981;font-weight:bold}
 .csel-actbtn{background:#1e293b;border:none;color:#64748b;font-size:11px;padding:5px 10px;border-radius:8px;cursor:pointer}
 .csel-actbtn:hover{color:#94a3b8;background:#273549}
+.qcount-row{display:flex;gap:6px;margin:8px 0 4px}
+.qcount-btn{flex:1;background:#1e293b;border:2px solid #1e293b;border-radius:10px;padding:7px 4px;font-size:13px;font-weight:bold;color:#64748b;cursor:pointer;text-align:center;transition:all .15s}
+.qcount-btn.on{background:#0c1e3a;border-color:#3b82f6;color:#93c5fd}
+.qcount-btn:active{transform:scale(.96)}
 
 /* 三气参考表 */
 .sq-section{margin:6px 0 4px}
@@ -324,6 +328,12 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   </div>
   <div class="mcard">
     <div class="mcard-head"><div class="mcard-icon">⚡</div><div><div class="mcard-name">闪卡速答</div><div class="mcard-desc">点选答案，干支知识全覆盖</div></div></div>
+    <div class="qcount-row">
+      <button class="qcount-btn" id="qc-10" onclick="setM1Count(10)">10题</button>
+      <button class="qcount-btn" id="qc-30" onclick="setM1Count(30)">30题</button>
+      <button class="qcount-btn" id="qc-50" onclick="setM1Count(50)">50题</button>
+      <button class="qcount-btn" id="qc-70" onclick="setM1Count(70)">70题</button>
+    </div>
     <div class="mcard-btns">
       <button class="btn btn-g" id="btn-daily" onclick="startM1('daily')">今日挑战 ⏱️</button>
       <button class="btn btn-d" onclick="startM1('daily-nt')">今日自由 🔓</button>
@@ -2246,6 +2256,14 @@ function importBackup(){
 
 // ══ MODE 1: GAME ══
 const TLIMIT=10000;
+// ══ 题目数量选择 ══
+let M1_COUNT=parseInt(localStorage.getItem('bazi_qcount')||'30');
+function setM1Count(n){
+  M1_COUNT=n;localStorage.setItem('bazi_qcount',n);
+  [10,30,50,70].forEach(v=>{const b=document.getElementById('qc-'+v);if(b)b.classList.toggle('on',v===n);});
+}
+(function(){[10,30,50,70].forEach(v=>{const b=document.getElementById('qc-'+v);if(b)b.classList.toggle('on',v===M1_COUNT);});})();
+
 const G1={qs:[],cur:0,score:0,streak:0,maxCombo:0,correct:0,t0:0,qt0:0,timer:null,answered:false,results:[],mode:'daily',timed:true,wrongQs:[]};
 let _opts=[];
 function getMult(s){return s>=10?2.0:s>=6?1.5:s>=3?1.2:1.0;}
@@ -2254,8 +2272,9 @@ function startM1(mode){
   const timed=!mode.includes('nt')&&mode!=='nb';
   const daily=mode==='daily'||mode==='daily-nt';
   const seed=daily?dateSeed():(Math.random()*0x100000000>>>0);
-  const qs=mode==='nb'?prepNBQuestions():selectQs(seed);
+  let qs=mode==='nb'?prepNBQuestions():selectQs(seed);
   if(!qs||qs.length===0){toast('错题本是空的！');return;}
+  if(mode!=='nb')qs=qs.slice(0,M1_COUNT);
   Object.assign(G1,{qs,cur:0,score:0,streak:0,maxCombo:0,correct:0,t0:Date.now(),qt0:0,timer:null,answered:false,results:[],mode,timed,wrongQs:[]});
   const labels={daily:'今日挑战 ⏱️','daily-nt':'今日挑战 🔓',free:'随机计时 ⏱️','free-nt':'随机自由 🔓',nb:'错题本练习 🔓'};
   document.getElementById('m1-lbl').textContent=labels[mode]||mode;
@@ -2305,8 +2324,9 @@ function selectQsCustom(seed,catArr){
 function startM1Custom(timed){
   if(CUSTOM_CATS.size===0){toast('请先选择至少一个知识点');return;}
   const seed=Math.random()*0x100000000>>>0;
-  const qs=selectQsCustom(seed,[...CUSTOM_CATS]);
+  let qs=selectQsCustom(seed,[...CUSTOM_CATS]);
   if(!qs||qs.length===0){toast('选中的知识点暂无题目');return;}
+  qs=qs.slice(0,M1_COUNT);
   const mode=timed?'custom':'custom-nt';
   Object.assign(G1,{qs,cur:0,score:0,streak:0,maxCombo:0,correct:0,t0:Date.now(),qt0:0,timer:null,answered:false,results:[],mode,timed,wrongQs:[]});
   document.getElementById('m1-lbl').textContent=timed?'自选挑战 ⏱️':'自选自由 🔓';
