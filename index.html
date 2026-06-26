@@ -321,6 +321,33 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .wq-add-btn{background:#1e3a8a;border:none;color:#93c5fd;font-size:12px;font-weight:bold;cursor:pointer;padding:3px 9px;border-radius:7px;flex-shrink:0;margin-left:auto;line-height:1.5;white-space:nowrap}
 .wq-add-btn:active{transform:scale(.93)}
 .wq-add-btn.added{background:#022c22;color:#10b981}
+/* 干支推算 */
+.nf-tabs{display:flex;gap:0;background:#0f172a;border-radius:10px;padding:3px;margin-bottom:14px;flex-shrink:0}
+.nf-tab{flex:1;padding:8px;text-align:center;font-size:13px;font-weight:bold;color:#475569;border-radius:8px;cursor:pointer;transition:all .15s}
+.nf-tab.on{background:#1e293b;color:#e2e8f0}
+.nf-tab.soon{opacity:.35;cursor:default}
+.nf-year-card{background:#1e293b;border-radius:18px;padding:20px 16px;text-align:center;flex-shrink:0;border-top:4px solid #10b981;margin-bottom:12px}
+.nf-year-num{font-size:56px;font-weight:bold;color:#f1f5f9;letter-spacing:3px;line-height:1.1}
+.nf-year-lbl{font-size:13px;color:#475569;margin-top:6px}
+.nf-ans-row{display:flex;gap:10px;margin-bottom:12px;flex-shrink:0}
+.nf-ans-cell{flex:1;background:#0f172a;border:3px solid #334155;border-radius:14px;height:68px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all .15s;cursor:default}
+.nf-ans-cell.has{border-color:#3b82f6;background:#0c1e3a}
+.nf-ans-cell.ok{border-color:#10b981;background:#022c22}
+.nf-ans-cell.bad{border-color:#ef4444;background:#450a0a}
+.nf-ans-val{font-size:32px;font-weight:bold;color:#e2e8f0;line-height:1}
+.nf-ans-lbl{font-size:10px;color:#475569;margin-top:3px;letter-spacing:1px}
+.nf-pick-sec{margin-bottom:10px;flex-shrink:0}
+.nf-pick-lbl{font-size:11px;color:#475569;letter-spacing:2px;margin-bottom:5px;font-weight:bold}
+.nf-pick-gan{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
+.nf-pick-zhi{display:grid;grid-template-columns:repeat(6,1fr);gap:5px}
+.nf-ch{background:#1e293b;border:2px solid #334155;border-radius:10px;padding:10px 4px;font-size:20px;font-weight:bold;color:#e2e8f0;cursor:pointer;text-align:center;transition:all .12s;-webkit-appearance:none}
+.nf-ch:active:not(:disabled){transform:scale(.95)}
+.nf-ch.on{background:#1e3a8a;border-color:#3b82f6;color:#93c5fd}
+.nf-ch.ok{background:#022c22;border-color:#10b981;color:#10b981;cursor:default}
+.nf-ch.bad{background:#450a0a;border-color:#ef4444;color:#ef4444;cursor:default}
+.nf-ch.show{background:#022c22;border-color:#10b981;color:#10b981;opacity:.6;cursor:default}
+.nf-score{font-size:11px;color:#475569}
+
 /* 周月统计 */
 .cal-wrap{padding:8px 0}
 .cal-hdr{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px}
@@ -438,6 +465,9 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   </div>
   <div class="mcard" onclick="show('p2-sel')" style="cursor:pointer">
     <div class="mcard-head"><div class="mcard-icon">🔗</div><div><div class="mcard-name">配对连线 <span class="nt-label">无计时</span></div><div class="mcard-desc">六冲 · 六合 · 暗合 · 六穿 · 绝 · 五合 · 禄位 · 虚实 · 纳音…</div></div><div style="color:#475569;font-size:18px">›</div></div>
+  </div>
+  <div class="mcard" onclick="startNF()" style="cursor:pointer">
+    <div class="mcard-head"><div class="mcard-icon">🗓️</div><div><div class="mcard-name">干支推算 <span class="nt-label">新</span></div><div class="mcard-desc">年份→干支 · 1900–2100年随机出题</div></div><div style="color:#475569;font-size:18px">›</div></div>
   </div>
   <div class="mcard">
     <div class="mcard-head"><div class="mcard-icon">🔍</div><div><div class="mcard-name">八字排盘 <span class="nt-label">无计时</span></div><div class="mcard-desc">点任意两字查关系，人鉴117例</div></div></div>
@@ -1778,6 +1808,37 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 </div>
 
 <!-- 歌诀闪卡·选类别 -->
+<div id="p-nf" class="screen">
+  <div class="tbar">
+    <button class="tbk" onclick="goHome()">← 首页</button>
+    <div class="tbtitle">干支推算</div>
+    <div class="tbr nf-score" id="nf-score">0/0</div>
+  </div>
+  <div class="nf-tabs">
+    <div class="nf-tab on" id="nf-tab-year" onclick="startNF()">年份推干支</div>
+    <div class="nf-tab soon">年上起月</div>
+    <div class="nf-tab soon">日上起时</div>
+  </div>
+  <div class="nf-year-card">
+    <div class="nf-year-num" id="nf-year">2026</div>
+    <div class="nf-year-lbl">这一年是<b>哪个干支年</b>？</div>
+  </div>
+  <div class="nf-ans-row">
+    <div class="nf-ans-cell" id="nf-ans-g"><div class="nf-ans-val" id="nf-av-g">？</div><div class="nf-ans-lbl">天干</div></div>
+    <div class="nf-ans-cell" id="nf-ans-z"><div class="nf-ans-val" id="nf-av-z">？</div><div class="nf-ans-lbl">地支</div></div>
+  </div>
+  <div class="nf-pick-sec">
+    <div class="nf-pick-lbl">天干</div>
+    <div class="nf-pick-gan" id="nf-pick-gan"></div>
+  </div>
+  <div class="nf-pick-sec">
+    <div class="nf-pick-lbl">地支</div>
+    <div class="nf-pick-zhi" id="nf-pick-zhi"></div>
+  </div>
+  <div class="fb" id="nf-fb"></div>
+  <button class="btn btn-g" id="nf-next-btn" style="display:none;margin-top:10px" onclick="nfNext()">下一题 →</button>
+</div>
+
 <div id="p-stats" class="screen">
   <div class="tbar"><button class="tbk" onclick="goHome()">← 首页</button><div class="tbtitle">周月统计</div></div>
   <div id="el-stats-body"></div>
@@ -3502,6 +3563,71 @@ function m4RenderRel(){
     else{extra+=`<br><span style="color:#94a3b8;font-size:12px">脏腑：${GAN_ZANG[s.v]}</span>`;}
     document.getElementById('m4-rel').innerHTML=`<div class="rel-hint">已选：<b style="color:#93c5fd">${s.v}</b>（${PILLAR[s.p]}${s.t==='g'?'干':'支'}）${extra}<br>再点另一个字查看关系</div>`;
   }
+}
+
+// ══ 干支推算 ══
+let NF={year:0,selG:'',selZ:'',answered:false,correct:0,total:0};
+function yearToGZ(y){return{g:GAN[(y-4+400)%10],z:ZHI[(y-4+60)%12]};}
+function startNF(){
+  NF={year:0,selG:'',selZ:'',answered:false,correct:0,total:0};
+  nfNext();show('p-nf');
+}
+function nfNext(){
+  NF.year=1900+Math.floor(Math.random()*201);
+  NF.selG='';NF.selZ='';NF.answered=false;
+  nfRender();
+}
+function nfPickG(g){
+  if(NF.answered)return;
+  NF.selG=g;nfRender();
+  if(NF.selG&&NF.selZ)nfCheck();
+}
+function nfPickZ(z){
+  if(NF.answered)return;
+  NF.selZ=z;nfRender();
+  if(NF.selG&&NF.selZ)nfCheck();
+}
+function nfCheck(){
+  const{g:cg,z:cz}=yearToGZ(NF.year);
+  const ok=NF.selG===cg&&NF.selZ===cz;
+  NF.answered=true;NF.total++;
+  if(ok)NF.correct++;
+  nfRender();
+  const fb=document.getElementById('nf-fb');
+  if(ok){
+    fb.innerHTML=`✓ 正确！${NF.year}年 = <b style="color:#10b981">${cg}${cz}年</b>`;
+    fb.className='fb fb-ok';
+  }else{
+    fb.innerHTML=`✗ 答错了。正确答案：<b style="color:#10b981">${cg}${cz}年</b>`;
+    fb.className='fb fb-err';
+  }
+  document.getElementById('nf-next-btn').style.display='';
+  document.getElementById('nf-score').textContent=`${NF.correct}/${NF.total}`;
+}
+function nfRender(){
+  const{year,selG,selZ,answered}=NF;
+  const{g:cg,z:cz}=yearToGZ(year);
+  document.getElementById('nf-year').textContent=year;
+  // answer cells
+  const gCell=document.getElementById('nf-ans-g'),zCell=document.getElementById('nf-ans-z');
+  document.getElementById('nf-av-g').textContent=selG||'？';
+  document.getElementById('nf-av-z').textContent=selZ||'？';
+  gCell.className='nf-ans-cell'+(answered?(selG===cg?' ok':' bad'):selG?' has':'');
+  zCell.className='nf-ans-cell'+(answered?(selZ===cz?' ok':' bad'):selZ?' has':'');
+  // pickers
+  document.getElementById('nf-pick-gan').innerHTML=GAN.map(g=>{
+    let cls='nf-ch';
+    if(answered){if(g===cg)cls+=' ok';else if(g===selG&&selG!==cg)cls+=' bad';}
+    else if(g===selG)cls+=' on';
+    return`<button class="${cls}" onclick="nfPickG('${g}')"${answered?' disabled':''}>${g}</button>`;
+  }).join('');
+  document.getElementById('nf-pick-zhi').innerHTML=ZHI.map(z=>{
+    let cls='nf-ch';
+    if(answered){if(z===cz)cls+=' ok';else if(z===selZ&&selZ!==cz)cls+=' bad';}
+    else if(z===selZ)cls+=' on';
+    return`<button class="${cls}" onclick="nfPickZ('${z}')"${answered?' disabled':''}>${z}</button>`;
+  }).join('');
+  if(!answered){document.getElementById('nf-fb').textContent='';document.getElementById('nf-fb').className='fb';document.getElementById('nf-next-btn').style.display='none';}
 }
 
 // ══ 周月统计 ══
