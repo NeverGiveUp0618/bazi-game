@@ -1895,7 +1895,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 <!-- 歌诀闪卡·练习 -->
 <div id="p-gejue-g" class="screen">
   <div class="tbar">
-    <button class="tbk" onclick="show('p-gejue-sel')">←</button>
+    <button class="tbk" onclick="gjExitPractice()">←</button>
     <div class="tbtitle" id="gj-lbl">歌诀闪卡</div>
     <div class="tbr" id="gj-prog-r">1/1</div>
   </div>
@@ -2404,10 +2404,20 @@ function todayStr(){const d=new Date();return `${d.getFullYear()}-${String(d.get
 function dateSeed(){const d=new Date();return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();}
 function saveM1Result(score,correct,maxCombo,time){
   const d=getData();d.history=d.history||[];
-  const today=todayStr(),idx=d.history.findIndex(h=>h.date===today);
-  const rec={date:today,score,correct,maxCombo,time};
+  const today=todayStr(),idx=d.history.findIndex(h=>h.date===today&&h.type!=='gj');
+  const rec={date:today,type:'m1',score,correct,maxCombo,time};
   if(idx>=0){if(score>d.history[idx].score)d.history[idx]=rec;}else{d.history.unshift(rec);d.history=d.history.slice(0,90);}
   d.best=Math.max(d.best||0,score);d.totalCorrect=(d.totalCorrect||0)+correct;
+  let streak=0,dt=new Date();
+  for(let i=0;i<30;i++){const ds=`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;if(d.history.find(h=>h.date===ds)){streak++;dt.setDate(dt.getDate()-1);}else break;}
+  d.dayStreak=streak;saveData(d);
+}
+function saveGJResult(cards,cat){
+  if(!cards)return;
+  const d=getData();d.history=d.history||[];
+  const today=todayStr(),idx=d.history.findIndex(h=>h.date===today&&h.type==='gj');
+  const rec={date:today,type:'gj',cat,cards};
+  if(idx>=0){d.history[idx]=rec;}else{d.history.unshift(rec);d.history=d.history.slice(0,90);}
   let streak=0,dt=new Date();
   for(let i=0;i<30;i++){const ds=`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;if(d.history.find(h=>h.date===ds)){streak++;dt.setDate(dt.getDate()-1);}else break;}
   d.dayStreak=streak;saveData(d);
@@ -2489,8 +2499,11 @@ function initHome(){
   const hist=(d.history||[]).slice(0,5);
   document.getElementById('el-hist').innerHTML=hist.length===0
     ?'<span style="color:#475569;font-size:12px">暂无记录</span>'
-    :hist.map(h=>`<div class="hrow"><span style="color:#64748b">${h.date}</span><span style="color:#475569;font-size:11px">${h.correct}题</span><span style="color:#10b981;font-weight:bold;font-size:15px">${h.score}</span></div>`).join('');
-  const todayDone=(d.history||[]).find(h=>h.date===todayStr());
+    :hist.map(h=>h.type==='gj'
+      ?`<div class="hrow"><span style="color:#64748b">${h.date}</span><span style="color:#475569;font-size:11px">📜${h.cat||'歌诀'}·${h.cards}张</span><span style="color:#f59e0b;font-weight:bold;font-size:15px">背诵</span></div>`
+      :`<div class="hrow"><span style="color:#64748b">${h.date}</span><span style="color:#475569;font-size:11px">${h.correct}题</span><span style="color:#10b981;font-weight:bold;font-size:15px">${h.score}</span></div>`
+    ).join('');
+  const todayDone=(d.history||[]).find(h=>h.date===todayStr()&&h.type!=='gj');
   const btn=document.getElementById('btn-daily');
   btn.textContent=todayDone?`今日已完成${todayDone.score}分 · 再刷 ⏱️`:'今日挑战 ⏱️';
   btn.style.background=todayDone?'#065f46':'#10b981';
@@ -3878,6 +3891,11 @@ function gjMove(dir){
     gjState.idx=Math.max(0,Math.min(len-1,gjState.idx+dir));
   }
   updateGJCard();
+}
+function gjExitPractice(){
+  const viewed=gjState.mode==='couplet'?gjState.cidx+1:gjState.idx+1;
+  saveGJResult(viewed,gjState.cat);
+  show('p-gejue-sel');
 }
 
 // ══ KEYBOARD ══
