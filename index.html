@@ -2113,13 +2113,13 @@ function poolForCat(cat){
   return ZHI;
 }
 
-const QUOTA={wx:3,chong:2,tghe:2,liuhe:2,tong:3,shen:3,sanhe:3,sanhetype:2,xing3:2,po:2,zixing:1,xushi:3,xushi2:2,nayin:3,anhe:2,zihe:2,wxs:2,wxk:2,lqs:2,lqk:2,tdyy:3,shichen:2,ganzang:2,zhizang:2,ws12:3,yuejian:3,wxsys:2,jieqi:3,cang:3,cang_bq:3,cang_zq:2,cang_yq:2};
+const QUOTA={wx:3,chong:2,tghe:2,liuhe:2,tong:3,shen:3,sanhe:3,sanhetype:2,xing3:2,po:2,zixing:1,xushi:3,xushi2:2,nayin:3,anhe:2,zihe:2,wxs:2,wxk:2,lqs:2,lqk:2,tdyy:3,shichen:2,ganzang:2,zhizang:2,ws12:5,ws_zhi:3,yuejian:3,wxsys:2,jieqi:3,cang:3,cang_bq:3,cang_zq:2,cang_yq:2};
 const CSEL_GROUPS=[
   {lbl:'🧭 五行基础', cats:['wx','tdyy','wxsys']},
   {lbl:'🌀 地支关系', cats:['chong','liuhe','anhe','sanhe','sanhetype','xing3','po','zixing','cang','cang_bq','cang_zq','cang_yq']},
   {lbl:'☰ 天干关系', cats:['tghe','tong','zihe','shen']},
   {lbl:'⚡ 生克关系', cats:['wxs','wxk','lqs','lqk']},
-  {lbl:'🔄 旺衰运势', cats:['ws12']},
+  {lbl:'🔄 旺衰运势', cats:['ws12','ws_zhi']},
   {lbl:'⚖ 虚实纳音', cats:['xushi','xushi2','nayin']},
   {lbl:'🕐 时辰历法', cats:['shichen','ganzang','zhizang','yuejian','jieqi']},
 ];
@@ -2180,6 +2180,12 @@ function buildPool(rng){
   for(const z of ZHI){const c=YANG_ZHI.has(z)?'阳':'阴';qs.push({cat:'tdyy',main:[z],qt:'<b>天地阴阳诀</b>里，属阳还是阴？',correct:c,opts:shuffle(rng,['阳','阴']),exp:`${z}属${c}（寅申巳亥辰戌为阳，子午卯酉丑未为阴）`});}
   // 旺衰十二运（给天干+地支，选旺衰状态）
   for(const g of GAN){const arr=WANGSHUAI[g];for(let i=0;i<12;i++){const z=arr[i],s=WANGSHUAI_STATES[i];qs.push({cat:'ws12',main:[g,z],qt:'处于哪个<b>旺衰</b>历程？',correct:s,opts:mkOpts(rng,s,WANGSHUAI_STATES),exp:`${g}在${z}=${s}`});}}
+  // 旺衰·关键地支（反向：天干→长生/帝旺/墓）
+  for(const g of GAN){
+    const arr=WANGSHUAI[g];
+    const stages=[{i:0,n:'长生'},{i:4,n:'帝旺'},{i:8,n:'墓'}];
+    for(const{i,n}of stages){const z=arr[i];qs.push({cat:'ws_zhi',main:[g],qt:`<b>${n}</b>在哪个地支？`,correct:z,opts:mkOpts(rng,z,ZHI),exp:`${g}${n}在${z}`});}
+  }
   // 十二时辰
   for(const z of ZHI){const c=SHICHEN[z];qs.push({cat:'shichen',main:[z],qt:'<b>时辰</b>对应几点到几点？',correct:c,opts:mkOpts(rng,c,SHICHEN_TIMES),exp:`${z}时对应${c}`});}
   // 天干脏腑
