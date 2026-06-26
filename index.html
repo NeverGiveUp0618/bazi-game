@@ -3849,7 +3849,7 @@ window.addEventListener('beforeinstallprompt',e=>{
   const b=document.getElementById('pwa-banner');
   const t=document.getElementById('pwa-banner-txt');
   if(b&&t&&!sessionStorage.getItem('pwa-dismissed')){
-    t.textContent='Chrome 检测到可一键安装到主屏幕';
+    t.textContent='Chrome：可一键安装，或点「添加到手机桌面」按钮查看手动步骤';
     b.style.display='flex';
   }
 });
@@ -3881,7 +3881,6 @@ function showA2HS(){
   const isUC=/UCBrowser/.test(ua);
   const isIOS=/iPad|iPhone|iPod/.test(ua)&&!window.MSStream;
   const isChrome=/Chrome\//.test(ua)&&!/Edge\/|OPR\/|UCBrowser|MQQBrowser|QQBrowser|MicroMessenger/.test(ua);
-  if(_pwaPrompt&&isChrome){pwaInstall();return;}
   let title='',steps=[];
   if(isWX){
     title='微信浏览器';
@@ -3896,8 +3895,8 @@ function showA2HS(){
     title='Safari 浏览器（苹果）';
     steps=['点底部工具栏中间的 <b>分享</b> 按钮（□↑）','向上滑动列表，找「<b>添加到主屏幕</b>」','右上角点「<b>添加</b>」完成'];
   }else if(isChrome){
-    title='Chrome 浏览器';
-    steps=['点右上角 <b>⋮</b>（三点）菜单','选「<b>添加到主屏幕</b>」或「安装应用」','点「<b>添加</b>」确认'];
+    title='Chrome 浏览器（安卓）';
+    steps=['点右上角 <b>⋮</b>（三点）菜单','选「<b>添加到主屏幕</b>」','弹窗中点「<b>添加</b>」确认','图标会出现在桌面最后一页，左滑找一下'];
   }else{
     title='手机浏览器';
     steps=['找到浏览器右上角或底部的<b>菜单按钮</b>','在菜单中找「<b>添加到桌面</b>」或「添加到主屏幕」','点击确认，桌面会出现图标'];
