@@ -387,6 +387,18 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .pwa-banner-txt{flex:1;font-size:12px;color:#93c5fd;line-height:1.5}
 .pwa-banner-btn{background:#3b82f6;color:#fff;border:none;border-radius:9px;padding:7px 14px;font-size:12px;font-weight:bold;cursor:pointer;white-space:nowrap;flex-shrink:0}
 .pwa-banner-close{background:none;border:none;color:#475569;font-size:16px;cursor:pointer;padding:2px 4px;flex-shrink:0}
+/* 添加到桌面 */
+.a2hs-fab{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;background:linear-gradient(135deg,#1d4ed8,#2563eb);color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px;box-shadow:0 4px 16px #2563eb50;letter-spacing:.3px}
+.a2hs-fab:active{transform:scale(.97)}
+.a2hs-modal{position:fixed;inset:0;z-index:9999;display:flex;align-items:flex-end;justify-content:center}
+.a2hs-overlay{position:absolute;inset:0;background:#00000085}
+.a2hs-box{position:relative;background:#1e293b;border-radius:20px 20px 0 0;padding:22px 18px 40px;width:100%;max-width:480px;border-top:1px solid #334155}
+.a2hs-title{font-size:16px;font-weight:700;color:#e2e8f0;margin-bottom:18px;text-align:center;line-height:1.4}
+.a2hs-step{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
+.a2hs-num{width:26px;height:26px;border-radius:50%;background:#2563eb;color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.a2hs-stxt{font-size:14px;color:#cbd5e1;line-height:1.6}
+.a2hs-stxt b{color:#fff}
+.a2hs-close{width:100%;padding:13px;background:#334155;color:#e2e8f0;border:none;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;margin-top:10px}
 
 /* 自适应出题 */
 .adapt-box{background:#1e293b;border:1px solid #334155;border-radius:14px;padding:13px 14px;margin:8px 0;border-left:4px solid #8b5cf6}
@@ -431,9 +443,10 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 
 <!-- HOME -->
 <div id="ph" class="screen active">
+  <button id="a2hs-fab" class="a2hs-fab" onclick="showA2HS()">📲 添加到手机桌面</button>
   <div id="pwa-banner" style="display:none" class="pwa-banner">
     <div class="pwa-banner-txt" id="pwa-banner-txt"></div>
-    <button class="pwa-banner-btn" id="pwa-install-btn" onclick="pwaInstall()">安装</button>
+    <button class="pwa-banner-btn" id="pwa-install-btn" onclick="pwaInstall()">一键安装</button>
     <button class="pwa-banner-close" onclick="pwaDismiss()">✕</button>
   </div>
   <div class="hlogo"><div class="hlogo-t">基础知识日练</div><div class="hlogo-s">干支知识 · 每日精进</div></div>
@@ -1922,6 +1935,15 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 
 <div class="spop" id="el-spop"></div>
 <div class="toast" id="el-toast"></div>
+<!-- 添加到桌面引导弹窗 -->
+<div id="a2hs-modal" style="display:none" class="a2hs-modal">
+  <div class="a2hs-overlay" onclick="closeA2HS()"></div>
+  <div class="a2hs-box">
+    <div class="a2hs-title" id="a2hs-title">📲 添加到手机桌面</div>
+    <div id="a2hs-steps"></div>
+    <button class="a2hs-close" onclick="closeA2HS()">关闭</button>
+  </div>
+</div>
 </div>
 
 <script>
@@ -3817,7 +3839,7 @@ window.addEventListener('beforeinstallprompt',e=>{
   const b=document.getElementById('pwa-banner');
   const t=document.getElementById('pwa-banner-txt');
   if(b&&t&&!sessionStorage.getItem('pwa-dismissed')){
-    t.textContent='安装到主屏幕，随时离线使用';
+    t.textContent='Chrome 检测到可一键安装到主屏幕';
     b.style.display='flex';
   }
 });
@@ -3830,17 +3852,51 @@ function pwaDismiss(){
   document.getElementById('pwa-banner').style.display='none';
   sessionStorage.setItem('pwa-dismissed','1');
 }
-// iOS 提示
+// 如果已安装为独立应用，隐藏添加按钮
 (function(){
+  const standalone=window.navigator.standalone||window.matchMedia('(display-mode:standalone)').matches;
+  if(standalone){const f=document.getElementById('a2hs-fab');if(f)f.style.display='none';}
   const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
-  const isStandalone=window.navigator.standalone;
-  if(isIOS&&!isStandalone&&!sessionStorage.getItem('pwa-dismissed')){
+  if(isIOS&&!standalone&&!sessionStorage.getItem('pwa-dismissed')){
     const b=document.getElementById('pwa-banner');
     const t=document.getElementById('pwa-banner-txt');
     document.getElementById('pwa-install-btn').style.display='none';
     if(b&&t){t.textContent='iOS：点底部「分享」→「添加到主屏幕」可离线使用';b.style.display='flex';}
   }
 })();
+function showA2HS(){
+  const ua=navigator.userAgent;
+  const isQQ=/MQQBrowser|QQBrowser/.test(ua);
+  const isWX=/MicroMessenger/.test(ua);
+  const isUC=/UCBrowser/.test(ua);
+  const isIOS=/iPad|iPhone|iPod/.test(ua)&&!window.MSStream;
+  const isChrome=/Chrome\//.test(ua)&&!/Edge\/|OPR\/|UCBrowser|MQQBrowser|QQBrowser|MicroMessenger/.test(ua);
+  if(_pwaPrompt&&isChrome){pwaInstall();return;}
+  let title='',steps=[];
+  if(isWX){
+    title='微信浏览器';
+    steps=['点右上角 <b>···</b> 按钮','选「<b>在浏览器中打开</b>」','在跳转后的浏览器中，重新点「添加到手机桌面」按钮'];
+  }else if(isQQ){
+    title='QQ浏览器';
+    steps=['点屏幕<b>底部菜单栏</b>最右侧的 <b>≡</b>（三横线）按钮','在弹出菜单中找「<b>添加到桌面</b>」','点击后按提示确认即可'];
+  }else if(isUC){
+    title='UC浏览器';
+    steps=['点底部中间的 <b>⊕</b> 按钮','找到「<b>添加到桌面</b>」','点击确认'];
+  }else if(isIOS){
+    title='Safari 浏览器（苹果）';
+    steps=['点底部工具栏中间的 <b>分享</b> 按钮（□↑）','向上滑动列表，找「<b>添加到主屏幕</b>」','右上角点「<b>添加</b>」完成'];
+  }else if(isChrome){
+    title='Chrome 浏览器';
+    steps=['点右上角 <b>⋮</b>（三点）菜单','选「<b>添加到主屏幕</b>」或「安装应用」','点「<b>添加</b>」确认'];
+  }else{
+    title='手机浏览器';
+    steps=['找到浏览器右上角或底部的<b>菜单按钮</b>','在菜单中找「<b>添加到桌面</b>」或「添加到主屏幕」','点击确认，桌面会出现图标'];
+  }
+  document.getElementById('a2hs-title').textContent='📲 '+title+'：添加到桌面';
+  document.getElementById('a2hs-steps').innerHTML=steps.map((s,i)=>`<div class="a2hs-step"><div class="a2hs-num">${i+1}</div><div class="a2hs-stxt">${s}</div></div>`).join('');
+  document.getElementById('a2hs-modal').style.display='flex';
+}
+function closeA2HS(){document.getElementById('a2hs-modal').style.display='none';}
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{
     navigator.serviceWorker.register('./sw.js').catch(()=>{});
