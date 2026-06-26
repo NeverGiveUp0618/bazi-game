@@ -419,6 +419,11 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .gj-hint{font-size:11px;color:#475569;text-align:center;margin-top:14px;letter-spacing:2px}
 .gj-reveal{font-size:12px;color:#10b981;text-align:center;margin-top:8px;font-weight:bold}
 .gj-footer{display:flex;gap:8px;margin-top:12px;flex-shrink:0}
+.gj-cq-dir{font-size:11px;color:#475569;letter-spacing:2px;margin-bottom:14px;text-align:center;width:100%}
+.gj-cq-shown{font-size:22px;font-weight:bold;color:#10b981;letter-spacing:3px;line-height:1.8;text-align:center;width:100%}
+.gj-cq-comma{font-size:16px;color:#334155;text-align:center;margin:4px 0}
+.gj-cq-blank{font-size:22px;letter-spacing:3px;color:#334155;text-align:center;padding:8px 0;min-height:44px;width:100%;transition:color .25s}
+.gj-cq-blank.revealed{color:#f59e0b;font-weight:bold}
 </style>
 </head>
 <body>
@@ -1845,6 +1850,10 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 
 <div id="p-gejue-sel" class="screen">
   <div class="tbar"><button class="tbk" onclick="goHome()">✕</button><div class="tbtitle">📜 歌诀闪卡</div></div>
+  <div class="m2-diff" style="margin-bottom:12px">
+    <button class="m2-diff-btn active" id="gjm-0" onclick="gjSetMode('full')">背诵模式</button>
+    <button class="m2-diff-btn" id="gjm-1" onclick="gjSetMode('couplet')">挖空练习 · 上下句</button>
+  </div>
   <div class="gj-grp">
     <div class="gj-grp-lbl">⚡ 快速练习</div>
     <div class="gj-grid">
@@ -1896,14 +1905,24 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   </div>
   <div class="gj-card" id="gj-card" onclick="toggleGJReveal()">
     <div class="gj-label" id="gj-cat-lbl">歌诀</div>
-    <div class="gj-title" id="gj-title">—</div>
-    <div class="gj-body hidden" id="gj-body"></div>
+    <!-- 背诵模式 -->
+    <div id="gj-full-area" style="width:100%">
+      <div class="gj-title" id="gj-title">—</div>
+      <div class="gj-body hidden" id="gj-body"></div>
+      <div class="gj-reveal" id="gj-reveal" style="display:none">▼ 已展开 · 再点收起</div>
+    </div>
+    <!-- 挖空模式 -->
+    <div id="gj-cq-area" style="display:none;width:100%;text-align:center">
+      <div class="gj-cq-dir" id="gj-cq-dir">▼ 请背出下句</div>
+      <div class="gj-cq-shown" id="gj-cq-shown"></div>
+      <div class="gj-cq-comma">，</div>
+      <div class="gj-cq-blank" id="gj-cq-blank">＿ ＿ ＿ ＿ ＿ ＿</div>
+    </div>
     <div class="gj-hint" id="gj-hint">点击卡片查看歌诀</div>
-    <div class="gj-reveal" id="gj-reveal" style="display:none">▼ 已展开 · 再点收起</div>
   </div>
   <div class="gj-footer">
-    <button class="btn btn-d" onclick="gjMove(-1)" style="flex:1;font-size:13px">◀ 上一首</button>
-    <button class="btn btn-b" onclick="gjMove(1)" style="flex:1;font-size:13px">下一首 ▶</button>
+    <button class="btn btn-d" id="gj-btn-prev" onclick="gjMove(-1)" style="flex:1;font-size:13px">◀ 上一首</button>
+    <button class="btn btn-b" id="gj-btn-next" onclick="gjMove(1)" style="flex:1;font-size:13px">下一首 ▶</button>
   </div>
   <div style="margin-top:8px">
     <button class="btn btn-d" style="font-size:12px" onclick="show('p-gejue-sel')">← 返回选择</button>
@@ -3551,12 +3570,12 @@ function nfNext(){
 }
 function nfPickG(g){
   if(NF.answered)return;
-  NF.selG=g;nfRender();
+  NF.selG=NF.selG===g?'':g;nfRender();
   if(NF.selG&&NF.selZ)nfCheck();
 }
 function nfPickZ(z){
   if(NF.answered)return;
-  NF.selZ=z;nfRender();
+  NF.selZ=NF.selZ===z?'':z;nfRender();
   if(NF.selG&&NF.selZ)nfCheck();
 }
 function nfCheck(){
@@ -3756,7 +3775,29 @@ const GJ_DATA={
   {title:'墓库歌',body:'辰戌丑未四墓库，天地不正谓杂气。少年不发基中人，皆因财官闭墓库。\n刑冲故能开锁钥，压藏终是受苦辛。月令提纲不可冲，十冲九命皆为凶。\n唯有财官逢墓库，运行到此反成功。透财透官或透印，杂气格局人富贵。\n见财见官或见印，归列何处说何处。余气不长墓气久，各自墓库分清楚。'}
 ]
 };
-let gjState={cat:'',items:[],idx:0,revealed:false};
+let _gjMode=localStorage.getItem('bazi_gj_mode')||'full';
+function gjSetMode(m){
+  _gjMode=m;
+  localStorage.setItem('bazi_gj_mode',m);
+  document.getElementById('gjm-0').classList.toggle('active',m==='full');
+  document.getElementById('gjm-1').classList.toggle('active',m==='couplet');
+}
+function buildGJCouplets(items){
+  const result=[];
+  for(const item of items){
+    const lines=item.body.split('\n').filter(l=>l.trim());
+    for(const line of lines){
+      const sents=line.split(/[。；]/).filter(s=>s.trim());
+      for(const sent of sents){
+        const ci=sent.indexOf('，');
+        if(ci>0&&ci<sent.length-1)
+          result.push({title:item.title,upper:sent.slice(0,ci),lower:sent.slice(ci+1)});
+      }
+    }
+  }
+  return result;
+}
+let gjState={cat:'',items:[],idx:0,revealed:false,mode:'full',couplets:[],cidx:0,showUpper:true};
 function startGJ(cat){
   let items;
   if(cat==='全部歌诀'){
@@ -3766,34 +3807,76 @@ function startGJ(cat){
     items=(GJ_DATA[cat]||[]);
   }
   if(!items.length){toast('内容即将补充…');return;}
-  gjState={cat,items,idx:0,revealed:false};
+  const couplets=_gjMode==='couplet'?shuffle(mkRng((Date.now()+1)%99991),buildGJCouplets(items)):[];
+  gjState={cat,items,idx:0,revealed:false,mode:_gjMode,couplets,cidx:0,showUpper:Math.random()<.5};
   _scrollPos['p-gejue-g']=0;
   updateGJCard();
   show('p-gejue-g');
 }
 function updateGJCard(){
-  const{cat,items,idx}=gjState,item=items[idx]||{},total=items.length;
+  const{cat,items,idx,mode,couplets,cidx}=gjState;
   document.getElementById('gj-lbl').textContent=cat;
-  document.getElementById('gj-prog-r').textContent=`${idx+1}/${total}`;
-  document.getElementById('el-gj-prog').textContent=`${idx+1}/${total}`;
-  document.getElementById('el-gj-pb').style.width=`${(idx+1)/total*100}%`;
-  document.getElementById('gj-cat-lbl').textContent=cat;
-  document.getElementById('gj-title').textContent=item.title||'—';
-  document.getElementById('gj-body').textContent=item.body||'';
-  gjState.revealed=false;
-  document.getElementById('gj-body').classList.add('hidden');
-  document.getElementById('gj-hint').style.display='';
-  document.getElementById('gj-reveal').style.display='none';
+  if(mode==='couplet'){
+    const total=couplets.length,cq=couplets[cidx]||{};
+    document.getElementById('gj-prog-r').textContent=`${cidx+1}/${total}`;
+    document.getElementById('el-gj-prog').textContent=`${cidx+1}/${total}`;
+    document.getElementById('el-gj-pb').style.width=`${(cidx+1)/total*100}%`;
+    document.getElementById('gj-cat-lbl').textContent=cq.title||cat;
+    document.getElementById('gj-full-area').style.display='none';
+    document.getElementById('gj-cq-area').style.display='';
+    gjState.revealed=false;
+    gjState.showUpper=Math.random()<.5;
+    const su=gjState.showUpper;
+    document.getElementById('gj-cq-dir').textContent=su?'▼ 请背出下句':'▲ 请背出上句';
+    document.getElementById('gj-cq-shown').textContent=su?(cq.upper||''):(cq.lower||'');
+    document.getElementById('gj-cq-blank').textContent='＿ ＿ ＿ ＿ ＿ ＿';
+    document.getElementById('gj-cq-blank').classList.remove('revealed');
+    document.getElementById('gj-hint').textContent='点击卡片查看答案';
+    document.getElementById('gj-hint').style.display='';
+    document.getElementById('gj-btn-prev').textContent='◀ 上一句';
+    document.getElementById('gj-btn-next').textContent='下一句 ▶';
+  }else{
+    const total=items.length,item=items[idx]||{};
+    document.getElementById('gj-prog-r').textContent=`${idx+1}/${total}`;
+    document.getElementById('el-gj-prog').textContent=`${idx+1}/${total}`;
+    document.getElementById('el-gj-pb').style.width=`${(idx+1)/total*100}%`;
+    document.getElementById('gj-cat-lbl').textContent=cat;
+    document.getElementById('gj-full-area').style.display='';
+    document.getElementById('gj-cq-area').style.display='none';
+    document.getElementById('gj-title').textContent=item.title||'—';
+    document.getElementById('gj-body').textContent=item.body||'';
+    gjState.revealed=false;
+    document.getElementById('gj-body').classList.add('hidden');
+    document.getElementById('gj-hint').textContent='点击卡片查看歌诀';
+    document.getElementById('gj-hint').style.display='';
+    document.getElementById('gj-reveal').style.display='none';
+    document.getElementById('gj-btn-prev').textContent='◀ 上一首';
+    document.getElementById('gj-btn-next').textContent='下一首 ▶';
+  }
 }
 function toggleGJReveal(){
   gjState.revealed=!gjState.revealed;
-  document.getElementById('gj-body').classList.toggle('hidden',!gjState.revealed);
-  document.getElementById('gj-hint').style.display=gjState.revealed?'none':'';
-  document.getElementById('gj-reveal').style.display=gjState.revealed?'block':'none';
+  if(gjState.mode==='couplet'){
+    const cq=gjState.couplets[gjState.cidx]||{};
+    const answer=gjState.showUpper?cq.lower:cq.upper;
+    const el=document.getElementById('gj-cq-blank');
+    el.textContent=gjState.revealed?(answer||''):'＿ ＿ ＿ ＿ ＿ ＿';
+    el.classList.toggle('revealed',gjState.revealed);
+    document.getElementById('gj-hint').style.display=gjState.revealed?'none':'';
+  }else{
+    document.getElementById('gj-body').classList.toggle('hidden',!gjState.revealed);
+    document.getElementById('gj-hint').style.display=gjState.revealed?'none':'';
+    document.getElementById('gj-reveal').style.display=gjState.revealed?'block':'none';
+  }
 }
 function gjMove(dir){
-  const len=gjState.items.length;
-  gjState.idx=Math.max(0,Math.min(len-1,gjState.idx+dir));
+  if(gjState.mode==='couplet'){
+    const len=gjState.couplets.length;
+    gjState.cidx=Math.max(0,Math.min(len-1,gjState.cidx+dir));
+  }else{
+    const len=gjState.items.length;
+    gjState.idx=Math.max(0,Math.min(len-1,gjState.idx+dir));
+  }
   updateGJCard();
 }
 
@@ -3808,7 +3891,7 @@ document.addEventListener('keydown',e=>{
 });
 
 // ══ INIT ══
-initHome();m2SetDiff(_m2hard);
+initHome();m2SetDiff(_m2hard);gjSetMode(_gjMode);
 
 // ══ PWA ══
 if('serviceWorker' in navigator){
