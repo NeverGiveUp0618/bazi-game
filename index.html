@@ -3063,7 +3063,7 @@ function m2ClickR(rIdx){
         if(done===total){m2End();return;}
         M2.rOrd=shuffle(mkRng(Math.random()*0x100000000>>>0),[...Array(total).keys()]);
         m2Render();
-      },1000);
+      },500);
     }else{
       m2Render();
       if(done===total)setTimeout(m2End,600);
@@ -3071,7 +3071,17 @@ function m2ClickR(rIdx){
   }else{
     M2.wrong++;M2.wrongPairIndices.add(M2.lOrd[M2.selL]);M2.selL=-1;
     const rEl=document.getElementById('m2r'+rIdx);
-    if(rEl){rEl.classList.add('err');setTimeout(()=>{rEl.classList.remove('err');m2Render();},500);}
+    if(M2.hard){
+      if(rEl)rEl.classList.add('err');
+      M2.waiting=true;
+      setTimeout(()=>{
+        M2.waiting=false;
+        M2.rOrd=shuffle(mkRng(Math.random()*0x100000000>>>0),[...Array(M2.pairs.length).keys()]);
+        m2Render();
+      },500);
+    }else{
+      if(rEl){rEl.classList.add('err');setTimeout(()=>{rEl.classList.remove('err');m2Render();},500);}
+    }
     document.getElementById('m2-stat').textContent=`✗ ${lV}—${rV} 不对（累计错 ${M2.wrong} 次）`;
     m2Render();
   }
