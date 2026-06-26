@@ -311,6 +311,13 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .wq-add-btn{background:#1e3a8a;border:none;color:#93c5fd;font-size:12px;font-weight:bold;cursor:pointer;padding:3px 9px;border-radius:7px;flex-shrink:0;margin-left:auto;line-height:1.5;white-space:nowrap}
 .wq-add-btn:active{transform:scale(.93)}
 .wq-add-btn.added{background:#022c22;color:#10b981}
+/* 自适应出题 */
+.adapt-box{background:#1e293b;border:1px solid #334155;border-radius:14px;padding:13px 14px;margin:8px 0;border-left:4px solid #8b5cf6}
+.adapt-hdr{font-size:11px;color:#8b5cf6;letter-spacing:2px;font-weight:bold;margin-bottom:8px}
+.adapt-tags{display:flex;flex-wrap:wrap;gap:5px}
+.adapt-tag{background:#2d1f4a;border:1px solid #7c3aed;border-radius:20px;padding:3px 10px;font-size:11px;color:#c4b5fd}
+.adapt-tag.hi{background:#3d1515;border-color:#ef4444;color:#fca5a5}
+
 /* 连击特效 */
 @keyframes ckPop{0%{transform:scale(1)}35%{transform:scale(1.55)}70%{transform:scale(.92)}100%{transform:scale(1)}}
 @keyframes shakeX{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
@@ -477,6 +484,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <div class="ri"><div class="ri-v" id="el-rt"></div><div class="ri-l">用时</div></div>
   </div>
   <div class="card" id="el-bd"></div>
+  <div id="el-adapt" style="display:none"></div>
   <!-- wrong questions -->
   <div id="el-wq-section" style="display:none">
     <div class="wq-hdr" id="el-wq-hdr"></div>
@@ -2201,8 +2209,29 @@ function buildPool(rng){
 function selectQs(seed){
   const rng=mkRng(seed);const pool=buildPool(rng);
   const byC={};for(const q of pool){if(!byC[q.cat])byC[q.cat]=[];byC[q.cat].push(q);}
-  let picks=[];for(const[cat,n]of Object.entries(QUOTA))picks.push(...rpick(rng,byC[cat]||[],n));
+  const aq=adaptiveQuota();
+  let picks=[];for(const[cat,n]of Object.entries(aq))picks.push(...rpick(rng,byC[cat]||[],n));
   return shuffle(rng,picks);
+}
+
+// ══ 自适应出题 ══
+function getCatStats(){try{return JSON.parse(localStorage.getItem('bazi_cat_stats')||'{}')}catch{return{}}}
+function saveCatStats(s){localStorage.setItem('bazi_cat_stats',JSON.stringify(s))}
+function updateCatStats(results){
+  const s=getCatStats();
+  for(const r of results){const c=r.cat;if(!s[c])s[c]={a:0,e:0};s[c].a++;if(!r.ok)s[c].e++;}
+  saveCatStats(s);
+}
+function adaptiveQuota(){
+  const s=getCatStats(),q={...QUOTA};
+  for(const cat of Object.keys(q)){
+    const st=s[cat];if(!st||st.a<5)continue;
+    const er=st.e/st.a;
+    if(er>=0.6)q[cat]=Math.min(q[cat]*2,8);
+    else if(er>=0.4)q[cat]=Math.min(q[cat]+2,6);
+    else if(er>=0.25)q[cat]=Math.min(q[cat]+1,5);
+  }
+  return q;
 }
 
 // ══ STORAGE ══
@@ -2320,7 +2349,7 @@ function checkBkRemind(){
   }
 }
 function exportBackup(){
-  const data={v:1,date:todayStr(),bazi:getData(),nb:getNB(),m4saved:getSavedM4(),custom_cats:[...CUSTOM_CATS]};
+  const data={v:1,date:todayStr(),bazi:getData(),nb:getNB(),m4saved:getSavedM4(),custom_cats:[...CUSTOM_CATS],cat_stats:getCatStats()};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
@@ -2344,6 +2373,7 @@ function importBackup(){
         saveNB(d.nb||[]);
         setSavedM4(d.m4saved||[]);
         if(d.custom_cats){CUSTOM_CATS=new Set(d.custom_cats);localStorage.setItem('bazi_custom_cats',JSON.stringify([...CUSTOM_CATS]));}
+        if(d.cat_stats)saveCatStats(d.cat_stats);
         localStorage.setItem(BK_DATE_KEY,todayStr());
         toast('数据已恢复！');
         setTimeout(()=>location.reload(),1200);
@@ -2417,8 +2447,9 @@ function clearAllCats(){
 function selectQsCustom(seed,catArr){
   const rng=mkRng(seed);const pool=buildPool(rng);
   const byC={};for(const q of pool){if(!byC[q.cat])byC[q.cat]=[];byC[q.cat].push(q);}
+  const aq=adaptiveQuota();
   let picks=[];
-  for(const cat of catArr)picks.push(...rpick(rng,byC[cat]||[],QUOTA[cat]||2));
+  for(const cat of catArr)picks.push(...rpick(rng,byC[cat]||[],aq[cat]||2));
   return shuffle(rng,picks);
 }
 function startM1Custom(timed){
@@ -2553,7 +2584,7 @@ function m1End(){
   const elapsed=Date.now()-G1.t0,mins=0|elapsed/60000,secs=0|(elapsed%60000)/1000;
   const timeStr=`${mins}:${String(secs).padStart(2,'0')}`;
   const total=G1.qs.length;
-  if(G1.mode!=='nb')saveM1Result(G1.score,G1.correct,G1.maxCombo,timeStr);
+  if(G1.mode!=='nb'){saveM1Result(G1.score,G1.correct,G1.maxCombo,timeStr);updateCatStats(G1.results);}
   const acc=G1.correct/total;
   const grade=acc>=.95?'🏆':acc>=.85?'🥇':acc>=.70?'🥈':acc>=.55?'🥉':acc>=.35?'🌿':'🌱';
   document.getElementById('el-grade').textContent=grade;
@@ -2574,6 +2605,20 @@ function m1End(){
     bd+=`<div class="bd-row"><span class="bd-n">${name}</span><div class="bd-d">${Array(t).fill(0).map((_,i)=>`<div class="dot ${i<s.ok?'ok':'fail'}"></div>`).join('')}</div><span class="bd-f">${s.ok}/${t}</span></div>`;
   }
   document.getElementById('el-bd').innerHTML=bd;
+
+  // adaptive feedback
+  if(G1.mode!=='nb'){
+    const cs=getCatStats(),aq=adaptiveQuota();
+    const boosted=Object.keys(QUOTA).filter(c=>{const st=cs[c];return st&&st.a>=5&&aq[c]>QUOTA[c];});
+    const adaptEl=document.getElementById('el-adapt');
+    if(boosted.length){
+      const tags=boosted.map(c=>{const st=cs[c];const er=Math.round(st.e/st.a*100);return`<span class="adapt-tag${er>=60?' hi':''}">${CAT_NAME[c]||c} ${er}%✗</span>`;}).join('');
+      adaptEl.innerHTML=`<div class="adapt-box"><div class="adapt-hdr">⚡ 自适应已激活 · 下局将加强 ${boosted.length} 个薄弱题型</div><div class="adapt-tags">${tags}</div></div>`;
+      adaptEl.style.display='';
+    }else{
+      adaptEl.style.display='none';
+    }
+  }
 
   // collect wrong questions
   G1.wrongQs=G1.qs.map((q,i)=>({...q,chosen:G1.results[i]?.chosen,id:q._id||`m1_${q.cat}_${q.main.join('')}`}))
