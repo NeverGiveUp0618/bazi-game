@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>基础知识日练</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f172a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="八字日练">
+<link rel="apple-touch-icon" href="icon-192.png">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh;display:flex;justify-content:center}
@@ -313,6 +319,12 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .wq-add-btn{background:#1e3a8a;border:none;color:#93c5fd;font-size:12px;font-weight:bold;cursor:pointer;padding:3px 9px;border-radius:7px;flex-shrink:0;margin-left:auto;line-height:1.5;white-space:nowrap}
 .wq-add-btn:active{transform:scale(.93)}
 .wq-add-btn.added{background:#022c22;color:#10b981}
+/* PWA 安装横幅 */
+.pwa-banner{background:#1e3a5f;border:1px solid #3b82f6;border-radius:14px;padding:11px 14px;margin-bottom:10px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.pwa-banner-txt{flex:1;font-size:12px;color:#93c5fd;line-height:1.5}
+.pwa-banner-btn{background:#3b82f6;color:#fff;border:none;border-radius:9px;padding:7px 14px;font-size:12px;font-weight:bold;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.pwa-banner-close{background:none;border:none;color:#475569;font-size:16px;cursor:pointer;padding:2px 4px;flex-shrink:0}
+
 /* 自适应出题 */
 .adapt-box{background:#1e293b;border:1px solid #334155;border-radius:14px;padding:13px 14px;margin:8px 0;border-left:4px solid #8b5cf6}
 .adapt-hdr{font-size:11px;color:#8b5cf6;letter-spacing:2px;font-weight:bold;margin-bottom:8px}
@@ -356,6 +368,11 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 
 <!-- HOME -->
 <div id="ph" class="screen active">
+  <div id="pwa-banner" style="display:none" class="pwa-banner">
+    <div class="pwa-banner-txt" id="pwa-banner-txt"></div>
+    <button class="pwa-banner-btn" id="pwa-install-btn" onclick="pwaInstall()">安装</button>
+    <button class="pwa-banner-close" onclick="pwaDismiss()">✕</button>
+  </div>
   <div class="hlogo"><div class="hlogo-t">基础知识日练</div><div class="hlogo-s">干支知识 · 每日精进</div></div>
   <div class="hquote" id="el-quote"></div>
   <div class="hdate" id="el-date"></div>
@@ -3464,6 +3481,43 @@ document.addEventListener('keydown',e=>{
 
 // ══ INIT ══
 initHome();
+
+// ══ PWA ══
+let _pwaPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault();_pwaPrompt=e;
+  const b=document.getElementById('pwa-banner');
+  const t=document.getElementById('pwa-banner-txt');
+  if(b&&t&&!sessionStorage.getItem('pwa-dismissed')){
+    t.textContent='安装到主屏幕，随时离线使用';
+    b.style.display='flex';
+  }
+});
+function pwaInstall(){
+  if(!_pwaPrompt)return;
+  _pwaPrompt.prompt();
+  _pwaPrompt.userChoice.then(()=>{_pwaPrompt=null;pwaDismiss();});
+}
+function pwaDismiss(){
+  document.getElementById('pwa-banner').style.display='none';
+  sessionStorage.setItem('pwa-dismissed','1');
+}
+// iOS 提示
+(function(){
+  const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
+  const isStandalone=window.navigator.standalone;
+  if(isIOS&&!isStandalone&&!sessionStorage.getItem('pwa-dismissed')){
+    const b=document.getElementById('pwa-banner');
+    const t=document.getElementById('pwa-banner-txt');
+    document.getElementById('pwa-install-btn').style.display='none';
+    if(b&&t){t.textContent='iOS：点底部「分享」→「添加到主屏幕」可离线使用';b.style.display='flex';}
+  }
+})();
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  });
+}
 </script>
 </body>
 </html>

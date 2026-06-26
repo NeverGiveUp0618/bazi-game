@@ -1,0 +1,14 @@
+{
+  "name": "人鉴八字日练",
+  "short_name": "八字日练",
+  "description": "人鉴八字基础知识练习工具，含闪卡速答、配对连线、八字排盘",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#0f172a",
+  "background_color": "#0f172a",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
