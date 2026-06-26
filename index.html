@@ -350,6 +350,9 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .nf-ch.ok{background:#022c22;border-color:#10b981;color:#10b981;cursor:default}
 .nf-ch.bad{background:#450a0a;border-color:#ef4444;color:#ef4444;cursor:default}
 .nf-ch.show{background:#022c22;border-color:#10b981;color:#10b981;opacity:.6;cursor:default}
+/* 更新提示横幅 */
+.update-bar{background:#78350f;border:1px solid #f59e0b80;border-radius:10px;padding:10px 14px;margin-bottom:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fcd34d;font-size:13px;font-weight:bold;letter-spacing:.5px;-webkit-tap-highlight-color:transparent}
+.update-bar:active{opacity:.8}
 /* 六十甲子 知识速查 */
 .jz-xun-block{background:#0f172a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;border-left:3px solid #3b82f6}
 .jz-xun-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
@@ -453,6 +456,10 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 
 <!-- HOME -->
 <div id="ph" class="screen active">
+  <div class="update-bar" onclick="location.href=location.pathname+'?r='+Date.now()">
+    <span>🆕 近期有更新 · 点此刷新加载新内容</span>
+    <span style="font-size:16px;margin-left:6px">↻</span>
+  </div>
   <div class="hlogo"><div class="hlogo-t">基础知识日练</div><div class="hlogo-s">干支知识 · 每日精进</div></div>
   <div class="hquote" id="el-quote"></div>
   <div class="hdate" id="el-date"></div>
