@@ -311,6 +311,18 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .wq-add-btn{background:#1e3a8a;border:none;color:#93c5fd;font-size:12px;font-weight:bold;cursor:pointer;padding:3px 9px;border-radius:7px;flex-shrink:0;margin-left:auto;line-height:1.5;white-space:nowrap}
 .wq-add-btn:active{transform:scale(.93)}
 .wq-add-btn.added{background:#022c22;color:#10b981}
+/* 连击特效 */
+@keyframes ckPop{0%{transform:scale(1)}35%{transform:scale(1.55)}70%{transform:scale(.92)}100%{transform:scale(1)}}
+@keyframes shakeX{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+@keyframes floatUp{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-90px) scale(1.5)}}
+.ck-pop{animation:ckPop .35s ease}
+.shake-x{animation:shakeX .35s ease}
+.spop-lv1{background:#10b981}
+.spop-lv2{background:#f97316}
+.spop-lv3{background:#ef4444}
+.spop-lv4{background:linear-gradient(135deg,#f59e0b,#ef4444)}
+.combo-ptcl{position:fixed;pointer-events:none;font-size:24px;z-index:200;animation:floatUp 1s ease forwards}
+
 /* 歌诀闪卡 */
 .gj-grp{margin-bottom:14px}
 .gj-grp-lbl{font-size:11px;color:#475569;letter-spacing:2px;margin-bottom:7px;padding:0 2px;font-weight:bold}
@@ -2472,6 +2484,8 @@ function m1TimeUp(){
   document.getElementById('el-fb').innerHTML=`⏰ 超时！正确答案：<b>${q.correct}</b>`;
   document.getElementById('el-fb').className='fb fb-err';
   G1.streak=0;G1.results.push({cat:q.cat,ok:false,chosen:null});G1.cur++;
+  document.getElementById('el-ck').style.color='#10b981';
+  const qm2=document.getElementById('el-qmain');qm2.classList.remove('shake-x');void qm2.offsetWidth;qm2.classList.add('shake-x');
   setTimeout(m1Next,1300);
 }
 
@@ -2488,28 +2502,50 @@ function m1Pick(idx){
     else if(_opts[i]===q.correct)b.className='opt reveal';
   });
   G1.results.push({cat:q.cat,ok,chosen});
+  const ckEl=document.getElementById('el-ck');
   if(ok){
     G1.correct++;G1.streak++;if(G1.streak>G1.maxCombo)G1.maxCombo=G1.streak;
     const m=getMult(G1.streak),spd=G1.timed?Math.floor(remain/1000*0.5):0,gain=Math.round((10+spd)*m);
     G1.score+=gain;
     document.getElementById('el-fb').innerHTML=`✓ 正确！+${gain}分 <span style="color:#64748b;font-size:11px">${q.exp}</span>`;
     document.getElementById('el-fb').className='fb fb-ok';
+    ckEl.style.color=G1.streak>=9?'#ef4444':G1.streak>=6?'#f97316':G1.streak>=3?'#fbbf24':'#10b981';
+    ckEl.classList.remove('ck-pop');void ckEl.offsetWidth;ckEl.classList.add('ck-pop');
     if(G1.streak>=3&&G1.streak%3===0)m1ShowPop(G1.streak);
   }else{
     G1.streak=0;
     document.getElementById('el-fb').innerHTML=`✗ 错了 <span style="color:#64748b;font-size:11px">${q.exp}</span>`;
     document.getElementById('el-fb').className='fb fb-err';
+    ckEl.style.color='#10b981';
+    const qm=document.getElementById('el-qmain');qm.classList.remove('shake-x');void qm.offsetWidth;qm.classList.add('shake-x');
   }
   document.getElementById('el-sc').textContent=G1.score;
-  document.getElementById('el-ck').textContent=G1.streak;
+  ckEl.textContent=G1.streak;
   document.getElementById('el-mu').textContent=`×${getMult(G1.streak).toFixed(1)}`;
   G1.cur++;setTimeout(m1Next,1200);
 }
 
 function m1ShowPop(n){
   const pop=document.getElementById('el-spop');
+  const lv=n>=12?4:n>=9?3:n>=6?2:1;
+  pop.className='spop spop-lv'+lv;
   pop.textContent={3:'三连击！',6:'六连击！🔥',9:'九连击！🔥🔥',12:'十二连！🔥🔥🔥'}[n]||(n+'连击🔥');
   pop.classList.add('show');setTimeout(()=>pop.classList.remove('show'),900);
+  if(n>=6)m1Particles(n);
+}
+function m1Particles(n){
+  const em=n>=9?['🔥','⚡','💥','✨','🌟']:['✨','⭐','💫','🌟'];
+  const cnt=n>=9?6:4;
+  for(let i=0;i<cnt;i++){
+    const el=document.createElement('div');
+    el.className='combo-ptcl';
+    el.textContent=em[i%em.length];
+    el.style.left=(25+Math.random()*50)+'vw';
+    el.style.top=(25+Math.random()*25)+'vh';
+    el.style.animationDelay=(i*0.07)+'s';
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),1100);
+  }
 }
 
 function m1End(){
