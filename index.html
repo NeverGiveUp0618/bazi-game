@@ -8,414 +8,414 @@
 <meta http-equiv="Expires" content="0">
 <title>基础知识日练</title>
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#12080a">
+<meta name="theme-color" content="#0f172a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="八字日练">
 <link rel="apple-touch-icon" href="icon-192.png">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;background:#12080a;color:#e8d4a8;min-height:100vh;display:flex;justify-content:center}
+body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh;display:flex;justify-content:center}
 .app{width:100%;max-width:480px;min-height:100vh}
-@media(min-width:600px){body{background:#0d0608;padding:20px 0}.app{border-radius:24px;overflow:hidden;box-shadow:0 8px 60px rgba(0,0,0,.7)}.screen{min-height:0!important}}
+@media(min-width:600px){body{background:#060d1b;padding:20px 0}.app{border-radius:24px;overflow:hidden;box-shadow:0 8px 60px rgba(0,0,0,.7)}.screen{min-height:0!important}}
 .screen{display:none;flex-direction:column;padding:14px 14px 28px;min-height:100vh}
 .screen.active{display:flex}
 .tbar{display:flex;align-items:center;padding:4px 0 10px;gap:8px;flex-shrink:0}
-.tbk{background:none;border:none;color:#7a5048;font-size:20px;cursor:pointer;padding:4px 8px;border-radius:8px}
-.tbk:hover{background:#1c0e10;color:#a08060}
-.tbtitle{flex:1;text-align:center;font-size:14px;color:#a08060}
-.tbr{font-size:12px;color:#5a3830;white-space:nowrap}
+.tbk{background:none;border:none;color:#64748b;font-size:20px;cursor:pointer;padding:4px 8px;border-radius:8px}
+.tbk:hover{background:#1e293b;color:#94a3b8}
+.tbtitle{flex:1;text-align:center;font-size:14px;color:#94a3b8}
+.tbr{font-size:12px;color:#475569;white-space:nowrap}
 .btn{width:100%;padding:13px;font-size:14px;font-weight:bold;border:none;border-radius:12px;cursor:pointer;transition:all .15s;user-select:none;letter-spacing:1px}
 .btn:active{transform:scale(.98)}
-.btn-g{background:#C9A227;color:#fff;letter-spacing:2px}.btn-g:hover{background:#A88020}
-.btn-b{background:#200a18;color:#E8CC70}.btn-b:hover{background:#1a0a10}
-.btn-d{background:#1c0e10;color:#a08060}.btn-d:hover{background:#261016}
+.btn-g{background:#10b981;color:#fff;letter-spacing:2px}.btn-g:hover{background:#059669}
+.btn-b{background:#1e3a8a;color:#93c5fd}.btn-b:hover{background:#1e40af}
+.btn-d{background:#1e293b;color:#94a3b8}.btn-d:hover{background:#273549}
 .btn-a{background:#78350f;color:#fcd34d}.btn-a:hover{background:#92400e}
 .btn-sm{padding:8px 12px;font-size:12px;border-radius:9px;width:auto}
-.card{background:#1c0e10;border-radius:14px;padding:13px 15px;margin:5px 0}
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#2a1218;color:#e8d4a8;padding:10px 20px;border-radius:20px;font-size:13px;opacity:0;pointer-events:none;z-index:300;transition:opacity .3s;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.5)}
+.card{background:#1e293b;border-radius:14px;padding:13px 15px;margin:5px 0}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#334155;color:#e2e8f0;padding:10px 20px;border-radius:20px;font-size:13px;opacity:0;pointer-events:none;z-index:300;transition:opacity .3s;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.5)}
 .toast.show{opacity:1}
-.spop{position:fixed;top:38%;left:50%;transform:translate(-50%,-50%) scale(.8);background:#C9A227;color:#fff;padding:10px 26px;border-radius:22px;font-size:22px;font-weight:bold;pointer-events:none;opacity:0;z-index:100;transition:opacity .2s,transform .2s;white-space:nowrap}
+.spop{position:fixed;top:38%;left:50%;transform:translate(-50%,-50%) scale(.8);background:#10b981;color:#fff;padding:10px 26px;border-radius:22px;font-size:22px;font-weight:bold;pointer-events:none;opacity:0;z-index:100;transition:opacity .2s,transform .2s;white-space:nowrap}
 .spop.show{opacity:1;transform:translate(-50%,-65%) scale(1)}
 
 /* HOME */
 .hlogo{text-align:center;padding:26px 0 12px}
-.hlogo-t{font-size:25px;font-weight:bold;color:#C9A227;letter-spacing:5px}
-.hlogo-s{font-size:11px;color:#5a3830;margin-top:4px;letter-spacing:3px}
-.hdate{background:#1c0e10;border-radius:12px;padding:10px 14px;text-align:center;font-size:14px;color:#a08060;margin:6px 0 10px}
+.hlogo-t{font-size:25px;font-weight:bold;color:#10b981;letter-spacing:5px}
+.hlogo-s{font-size:11px;color:#475569;margin-top:4px;letter-spacing:3px}
+.hdate{background:#1e293b;border-radius:12px;padding:10px 14px;text-align:center;font-size:14px;color:#94a3b8;margin:6px 0 10px}
 .hstats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:10px}
-.hstat{background:#1c0e10;border-radius:12px;padding:11px 6px;text-align:center}
-.hstat-v{font-size:22px;font-weight:bold;color:#C9A227}
-.hstat-l{font-size:10px;color:#5a3830;margin-top:2px}
-.mcard{background:#1c0e10;border-radius:16px;padding:13px 15px;margin-bottom:9px;border:2px solid transparent;transition:border-color .15s}
+.hstat{background:#1e293b;border-radius:12px;padding:11px 6px;text-align:center}
+.hstat-v{font-size:22px;font-weight:bold;color:#10b981}
+.hstat-l{font-size:10px;color:#475569;margin-top:2px}
+.mcard{background:#1e293b;border-radius:16px;padding:13px 15px;margin-bottom:9px;border:2px solid transparent;transition:border-color .15s}
 .mcard:hover{border-color:#1e3a5f}
 .mcard-head{display:flex;align-items:center;gap:10px;margin-bottom:9px}
 .mcard-icon{font-size:22px;width:34px;text-align:center;flex-shrink:0}
-.mcard-name{font-size:15px;font-weight:bold;color:#e8d4a8}
-.mcard-desc{font-size:11px;color:#5a3830;margin-top:1px}
+.mcard-name{font-size:15px;font-weight:bold;color:#e2e8f0}
+.mcard-desc{font-size:11px;color:#475569;margin-top:1px}
 .mcard-btns{display:flex;gap:7px;flex-wrap:wrap}
 .mcard-btns .btn{flex:1;min-width:60px;padding:9px 4px;font-size:12px}
-.nt-label{font-size:10px;color:#7a5048;background:#12080a;border-radius:4px;padding:1px 5px;margin-left:2px}
-.nb-card{background:#1c0c00;border:1px solid #78350f40;border-radius:16px;padding:13px 15px;margin-bottom:9px;cursor:pointer}
+.nt-label{font-size:10px;color:#64748b;background:#0f172a;border-radius:4px;padding:1px 5px;margin-left:2px}
+.nb-card{background:#1a1500;border:1px solid #78350f40;border-radius:16px;padding:13px 15px;margin-bottom:9px;cursor:pointer}
 .nb-card:hover{border-color:#f59e0b60}
 .nb-card-row{display:flex;align-items:center;gap:10px}
 .nb-badge{background:#92400e;color:#fcd34d;font-size:12px;font-weight:bold;padding:2px 8px;border-radius:10px}
-.hhist{font-size:11px;color:#5a3830;margin-bottom:6px}
-.hrow{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid #12080a;font-size:12px}
+.hhist{font-size:11px;color:#475569;margin-bottom:6px}
+.hrow{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid #0f172a;font-size:12px}
 .hrow:last-child{border-bottom:none}
 
 /* MODE 1 GAME */
 .prog-row{display:flex;align-items:center;gap:8px;padding:2px 0 8px;flex-shrink:0}
-.prog-txt{font-size:12px;color:#7a5048;white-space:nowrap}
-.prog-wrap{flex:1;height:5px;background:#1c0e10;border-radius:3px}
-.prog-bar{height:100%;border-radius:3px;background:#C9A227;transition:width .3s}
+.prog-txt{font-size:12px;color:#64748b;white-space:nowrap}
+.prog-wrap{flex:1;height:5px;background:#1e293b;border-radius:3px}
+.prog-bar{height:100%;border-radius:3px;background:#10b981;transition:width .3s}
 .hud{display:flex;gap:7px;margin-bottom:8px;flex-shrink:0}
-.hud-box{background:#1c0e10;border-radius:9px;padding:6px 10px;flex:1;text-align:center}
-.hud-l{font-size:10px;color:#5a3830}
-.hud-v{font-size:19px;font-weight:bold;color:#C9A227;line-height:1.2}
-.qcard{background:#1c0e10;border-radius:18px;padding:16px 14px;flex:1;display:flex;flex-direction:column}
-.tbar-t{height:5px;background:#2a1218;border-radius:3px;margin-bottom:14px;overflow:hidden;flex-shrink:0;transition:opacity .3s}
-.tbar-b{height:100%;border-radius:3px;background:#C9A227;transition:width .08s linear}
+.hud-box{background:#1e293b;border-radius:9px;padding:6px 10px;flex:1;text-align:center}
+.hud-l{font-size:10px;color:#475569}
+.hud-v{font-size:19px;font-weight:bold;color:#10b981;line-height:1.2}
+.qcard{background:#1e293b;border-radius:18px;padding:16px 14px;flex:1;display:flex;flex-direction:column}
+.tbar-t{height:5px;background:#334155;border-radius:3px;margin-bottom:14px;overflow:hidden;flex-shrink:0;transition:opacity .3s}
+.tbar-b{height:100%;border-radius:3px;background:#10b981;transition:width .08s linear}
 .qmain{text-align:center;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:88px}
-.bigc{font-size:80px;font-weight:bold;color:#f0e0b0;line-height:1}
+.bigc{font-size:80px;font-weight:bold;color:#f1f5f9;line-height:1}
 .bigc.sm{font-size:58px}
 @media(min-width:480px){.bigc{font-size:96px}.bigc.sm{font-size:72px}}
 .cpair{display:flex;align-items:center;gap:12px}
-.vs{font-size:20px;color:#5a3830;font-weight:bold}
-.qsub{font-size:14px;color:#a08060;margin-top:7px}
-.qsub b{color:#e8d4a8}
+.vs{font-size:20px;color:#475569;font-weight:bold}
+.qsub{font-size:14px;color:#94a3b8;margin-top:7px}
+.qsub b{color:#e2e8f0}
 .opts{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px;flex-shrink:0}
-.opt{padding:14px 6px;font-size:24px;font-weight:bold;background:#2a1218;color:#e8d4a8;border:2px solid transparent;border-radius:12px;cursor:pointer;min-height:58px;display:flex;align-items:center;justify-content:center;transition:background .1s;width:100%;position:relative;-webkit-appearance:none}
-.opt:hover:not(:disabled){background:#3a1010}
+.opt{padding:14px 6px;font-size:24px;font-weight:bold;background:#334155;color:#e2e8f0;border:2px solid transparent;border-radius:12px;cursor:pointer;min-height:58px;display:flex;align-items:center;justify-content:center;transition:background .1s;width:100%;position:relative;-webkit-appearance:none}
+.opt:hover:not(:disabled){background:#3d526a}
 .opt:active:not(:disabled){transform:scale(.97)}
-.opt.correct{background:#5a4010;border-color:#C9A227;color:#C9A227}
+.opt.correct{background:#064e3b;border-color:#10b981;color:#10b981}
 .opt.wrong{background:#450a0a;border-color:#ef4444;color:#ef4444}
-.opt.reveal{background:#5a4010;border-color:#C9A227;color:#C9A227;opacity:.5}
+.opt.reveal{background:#064e3b;border-color:#10b981;color:#10b981;opacity:.5}
 .opt:disabled{cursor:default}
-.kh{position:absolute;top:5px;left:7px;font-size:10px;color:#5a3830;font-weight:normal}
-.fb{text-align:center;margin-top:10px;font-size:12px;min-height:28px;color:#7a5048;line-height:1.5;flex-shrink:0}
-.fb-ok{color:#C9A227}.fb-err{color:#ef4444}
-.nt-badge{text-align:center;font-size:11px;color:#f59e0b;background:#1c0a00;border-radius:8px;padding:3px 10px;margin-bottom:6px;flex-shrink:0}
+.kh{position:absolute;top:5px;left:7px;font-size:10px;color:#475569;font-weight:normal}
+.fb{text-align:center;margin-top:10px;font-size:12px;min-height:28px;color:#64748b;line-height:1.5;flex-shrink:0}
+.fb-ok{color:#10b981}.fb-err{color:#ef4444}
+.nt-badge{text-align:center;font-size:11px;color:#f59e0b;background:#1c0f00;border-radius:8px;padding:3px 10px;margin-bottom:6px;flex-shrink:0}
 
 /* MODE 1 RESULT */
 .rhead{text-align:center;padding:18px 0 10px;flex-shrink:0}
 .rgrade{font-size:46px;margin-bottom:4px}
-.rscore{font-size:66px;font-weight:bold;color:#C9A227;line-height:1}
-.rlbl{font-size:11px;color:#5a3830;margin-top:3px;letter-spacing:2px}
+.rscore{font-size:66px;font-weight:bold;color:#10b981;line-height:1}
+.rlbl{font-size:11px;color:#475569;margin-top:3px;letter-spacing:2px}
 .rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:9px 0}
-.ri{background:#1c0e10;border-radius:11px;padding:10px 6px;text-align:center}
-.ri-v{font-size:17px;font-weight:bold;color:#e8d4a8}
-.ri-l{font-size:10px;color:#5a3830;margin-top:2px}
-.bd-row{display:flex;align-items:center;padding:5px 0;gap:6px;font-size:12px;border-bottom:1px solid #12080a}
+.ri{background:#1e293b;border-radius:11px;padding:10px 6px;text-align:center}
+.ri-v{font-size:17px;font-weight:bold;color:#e2e8f0}
+.ri-l{font-size:10px;color:#475569;margin-top:2px}
+.bd-row{display:flex;align-items:center;padding:5px 0;gap:6px;font-size:12px;border-bottom:1px solid #0f172a}
 .bd-row:last-child{border-bottom:none}
-.bd-n{color:#a08060;width:68px;flex-shrink:0;font-size:11px}
+.bd-n{color:#94a3b8;width:68px;flex-shrink:0;font-size:11px}
 .bd-d{display:flex;gap:3px;flex:1;flex-wrap:wrap}
 .dot{width:13px;height:13px;border-radius:50%;flex-shrink:0}
-.dot.ok{background:#C9A227}.dot.fail{background:#ef4444}
-.bd-f{color:#5a3830;font-size:11px;white-space:nowrap}
-.share-box{background:#1c0e10;border-radius:12px;padding:12px 14px;font-size:12px;line-height:1.9;color:#a08060;white-space:pre-line;word-break:break-all;margin:6px 0}
+.dot.ok{background:#10b981}.dot.fail{background:#ef4444}
+.bd-f{color:#475569;font-size:11px;white-space:nowrap}
+.share-box{background:#1e293b;border-radius:12px;padding:12px 14px;font-size:12px;line-height:1.9;color:#94a3b8;white-space:pre-line;word-break:break-all;margin:6px 0}
 /* wrong question list */
 .wq-hdr{font-size:12px;color:#ef4444;margin:10px 0 6px;font-weight:bold}
 .wq-item{background:#1c0a0a;border-radius:10px;padding:9px 11px;margin:4px 0;border-left:3px solid #ef4444}
 .wq-top{display:flex;align-items:center;gap:8px;margin-bottom:3px}
 .wq-chars{font-size:22px;font-weight:bold;color:#f87171;display:flex;gap:4px}
-.wq-cat{font-size:10px;color:#7a5048;background:#12080a;border-radius:4px;padding:1px 5px}
-.wq-detail{font-size:12px;color:#a08060;line-height:1.6}
-.wq-ans{color:#C9A227;font-weight:bold}
+.wq-cat{font-size:10px;color:#64748b;background:#0f172a;border-radius:4px;padding:1px 5px}
+.wq-detail{font-size:12px;color:#94a3b8;line-height:1.6}
+.wq-ans{color:#10b981;font-weight:bold}
 .wq-mine{color:#ef4444}
 
 /* MODE 2 SELECT */
 .p2grp{margin-bottom:14px}
-.p2grp-lbl{font-size:11px;color:#5a3830;letter-spacing:2px;margin-bottom:7px;padding:0 2px;font-weight:bold}
+.p2grp-lbl{font-size:11px;color:#475569;letter-spacing:2px;margin-bottom:7px;padding:0 2px;font-weight:bold}
 .p2grp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
-.p2btn{background:#1c0e10;border:2px solid transparent;border-radius:12px;cursor:pointer;padding:11px 6px;text-align:center;transition:all .15s}
+.p2btn{background:#1e293b;border:2px solid transparent;border-radius:12px;cursor:pointer;padding:11px 6px;text-align:center;transition:all .15s}
 .p2btn:hover{border-color:#1e3a5f}.p2btn:active{transform:scale(.97)}
-.p2btn-name{font-size:13px;font-weight:bold;color:#e8d4a8}
-.p2btn-n{font-size:10px;color:#5a3830;margin-top:3px}
-.p2btn.clr-zhi{border-color:#1e3a5f}.p2btn.clr-gan{border-color:#3b1a5f}.p2btn.clr-gs{border-color:#1a3a2f}.p2btn.clr-xu{border-color:#4a3000}.p2btn.clr-ny{border-color:#200a10}.p2btn.clr-lq{border-color:#5f1a2a}
+.p2btn-name{font-size:13px;font-weight:bold;color:#e2e8f0}
+.p2btn-n{font-size:10px;color:#475569;margin-top:3px}
+.p2btn.clr-zhi{border-color:#1e3a5f}.p2btn.clr-gan{border-color:#3b1a5f}.p2btn.clr-gs{border-color:#1a3a2f}.p2btn.clr-xu{border-color:#4a3000}.p2btn.clr-ny{border-color:#1a3a50}.p2btn.clr-lq{border-color:#5f1a2a}
 /* MODE 2 GAME */
-.m2stat{text-align:center;font-size:12px;color:#7a5048;margin-bottom:9px;min-height:16px;flex-shrink:0}
+.m2stat{text-align:center;font-size:12px;color:#64748b;margin-bottom:9px;min-height:16px;flex-shrink:0}
 .match-area{display:flex;gap:6px;flex:1;min-height:0}
 .m2-diff{display:flex;gap:6px;padding:8px 12px 2px;flex-shrink:0}
-.m2-diff-btn{flex:1;padding:8px 0;border-radius:8px;font-size:13px;border:none;cursor:pointer;background:#1c0e10;color:#7a5048;font-weight:500}
-.m2-diff-btn.active{background:#C9A227;color:#fff;font-weight:700}
+.m2-diff-btn{flex:1;padding:8px 0;border-radius:8px;font-size:13px;border:none;cursor:pointer;background:#1e293b;color:#64748b;font-weight:500}
+.m2-diff-btn.active{background:#10b981;color:#fff;font-weight:700}
 .match-col{display:flex;flex-direction:column;gap:6px;flex:1;min-height:0}
-.mi{flex:1;min-height:44px;max-height:90px;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:bold;background:#1c0e10;border:2px solid transparent;border-radius:12px;cursor:pointer;transition:all .12s;color:#e8d4a8;user-select:none}
+.mi{flex:1;min-height:44px;max-height:90px;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:bold;background:#1e293b;border:2px solid transparent;border-radius:12px;cursor:pointer;transition:all .12s;color:#e2e8f0;user-select:none}
 .mi:active:not(.mat):not(.dis){transform:scale(.96)}
-.mi.sel{background:#200a18;border-color:#C9A227;color:#E8CC70}
-.mi.mat{background:#3a2008;border-color:#C9A227;color:#C9A227;cursor:default}
+.mi.sel{background:#1e3a8a;border-color:#3b82f6;color:#93c5fd}
+.mi.mat{background:#022c22;border-color:#10b981;color:#10b981;cursor:default}
 .mi.err{background:#450a0a;border-color:#ef4444;color:#ef4444}
 .mi.dis{cursor:default;opacity:.4}
 .match-mid{display:flex;flex-direction:column;justify-content:space-around;align-items:center;width:14px;flex-shrink:0}
-.mm-dot{width:4px;height:4px;border-radius:50%;background:#1c0e10;flex-shrink:0}
-.mm-dot.on{background:#C9A227}
+.mm-dot{width:4px;height:4px;border-radius:50%;background:#1e293b;flex-shrink:0}
+.mm-dot.on{background:#10b981}
 /* mode 2 result */
 .m2res{text-align:center;padding:30px 20px 20px}
 .m2res-icon{font-size:52px;margin-bottom:10px}
-.m2res-t{font-size:34px;font-weight:bold;color:#C9A227;margin-bottom:6px}
-.m2res-sub{font-size:13px;color:#7a5048;line-height:2}
+.m2res-t{font-size:34px;font-weight:bold;color:#10b981;margin-bottom:6px}
+.m2res-sub{font-size:13px;color:#64748b;line-height:2}
 
 /* MODE 3 */
 .m3nav{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-shrink:0}
-.m3name{font-size:15px;font-weight:bold;color:#C9A227;flex:1;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;user-select:none}
-.m3nb{background:#1c0e10;border:none;color:#7a5048;padding:7px 12px;border-radius:10px;cursor:pointer;font-size:12px;white-space:nowrap}
+.m3name{font-size:15px;font-weight:bold;color:#10b981;flex:1;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;user-select:none}
+.m3nb{background:#1e293b;border:none;color:#64748b;padding:7px 12px;border-radius:10px;cursor:pointer;font-size:12px;white-space:nowrap}
 /* case picker */
 .m3pick-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;display:flex;align-items:flex-end}
-.m3pick-modal{background:#1c0e10;width:100%;max-height:72vh;border-radius:14px 14px 0 0;overflow:hidden;display:flex;flex-direction:column}
-.m3pick-hdr{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid #2a1218;flex-shrink:0}
-.m3pick-hdr span{font-size:15px;font-weight:600;color:#e8d4a8}
-.m3pick-hdr button{background:none;border:none;color:#7a5048;font-size:18px;cursor:pointer;line-height:1;padding:2px 6px}
+.m3pick-modal{background:#1e293b;width:100%;max-height:72vh;border-radius:14px 14px 0 0;overflow:hidden;display:flex;flex-direction:column}
+.m3pick-hdr{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid #334155;flex-shrink:0}
+.m3pick-hdr span{font-size:15px;font-weight:600;color:#e2e8f0}
+.m3pick-hdr button{background:none;border:none;color:#64748b;font-size:18px;cursor:pointer;line-height:1;padding:2px 6px}
 .m3pick-search{padding:8px 12px;flex-shrink:0}
-.m3pick-search input{width:100%;background:#12080a;border:1px solid #2a1218;border-radius:8px;padding:7px 10px;color:#e8d4a8;font-size:14px;outline:none;box-sizing:border-box}
+.m3pick-search input{width:100%;background:#0f172a;border:1px solid #334155;border-radius:8px;padding:7px 10px;color:#e2e8f0;font-size:14px;outline:none;box-sizing:border-box}
 .m3pick-list{overflow-y:auto;-webkit-overflow-scrolling:touch}
-.m3pick-item{padding:11px 16px;border-bottom:1px solid #1c0e1055;color:#a08060;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:10px}
-.m3pick-item:active{background:#200a1855}
-.m3pick-item.cur{background:#200a18;color:#E8CC70}
-.m3nb:hover{background:#261016;color:#a08060}
-.bz-wrap{background:#1c0e10;border-radius:18px;padding:13px 10px;flex-shrink:0}
+.m3pick-item{padding:11px 16px;border-bottom:1px solid #1e293b55;color:#94a3b8;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:10px}
+.m3pick-item:active{background:#1e3a8a55}
+.m3pick-item.cur{background:#1e3a8a;color:#93c5fd}
+.m3nb:hover{background:#273549;color:#94a3b8}
+.bz-wrap{background:#1e293b;border-radius:18px;padding:13px 10px;flex-shrink:0}
 .bz-labels{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:5px}
-.bz-lb{text-align:center;font-size:10px;color:#5a3830;letter-spacing:2px}
+.bz-lb{text-align:center;font-size:10px;color:#475569;letter-spacing:2px}
 .bz-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:1fr 1fr;gap:5px}
-.bz-cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:bold;background:#2a1218;border:3px solid transparent;border-radius:12px;cursor:pointer;transition:all .13s;color:#f0e0b0;user-select:none;position:relative}
+.bz-cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:bold;background:#334155;border:3px solid transparent;border-radius:12px;cursor:pointer;transition:all .13s;color:#f1f5f9;user-select:none;position:relative}
 @media(min-width:400px){.bz-cell{font-size:40px;border-radius:14px}}
-.bz-cell:hover:not(.s0):not(.s1){background:#3a1010}
-.bz-cell.rz{color:#D4B040}
-.bz-cell.s0{background:#200a18;border-color:#C9A227;color:#E8CC70}
-.bz-cell.s1{background:#2a0e18;border-color:#7c3aed;color:#c4b5fd}
-.bz-type{position:absolute;bottom:3px;right:5px;font-size:9px;color:#5a3830}
-.rel-panel{background:#1c0e10;border-radius:14px;padding:14px;margin-top:8px;flex:1;overflow-y:auto;min-height:110px}
-.rel-hint{text-align:center;color:#5a3830;font-size:13px;padding:20px 0;line-height:2}
+.bz-cell:hover:not(.s0):not(.s1){background:#3d526a}
+.bz-cell.rz{color:#60a5fa}
+.bz-cell.s0{background:#1e3a8a;border-color:#3b82f6;color:#93c5fd}
+.bz-cell.s1{background:#2d1657;border-color:#7c3aed;color:#c4b5fd}
+.bz-type{position:absolute;bottom:3px;right:5px;font-size:9px;color:#475569}
+.rel-panel{background:#1e293b;border-radius:14px;padding:14px;margin-top:8px;flex:1;overflow-y:auto;min-height:110px}
+.rel-hint{text-align:center;color:#475569;font-size:13px;padding:20px 0;line-height:2}
 .rel-pair-header{display:flex;align-items:center;gap:8px;margin-bottom:9px}
 .rph-chars{display:flex;align-items:center;gap:6px}
 .rph-c{font-size:34px;font-weight:bold}
-.rph-c.c0{color:#E8CC70}.rph-c.c1{color:#c4b5fd}
-.rph-vs{color:#5a3830;font-size:14px;font-weight:bold}
-.rph-lbl{font-size:11px;color:#5a3830;flex:1}
-.rel-item{font-size:13px;padding:7px 10px;background:#12080a;border-radius:9px;margin:4px 0;color:#e8d4a8;line-height:1.5;border-left:3px solid #2a1218}
-.rel-item.none{color:#5a3830;border-left-color:#1c0e10}
+.rph-c.c0{color:#93c5fd}.rph-c.c1{color:#c4b5fd}
+.rph-vs{color:#475569;font-size:14px;font-weight:bold}
+.rph-lbl{font-size:11px;color:#475569;flex:1}
+.rel-item{font-size:13px;padding:7px 10px;background:#0f172a;border-radius:9px;margin:4px 0;color:#e2e8f0;line-height:1.5;border-left:3px solid #334155}
+.rel-item.none{color:#475569;border-left-color:#1e293b}
 .rel-item.rel-chong{border-left-color:#ef4444}
-.rel-item.rel-he{border-left-color:#C9A227}
+.rel-item.rel-he{border-left-color:#10b981}
 .rel-item.rel-tong{border-left-color:#f59e0b}
 .rel-item.rel-xing{border-left-color:#8b5cf6}
-.rel-item.rel-gen{border-left-color:#7a5048}
+.rel-item.rel-gen{border-left-color:#64748b}
 .m3footer{display:flex;gap:8px;margin-top:8px;flex-shrink:0}
 
 /* ALLVIEW 格子标注 */
 .bz-grid.with-shen{grid-template-rows:auto 1fr 1fr}
-.bz-ann-shen.is-rz{color:#C9A227}
+.bz-ann-shen.is-rz{color:#10b981}
 .bz-grid.allview{grid-template-rows:auto auto auto auto auto auto}
 .bz-grid.allview .bz-cell{aspect-ratio:auto;height:60px;font-size:30px}
 @media(min-width:400px){.bz-grid.allview .bz-cell{font-size:34px;height:66px}}
 .bz-ann{display:flex;align-items:center;justify-content:center;text-align:center;padding:2px 1px;font-size:11px;line-height:1.2}
 .bz-ann-shen{color:#c4b5fd;font-weight:bold}
-.bz-ann-cang{color:#7a5048;font-size:10px;letter-spacing:1px}
-.bz-ann-ny{color:#5a3830;font-size:9px;letter-spacing:.5px}
+.bz-ann-cang{color:#64748b;font-size:10px;letter-spacing:1px}
+.bz-ann-ny{color:#475569;font-size:9px;letter-spacing:.5px}
 
 /* 错题本 */
 .nb-screen-hdr{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-shrink:0}
 .nb-count-badge{background:#92400e;color:#fcd34d;font-size:13px;font-weight:bold;padding:3px 10px;border-radius:10px}
-.nb-empty{text-align:center;color:#5a3830;font-size:14px;padding:40px 0;line-height:2.2}
+.nb-empty{text-align:center;color:#475569;font-size:14px;padding:40px 0;line-height:2.2}
 .nb-list{flex:1;overflow-y:auto}
-.nb-q{background:#1c0e10;border-radius:12px;padding:11px 13px;margin:5px 0;display:flex;align-items:center;gap:10px}
-.nb-q-main{font-size:26px;font-weight:bold;color:#e8d4a8;min-width:36px;text-align:center}
+.nb-q{background:#1e293b;border-radius:12px;padding:11px 13px;margin:5px 0;display:flex;align-items:center;gap:10px}
+.nb-q-main{font-size:26px;font-weight:bold;color:#e2e8f0;min-width:36px;text-align:center}
 .nb-q-info{flex:1}
-.nb-q-type{font-size:10px;color:#5a3830;margin-bottom:2px}
-.nb-q-ans{font-size:13px;color:#C9A227;font-weight:bold}
-.nb-q-del{background:none;border:none;color:#5a3830;font-size:18px;cursor:pointer;padding:4px 8px;border-radius:6px;flex-shrink:0}
-.nb-q-del:hover{background:#2a1218;color:#ef4444}
-.nb-q-date{font-size:10px;color:#2a1218;margin-top:2px}
+.nb-q-type{font-size:10px;color:#475569;margin-bottom:2px}
+.nb-q-ans{font-size:13px;color:#10b981;font-weight:bold}
+.nb-q-del{background:none;border:none;color:#475569;font-size:18px;cursor:pointer;padding:4px 8px;border-radius:6px;flex-shrink:0}
+.nb-q-del:hover{background:#334155;color:#ef4444}
+.nb-q-date{font-size:10px;color:#334155;margin-top:2px}
 .nb-footer{display:flex;gap:8px;margin-top:10px;flex-shrink:0}
 /* MODE 4 – 选字器 & 圆圈 */
-.m4-pick-panel{background:#200a0c;border-radius:18px;padding:14px 6px 12px;flex-shrink:0}
+.m4-pick-panel{background:#1a2332;border-radius:18px;padding:14px 6px 12px;flex-shrink:0}
 .m4-pick-row{display:flex;justify-content:space-around;margin:0}
-.m4-pick-ch{font-size:clamp(28px,8.5vw,42px);font-weight:bold;color:#5a3830;cursor:pointer;padding:5px 2px;border-radius:10px;transition:all .12s;min-width:36px;text-align:center;line-height:1.1;border:none;background:none;-webkit-appearance:none;flex:1}
+.m4-pick-ch{font-size:clamp(28px,8.5vw,42px);font-weight:bold;color:#475569;cursor:pointer;padding:5px 2px;border-radius:10px;transition:all .12s;min-width:36px;text-align:center;line-height:1.1;border:none;background:none;-webkit-appearance:none;flex:1}
 .m4-pick-ch:active{transform:scale(.85)}
-.m4-pick-ch.cur{color:#C9A227}
-.m4-pick-ch:hover:not(.cur){color:#c8a870}
-.m4-pillar-hdr{display:grid;grid-template-columns:repeat(4,1fr);text-align:center;font-size:11px;color:#5a3830;letter-spacing:2px;margin-bottom:8px;flex-shrink:0}
+.m4-pick-ch.cur{color:#10b981}
+.m4-pick-ch:hover:not(.cur){color:#cbd5e1}
+.m4-pillar-hdr{display:grid;grid-template-columns:repeat(4,1fr);text-align:center;font-size:11px;color:#475569;letter-spacing:2px;margin-bottom:8px;flex-shrink:0}
 .m4-circles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px 10px;flex-shrink:0}
-.m4-circ{aspect-ratio:1;border-radius:50%;background:#1c0e10;border:3px solid transparent;display:flex;align-items:center;justify-content:center;font-size:clamp(22px,6.5vw,34px);font-weight:bold;cursor:pointer;color:#e8d4a8;transition:all .15s;user-select:none;width:100%}
+.m4-circ{aspect-ratio:1;border-radius:50%;background:#1e293b;border:3px solid transparent;display:flex;align-items:center;justify-content:center;font-size:clamp(22px,6.5vw,34px);font-weight:bold;cursor:pointer;color:#e2e8f0;transition:all .15s;user-select:none;width:100%}
 .m4-circ:active{transform:scale(.9)}
-.m4-circ.sel{background:#200a18;border-color:#C9A227;color:#E8CC70}
-.m4-circ.rz{color:#D4B040}
+.m4-circ.sel{background:#1e3a8a;border-color:#3b82f6;color:#93c5fd}
+.m4-circ.rz{color:#60a5fa}
 /* M4 save dialog & saved list */
 .m4dlg-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px}
-.m4dlg-box{background:#1c0e10;border-radius:14px;padding:20px 18px;width:100%;max-width:340px;box-sizing:border-box}
-.m4dlg-title{font-size:15px;font-weight:600;color:#e8d4a8;margin-bottom:10px;text-align:center}
-.m4dlg-bazi{font-size:20px;color:#C9A227;text-align:center;letter-spacing:3px;margin-bottom:12px;font-weight:bold}
-.m4dlg-inp{width:100%;background:#12080a;border:1px solid #2a1218;border-radius:8px;padding:9px 12px;color:#e8d4a8;font-size:14px;outline:none;box-sizing:border-box;margin-bottom:14px}
+.m4dlg-box{background:#1e293b;border-radius:14px;padding:20px 18px;width:100%;max-width:340px;box-sizing:border-box}
+.m4dlg-title{font-size:15px;font-weight:600;color:#e2e8f0;margin-bottom:10px;text-align:center}
+.m4dlg-bazi{font-size:20px;color:#10b981;text-align:center;letter-spacing:3px;margin-bottom:12px;font-weight:bold}
+.m4dlg-inp{width:100%;background:#0f172a;border:1px solid #334155;border-radius:8px;padding:9px 12px;color:#e2e8f0;font-size:14px;outline:none;box-sizing:border-box;margin-bottom:14px}
 .m4dlg-btns{display:flex;gap:10px}
 .m4dlg-btns .btn{flex:1;margin:0}
 .m4saved-item{display:flex;align-items:center;padding:11px 16px;border-bottom:1px solid #ffffff0d;gap:10px}
 .m4saved-info{flex:1;cursor:pointer;min-width:0}
-.m4saved-name{color:#e8d4a8;font-size:14px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.m4saved-bz{color:#C9A227;font-size:13px;letter-spacing:2px;margin:2px 0}
-.m4saved-date{color:#5a3830;font-size:11px}
-.m4saved-del{background:none;border:none;color:#5a3830;font-size:17px;cursor:pointer;padding:4px 8px;flex-shrink:0;line-height:1}
+.m4saved-name{color:#e2e8f0;font-size:14px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.m4saved-bz{color:#10b981;font-size:13px;letter-spacing:2px;margin:2px 0}
+.m4saved-date{color:#475569;font-size:11px}
+.m4saved-del{background:none;border:none;color:#475569;font-size:17px;cursor:pointer;padding:4px 8px;flex-shrink:0;line-height:1}
 .m4saved-del:active{color:#ef4444}
 .del-confirming{background:#78350f!important;color:#fcd34d!important;border:1px solid #92400e!important;font-size:11px!important;padding:4px 10px!important;border-radius:7px!important}
-.bk-banner{background:#12060a;border:1px solid #B8902050;border-radius:12px;padding:10px 14px;margin-bottom:9px;display:none;align-items:center;gap:10px}
+.bk-banner{background:#0c1a0c;border:1px solid #16a34a50;border-radius:12px;padding:10px 14px;margin-bottom:9px;display:none;align-items:center;gap:10px}
 .bk-banner.show{display:flex}
 .bk-banner-icon{font-size:20px;flex-shrink:0}
-.bk-banner-txt{flex:1;font-size:12px;color:#F0D060;line-height:1.4}
-.bk-banner-btn{background:#8a6a18;color:#F0D060;border:none;border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.bk-banner-txt{flex:1;font-size:12px;color:#86efac;line-height:1.4}
+.bk-banner-btn{background:#166534;color:#86efac;border:none;border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;white-space:nowrap;flex-shrink:0}
 .bk-banner-btn:hover{background:#15803d}
 .bk-row{display:flex;gap:8px;margin-bottom:9px}
-.bk-btn{flex:1;background:#1c0e10;color:#7a5048;border:none;border-radius:10px;padding:9px 6px;font-size:12px;cursor:pointer;text-align:center}
-.bk-btn:hover{background:#261016;color:#a08060}
+.bk-btn{flex:1;background:#1e293b;color:#64748b;border:none;border-radius:10px;padding:9px 6px;font-size:12px;cursor:pointer;text-align:center}
+.bk-btn:hover{background:#273549;color:#94a3b8}
 
 /* CUSTOM SELECT */
 .csel-grp{margin-bottom:13px}
-.csel-lbl{font-size:11px;color:#5a3830;letter-spacing:2px;margin-bottom:6px;padding:0 2px;font-weight:bold}
+.csel-lbl{font-size:11px;color:#475569;letter-spacing:2px;margin-bottom:6px;padding:0 2px;font-weight:bold}
 .csel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-.ctog{background:#1c0e10;border:2px solid #1c0e10;border-radius:10px;cursor:pointer;padding:8px 4px;text-align:center;transition:all .15s;color:#7a5048;font-size:11px;font-weight:bold;line-height:1.4;width:100%}
+.ctog{background:#1e293b;border:2px solid #1e293b;border-radius:10px;cursor:pointer;padding:8px 4px;text-align:center;transition:all .15s;color:#64748b;font-size:11px;font-weight:bold;line-height:1.4;width:100%}
 .ctog:active{transform:scale(.97)}
-.ctog.on{background:#1a060a;border-color:#C9A227;color:#E0B840}
+.ctog.on{background:#0c2a1a;border-color:#10b981;color:#34d399}
 .csel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;flex-shrink:0}
-.csel-count{font-size:13px;color:#C9A227;font-weight:bold}
-.csel-actbtn{background:#1c0e10;border:none;color:#7a5048;font-size:11px;padding:5px 10px;border-radius:8px;cursor:pointer}
-.csel-actbtn:hover{color:#a08060;background:#261016}
+.csel-count{font-size:13px;color:#10b981;font-weight:bold}
+.csel-actbtn{background:#1e293b;border:none;color:#64748b;font-size:11px;padding:5px 10px;border-radius:8px;cursor:pointer}
+.csel-actbtn:hover{color:#94a3b8;background:#273549}
 .qcount-row{display:flex;gap:6px;margin:8px 0 4px}
-.qcount-btn{flex:1;background:#1c0e10;border:2px solid #1c0e10;border-radius:10px;padding:7px 4px;font-size:13px;font-weight:bold;color:#7a5048;cursor:pointer;text-align:center;transition:all .15s}
-.qcount-btn.on{background:#180808;border-color:#C9A227;color:#E8CC70}
+.qcount-btn{flex:1;background:#1e293b;border:2px solid #1e293b;border-radius:10px;padding:7px 4px;font-size:13px;font-weight:bold;color:#64748b;cursor:pointer;text-align:center;transition:all .15s}
+.qcount-btn.on{background:#0c1e3a;border-color:#3b82f6;color:#93c5fd}
 .qcount-btn:active{transform:scale(.96)}
 
 /* 三气参考表 */
 .sq-section{margin:6px 0 4px}
-.sq-toggle{width:100%;background:#1e0a0a;border:1px solid #2a1218;border-radius:10px;padding:9px 14px;color:#a08060;font-size:12px;font-weight:bold;cursor:pointer;text-align:left;letter-spacing:1px}
-.sq-toggle:active{background:#261016}
-.sq-tip{font-size:11px;color:#5a3830;text-align:center;padding:4px 0 6px;letter-spacing:1px}
-.sq-note{font-size:10px;color:#2a1218;text-align:center;padding:6px 0 2px;line-height:1.8;letter-spacing:.5px}
+.sq-toggle{width:100%;background:#1a2030;border:1px solid #334155;border-radius:10px;padding:9px 14px;color:#94a3b8;font-size:12px;font-weight:bold;cursor:pointer;text-align:left;letter-spacing:1px}
+.sq-toggle:active{background:#273549}
+.sq-tip{font-size:11px;color:#475569;text-align:center;padding:4px 0 6px;letter-spacing:1px}
+.sq-note{font-size:10px;color:#334155;text-align:center;padding:6px 0 2px;line-height:1.8;letter-spacing:.5px}
 .sq-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
 .sq-table{width:100%;border-collapse:collapse;font-size:13px;min-width:260px}
-.sq-table th{background:#1c0e10;color:#7a5048;font-size:10px;padding:7px 10px;text-align:center;letter-spacing:1px;border-bottom:2px solid #2a1218;white-space:nowrap}
-.sq-table td{padding:8px 10px;text-align:center;border-bottom:1px solid #1c0e10}
-.sq-table tr:nth-child(even) td{background:#1a0808}
-.td-zhi{color:#D4B040;font-size:16px;font-weight:bold}
-.td-bq{color:#C9A227;font-weight:bold}
+.sq-table th{background:#1e293b;color:#64748b;font-size:10px;padding:7px 10px;text-align:center;letter-spacing:1px;border-bottom:2px solid #334155;white-space:nowrap}
+.sq-table td{padding:8px 10px;text-align:center;border-bottom:1px solid #1e293b}
+.sq-table tr:nth-child(even) td{background:#161f2e}
+.td-zhi{color:#60a5fa;font-size:16px;font-weight:bold}
+.td-bq{color:#10b981;font-weight:bold}
 .td-zq{color:#f59e0b}
-.td-yq{color:#a08060}
-.td-none{color:#261216}
+.td-yq{color:#94a3b8}
+.td-none{color:#2d3748}
 
 /* MODE 5 知识速查 */
 .m5-sec{margin:4px 0}
-.m5-tog{width:100%;background:#1e0a0a;border:1px solid #2a1218;border-radius:10px;padding:9px 14px;color:#a08060;font-size:13px;font-weight:bold;cursor:pointer;text-align:left;letter-spacing:1px}
-.m5-tog.open{color:#C9A227;border-color:#C9A22740;background:#12060a}
-.m5-tog:active{background:#261016}
+.m5-tog{width:100%;background:#1a2030;border:1px solid #334155;border-radius:10px;padding:9px 14px;color:#94a3b8;font-size:13px;font-weight:bold;cursor:pointer;text-align:left;letter-spacing:1px}
+.m5-tog.open{color:#10b981;border-color:#10b98140;background:#0c1f17}
+.m5-tog:active{background:#273549}
 .m5-body{padding:4px 2px 2px}
 .m5-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:4px 0 8px}
 .m5-tbl{border-collapse:collapse;font-size:12px;white-space:nowrap}
-.m5-tbl th{background:#1c0e10;color:#7a5048;font-size:10px;padding:6px 8px;text-align:center;letter-spacing:1px;border-bottom:2px solid #2a1218}
-.m5-tbl td{padding:6px 8px;text-align:center;border-bottom:1px solid #1c0e10}
-.m5-tbl tr:nth-child(even) td{background:#1a0808}
-.m5-tbl .c-zhi{color:#D4B040;font-size:14px;font-weight:bold}
+.m5-tbl th{background:#1e293b;color:#64748b;font-size:10px;padding:6px 8px;text-align:center;letter-spacing:1px;border-bottom:2px solid #334155}
+.m5-tbl td{padding:6px 8px;text-align:center;border-bottom:1px solid #1e293b}
+.m5-tbl tr:nth-child(even) td{background:#161f2e}
+.m5-tbl .c-zhi{color:#60a5fa;font-size:14px;font-weight:bold}
 .m5-tbl .c-gan{color:#c4b5fd;font-size:14px;font-weight:bold}
-.m5-tbl .c-bq{color:#C9A227;font-weight:bold}
-.m5-tbl .c-he{color:#C9A227}
+.m5-tbl .c-bq{color:#10b981;font-weight:bold}
+.m5-tbl .c-he{color:#10b981}
 .m5-tbl .c-chong{color:#ef4444}
-.m5-tbl .c-xu{color:#5a3830}
-.m5-tbl .c-shi{color:#C9A227;font-weight:bold}
-.m5-sub{font-size:10px;color:#7a5048;letter-spacing:2px;margin:8px 0 4px 2px;font-weight:bold}
-.m5-sub-tog{width:100%;background:#120508;border:1px solid #1c0e10;border-radius:8px;padding:7px 12px;color:#7a5048;font-size:12px;font-weight:bold;cursor:pointer;text-align:left;letter-spacing:.5px;margin:3px 0;display:block}
-.m5-sub-tog.open{color:#a08060;border-color:#2a1218;background:#180508}
+.m5-tbl .c-xu{color:#475569}
+.m5-tbl .c-shi{color:#10b981;font-weight:bold}
+.m5-sub{font-size:10px;color:#64748b;letter-spacing:2px;margin:8px 0 4px 2px;font-weight:bold}
+.m5-sub-tog{width:100%;background:#0b1320;border:1px solid #1e293b;border-radius:8px;padding:7px 12px;color:#64748b;font-size:12px;font-weight:bold;cursor:pointer;text-align:left;letter-spacing:.5px;margin:3px 0;display:block}
+.m5-sub-tog.open{color:#94a3b8;border-color:#334155;background:#111827}
 .m5-sub-body{padding:2px 4px 4px}
 /* 每日语录 */
-.hquote{text-align:center;font-size:12px;color:#7a5048;padding:2px 14px 2px;letter-spacing:1px;line-height:1.8;background:#1c0e10;border-radius:10px;margin:0 0 8px}
+.hquote{text-align:center;font-size:12px;color:#64748b;padding:2px 14px 2px;letter-spacing:1px;line-height:1.8;background:#1e293b;border-radius:10px;margin:0 0 8px}
 /* 错题单题加入按钮 */
-.wq-add-btn{background:#200a18;border:none;color:#E8CC70;font-size:12px;font-weight:bold;cursor:pointer;padding:3px 9px;border-radius:7px;flex-shrink:0;margin-left:auto;line-height:1.5;white-space:nowrap}
+.wq-add-btn{background:#1e3a8a;border:none;color:#93c5fd;font-size:12px;font-weight:bold;cursor:pointer;padding:3px 9px;border-radius:7px;flex-shrink:0;margin-left:auto;line-height:1.5;white-space:nowrap}
 .wq-add-btn:active{transform:scale(.93)}
-.wq-add-btn.added{background:#3a2008;color:#C9A227}
+.wq-add-btn.added{background:#022c22;color:#10b981}
 /* 干支推算 */
-.nf-tabs{display:flex;gap:0;background:#12080a;border-radius:10px;padding:3px;margin-bottom:14px;flex-shrink:0}
-.nf-tab{flex:1;padding:8px;text-align:center;font-size:13px;font-weight:bold;color:#5a3830;border-radius:8px;cursor:pointer;transition:all .15s}
-.nf-tab.on{background:#1c0e10;color:#e8d4a8}
+.nf-tabs{display:flex;gap:0;background:#0f172a;border-radius:10px;padding:3px;margin-bottom:14px;flex-shrink:0}
+.nf-tab{flex:1;padding:8px;text-align:center;font-size:13px;font-weight:bold;color:#475569;border-radius:8px;cursor:pointer;transition:all .15s}
+.nf-tab.on{background:#1e293b;color:#e2e8f0}
 .nf-tab.soon{opacity:.35;cursor:default}
-.nf-year-card{background:#1c0e10;border-radius:18px;padding:20px 16px;text-align:center;flex-shrink:0;border-top:4px solid #C9A227;margin-bottom:12px}
-.nf-year-num{font-size:56px;font-weight:bold;color:#f0e0b0;letter-spacing:3px;line-height:1.1}
-.nf-year-lbl{font-size:13px;color:#5a3830;margin-top:6px}
+.nf-year-card{background:#1e293b;border-radius:18px;padding:20px 16px;text-align:center;flex-shrink:0;border-top:4px solid #10b981;margin-bottom:12px}
+.nf-year-num{font-size:56px;font-weight:bold;color:#f1f5f9;letter-spacing:3px;line-height:1.1}
+.nf-year-lbl{font-size:13px;color:#475569;margin-top:6px}
 .nf-ans-row{display:flex;gap:10px;margin-bottom:12px;flex-shrink:0}
-.nf-ans-cell{flex:1;background:#12080a;border:3px solid #2a1218;border-radius:14px;height:68px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all .15s;cursor:default}
-.nf-ans-cell.has{border-color:#C9A227;background:#180808}
-.nf-ans-cell.ok{border-color:#C9A227;background:#3a2008}
+.nf-ans-cell{flex:1;background:#0f172a;border:3px solid #334155;border-radius:14px;height:68px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all .15s;cursor:default}
+.nf-ans-cell.has{border-color:#3b82f6;background:#0c1e3a}
+.nf-ans-cell.ok{border-color:#10b981;background:#022c22}
 .nf-ans-cell.bad{border-color:#ef4444;background:#450a0a}
-.nf-ans-val{font-size:32px;font-weight:bold;color:#e8d4a8;line-height:1}
-.nf-ans-lbl{font-size:10px;color:#5a3830;margin-top:3px;letter-spacing:1px}
+.nf-ans-val{font-size:32px;font-weight:bold;color:#e2e8f0;line-height:1}
+.nf-ans-lbl{font-size:10px;color:#475569;margin-top:3px;letter-spacing:1px}
 .nf-pick-sec{margin-bottom:10px;flex-shrink:0}
-.nf-pick-lbl{font-size:11px;color:#5a3830;letter-spacing:2px;margin-bottom:5px;font-weight:bold}
+.nf-pick-lbl{font-size:11px;color:#475569;letter-spacing:2px;margin-bottom:5px;font-weight:bold}
 .nf-pick-gan{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
 .nf-pick-zhi{display:grid;grid-template-columns:repeat(6,1fr);gap:5px}
-.nf-ch{background:#1c0e10;border:2px solid #2a1218;border-radius:10px;padding:10px 4px;font-size:20px;font-weight:bold;color:#e8d4a8;cursor:pointer;text-align:center;transition:all .12s;-webkit-appearance:none}
+.nf-ch{background:#1e293b;border:2px solid #334155;border-radius:10px;padding:10px 4px;font-size:20px;font-weight:bold;color:#e2e8f0;cursor:pointer;text-align:center;transition:all .12s;-webkit-appearance:none}
 .nf-ch:active:not(:disabled){transform:scale(.95)}
-.nf-ch.on{background:#200a18;border-color:#C9A227;color:#E8CC70}
-.nf-ch.ok{background:#3a2008;border-color:#C9A227;color:#C9A227;cursor:default}
+.nf-ch.on{background:#1e3a8a;border-color:#3b82f6;color:#93c5fd}
+.nf-ch.ok{background:#022c22;border-color:#10b981;color:#10b981;cursor:default}
 .nf-ch.bad{background:#450a0a;border-color:#ef4444;color:#ef4444;cursor:default}
-.nf-ch.show{background:#3a2008;border-color:#C9A227;color:#C9A227;opacity:.6;cursor:default}
+.nf-ch.show{background:#022c22;border-color:#10b981;color:#10b981;opacity:.6;cursor:default}
 /* 更新提示横幅 */
 .update-bar{display:flex;align-items:center;gap:8px;padding:6px 4px;margin-bottom:8px;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.update-bar-dot{width:6px;height:6px;border-radius:50%;background:#C9A227;flex-shrink:0}
-.update-bar-text{font-size:12px;color:#5a3830;flex:1;letter-spacing:.5px}
-.update-bar-btn{font-size:12px;color:#C9A227;white-space:nowrap}
+.update-bar-dot{width:6px;height:6px;border-radius:50%;background:#10b981;flex-shrink:0}
+.update-bar-text{font-size:12px;color:#475569;flex:1;letter-spacing:.5px}
+.update-bar-btn{font-size:12px;color:#10b981;white-space:nowrap}
 .update-bar:active .update-bar-text,.update-bar:active .update-bar-btn{opacity:.6}
 /* 六十甲子 知识速查 */
-.jz-xun-block{background:#12080a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;border-left:3px solid #C9A227}
+.jz-xun-block{background:#0f172a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;border-left:3px solid #3b82f6}
 .jz-xun-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.jz-xun-name{color:#D4B040;font-size:13px;font-weight:bold;letter-spacing:1px}
+.jz-xun-name{color:#60a5fa;font-size:13px;font-weight:bold;letter-spacing:1px}
 .jz-kong-tag{color:#ef4444;font-size:12px;font-weight:bold;letter-spacing:1px}
 .jz-pairs-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
-.jz-pair{text-align:center;padding:4px 2px;border-radius:6px;background:#1c0e10;font-size:13px}
+.jz-pair{text-align:center;padding:4px 2px;border-radius:6px;background:#1e293b;font-size:13px}
 .jz-pair .g{color:#c4b5fd;font-weight:bold}
-.jz-pair .z{color:#D4B040;font-weight:bold}
+.jz-pair .z{color:#60a5fa;font-weight:bold}
 /* 六十甲子训练 */
-.jz-q-card{background:#1c0e10;border-radius:16px;padding:20px 16px;margin:12px 0;text-align:center}
-.jz-q-type{font-size:10px;color:#5a3830;letter-spacing:2px;margin-bottom:6px;font-weight:bold;text-transform:uppercase}
-.jz-q-main{font-size:36px;font-weight:bold;color:#e8d4a8;letter-spacing:4px;line-height:1.2}
-.jz-q-ask{font-size:13px;color:#a08060;margin-top:10px}
+.jz-q-card{background:#1e293b;border-radius:16px;padding:20px 16px;margin:12px 0;text-align:center}
+.jz-q-type{font-size:10px;color:#475569;letter-spacing:2px;margin-bottom:6px;font-weight:bold;text-transform:uppercase}
+.jz-q-main{font-size:36px;font-weight:bold;color:#e2e8f0;letter-spacing:4px;line-height:1.2}
+.jz-q-ask{font-size:13px;color:#94a3b8;margin-top:10px}
 .jz-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
-.jz-opt{background:#1c0e10;border:2px solid #2a1218;border-radius:12px;padding:16px 4px;font-size:15px;color:#e8d4a8;cursor:pointer;font-weight:bold;letter-spacing:1px;-webkit-appearance:none;width:100%}
+.jz-opt{background:#1e293b;border:2px solid #334155;border-radius:12px;padding:16px 4px;font-size:15px;color:#e2e8f0;cursor:pointer;font-weight:bold;letter-spacing:1px;-webkit-appearance:none;width:100%}
 .jz-opt:active{transform:scale(.96)}
-.jz-opt.ok{background:#3a2008!important;border-color:#C9A227!important;color:#C9A227!important}
+.jz-opt.ok{background:#022c22!important;border-color:#10b981!important;color:#10b981!important}
 .jz-opt.bad{background:#450a0a!important;border-color:#ef4444!important;color:#ef4444!important}
-.nf-score{font-size:11px;color:#5a3830}
+.nf-score{font-size:11px;color:#475569}
 
 /* 周月统计 */
 .cal-wrap{padding:8px 0}
 .cal-hdr{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px}
-.cal-wd{text-align:center;font-size:10px;color:#2a1218}
+.cal-wd{text-align:center;font-size:10px;color:#334155}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
-.cal-day{aspect-ratio:1;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#2a1218;background:#1c0e10}
-.cal-day.done-lo{background:#6a5010;color:#ECC850}
-.cal-day.done-md{background:#A88020;color:#F8ECC0}
-.cal-day.done-hi{background:#C9A227;color:#fff;font-weight:bold}
-.cal-day.today{outline:2px solid #C9A227;color:#E8CC70}
-.st-box{background:#1c0e10;border-radius:12px;padding:14px 16px;margin:7px 0}
-.st-box-t{font-size:11px;color:#5a3830;letter-spacing:2px;margin-bottom:10px;font-weight:bold}
+.cal-day{aspect-ratio:1;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#334155;background:#1e293b}
+.cal-day.done-lo{background:#065f46;color:#6ee7b7}
+.cal-day.done-md{background:#059669;color:#d1fae5}
+.cal-day.done-hi{background:#10b981;color:#fff;font-weight:bold}
+.cal-day.today{outline:2px solid #3b82f6;color:#93c5fd}
+.st-box{background:#1e293b;border-radius:12px;padding:14px 16px;margin:7px 0}
+.st-box-t{font-size:11px;color:#475569;letter-spacing:2px;margin-bottom:10px;font-weight:bold}
 .st-nums{display:flex;gap:0}
 .st-num{flex:1;text-align:center}
-.st-num-v{font-size:22px;font-weight:bold;color:#C9A227}
-.st-num-l{font-size:10px;color:#5a3830;margin-top:2px}
+.st-num-v{font-size:22px;font-weight:bold;color:#10b981}
+.st-num-l{font-size:10px;color:#475569;margin-top:2px}
 
 /* 掌握度面板 */
-.ms-sum{display:flex;align-items:center;gap:14px;background:#1c0e10;border-radius:14px;padding:14px 16px;margin-bottom:12px}
-.ms-sum-ring{font-size:36px;font-weight:bold;color:#C9A227;min-width:56px;text-align:center}
+.ms-sum{display:flex;align-items:center;gap:14px;background:#1e293b;border-radius:14px;padding:14px 16px;margin-bottom:12px}
+.ms-sum-ring{font-size:36px;font-weight:bold;color:#10b981;min-width:56px;text-align:center}
 .ms-sum-info{flex:1}
-.ms-sum-sub{font-size:11px;color:#5a3830;margin-top:3px;line-height:1.6}
+.ms-sum-sub{font-size:11px;color:#475569;margin-top:3px;line-height:1.6}
 .ms-grp{margin-bottom:12px}
-.ms-grp-lbl{font-size:11px;color:#5a3830;letter-spacing:2px;margin-bottom:5px;font-weight:bold}
-.ms-row{display:flex;align-items:center;gap:7px;padding:6px 0;border-bottom:1px solid #1c0e10}
+.ms-grp-lbl{font-size:11px;color:#475569;letter-spacing:2px;margin-bottom:5px;font-weight:bold}
+.ms-row{display:flex;align-items:center;gap:7px;padding:6px 0;border-bottom:1px solid #1e293b}
 .ms-row:last-child{border-bottom:none}
-.ms-name{font-size:11px;color:#a08060;width:70px;flex-shrink:0}
-.ms-bar-wrap{flex:1;background:#12080a;border-radius:99px;height:7px;overflow:hidden}
+.ms-name{font-size:11px;color:#94a3b8;width:70px;flex-shrink:0}
+.ms-bar-wrap{flex:1;background:#0f172a;border-radius:99px;height:7px;overflow:hidden}
 .ms-bar{height:100%;border-radius:99px}
 .ms-pct{font-size:11px;width:36px;text-align:right;flex-shrink:0}
 .ms-ico{font-size:13px;width:18px;flex-shrink:0}
-.ms-new{font-size:10px;color:#2a1218;font-style:italic}
+.ms-new{font-size:10px;color:#334155;font-style:italic}
 
 
 /* 自适应出题 */
-.adapt-box{background:#1c0e10;border:1px solid #2a1218;border-radius:14px;padding:13px 14px;margin:8px 0;border-left:4px solid #8b5cf6}
+.adapt-box{background:#1e293b;border:1px solid #334155;border-radius:14px;padding:13px 14px;margin:8px 0;border-left:4px solid #8b5cf6}
 .adapt-hdr{font-size:11px;color:#8b5cf6;letter-spacing:2px;font-weight:bold;margin-bottom:8px}
 .adapt-tags{display:flex;flex-wrap:wrap;gap:5px}
-.adapt-tag{background:#260c14;border:1px solid #7c3aed;border-radius:20px;padding:3px 10px;font-size:11px;color:#c4b5fd}
+.adapt-tag{background:#2d1f4a;border:1px solid #7c3aed;border-radius:20px;padding:3px 10px;font-size:11px;color:#c4b5fd}
 .adapt-tag.hi{background:#3d1515;border-color:#ef4444;color:#fca5a5}
 
 /* 连击特效 */
@@ -424,7 +424,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 @keyframes floatUp{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-90px) scale(1.5)}}
 .ck-pop{animation:ckPop .35s ease}
 .shake-x{animation:shakeX .35s ease}
-.spop-lv1{background:#C9A227}
+.spop-lv1{background:#10b981}
 .spop-lv2{background:#f97316}
 .spop-lv3{background:#ef4444}
 .spop-lv4{background:linear-gradient(135deg,#f59e0b,#ef4444)}
@@ -432,25 +432,25 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 
 /* 歌诀闪卡 */
 .gj-grp{margin-bottom:14px}
-.gj-grp-lbl{font-size:11px;color:#5a3830;letter-spacing:2px;margin-bottom:7px;padding:0 2px;font-weight:bold}
+.gj-grp-lbl{font-size:11px;color:#475569;letter-spacing:2px;margin-bottom:7px;padding:0 2px;font-weight:bold}
 .gj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
-.gj-btn{background:#1c0e10;border:2px solid #2a1218;border-radius:12px;cursor:pointer;padding:13px 8px;text-align:center;transition:all .15s;touch-action:manipulation;width:100%;-webkit-appearance:none}
-.gj-btn:hover{border-color:#C9A227}.gj-btn:active{transform:scale(.97)}
-.gj-btn-name{font-size:14px;font-weight:bold;color:#e8d4a8}
-.gj-btn-n{font-size:10px;color:#5a3830;margin-top:3px}
-.gj-card{background:#1c0e10;border:1px solid #2a1218;border-radius:18px;padding:20px 16px;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:240px;cursor:pointer;transition:all .2s;position:relative;border-top:4px solid #C9A227;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.gj-btn{background:#1e293b;border:2px solid #334155;border-radius:12px;cursor:pointer;padding:13px 8px;text-align:center;transition:all .15s;touch-action:manipulation;width:100%;-webkit-appearance:none}
+.gj-btn:hover{border-color:#3b82f6}.gj-btn:active{transform:scale(.97)}
+.gj-btn-name{font-size:14px;font-weight:bold;color:#e2e8f0}
+.gj-btn-n{font-size:10px;color:#475569;margin-top:3px}
+.gj-card{background:#1e293b;border:1px solid #334155;border-radius:18px;padding:20px 16px;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:240px;cursor:pointer;transition:all .2s;position:relative;border-top:4px solid #10b981;touch-action:manipulation;user-select:none;-webkit-user-select:none}
 .gj-card:active{transform:scale(.99)}
-.gj-label{font-size:10px;color:#5a3830;letter-spacing:3px;margin-bottom:12px;text-align:center;background:#12080a;padding:3px 12px;border-radius:20px;border:1px solid #2a1218}
-.gj-title{font-size:18px;font-weight:bold;color:#C9A227;text-align:center;letter-spacing:2px;line-height:1.6;margin-bottom:10px}
-.gj-body{font-size:12px;color:#a08060;text-align:left;line-height:2.1;white-space:pre-wrap;max-width:100%;width:100%;word-break:break-all;background:#12080a;border-radius:10px;padding:11px 13px;border-left:3px solid #C9A227}
+.gj-label{font-size:10px;color:#475569;letter-spacing:3px;margin-bottom:12px;text-align:center;background:#0f172a;padding:3px 12px;border-radius:20px;border:1px solid #334155}
+.gj-title{font-size:18px;font-weight:bold;color:#10b981;text-align:center;letter-spacing:2px;line-height:1.6;margin-bottom:10px}
+.gj-body{font-size:12px;color:#94a3b8;text-align:left;line-height:2.1;white-space:pre-wrap;max-width:100%;width:100%;word-break:break-all;background:#0f172a;border-radius:10px;padding:11px 13px;border-left:3px solid #10b981}
 .gj-body.hidden{display:none}
-.gj-hint{font-size:11px;color:#5a3830;text-align:center;margin-top:14px;letter-spacing:2px}
-.gj-reveal{font-size:12px;color:#C9A227;text-align:center;margin-top:8px;font-weight:bold}
+.gj-hint{font-size:11px;color:#475569;text-align:center;margin-top:14px;letter-spacing:2px}
+.gj-reveal{font-size:12px;color:#10b981;text-align:center;margin-top:8px;font-weight:bold}
 .gj-footer{display:flex;gap:8px;margin-top:12px;flex-shrink:0}
-.gj-cq-dir{font-size:11px;color:#5a3830;letter-spacing:2px;margin-bottom:14px;text-align:center;width:100%}
-.gj-cq-shown{font-size:22px;font-weight:bold;color:#C9A227;letter-spacing:3px;line-height:1.8;text-align:center;width:100%}
-.gj-cq-comma{font-size:16px;color:#2a1218;text-align:center;margin:4px 0}
-.gj-cq-blank{font-size:22px;letter-spacing:3px;color:#7a5048;text-align:center;padding:8px 0;min-height:44px;width:100%;transition:color .25s}
+.gj-cq-dir{font-size:11px;color:#475569;letter-spacing:2px;margin-bottom:14px;text-align:center;width:100%}
+.gj-cq-shown{font-size:22px;font-weight:bold;color:#10b981;letter-spacing:3px;line-height:1.8;text-align:center;width:100%}
+.gj-cq-comma{font-size:16px;color:#334155;text-align:center;margin:4px 0}
+.gj-cq-blank{font-size:22px;letter-spacing:3px;color:#64748b;text-align:center;padding:8px 0;min-height:44px;width:100%;transition:color .25s}
 .gj-cq-blank.revealed{color:#f59e0b;font-weight:bold}
 </style>
 </head>
@@ -493,13 +493,13 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     </div>
   </div>
   <div class="mcard" onclick="show('p2-sel')" style="cursor:pointer">
-    <div class="mcard-head"><div class="mcard-icon">🔗</div><div><div class="mcard-name">配对连线 <span class="nt-label">无计时</span></div><div class="mcard-desc">六冲 · 六合 · 暗合 · 六穿 · 绝 · 五合 · 禄位 · 虚实 · 纳音…</div></div><div style="color:#5a3830;font-size:18px">›</div></div>
+    <div class="mcard-head"><div class="mcard-icon">🔗</div><div><div class="mcard-name">配对连线 <span class="nt-label">无计时</span></div><div class="mcard-desc">六冲 · 六合 · 暗合 · 六穿 · 绝 · 五合 · 禄位 · 虚实 · 纳音…</div></div><div style="color:#475569;font-size:18px">›</div></div>
   </div>
   <div class="mcard" onclick="startNF()" style="cursor:pointer">
-    <div class="mcard-head"><div class="mcard-icon">🗓️</div><div><div class="mcard-name">干支推算 <span class="nt-label">新</span></div><div class="mcard-desc">年份→干支 · 1900–2100年随机出题</div></div><div style="color:#5a3830;font-size:18px">›</div></div>
+    <div class="mcard-head"><div class="mcard-icon">🗓️</div><div><div class="mcard-name">干支推算 <span class="nt-label">新</span></div><div class="mcard-desc">年份→干支 · 1900–2100年随机出题</div></div><div style="color:#475569;font-size:18px">›</div></div>
   </div>
   <div class="mcard" onclick="startJZ()" style="cursor:pointer">
-    <div class="mcard-head"><div class="mcard-icon">🀄</div><div><div class="mcard-name">六十甲子训练 <span class="nt-label">新</span></div><div class="mcard-desc">识旬 · 识空亡 · 认干支 · 三类题型随机出题</div></div><div style="color:#5a3830;font-size:18px">›</div></div>
+    <div class="mcard-head"><div class="mcard-icon">🀄</div><div><div class="mcard-name">六十甲子训练 <span class="nt-label">新</span></div><div class="mcard-desc">识旬 · 识空亡 · 认干支 · 三类题型随机出题</div></div><div style="color:#475569;font-size:18px">›</div></div>
   </div>
   <div class="mcard">
     <div class="mcard-head"><div class="mcard-icon">🔍</div><div><div class="mcard-name">八字排盘 <span class="nt-label">无计时</span></div><div class="mcard-desc">点任意两字查关系，人鉴117例</div></div></div>
@@ -515,39 +515,39 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     </div>
   </div>
   <div class="mcard" onclick="show('p5')" style="cursor:pointer">
-    <div class="mcard-head"><div class="mcard-icon">📖</div><div><div class="mcard-name">知识速查 <span class="nt-label">参考表</span></div><div class="mcard-desc">所有知识点折叠速查表，随时翻阅复习</div></div><div style="color:#5a3830;font-size:18px">›</div></div>
+    <div class="mcard-head"><div class="mcard-icon">📖</div><div><div class="mcard-name">知识速查 <span class="nt-label">参考表</span></div><div class="mcard-desc">所有知识点折叠速查表，随时翻阅复习</div></div><div style="color:#475569;font-size:18px">›</div></div>
   </div>
   <div class="mcard" onclick="show('p-gejue-sel')" style="cursor:pointer">
-    <div class="mcard-head"><div class="mcard-icon">📜</div><div><div class="mcard-name">歌诀闪卡 <span class="nt-label">背诵</span></div><div class="mcard-desc">清纯·婚姻·三刑·寿元…14套歌诀翻卡背诵</div></div><div style="color:#5a3830;font-size:18px">›</div></div>
+    <div class="mcard-head"><div class="mcard-icon">📜</div><div><div class="mcard-name">歌诀闪卡 <span class="nt-label">背诵</span></div><div class="mcard-desc">清纯·婚姻·三刑·寿元…14套歌诀翻卡背诵</div></div><div style="color:#475569;font-size:18px">›</div></div>
   </div>
   <div class="mcard" onclick="showStats()" style="cursor:pointer">
-    <div class="mcard-head"><div class="mcard-icon">📅</div><div><div class="mcard-name">周月统计</div><div class="mcard-desc">打卡日历 · 近7天/30天练习汇总</div></div><div style="color:#5a3830;font-size:18px">›</div></div>
+    <div class="mcard-head"><div class="mcard-icon">📅</div><div><div class="mcard-name">周月统计</div><div class="mcard-desc">打卡日历 · 近7天/30天练习汇总</div></div><div style="color:#475569;font-size:18px">›</div></div>
   </div>
   <div class="mcard" onclick="showMaster()" style="cursor:pointer">
-    <div class="mcard-head"><div class="mcard-icon">📊</div><div><div class="mcard-name">掌握度面板</div><div class="mcard-desc" id="el-master-sub">各类别正确率分析，找出薄弱知识点</div></div><div style="color:#5a3830;font-size:18px">›</div></div>
+    <div class="mcard-head"><div class="mcard-icon">📊</div><div><div class="mcard-name">掌握度面板</div><div class="mcard-desc" id="el-master-sub">各类别正确率分析，找出薄弱知识点</div></div><div style="color:#475569;font-size:18px">›</div></div>
   </div>
   <div class="nb-card" onclick="show('p-nb')">
     <div class="nb-card-row">
       <div style="font-size:22px">📚</div>
-      <div style="flex:1"><div style="font-size:15px;font-weight:bold;color:#e8d4a8">错题本</div><div style="font-size:11px;color:#5a3830;margin-top:1px">收录做错的题，随时练习</div></div>
+      <div style="flex:1"><div style="font-size:15px;font-weight:bold;color:#e2e8f0">错题本</div><div style="font-size:11px;color:#475569;margin-top:1px">收录做错的题，随时练习</div></div>
       <div class="nb-badge" id="el-nb-badge">0 题</div>
     </div>
   </div>
   <div class="card">
     <div class="hhist">近期闪卡记录</div>
-    <div id="el-hist"><span style="color:#5a3830;font-size:12px">暂无记录</span></div>
+    <div id="el-hist"><span style="color:#475569;font-size:12px">暂无记录</span></div>
   </div>
   <!-- 开发时间节点 -->
   <div class="card" style="margin-bottom:9px">
     <div class="hhist">开发时间节点</div>
     <div style="max-height:130px;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:6px;margin-top:2px;padding-right:2px">
-      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#2a1218;font-size:11px;flex-shrink:0">26.6.26</span><span style="color:#a08060;font-size:12px">🀄 六十甲子训练·歌诀挖空·干支推算·PWA离线</span></div>
-      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#2a1218;font-size:11px;flex-shrink:0">26.6.26</span><span style="color:#a08060;font-size:12px">⚡ 自适应出题·连击特效·歌诀闪卡·配对困难模式</span></div>
-      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#2a1218;font-size:11px;flex-shrink:0">26.6.25</span><span style="color:#a08060;font-size:12px">📖 知识速查新增神煞·干支法门·歌诀汇编完整版</span></div>
-      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#2a1218;font-size:11px;flex-shrink:0">26.6.23</span><span style="color:#a08060;font-size:12px">💾 备份导出/导入·15天未备份提醒</span></div>
-      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#2a1218;font-size:11px;flex-shrink:0">26.6.19</span><span style="color:#a08060;font-size:12px">📚 地支藏干·五行长生·节气·歌诀等知识点大扩充</span></div>
-      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#2a1218;font-size:11px;flex-shrink:0">26.6.18</span><span style="color:#a08060;font-size:12px">✨ 纳音五行·干支虚实·天干地支基础知识点上线</span></div>
-      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#2a1218;font-size:11px;flex-shrink:0">26.6.17</span><span style="color:#a08060;font-size:12px">🏗 项目初始化，人鉴八字日练正式上线</span></div>
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.26</span><span style="color:#94a3b8;font-size:12px">🀄 六十甲子训练·歌诀挖空·干支推算·PWA离线</span></div>
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.26</span><span style="color:#94a3b8;font-size:12px">⚡ 自适应出题·连击特效·歌诀闪卡·配对困难模式</span></div>
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.25</span><span style="color:#94a3b8;font-size:12px">📖 知识速查新增神煞·干支法门·歌诀汇编完整版</span></div>
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.23</span><span style="color:#94a3b8;font-size:12px">💾 备份导出/导入·15天未备份提醒</span></div>
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.19</span><span style="color:#94a3b8;font-size:12px">📚 地支藏干·五行长生·节气·歌诀等知识点大扩充</span></div>
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.18</span><span style="color:#94a3b8;font-size:12px">✨ 纳音五行·干支虚实·天干地支基础知识点上线</span></div>
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.17</span><span style="color:#94a3b8;font-size:12px">🏗 项目初始化，人鉴八字日练正式上线</span></div>
     </div>
   </div>
   <!-- 备份提醒 -->
@@ -864,7 +864,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   <div class="tbar">
     <button class="tbk" onclick="show('p4-input');m4RenderInput()">←</button>
     <div class="tbtitle">自定义排盘</div>
-    <div class="tbr" style="color:#C9A227;font-size:11px">自定义</div>
+    <div class="tbr" style="color:#10b981;font-size:11px">自定义</div>
   </div>
   <div class="bz-wrap">
     <div class="bz-labels"><div class="bz-lb">年</div><div class="bz-lb">月</div><div class="bz-lb">日</div><div class="bz-lb">时</div></div>
@@ -888,7 +888,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <button class="btn-sm btn btn-d" onclick="nbClearAll(this)" style="width:auto;padding:5px 10px;font-size:11px">全部清除</button>
   </div>
   <div class="nb-screen-hdr">
-    <div style="font-size:15px;font-weight:bold;color:#e8d4a8;flex:1">收录的错题</div>
+    <div style="font-size:15px;font-weight:bold;color:#e2e8f0;flex:1">收录的错题</div>
     <div class="nb-count-badge" id="nb-count-badge">0 题</div>
   </div>
   <div class="nb-list" id="nb-list"></div>
@@ -923,7 +923,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
         </table></div>
         <div class="m5-sub">五行生克</div>
         <div class="m5-wrap"><table class="m5-tbl">
-          <tr><th>相生</th><td style="color:#C9A227;text-align:left;padding:6px 10px">木 → 火 → 土 → 金 → 水 → 木</td></tr>
+          <tr><th>相生</th><td style="color:#10b981;text-align:left;padding:6px 10px">木 → 火 → 土 → 金 → 水 → 木</td></tr>
           <tr><th>相克</th><td style="color:#ef4444;text-align:left;padding:6px 10px">木 → 土 → 水 → 火 → 金 → 木</td></tr>
         </table></div>
         <div class="m5-sub">五行人体系统</div>
@@ -976,12 +976,12 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
         </table></div>
         <div class="m5-sub">三合局</div>
         <div class="m5-wrap"><table class="m5-tbl">
-          <tr><td><span style="color:#e8d4a8">申</span><span style="color:#D4B040;font-weight:bold">子</span><span style="color:#e8d4a8">辰</span></td><td>水局</td><td style="width:12px"></td><td><span style="color:#e8d4a8">亥</span><span style="color:#C9A227;font-weight:bold">卯</span><span style="color:#e8d4a8">未</span></td><td>木局</td></tr>
-          <tr><td><span style="color:#e8d4a8">寅</span><span style="color:#ef4444;font-weight:bold">午</span><span style="color:#e8d4a8">戌</span></td><td>火局</td><td></td><td><span style="color:#e8d4a8">巳</span><span style="color:#f59e0b;font-weight:bold">酉</span><span style="color:#e8d4a8">丑</span></td><td>金局</td></tr>
+          <tr><td><span style="color:#e2e8f0">申</span><span style="color:#60a5fa;font-weight:bold">子</span><span style="color:#e2e8f0">辰</span></td><td>水局</td><td style="width:12px"></td><td><span style="color:#e2e8f0">亥</span><span style="color:#10b981;font-weight:bold">卯</span><span style="color:#e2e8f0">未</span></td><td>木局</td></tr>
+          <tr><td><span style="color:#e2e8f0">寅</span><span style="color:#ef4444;font-weight:bold">午</span><span style="color:#e2e8f0">戌</span></td><td>火局</td><td></td><td><span style="color:#e2e8f0">巳</span><span style="color:#f59e0b;font-weight:bold">酉</span><span style="color:#e2e8f0">丑</span></td><td>金局</td></tr>
         </table></div>
         <div class="m5-sub">拱合（三合去中字）</div>
         <div class="m5-wrap"><table class="m5-tbl">
-          <tr><td>申辰 拱<span style="color:#D4B040;font-weight:bold">子</span></td><td style="width:12px"></td><td>亥未 拱<span style="color:#C9A227;font-weight:bold">卯</span></td></tr>
+          <tr><td>申辰 拱<span style="color:#60a5fa;font-weight:bold">子</span></td><td style="width:12px"></td><td>亥未 拱<span style="color:#10b981;font-weight:bold">卯</span></td></tr>
           <tr><td>寅戌 拱<span style="color:#ef4444;font-weight:bold">午</span></td><td></td><td>巳丑 拱<span style="color:#f59e0b;font-weight:bold">酉</span></td></tr>
         </table></div>
         <div class="m5-sub">天地阴阳诀</div>
@@ -1004,7 +1004,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <div class="m5-sec">
       <button class="m5-tog" onclick="m5Toggle(this)">▶ 🀄 六十甲子 · 空亡</button>
       <div class="m5-body" style="display:none">
-        <div style="font-size:11px;color:#5a3830;text-align:center;padding:4px 0 8px;letter-spacing:1px">六十甲子分六旬 · 旬首天干均为甲 · 各旬末尾两支为空亡</div>
+        <div style="font-size:11px;color:#475569;text-align:center;padding:4px 0 8px;letter-spacing:1px">六十甲子分六旬 · 旬首天干均为甲 · 各旬末尾两支为空亡</div>
         <div class="jz-xun-block">
           <div class="jz-xun-head"><span class="jz-xun-name">甲子旬</span><span class="jz-kong-tag">空亡：戌 亥</span></div>
           <div class="jz-pairs-grid">
@@ -1054,25 +1054,25 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <div class="m5-sec" id="m5-sanqi">
       <button class="m5-tog" onclick="m5Toggle(this)">▶ 🌿 藏干三气</button>
       <div class="m5-body" style="display:none">
-        <div style="font-size:11px;color:#5a3830;text-align:center;padding:4px 0 6px;letter-spacing:1px">本气＞中气＞余气　力量依次递减</div>
+        <div style="font-size:11px;color:#475569;text-align:center;padding:4px 0 6px;letter-spacing:1px">本气＞中气＞余气　力量依次递减</div>
         <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
-          <thead><tr><th>地支</th><th style="color:#C9A227">本气（主气）</th><th style="color:#f59e0b">中气</th><th style="color:#a08060">余气</th></tr></thead>
+          <thead><tr><th>地支</th><th style="color:#10b981">本气（主气）</th><th style="color:#f59e0b">中气</th><th style="color:#94a3b8">余气</th></tr></thead>
           <tbody>
             <tr><td class="c-zhi">子</td><td class="c-bq">癸水</td><td class="c-xu">—</td><td class="c-xu">—</td></tr>
-            <tr><td class="c-zhi">丑</td><td class="c-bq">己土</td><td style="color:#f59e0b">癸水</td><td style="color:#a08060">辛金</td></tr>
-            <tr><td class="c-zhi">寅</td><td class="c-bq">甲木</td><td style="color:#f59e0b">丙火</td><td style="color:#a08060">戊土</td></tr>
+            <tr><td class="c-zhi">丑</td><td class="c-bq">己土</td><td style="color:#f59e0b">癸水</td><td style="color:#94a3b8">辛金</td></tr>
+            <tr><td class="c-zhi">寅</td><td class="c-bq">甲木</td><td style="color:#f59e0b">丙火</td><td style="color:#94a3b8">戊土</td></tr>
             <tr><td class="c-zhi">卯</td><td class="c-bq">乙木</td><td class="c-xu">—</td><td class="c-xu">—</td></tr>
-            <tr><td class="c-zhi">辰</td><td class="c-bq">戊土</td><td style="color:#f59e0b">乙木</td><td style="color:#a08060">癸水</td></tr>
-            <tr><td class="c-zhi">巳</td><td class="c-bq">丙火</td><td style="color:#f59e0b">庚金</td><td style="color:#a08060">戊土</td></tr>
+            <tr><td class="c-zhi">辰</td><td class="c-bq">戊土</td><td style="color:#f59e0b">乙木</td><td style="color:#94a3b8">癸水</td></tr>
+            <tr><td class="c-zhi">巳</td><td class="c-bq">丙火</td><td style="color:#f59e0b">庚金</td><td style="color:#94a3b8">戊土</td></tr>
             <tr><td class="c-zhi">午</td><td class="c-bq">丁火</td><td style="color:#f59e0b">己土</td><td class="c-xu">—</td></tr>
-            <tr><td class="c-zhi">未</td><td class="c-bq">己土</td><td style="color:#f59e0b">乙木</td><td style="color:#a08060">丁火</td></tr>
-            <tr><td class="c-zhi">申</td><td class="c-bq">庚金</td><td style="color:#f59e0b">壬水</td><td style="color:#a08060">戊土</td></tr>
+            <tr><td class="c-zhi">未</td><td class="c-bq">己土</td><td style="color:#f59e0b">乙木</td><td style="color:#94a3b8">丁火</td></tr>
+            <tr><td class="c-zhi">申</td><td class="c-bq">庚金</td><td style="color:#f59e0b">壬水</td><td style="color:#94a3b8">戊土</td></tr>
             <tr><td class="c-zhi">酉</td><td class="c-bq">辛金</td><td class="c-xu">—</td><td class="c-xu">—</td></tr>
-            <tr><td class="c-zhi">戌</td><td class="c-bq">戊土</td><td style="color:#f59e0b">辛金</td><td style="color:#a08060">丁火</td></tr>
+            <tr><td class="c-zhi">戌</td><td class="c-bq">戊土</td><td style="color:#f59e0b">辛金</td><td style="color:#94a3b8">丁火</td></tr>
             <tr><td class="c-zhi">亥</td><td class="c-bq">壬水</td><td style="color:#f59e0b">甲木</td><td class="c-xu">—</td></tr>
           </tbody>
         </table></div>
-        <div style="font-size:10px;color:#2a1218;text-align:center;padding:6px 0 2px;line-height:1.8;letter-spacing:.5px">子午卯酉·只有本气　　寅申巳亥·三气齐备<br>辰戌丑未·本气皆土，中气为库气（墓气）</div>
+        <div style="font-size:10px;color:#334155;text-align:center;padding:6px 0 2px;line-height:1.8;letter-spacing:.5px">子午卯酉·只有本气　　寅申巳亥·三气齐备<br>辰戌丑未·本气皆土，中气为库气（墓气）</div>
       </div>
     </div>
 
@@ -1116,7 +1116,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
       <div class="m5-body" style="display:none">
         <div class="m5-sub">天干五行相生相克</div>
         <div class="m5-wrap"><table class="m5-tbl">
-          <thead><tr><th>五行组</th><th style="color:#C9A227">生</th><th style="color:#ef4444">克</th></tr></thead>
+          <thead><tr><th>五行组</th><th style="color:#10b981">生</th><th style="color:#ef4444">克</th></tr></thead>
           <tr><td>甲乙木</td><td class="c-he">丙丁火</td><td class="c-chong">戊己土</td></tr>
           <tr><td>丙丁火</td><td class="c-he">戊己土</td><td class="c-chong">庚辛金</td></tr>
           <tr><td>戊己土</td><td class="c-he">庚辛金</td><td class="c-chong">壬癸水</td></tr>
@@ -1125,7 +1125,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
         </table></div>
         <div class="m5-sub">六亲相生相克</div>
         <div class="m5-wrap"><table class="m5-tbl">
-          <thead><tr><th>六亲</th><th style="color:#C9A227">生</th><th style="color:#ef4444">克</th></tr></thead>
+          <thead><tr><th>六亲</th><th style="color:#10b981">生</th><th style="color:#ef4444">克</th></tr></thead>
           <tr><td>比劫</td><td class="c-he">食伤</td><td class="c-chong">财才</td></tr>
           <tr><td>食伤</td><td class="c-he">财才</td><td class="c-chong">官杀</td></tr>
           <tr><td>财才</td><td class="c-he">官杀</td><td class="c-chong">枭印</td></tr>
@@ -1139,7 +1139,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <div class="m5-sec">
       <button class="m5-tog" onclick="m5Toggle(this)">▶ 🔄 旺衰十二运</button>
       <div class="m5-body" style="display:none">
-        <div style="font-size:10px;color:#5a3830;text-align:center;padding:4px 0;letter-spacing:.5px">← 左右滑动查看 →</div>
+        <div style="font-size:10px;color:#475569;text-align:center;padding:4px 0;letter-spacing:.5px">← 左右滑动查看 →</div>
         <div class="m5-wrap"><div id="m5-wangshuai-tbl"></div></div>
       </div>
     </div>
@@ -1149,7 +1149,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
       <button class="m5-tog" onclick="m5Toggle(this)">▶ ⚖ 干支虚实</button>
       <div class="m5-body" style="display:none">
         <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
-          <thead><tr><th>天干</th><th style="color:#C9A227">实支（有根有生）</th><th style="color:#5a3830">虚支（无根无生）</th></tr></thead>
+          <thead><tr><th>天干</th><th style="color:#10b981">实支（有根有生）</th><th style="color:#475569">虚支（无根无生）</th></tr></thead>
           <tr><td class="c-gan">甲</td><td class="c-shi">寅 辰 子</td><td class="c-xu">申 戌 午</td></tr>
           <tr><td class="c-gan">乙</td><td class="c-shi">亥 卯 未</td><td class="c-xu">巳 酉 丑</td></tr>
           <tr><td class="c-gan">丙</td><td class="c-shi">寅 午 戌</td><td class="c-xu">子 申 辰</td></tr>
@@ -1186,17 +1186,17 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 
         <div class="m5-sub">虚实总则</div>
         <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
-          <tr><th style="color:#C9A227;width:30px">实</th><td style="text-align:left">通根（地支有同五行 或 生天干）→ 实质·物质·权力·财富</td></tr>
+          <tr><th style="color:#10b981;width:30px">实</th><td style="text-align:left">通根（地支有同五行 或 生天干）→ 实质·物质·权力·财富</td></tr>
           <tr><th style="color:#ef4444">虚</th><td style="text-align:left">无根（无同五行 且 不生天干）→ 抽象·精神·名气·才华</td></tr>
         </table></div>
-        <div style="font-size:11px;color:#7a5048;padding:2px 4px 8px;line-height:1.9">
+        <div style="font-size:11px;color:#64748b;padding:2px 4px 8px;line-height:1.9">
           金木为形，以通根论虚实<br>
           水火为气，天生分虚实两态；状态一变，人生大变
         </div>
 
         <div class="m5-sub">水火丁壬癸虚实六柱</div>
         <div class="m5-wrap"><table class="m5-tbl">
-          <thead><tr><th>天干</th><th style="color:#C9A227">实（通根三柱）</th><th style="color:#ef4444">虚（透天三柱）</th><th>实象↔虚象</th></tr></thead>
+          <thead><tr><th>天干</th><th style="color:#10b981">实（通根三柱）</th><th style="color:#ef4444">虚（透天三柱）</th><th>实象↔虚象</th></tr></thead>
           <tr><td class="c-gan">丙</td><td class="c-shi">丙寅 丙午 丙戌</td><td class="c-xu">丙子 丙申 丙辰</td><td>炉火↔太阳</td></tr>
           <tr><td class="c-gan">丁</td><td class="c-shi">丁丑 丁酉 丁亥</td><td class="c-xu">丁卯 丁巳 丁未</td><td>灯烛↔月亮</td></tr>
           <tr><td class="c-gan">壬</td><td class="c-shi">壬申 壬子 壬辰</td><td class="c-xu">壬寅 壬午 壬戌</td><td>大海↔江河</td></tr>
@@ -1206,14 +1206,14 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
         <div class="m5-sub">甲乙木·死活判断</div>
         <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
           <thead><tr><th>状态</th><th style="text-align:left">条件</th><th>象</th></tr></thead>
-          <tr><td style="color:#C9A227;font-weight:bold">活木</td><td style="text-align:left">有水（壬癸亥子）<b>且</b>有根（寅卯亥）</td><td>大树·花草</td></tr>
+          <tr><td style="color:#10b981;font-weight:bold">活木</td><td style="text-align:left">有水（壬癸亥子）<b>且</b>有根（寅卯亥）</td><td>大树·花草</td></tr>
           <tr><td style="color:#ef4444;font-weight:bold">死木</td><td style="text-align:left">缺水 或 缺根（二者缺一即死）</td><td>枯木·木材</td></tr>
         </table></div>
-        <div style="font-size:10px;color:#5a3830;padding:0 4px 8px;line-height:1.8">辰土：仅甲辰自身可为根，其他柱辰不表根<br>未土：一般不表根，需特殊对待</div>
+        <div style="font-size:10px;color:#475569;padding:0 4px 8px;line-height:1.8">辰土：仅甲辰自身可为根，其他柱辰不表根<br>未土：一般不表根，需特殊对待</div>
 
         <div class="m5-sub">十天干喜忌速记</div>
         <div class="m5-wrap"><table class="m5-tbl">
-          <thead><tr><th>天干</th><th>象</th><th style="color:#C9A227">喜</th><th style="color:#ef4444">忌</th></tr></thead>
+          <thead><tr><th>天干</th><th>象</th><th style="color:#10b981">喜</th><th style="color:#ef4444">忌</th></tr></thead>
           <tr><td class="c-gan">甲（活）</td><td>大树</td><td class="c-he">水·火</td><td class="c-chong">金</td></tr>
           <tr><td class="c-gan">甲（死）</td><td>枯木</td><td class="c-he">金</td><td class="c-chong">水·火</td></tr>
           <tr><td class="c-gan">乙（活）</td><td>花草</td><td class="c-he">癸水·丙火·己土</td><td class="c-chong">庚金·水过多</td></tr>
@@ -1234,7 +1234,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 
         <div class="m5-sub">取象核心对照</div>
         <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
-          <thead><tr><th></th><th style="color:#ef4444">虚透（天）</th><th style="color:#C9A227">通根（地）</th></tr></thead>
+          <thead><tr><th></th><th style="color:#ef4444">虚透（天）</th><th style="color:#10b981">通根（地）</th></tr></thead>
           <tr><th>象</th><td>精神·名气·才华</td><td>实质·财富·权力</td></tr>
           <tr><th>最怕</th><td>落地（变为实）</td><td>根坏（变为虚）</td></tr>
           <tr><th>印</th><td>声誉·学识象</td><td>实质权力</td></tr>
@@ -1243,13 +1243,13 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
         </table></div>
 
         <div class="m5-sub">口诀速记</div>
-        <div style="background:#12080a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.2;color:#a08060">
+        <div style="background:#0f172a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.2;color:#94a3b8">
           <div>🌞 <span style="color:#f59e0b">丙火明明一太阳，最喜壬水普阳光；</span></div>
           <div style="padding-left:20px"><span style="color:#f59e0b">若逢癸水来遮日，雾云遮日暗无光</span></div>
-          <div>🌱 <span style="color:#C9A227">戊见甲寅发大财</span></div>
+          <div>🌱 <span style="color:#10b981">戊见甲寅发大财</span></div>
           <div>💎 <span style="color:#c4b5fd">金喜水泄，水泄则金秀，金白水清</span></div>
-          <div>🌿 <span style="color:#E0B840">土喜木疏，喜金泄，不喜火生</span></div>
-          <div>🌙 <span style="color:#E8CC70">丁虚见壬→控制权力（丁壬合）</span></div>
+          <div>🌿 <span style="color:#34d399">土喜木疏，喜金泄，不喜火生</span></div>
+          <div>🌙 <span style="color:#93c5fd">丁虚见壬→控制权力（丁壬合）</span></div>
         </div>
 
       </div>
@@ -1312,14 +1312,14 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
       <button class="m5-tog" onclick="m5Toggle(this)">▶ 🔮 断命步骤</button>
       <div class="m5-body" style="display:none">
         <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
-          <tr><td style="color:#f59e0b;font-weight:bold;width:32px;vertical-align:top;padding-top:10px">①</td><td style="text-align:left;padding:6px 10px"><div style="font-weight:bold;color:#e8d4a8">定日干</div><div style="font-size:11px;color:#7a5048;margin-top:2px">看命主之天干</div></td></tr>
-          <tr><td style="color:#f59e0b;font-weight:bold;vertical-align:top;padding-top:10px">②</td><td style="text-align:left;padding:6px 10px"><div style="font-weight:bold;color:#e8d4a8">察状态</div><div style="font-size:11px;color:#7a5048;margin-top:2px">干支虚实、天地门</div></td></tr>
-          <tr><td style="color:#f59e0b;font-weight:bold;vertical-align:top;padding-top:10px">③</td><td style="text-align:left;padding:6px 10px"><div style="font-weight:bold;color:#e8d4a8">定喜忌</div><div style="font-size:11px;color:#7a5048;margin-top:2px">根据状态定喜忌用神</div></td></tr>
-          <tr><td style="color:#f59e0b;font-weight:bold;vertical-align:top;padding-top:10px">④</td><td style="text-align:left;padding:6px 10px"><div style="font-weight:bold;color:#e8d4a8">明意向</div><div style="font-size:11px;color:#7a5048;margin-top:2px">求财？求贵？求技术？</div></td></tr>
-          <tr><td style="color:#f59e0b;font-weight:bold;vertical-align:top;padding-top:10px">⑤</td><td style="text-align:left;padding:6px 10px"><div style="font-weight:bold;color:#e8d4a8">十神格局定事情</div><div style="font-size:11px;color:#7a5048;margin-top:2px">吉格、凶格</div></td></tr>
-          <tr><td style="color:#f59e0b;font-weight:bold;vertical-align:top;padding-top:10px">⑥</td><td style="text-align:left;padding:6px 10px"><div style="font-weight:bold;color:#e8d4a8">作用方式定性质</div><div style="font-size:11px;color:#7a5048;margin-top:2px">干支互通、带象、穿、破、绝</div></td></tr>
-          <tr><td style="color:#f59e0b;font-weight:bold;vertical-align:top;padding-top:10px">⑦</td><td style="text-align:left;padding:6px 10px"><div style="font-weight:bold;color:#e8d4a8">宫位大限定阶段</div><div style="font-size:11px;color:#7a5048;margin-top:2px">年龄、大小、远近、主宾、内外</div></td></tr>
-          <tr><td style="color:#f59e0b;font-weight:bold;vertical-align:top;padding-top:10px">⑧</td><td style="text-align:left;padding:6px 10px"><div style="font-weight:bold;color:#e8d4a8">大运流年定应期</div><div style="font-size:11px;color:#7a5048;margin-top:2px">精准判断发生时间</div></td></tr>
+          <tr><td style="color:#f59e0b;font-weight:bold;width:32px;vertical-align:top;padding-top:10px">①</td><td style="text-align:left;padding:6px 10px"><div style="font-weight:bold;color:#e2e8f0">定日干</div><div style="font-size:11px;color:#64748b;margin-top:2px">看命主之天干</div></td></tr>
+          <tr><td style="color:#f59e0b;font-weight:bold;vertical-align:top;padding-top:10px">②</td><td style="text-align:left;padding:6px 10px"><div style="font-weight:bold;color:#e2e8f0">察状态</div><div style="font-size:11px;color:#64748b;margin-top:2px">干支虚实、天地门</div></td></tr>
+          <tr><td style="color:#f59e0b;font-weight:bold;vertical-align:top;padding-top:10px">③</td><td style="text-align:left;padding:6px 10px"><div style="font-weight:bold;color:#e2e8f0">定喜忌</div><div style="font-size:11px;color:#64748b;margin-top:2px">根据状态定喜忌用神</div></td></tr>
+          <tr><td style="color:#f59e0b;font-weight:bold;vertical-align:top;padding-top:10px">④</td><td style="text-align:left;padding:6px 10px"><div style="font-weight:bold;color:#e2e8f0">明意向</div><div style="font-size:11px;color:#64748b;margin-top:2px">求财？求贵？求技术？</div></td></tr>
+          <tr><td style="color:#f59e0b;font-weight:bold;vertical-align:top;padding-top:10px">⑤</td><td style="text-align:left;padding:6px 10px"><div style="font-weight:bold;color:#e2e8f0">十神格局定事情</div><div style="font-size:11px;color:#64748b;margin-top:2px">吉格、凶格</div></td></tr>
+          <tr><td style="color:#f59e0b;font-weight:bold;vertical-align:top;padding-top:10px">⑥</td><td style="text-align:left;padding:6px 10px"><div style="font-weight:bold;color:#e2e8f0">作用方式定性质</div><div style="font-size:11px;color:#64748b;margin-top:2px">干支互通、带象、穿、破、绝</div></td></tr>
+          <tr><td style="color:#f59e0b;font-weight:bold;vertical-align:top;padding-top:10px">⑦</td><td style="text-align:left;padding:6px 10px"><div style="font-weight:bold;color:#e2e8f0">宫位大限定阶段</div><div style="font-size:11px;color:#64748b;margin-top:2px">年龄、大小、远近、主宾、内外</div></td></tr>
+          <tr><td style="color:#f59e0b;font-weight:bold;vertical-align:top;padding-top:10px">⑧</td><td style="text-align:left;padding:6px 10px"><div style="font-weight:bold;color:#e2e8f0">大运流年定应期</div><div style="font-size:11px;color:#64748b;margin-top:2px">精准判断发生时间</div></td></tr>
         </table></div>
       </div>
     </div>
@@ -1328,7 +1328,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <div class="m5-sec">
       <button class="m5-tog" onclick="m5Toggle(this)">▶ 🔢 数字编码</button>
       <div class="m5-body" style="display:none">
-        <div style="font-size:10px;color:#5a3830;text-align:center;padding:4px 0;letter-spacing:.5px">← 左右滑动查看 →</div>
+        <div style="font-size:10px;color:#475569;text-align:center;padding:4px 0;letter-spacing:.5px">← 左右滑动查看 →</div>
         <div class="m5-wrap"><div id="m5-shuma-tbl"></div></div>
       </div>
     </div>
@@ -1338,7 +1338,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
       <button class="m5-tog" onclick="m5Toggle(this)">▶ 🌿 天干取象</button>
       <div class="m5-body" style="display:none">
         <div class="m5-sub">取象与动态</div>
-        <div style="font-size:10px;color:#5a3830;text-align:center;padding:4px 0;letter-spacing:.5px">← 左右滑动查看 →</div>
+        <div style="font-size:10px;color:#475569;text-align:center;padding:4px 0;letter-spacing:.5px">← 左右滑动查看 →</div>
         <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
           <thead><tr><th>天干</th><th>类象</th><th>动态阶段</th><th style="min-width:100px">性格/事业</th><th style="min-width:165px">学习重点</th></tr></thead>
           <tr><td class="c-gan">甲</td><td>参天大树</td><td>破壳萌芽</td><td style="text-align:left">刚直、开拓、领导</td><td style="text-align:left">首重死活木；活木护根，死木雕琢。</td></tr>
@@ -1353,24 +1353,24 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
           <tr><td class="c-gan">癸</td><td>雨露溪泉</td><td>潜藏孕育</td><td style="text-align:left">敏感、隐忍、精密</td><td style="text-align:left">事以密成，忌燥土坏根。</td></tr>
         </table></div>
         <div class="m5-sub">状态喜忌</div>
-        <div style="font-size:10px;color:#5a3830;text-align:center;padding:4px 0;letter-spacing:.5px">← 左右滑动查看 →</div>
+        <div style="font-size:10px;color:#475569;text-align:center;padding:4px 0;letter-spacing:.5px">← 左右滑动查看 →</div>
         <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
           <thead><tr><th>组别</th><th>状态</th><th style="min-width:120px">判定</th><th style="min-width:90px">喜用</th><th style="min-width:130px">忌点</th></tr></thead>
-          <tr><td>甲乙木</td><td style="color:#C9A227">活木</td><td style="text-align:left">有根且有水，根水有实际关联。</td><td style="text-align:left;color:#C9A227">水滋、火发荣。</td><td style="text-align:left;color:#ef4444">厚土克水、强金坏根。</td></tr>
-          <tr><td>甲乙木</td><td style="color:#7a5048">死木</td><td style="text-align:left">缺根、缺水、根被阻断。</td><td style="text-align:left;color:#C9A227">金雕琢成器。</td><td style="text-align:left;color:#ef4444">水腐、火焚，忌神相战另论。</td></tr>
-          <tr><td>丙丁火</td><td style="color:#f59e0b">天火</td><td style="text-align:left">虚透无强根。</td><td style="text-align:left;color:#C9A227">壬水映照，格局清。</td><td style="text-align:left;color:#ef4444">混浊遮光。</td></tr>
-          <tr><td>丙丁火</td><td style="color:#ef4444">地火</td><td style="text-align:left">通根坐实。</td><td style="text-align:left;color:#C9A227">木生火。</td><td style="text-align:left;color:#ef4444">水克、湿土坏根。</td></tr>
-          <tr><td>庚辛金</td><td style="color:#a08060">清金</td><td style="text-align:left">得水泄秀，气清。</td><td style="text-align:left;color:#C9A227">壬/癸水泄秀。</td><td style="text-align:left;color:#ef4444">土混水、厚土埋金。</td></tr>
-          <tr><td>壬癸水</td><td style="color:#D4B040">通源</td><td style="text-align:left">有源、有去、不过泛。</td><td style="text-align:left;color:#C9A227">金生、土导、木泄。</td><td style="text-align:left;color:#ef4444">土混浊、水泛滥、燥土坏根。</td></tr>
+          <tr><td>甲乙木</td><td style="color:#10b981">活木</td><td style="text-align:left">有根且有水，根水有实际关联。</td><td style="text-align:left;color:#10b981">水滋、火发荣。</td><td style="text-align:left;color:#ef4444">厚土克水、强金坏根。</td></tr>
+          <tr><td>甲乙木</td><td style="color:#64748b">死木</td><td style="text-align:left">缺根、缺水、根被阻断。</td><td style="text-align:left;color:#10b981">金雕琢成器。</td><td style="text-align:left;color:#ef4444">水腐、火焚，忌神相战另论。</td></tr>
+          <tr><td>丙丁火</td><td style="color:#f59e0b">天火</td><td style="text-align:left">虚透无强根。</td><td style="text-align:left;color:#10b981">壬水映照，格局清。</td><td style="text-align:left;color:#ef4444">混浊遮光。</td></tr>
+          <tr><td>丙丁火</td><td style="color:#ef4444">地火</td><td style="text-align:left">通根坐实。</td><td style="text-align:left;color:#10b981">木生火。</td><td style="text-align:left;color:#ef4444">水克、湿土坏根。</td></tr>
+          <tr><td>庚辛金</td><td style="color:#94a3b8">清金</td><td style="text-align:left">得水泄秀，气清。</td><td style="text-align:left;color:#10b981">壬/癸水泄秀。</td><td style="text-align:left;color:#ef4444">土混水、厚土埋金。</td></tr>
+          <tr><td>壬癸水</td><td style="color:#60a5fa">通源</td><td style="text-align:left">有源、有去、不过泛。</td><td style="text-align:left;color:#10b981">金生、土导、木泄。</td><td style="text-align:left;color:#ef4444">土混浊、水泛滥、燥土坏根。</td></tr>
         </table></div>
         <div class="m5-sub">借根/连根提醒</div>
         <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
           <thead><tr><th style="width:70px">情形</th><th style="text-align:left">判断</th></tr></thead>
-          <tr><td style="color:#D4B040;font-weight:bold">水接</td><td style="text-align:left">水能生木并接到根，最优先。</td></tr>
+          <tr><td style="color:#60a5fa;font-weight:bold">水接</td><td style="text-align:left">水能生木并接到根，最优先。</td></tr>
           <tr><td style="color:#ef4444;font-weight:bold">火引</td><td style="text-align:left">需火印能引动木气，不可被湿土/金挡断。</td></tr>
           <tr><td style="color:#f59e0b;font-weight:bold">土组</td><td style="text-align:left">土薄可穿透，土厚不连。</td></tr>
-          <tr><td style="color:#a08060;font-weight:bold">金挡</td><td style="text-align:left">金克木阻隔，多不连。</td></tr>
-          <tr><td style="color:#5a3830;font-weight:bold">年柱连根</td><td style="text-align:left">条件极严，不可滥用远根。</td></tr>
+          <tr><td style="color:#94a3b8;font-weight:bold">金挡</td><td style="text-align:left">金克木阻隔，多不连。</td></tr>
+          <tr><td style="color:#475569;font-weight:bold">年柱连根</td><td style="text-align:left">条件极严，不可滥用远根。</td></tr>
         </table></div>
       </div>
     </div>
@@ -1379,7 +1379,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <div class="m5-sec">
       <button class="m5-tog" onclick="m5Toggle(this)">▶ 🏛️ 宫位大限</button>
       <div class="m5-body" style="display:none">
-        <div style="font-size:10px;color:#5a3830;text-align:center;padding:4px 0;letter-spacing:.5px">← 左右滑动查看 →</div>
+        <div style="font-size:10px;color:#475569;text-align:center;padding:4px 0;letter-spacing:.5px">← 左右滑动查看 →</div>
         <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
           <thead><tr><th>宫位</th><th>大限</th><th>空间层级</th><th style="min-width:120px">六亲/人事</th><th style="min-width:90px">身体部位</th><th style="min-width:160px">学习提醒</th></tr></thead>
           <tr><td style="color:#f59e0b;font-weight:bold">年柱</td><td>0/1-18</td><td>远、大、外</td><td style="text-align:left">祖上、长辈、早年、外地</td><td>腿脚、四肢</td><td style="text-align:left">也兼参父母，但不可越过月柱主位。</td></tr>
@@ -1394,11 +1394,11 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <div class="m5-sec">
       <button class="m5-tog" onclick="m5Toggle(this)">▶ ⚡ 十神象义</button>
       <div class="m5-body" style="display:none">
-        <div style="font-size:10px;color:#5a3830;text-align:center;padding:4px 0;letter-spacing:.5px">← 左右滑动查看 →</div>
+        <div style="font-size:10px;color:#475569;text-align:center;padding:4px 0;letter-spacing:.5px">← 左右滑动查看 →</div>
         <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
           <thead><tr><th>十神</th><th>关系</th><th style="min-width:130px">核心象义</th><th style="min-width:120px">六亲常用</th><th style="min-width:160px">最重要误区</th></tr></thead>
-          <tr><td style="color:#a08060;font-weight:bold">比劫</td><td>同我</td><td style="text-align:left">同辈、竞争、合作、人群、复制</td><td style="text-align:left">兄弟姐妹、朋友、同事</td><td style="text-align:left">喜则助，忌则夺；不可只当朋友。</td></tr>
-          <tr><td style="color:#C9A227;font-weight:bold">食伤</td><td>我生</td><td style="text-align:left">才华、表达、技术、输出、子女</td><td style="text-align:left">子女、学生、晚辈</td><td style="text-align:left">可生财也可制官，受制则才华难伸。</td></tr>
+          <tr><td style="color:#94a3b8;font-weight:bold">比劫</td><td>同我</td><td style="text-align:left">同辈、竞争、合作、人群、复制</td><td style="text-align:left">兄弟姐妹、朋友、同事</td><td style="text-align:left">喜则助，忌则夺；不可只当朋友。</td></tr>
+          <tr><td style="color:#10b981;font-weight:bold">食伤</td><td>我生</td><td style="text-align:left">才华、表达、技术、输出、子女</td><td style="text-align:left">子女、学生、晚辈</td><td style="text-align:left">可生财也可制官，受制则才华难伸。</td></tr>
           <tr><td style="color:#f59e0b;font-weight:bold">财星</td><td>我克</td><td style="text-align:left">资源、财富、工具、掌控、现实</td><td style="text-align:left">父亲、妻缘、资产</td><td style="text-align:left;color:#ef4444">财多未必富，关键看是否归主。</td></tr>
           <tr><td style="color:#ef4444;font-weight:bold">官杀</td><td>克我</td><td style="text-align:left">职位、规则、权力、压力、丈夫线</td><td style="text-align:left">丈夫、领导、法律、男命子女线</td><td style="text-align:left">有制为权，无制为压。</td></tr>
           <tr><td style="color:#c4b5fd;font-weight:bold">印星</td><td>生我</td><td style="text-align:left">母亲、学历、房产、文书、庇护</td><td style="text-align:left">母亲、长辈、贵人</td><td style="text-align:left">印旺不一定吉，财坏印常伤学业名声。</td></tr>
@@ -1410,16 +1410,16 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <div class="m5-sec">
       <button class="m5-tog" onclick="m5Toggle(this)">▶ 🔗 干支作用</button>
       <div class="m5-body" style="display:none">
-        <div style="font-size:10px;color:#5a3830;text-align:center;padding:4px 0;letter-spacing:.5px">← 左右滑动查看 →</div>
+        <div style="font-size:10px;color:#475569;text-align:center;padding:4px 0;letter-spacing:.5px">← 左右滑动查看 →</div>
         <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
           <thead><tr><th>作用</th><th style="min-width:100px">本质</th><th style="min-width:120px">重点</th><th style="min-width:150px">常见断象</th></tr></thead>
-          <tr><td style="color:#C9A227;font-weight:bold">合</td><td style="text-align:left">亲近、控制、闭库</td><td style="text-align:left">合中看克，分主动被动。</td><td style="text-align:left">合作、婚恋、合住、求财求官。</td></tr>
+          <tr><td style="color:#10b981;font-weight:bold">合</td><td style="text-align:left">亲近、控制、闭库</td><td style="text-align:left">合中看克，分主动被动。</td><td style="text-align:left">合作、婚恋、合住、求财求官。</td></tr>
           <tr><td style="color:#ef4444;font-weight:bold">冲</td><td style="text-align:left">动荡、位移、开库</td><td style="text-align:left">分远近顺逆、原局/运/岁。</td><td style="text-align:left">搬迁、车祸、变动、分离。</td></tr>
           <tr><td style="color:#f59e0b;font-weight:bold">穿/害</td><td style="text-align:left">暗伤、互害</td><td style="text-align:left">生穿/克穿不同。</td><td style="text-align:left">慢性病、暗耗、关系不舒服。</td></tr>
           <tr><td style="color:#f59e0b;font-weight:bold">刑</td><td style="text-align:left">矛盾、扭曲</td><td style="text-align:left">夹刑看阴阳与性别。</td><td style="text-align:left">炎症、官非、纠缠、内耗。</td></tr>
-          <tr><td style="color:#7a5048;font-weight:bold">破</td><td style="text-align:left">纯则不生</td><td style="text-align:left">破坏生助路径。</td><td style="text-align:left">破缘、破财、循环不通。</td></tr>
-          <tr><td style="color:#7a5048;font-weight:bold">绝</td><td style="text-align:left">无情之克</td><td style="text-align:left">木绝、水火绝常用。</td><td style="text-align:left">离散、无缘、血光。</td></tr>
-          <tr><td style="color:#a08060;font-weight:bold">墓库</td><td style="text-align:left">收藏、开闭</td><td style="text-align:left">开为库，闭为墓。</td><td style="text-align:left">得财、藏事、入墓不长久。</td></tr>
+          <tr><td style="color:#64748b;font-weight:bold">破</td><td style="text-align:left">纯则不生</td><td style="text-align:left">破坏生助路径。</td><td style="text-align:left">破缘、破财、循环不通。</td></tr>
+          <tr><td style="color:#64748b;font-weight:bold">绝</td><td style="text-align:left">无情之克</td><td style="text-align:left">木绝、水火绝常用。</td><td style="text-align:left">离散、无缘、血光。</td></tr>
+          <tr><td style="color:#94a3b8;font-weight:bold">墓库</td><td style="text-align:left">收藏、开闭</td><td style="text-align:left">开为库，闭为墓。</td><td style="text-align:left">得财、藏事、入墓不长久。</td></tr>
         </table></div>
       </div>
     </div>
@@ -1428,16 +1428,16 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <div class="m5-sec">
       <button class="m5-tog" onclick="m5Toggle(this)">▶ 💫 神煞速查</button>
       <div class="m5-body" style="display:none">
-        <div style="font-size:10px;color:#5a3830;text-align:center;padding:4px 0;letter-spacing:.5px">← 左右滑动查看 →</div>
+        <div style="font-size:10px;color:#475569;text-align:center;padding:4px 0;letter-spacing:.5px">← 左右滑动查看 →</div>
         <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
           <thead><tr><th>专题</th><th style="min-width:110px">查法/本质</th><th style="min-width:170px">正确用法</th><th style="min-width:140px">禁忌</th></tr></thead>
-          <tr><td style="color:#a08060;font-weight:bold">空亡</td><td style="text-align:left">一旬余两支为空亡。</td><td style="text-align:left">先查年日空亡，再看刑冲害绝或天干相合。</td><td style="text-align:left;color:#ef4444">不可见空亡就断无。</td></tr>
+          <tr><td style="color:#94a3b8;font-weight:bold">空亡</td><td style="text-align:left">一旬余两支为空亡。</td><td style="text-align:left">先查年日空亡，再看刑冲害绝或天干相合。</td><td style="text-align:left;color:#ef4444">不可见空亡就断无。</td></tr>
           <tr><td style="color:#f59e0b;font-weight:bold">驿马</td><td style="text-align:left">动神，主迁移奔波。</td><td style="text-align:left">落宫位、配十神：马+财、马+官、马+印各不同。</td><td style="text-align:left;color:#ef4444">不看喜忌就断远行发财。</td></tr>
-          <tr><td style="color:#7a5048;font-weight:bold">孤辰寡宿</td><td style="text-align:left">静、孤、淡缘。</td><td style="text-align:left">男女口诀结合日柱/月年/时柱落点。</td><td style="text-align:left;color:#ef4444">不可一见就断孤独终老。</td></tr>
-          <tr><td style="color:#C9A227;font-weight:bold">禄神</td><td style="text-align:left">根基、饭碗、身体、享受。</td><td style="text-align:left">先判是否连体归我，再看受损程度。</td><td style="text-align:left;color:#ef4444">见禄就断好。</td></tr>
+          <tr><td style="color:#64748b;font-weight:bold">孤辰寡宿</td><td style="text-align:left">静、孤、淡缘。</td><td style="text-align:left">男女口诀结合日柱/月年/时柱落点。</td><td style="text-align:left;color:#ef4444">不可一见就断孤独终老。</td></tr>
+          <tr><td style="color:#10b981;font-weight:bold">禄神</td><td style="text-align:left">根基、饭碗、身体、享受。</td><td style="text-align:left">先判是否连体归我，再看受损程度。</td><td style="text-align:left;color:#ef4444">见禄就断好。</td></tr>
           <tr><td style="color:#ef4444;font-weight:bold">羊刃</td><td style="text-align:left">极旺劫动，凶神。</td><td style="text-align:left">制用得当可为权，不制则争夺伤财。</td><td style="text-align:left;color:#ef4444">见刃就断凶或见制就断吉。</td></tr>
           <tr><td style="color:#c4b5fd;font-weight:bold">天地门</td><td style="text-align:left">干支气脉连体改变虚实。</td><td style="text-align:left">虚实后重点护根；仍虚则重喜忌表象。</td><td style="text-align:left;color:#ef4444">单柱虚实一锤定音。</td></tr>
-          <tr><td style="color:#D4B040;font-weight:bold">象法</td><td style="text-align:left">共象、合象、字象、倒象。</td><td style="text-align:left">多重信息交叉指向再下具体断语。</td><td style="text-align:left;color:#ef4444">脱离八步法空谈象。</td></tr>
+          <tr><td style="color:#60a5fa;font-weight:bold">象法</td><td style="text-align:left">共象、合象、字象、倒象。</td><td style="text-align:left">多重信息交叉指向再下具体断语。</td><td style="text-align:left;color:#ef4444">脱离八步法空谈象。</td></tr>
         </table></div>
       </div>
     </div>
@@ -1451,9 +1451,9 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
           <thead><tr><th style="width:60px">入口</th><th style="text-align:left">可代表财富的条件</th></tr></thead>
           <tr><td style="color:#f59e0b;font-weight:bold">财星</td><td style="text-align:left">资源归主、可支配、未被破坏。</td></tr>
           <tr><td style="color:#c4b5fd;font-weight:bold">印星</td><td style="text-align:left">房产、文书、资质、平台可变现。</td></tr>
-          <tr><td style="color:#C9A227;font-weight:bold">食伤</td><td style="text-align:left">技术、口才、作品、输出变现。</td></tr>
+          <tr><td style="color:#10b981;font-weight:bold">食伤</td><td style="text-align:left">技术、口才、作品、输出变现。</td></tr>
           <tr><td style="color:#ef4444;font-weight:bold">官杀</td><td style="text-align:left">职位、权力、规则带来的资源。</td></tr>
-          <tr><td style="color:#a08060;font-weight:bold">比劫</td><td style="text-align:left">人群、团队、流量、组织力。</td></tr>
+          <tr><td style="color:#94a3b8;font-weight:bold">比劫</td><td style="text-align:left">人群、团队、流量、组织力。</td></tr>
         </table></div>
       </div>
     </div>
@@ -1481,7 +1481,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
             <tr><td>寅午戌</td><td class="c-zhi">巳</td><td class="c-zhi">亥</td></tr>
             <tr><td>申子辰</td><td class="c-zhi">亥</td><td class="c-zhi">巳</td></tr>
           </table></div>
-          <div style="font-size:11px;color:#7a5048;padding:2px 4px 8px;line-height:1.8">亡神截煞合克身命遭砍头。亡劫喜冲不喜合。亡神劫煞合禄，犯阴婚（梦中与鬼同寝）。</div>
+          <div style="font-size:11px;color:#64748b;padding:2px 4px 8px;line-height:1.8">亡神截煞合克身命遭砍头。亡劫喜冲不喜合。亡神劫煞合禄，犯阴婚（梦中与鬼同寝）。</div>
         </div>
 
         <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 将军箭煞</button>
@@ -1493,22 +1493,22 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
             <tr><td>秋（申酉戌月）</td><td>午寅丑时</td></tr>
             <tr><td>冬（亥子丑月）</td><td>申亥巳时</td></tr>
           </table></div>
-          <div style="font-size:11px;color:#7a5048;padding:2px 4px 8px;line-height:1.8">一箭伤人三岁死，两箭六岁亡，三箭防九岁，不死损爹娘。</div>
+          <div style="font-size:11px;color:#64748b;padding:2px 4px 8px;line-height:1.8">一箭伤人三岁死，两箭六岁亡，三箭防九岁，不死损爹娘。</div>
         </div>
 
         <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 孤鸾煞</button>
         <div class="m5-sub-body" style="display:none">
-          <div style="font-size:11px;color:#a08060;padding:4px 4px 8px;line-height:2.2">
-            <div>孤鸾日柱：<span style="color:#D4B040">甲寅 乙巳 丙午 丁巳 戊午 戊申 辛亥 壬子</span></div>
+          <div style="font-size:11px;color:#94a3b8;padding:4px 4px 8px;line-height:2.2">
+            <div>孤鸾日柱：<span style="color:#60a5fa">甲寅 乙巳 丙午 丁巳 戊午 戊申 辛亥 壬子</span></div>
             <div>以上任意两柱同时出现在日时，便为孤鸾煞。</div>
-            <div style="color:#7a5048">壬寅：自坐食神，伤克丈夫，亦为孤鸾日。</div>
+            <div style="color:#64748b">壬寅：自坐食神，伤克丈夫，亦为孤鸾日。</div>
             <div style="color:#f59e0b;margin-top:4px">木火逢蛇多不祥，金猪何必强猖狂，土候木虎夫何在，空对孤鸾舞一场。</div>
           </div>
         </div>
 
         <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 华盖</button>
         <div class="m5-sub-body" style="display:none">
-          <div style="font-size:11px;color:#a08060;padding:4px 4px 8px;line-height:2">
+          <div style="font-size:11px;color:#94a3b8;padding:4px 4px 8px;line-height:2">
             <div>查法：从年上查，三合局最后一字为华盖。实践中辰戌丑未皆可当华盖论。</div>
             <div>临印日时→晚年孤独；临印被坏→精神问题；临食伤被坏→思想问题；临官被坏→凶灾；临日时→性格孤僻，有佛道缘。</div>
           </div>
@@ -1516,7 +1516,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 
         <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 孤辰・寡宿</button>
         <div class="m5-sub-body" style="display:none">
-          <div style="font-size:11px;color:#a08060;padding:4px 4px 8px;line-height:2">
+          <div style="font-size:11px;color:#94a3b8;padding:4px 4px 8px;line-height:2">
             <div>查法：以出生年三会局，顺时针为孤，逆时针为寡。</div>
             <div>男怕孤，女怕寡。男不利父，女克夫。</div>
             <div>女命日犯孤寡→不利丈夫。命里日时占孤寡→性孤喜静，喜玄学。</div>
@@ -1525,7 +1525,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 
         <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 丧门・吊客</button>
         <div class="m5-sub-body" style="display:none">
-          <div style="font-size:11px;color:#a08060;padding:4px 4px 8px;line-height:2">
+          <div style="font-size:11px;color:#94a3b8;padding:4px 4px 8px;line-height:2">
             <div>查法：以年柱为起点，顺时针第三字为丧门，逆时针第三字为吊客。</div>
             <div style="color:#f59e0b">旺怕丧门衰怕吊，流年一到就穿孝；不是至亲遭凶死，定是自身灾病缠。</div>
             <div>旺衰以年柱纳音定。</div>
@@ -1539,14 +1539,14 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
             <tr><td><span class="c-zhi">辰</span>/<span class="c-zhi">戌</span></td><td>六月、十二月</td></tr>
             <tr><td><span class="c-zhi">丑</span>/<span class="c-zhi">未</span></td><td>三月、九月</td></tr>
           </table></div>
-          <div style="font-size:11px;color:#7a5048;padding:2px 4px 8px">破解：拜干亲。以当地习俗为准，主指小孩。</div>
+          <div style="font-size:11px;color:#64748b;padding:2px 4px 8px">破解：拜干亲。以当地习俗为准，主指小孩。</div>
         </div>
 
         <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 自缢煞・病符</button>
         <div class="m5-sub-body" style="display:none">
           <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
             <tr><td style="color:#ef4444;font-weight:bold;width:70px">自缢煞</td><td style="text-align:left">凶字：戌巳亥辰并未寅。大忌空亡兼墓鬼，官符大耗仍需避。五行更来克身，一死悬梁一水中。</td></tr>
-            <tr><td style="color:#a08060;font-weight:bold">病符</td><td style="text-align:left">查法：年柱后一位为病符（如甲子年，见亥为病符）。犯太岁年不买房、不盖房、不装修。</td></tr>
+            <tr><td style="color:#94a3b8;font-weight:bold">病符</td><td style="text-align:left">查法：年柱后一位为病符（如甲子年，见亥为病符）。犯太岁年不买房、不盖房、不装修。</td></tr>
           </table></div>
         </div>
 
@@ -1569,12 +1569,12 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
             <tr><td><span class="c-zhi">午</span><span class="c-zhi">未</span></td><td style="text-align:left">火生土旺闭木库。未为财库时走午运，关财库门，货压仓象。</td></tr>
             <tr><td><span class="c-zhi">巳</span><span class="c-zhi">申</span></td><td style="text-align:left">长生合制，效率最大。力量大者可制倒对方。</td></tr>
           </table></div>
-          <div style="font-size:11px;color:#7a5048;padding:2px 4px 8px">六合不讲合化。冲为冲跑，合为合克，暗中相害——合中反而容易有大事。</div>
+          <div style="font-size:11px;color:#64748b;padding:2px 4px 8px">六合不讲合化。冲为冲跑，合为合克，暗中相害——合中反而容易有大事。</div>
         </div>
 
         <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 三合要领</button>
         <div class="m5-sub-body" style="display:none">
-          <div style="font-size:11px;color:#a08060;padding:4px 4px 8px;line-height:2.2">
+          <div style="font-size:11px;color:#94a3b8;padding:4px 4px 8px;line-height:2.2">
             <div>三合为长生·帝旺·墓库之合，是唯一能合化的合局。</div>
             <div>中神（帝旺）最重要，最怕被冲穿刑坏。中神双现或多现不成三合局，以中神入墓论。</div>
             <div>三合局忌冲——冲神夹在两合神中间此合必破；冲神在外则贪合忘冲。</div>
@@ -1585,7 +1585,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 
         <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 暗合详解</button>
         <div class="m5-sub-body" style="display:none">
-          <div style="font-size:11px;color:#a08060;padding:4px 4px 8px;line-height:2.2">
+          <div style="font-size:11px;color:#94a3b8;padding:4px 4px 8px;line-height:2.2">
             <div>指地支藏干相合，共四对：</div>
             <div><span class="c-zhi">寅</span>＋<span class="c-zhi">丑</span>（寅中甲己、丙辛、戊癸三对合）</div>
             <div><span class="c-zhi">午</span>＋<span class="c-zhi">亥</span>（丁壬合、己甲合）</div>
@@ -1609,7 +1609,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 
         <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 六穿要领</button>
         <div class="m5-sub-body" style="display:none">
-          <div style="font-size:11px;color:#a08060;padding:4px 4px 8px;line-height:2.2">
+          <div style="font-size:11px;color:#94a3b8;padding:4px 4px 8px;line-height:2.2">
             <div>穿组合：子未、丑午、卯辰（克穿最厉害）；寅巳、申亥、酉戌（生穿偏轻）。</div>
             <div>穿的力量大于冲。穿制不了对方，是"坏"——不可调和的仇恨矛盾。</div>
             <div>穿倒：正官穿成偏官看，偏印穿成正印看（反过来论）。</div>
@@ -1625,13 +1625,13 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
             <tr><td><span class="c-zhi">子</span>＋<span class="c-zhi">卯</span></td><td style="color:#ef4444">病魔缠</td><td style="width:12px"></td><td><span class="c-zhi">子</span>＋<span class="c-zhi">巳</span></td><td>情谊断</td></tr>
             <tr><td><span class="c-zhi">卯</span>＋<span class="c-zhi">午</span></td><td style="color:#ef4444">血光难</td><td></td><td><span class="c-zhi">午</span>＋<span class="c-zhi">亥</span></td><td>口舌生</td></tr>
             <tr><td><span class="c-zhi">午</span>＋<span class="c-zhi">酉</span></td><td style="color:#f59e0b">次凶</td><td></td><td><span class="c-zhi">卯</span>＋<span class="c-zhi">申</span></td><td>路途伤</td></tr>
-            <tr><td colspan="2" style="color:#5a3830;font-size:10px">天干合地支破→大凶</td><td></td><td><span class="c-zhi">寅</span>＋<span class="c-zhi">酉</span></td><td>见血光</td></tr>
+            <tr><td colspan="2" style="color:#475569;font-size:10px">天干合地支破→大凶</td><td></td><td><span class="c-zhi">寅</span>＋<span class="c-zhi">酉</span></td><td>见血光</td></tr>
           </table></div>
         </div>
 
         <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 墓库要领</button>
         <div class="m5-sub-body" style="display:none">
-          <div style="font-size:11px;color:#a08060;padding:4px 4px 8px;line-height:2.2">
+          <div style="font-size:11px;color:#94a3b8;padding:4px 4px 8px;line-height:2.2">
             <div>四墓库：<span class="c-zhi">辰</span><span class="c-zhi">戌</span><span class="c-zhi">丑</span><span class="c-zhi">未</span>。象义：收藏、得到、获取、控制、占有。</div>
             <div>喜刑冲→为库（活）；不刑冲→为墓（死）。</div>
             <div>四长生（寅申巳亥）见各自墓库为入墓；子午卯酉见墓一般当拱局看，极弱时才入墓。</div>
@@ -1644,14 +1644,14 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
         <div class="m5-sub-body" style="display:none">
           <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
             <tr><td style="color:#f59e0b;font-weight:bold;width:70px">患</td><td style="text-align:left">患夫患妻→重配重娶。患父患母→必克父母。</td></tr>
-            <tr><td style="color:#D4B040;font-weight:bold">调候</td><td style="text-align:left">大雪后雨水前出生的金木水土，均为寒象，以火调候。</td></tr>
-            <tr><td style="color:#C9A227;font-weight:bold">关财门</td><td style="text-align:left">女命关财门→伤夫或离婚；男命关财门→破财或伤灾。</td></tr>
+            <tr><td style="color:#60a5fa;font-weight:bold">调候</td><td style="text-align:left">大雪后雨水前出生的金木水土，均为寒象，以火调候。</td></tr>
+            <tr><td style="color:#10b981;font-weight:bold">关财门</td><td style="text-align:left">女命关财门→伤夫或离婚；男命关财门→破财或伤灾。</td></tr>
           </table></div>
           <div class="m5-wrap" style="margin-top:6px"><table class="m5-tbl">
             <tr><th>天干（原身）</th><td class="c-gan">甲</td><td class="c-gan">乙</td><td class="c-gan">丙</td><td class="c-gan">丁</td><td class="c-gan">戊</td><td class="c-gan">己</td><td class="c-gan">庚</td><td class="c-gan">辛</td><td class="c-gan">壬</td><td class="c-gan">癸</td></tr>
             <tr><th>禄位（地支）</th><td class="c-zhi">寅</td><td class="c-zhi">卯</td><td class="c-zhi">巳</td><td class="c-zhi">午</td><td class="c-zhi">巳</td><td class="c-zhi">午</td><td class="c-zhi">申</td><td class="c-zhi">酉</td><td class="c-zhi">亥</td><td class="c-zhi">子</td></tr>
           </table></div>
-          <div style="font-size:11px;color:#7a5048;padding:2px 4px 8px;line-height:1.8">干在支反映叫禄，支在干体现叫原身。半禄关系：丙戊共禄于巳，丁己共禄于午。</div>
+          <div style="font-size:11px;color:#64748b;padding:2px 4px 8px;line-height:1.8">干在支反映叫禄，支在干体现叫原身。半禄关系：丙戊共禄于巳，丁己共禄于午。</div>
         </div>
 
       </div>
@@ -1664,7 +1664,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 
         <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 清纯歌诀</button>
         <div class="m5-sub-body" style="display:none">
-          <div style="background:#12080a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.4;color:#a08060">
+          <div style="background:#0f172a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.4;color:#94a3b8">
             <div>伤官生财不见官，印伤不连为清纯；</div>
             <div>印星化煞不见财，财印不连为清纯；</div>
             <div>官杀阳刃无食伤，官伤不连为清纯；</div>
@@ -1675,7 +1675,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 
         <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 父母歌</button>
         <div class="m5-sub-body" style="display:none">
-          <div style="background:#12080a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.2;color:#a08060">
+          <div style="background:#0f172a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.2;color:#94a3b8">
             <div>月财合年支犯穿，父定把双姓占。年时两头成，出生父母少一人。</div>
             <div>年月印星透到时，定是离家随母儿。比劫旺相印空亡，父死母再嫁。</div>
           </div>
@@ -1683,7 +1683,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 
         <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 寿元歌・马倒禄斜</button>
         <div class="m5-sub-body" style="display:none">
-          <div style="background:#12080a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.2;color:#a08060">
+          <div style="background:#0f172a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.2;color:#94a3b8">
             <div>年时数排半花甲，三十岁前阴阳隔。头重尾轻犯夭煞，求神拜佛世无药。</div>
             <div>四大空亡命中犯，阳寿最多三十三。回头破碎来夺命，克身命难过三十。</div>
             <div style="color:#f59e0b;margin-top:6px">马倒禄斜：</div>
@@ -1707,7 +1707,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 
         <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 牢役歌</button>
         <div class="m5-sub-body" style="display:none">
-          <div style="background:#12080a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.2;color:#a08060">
+          <div style="background:#0f172a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.2;color:#94a3b8">
             <div>劫财伤官两格成，官杀运中犯牢绳。一重破军是张口，两重破军犯徒流。</div>
             <div>勾陈包局杀夹日，肩枷带锁犯徒配。</div>
             <div style="color:#f59e0b;margin-top:6px">牢灾门（补充）：</div>
@@ -1727,7 +1727,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 
         <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 婚姻歌</button>
         <div class="m5-sub-body" style="display:none">
-          <div style="background:#12080a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.2;color:#a08060">
+          <div style="background:#0f172a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.2;color:#94a3b8">
             <div style="color:#f59e0b">特殊婚命：</div>
             <div>望门寡：命见夫星两个墓，临上轿前哭丈夫。</div>
             <div>招门女婿：月令正官合日宫，坐堂招婿来传宗。</div>
@@ -1763,7 +1763,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 
         <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 子女歌</button>
         <div class="m5-sub-body" style="display:none">
-          <div style="background:#12080a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.2;color:#a08060">
+          <div style="background:#0f172a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.2;color:#94a3b8">
             <div>食伤入墓不生育，家中有子是抱养；孩宫入墓子不吉，子女残疾或牢狱。</div>
             <div>子嗣宫绝后单一，坏了妻宫妻无子。穿到财星妻无子，穿坏妻宫妻无子。</div>
             <div>女命伤官临空亡，不生儿子只生女。巳为双女亥为双鱼，双女双鱼占日支，命中只有四女儿。</div>
@@ -1783,7 +1783,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 
         <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 兄弟歌</button>
         <div class="m5-sub-body" style="display:none">
-          <div style="background:#12080a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.2;color:#a08060">
+          <div style="background:#0f172a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.2;color:#94a3b8">
             <div>命占华盖兄弟孤，影只形单缺帮扶。比劫合局化别象，有兄有弟也没伤。</div>
             <div>七杀合弟伤克兄，此理门徒记心中。月上七杀不见制，兄弟两个是长子。</div>
             <div>命相不好运不济，不见血光犯劳役。官杀透天逢偏财，兄弟独自要见灾。</div>
@@ -1799,7 +1799,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 
         <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 职业歌</button>
         <div class="m5-sub-body" style="display:none">
-          <div style="background:#12080a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.2;color:#a08060">
+          <div style="background:#0f172a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.2;color:#94a3b8">
             <div>戊临戌酉做先生，己临巳酉郎中命。</div>
             <div>劫财七杀两相连，早离家门去戌边。伤官入库库为印，此命多为戌边人。</div>
             <div>辛与丙合化成食，从魁登明开酒店。</div>
@@ -1811,7 +1811,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 
         <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 伤残歌</button>
         <div class="m5-sub-body" style="display:none">
-          <div style="background:#12080a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.2;color:#a08060">
+          <div style="background:#0f172a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.2;color:#94a3b8">
             <div>年月干头克父母，日时干头伤自身。日干根气若被坏，不伤肢体损寿元。</div>
             <div>日支体神化成忌，此命定会坐轮椅。日干长生最怕坏，不是夭折就腿拐。</div>
             <div>丙丁岁月逢壬癸，丁主眼目不光辉。子卯相破病磨缠，卯午相破血光难。</div>
@@ -1825,7 +1825,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 
         <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 大运歌</button>
         <div class="m5-sub-body" style="display:none">
-          <div style="background:#12080a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.2;color:#a08060">
+          <div style="background:#0f172a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.2;color:#94a3b8">
             <div>谁到大运就说谁，缘来缘去在此运。先查干支何宫出，宫神配合来定事。</div>
             <div>支神虚透升天堂，命与此字缘分尽。虚干通禄入地府，相见以难两隔分。</div>
             <div>春天万物怕午运，走到南离凶事追。酉金不能走子运，走到子运是死运。</div>
@@ -1834,7 +1834,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 
         <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 三刑歌诀（完整）</button>
         <div class="m5-sub-body" style="display:none">
-          <div style="background:#12080a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.2;color:#a08060">
+          <div style="background:#0f172a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.2;color:#94a3b8">
             <div>莫把三刑看是轻，请君听我说分明，不刑不发库有信，岁运相交有灾临。</div>
             <div>寅刑巳来巳刑申，古论此刑叫无恩，官人见之事不顺，家防阴人患疾病。</div>
             <div>口舌戕害道不明，六亲之间关系损，妇人遇此防坠胎，僧道还俗出成门。</div>
@@ -1854,7 +1854,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 
         <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 破歌（完整）</button>
         <div class="m5-sub-body" style="display:none">
-          <div style="background:#12080a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.2;color:#a08060">
+          <div style="background:#0f172a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.2;color:#94a3b8">
             <div>子见酉上破败神，自行无道损名身；人前说得干般话，转过身来似浮云。</div>
             <div>丑见辰中破败多，好事难成乱忙活；一春美景空流过，都在事后把梦说。</div>
             <div>寅见亥字破人缘，干事无功又费钱；争名夺利没好处，更有小人作离间。</div>
@@ -1873,7 +1873,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 
         <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 墓库歌</button>
         <div class="m5-sub-body" style="display:none">
-          <div style="background:#12080a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.2;color:#a08060">
+          <div style="background:#0f172a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.2;color:#94a3b8">
             <div>辰戌丑未四墓库，天地不正谓杂气。少年不发基中人，皆因财官闭墓库。</div>
             <div>刑冲故能开锁钥，压藏终是受苦辛。月令提纲不可冲，十冲九命皆为凶。</div>
             <div>唯有财官逢墓库，运行到此反成功。透财透官或透印，杂气格局人富贵。</div>
@@ -1883,8 +1883,8 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 
         <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 十神组合要诀</button>
         <div class="m5-sub-body" style="display:none">
-          <div style="background:#12080a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.2;color:#a08060">
-            <div style="color:#C9A227;font-weight:bold">吉组合</div>
+          <div style="background:#0f172a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.2;color:#94a3b8">
+            <div style="color:#10b981;font-weight:bold">吉组合</div>
             <div>食伤制官→显贵掌权，多为公检法。官杀制比劫→管理能力强，多为领导老板。</div>
             <div>官印相生→公职国企，多为领导。食伤佩印→文化人、教师、技术，擅长表达。</div>
             <div>食伤生财→自助创业，技术求财。财制印→求财为主，开企业店面。</div>
@@ -2579,7 +2579,7 @@ function renderM5Wangshuai(el){
   let h=`<table class="m5-tbl"><thead><tr><th>天干</th>${st.map(s=>`<th>${s}</th>`).join('')}</tr></thead><tbody>`;
   for(const g of GAN){
     const arr=WANGSHUAI[g];
-    h+=`<tr><td class="c-gan">${g}</td>${arr.map((z,i)=>`<td class="c-zhi"${i===0?' style="color:#D4B040"':i===4?' style="color:#C9A227;font-weight:bold"':i===8||i===9?' style="color:#ef4444"':''}>${z}</td>`).join('')}</tr>`;
+    h+=`<tr><td class="c-gan">${g}</td>${arr.map((z,i)=>`<td class="c-zhi"${i===0?' style="color:#60a5fa"':i===4?' style="color:#10b981;font-weight:bold"':i===8||i===9?' style="color:#ef4444"':''}>${z}</td>`).join('')}</tr>`;
   }
   el.innerHTML=h+'</tbody></table>';el.dataset.r='1';
 }
@@ -2619,15 +2619,15 @@ function initHome(){
   document.getElementById('el-total').textContent=d.totalCorrect||0;
   const hist=(d.history||[]).slice(0,5);
   document.getElementById('el-hist').innerHTML=hist.length===0
-    ?'<span style="color:#5a3830;font-size:12px">暂无记录</span>'
+    ?'<span style="color:#475569;font-size:12px">暂无记录</span>'
     :hist.map(h=>h.type==='gj'
-      ?`<div class="hrow"><span style="color:#7a5048">${h.date}</span><span style="color:#5a3830;font-size:11px">📜${h.cat||'歌诀'}·${h.cards}张</span><span style="color:#f59e0b;font-weight:bold;font-size:15px">背诵</span></div>`
-      :`<div class="hrow"><span style="color:#7a5048">${h.date}</span><span style="color:#5a3830;font-size:11px">${h.correct}题</span><span style="color:#C9A227;font-weight:bold;font-size:15px">${h.score}</span></div>`
+      ?`<div class="hrow"><span style="color:#64748b">${h.date}</span><span style="color:#475569;font-size:11px">📜${h.cat||'歌诀'}·${h.cards}张</span><span style="color:#f59e0b;font-weight:bold;font-size:15px">背诵</span></div>`
+      :`<div class="hrow"><span style="color:#64748b">${h.date}</span><span style="color:#475569;font-size:11px">${h.correct}题</span><span style="color:#10b981;font-weight:bold;font-size:15px">${h.score}</span></div>`
     ).join('');
   const todayDone=(d.history||[]).find(h=>h.date===todayStr()&&h.type!=='gj');
   const btn=document.getElementById('btn-daily');
   btn.textContent=todayDone?`今日已完成${todayDone.score}分 · 再刷 ⏱️`:'今日挑战 ⏱️';
-  btn.style.background=todayDone?'#6a5010':'#C9A227';
+  btn.style.background=todayDone?'#065f46':'#10b981';
   updateNBBadge();
   checkBkRemind();
   // 掌握度副标题
@@ -2804,12 +2804,12 @@ function m1Next(){
 function m1StartTimer(){
   clearInterval(G1.timer);
   const bar=document.getElementById('el-tm');
-  bar.style.background='#C9A227';bar.style.width='100%';
+  bar.style.background='#10b981';bar.style.width='100%';
   const t0=Date.now();
   G1.timer=setInterval(()=>{
     const pct=Math.max(0,1-(Date.now()-t0)/TLIMIT)*100;
     bar.style.width=pct+'%';
-    bar.style.background=pct<25?'#ef4444':pct<55?'#f59e0b':'#C9A227';
+    bar.style.background=pct<25?'#ef4444':pct<55?'#f59e0b':'#10b981';
     if(pct===0){clearInterval(G1.timer);if(!G1.answered)m1TimeUp();}
   },60);
 }
@@ -2820,7 +2820,7 @@ function m1TimeUp(){
   document.getElementById('el-fb').innerHTML=`⏰ 超时！正确答案：<b>${q.correct}</b>`;
   document.getElementById('el-fb').className='fb fb-err';
   G1.streak=0;G1.results.push({cat:q.cat,ok:false,chosen:null});G1.cur++;
-  document.getElementById('el-ck').style.color='#C9A227';
+  document.getElementById('el-ck').style.color='#10b981';
   const qm2=document.getElementById('el-qmain');qm2.classList.remove('shake-x');void qm2.offsetWidth;qm2.classList.add('shake-x');
   setTimeout(m1Next,1300);
 }
@@ -2843,16 +2843,16 @@ function m1Pick(idx){
     G1.correct++;G1.streak++;if(G1.streak>G1.maxCombo)G1.maxCombo=G1.streak;
     const m=getMult(G1.streak),spd=G1.timed?Math.floor(remain/1000*0.5):0,gain=Math.round((10+spd)*m);
     G1.score+=gain;
-    document.getElementById('el-fb').innerHTML=`✓ 正确！+${gain}分 <span style="color:#7a5048;font-size:11px">${q.exp}</span>`;
+    document.getElementById('el-fb').innerHTML=`✓ 正确！+${gain}分 <span style="color:#64748b;font-size:11px">${q.exp}</span>`;
     document.getElementById('el-fb').className='fb fb-ok';
-    ckEl.style.color=G1.streak>=9?'#ef4444':G1.streak>=6?'#f97316':G1.streak>=3?'#fbbf24':'#C9A227';
+    ckEl.style.color=G1.streak>=9?'#ef4444':G1.streak>=6?'#f97316':G1.streak>=3?'#fbbf24':'#10b981';
     ckEl.classList.remove('ck-pop');void ckEl.offsetWidth;ckEl.classList.add('ck-pop');
     if(G1.streak>=3&&G1.streak%3===0)m1ShowPop(G1.streak);
   }else{
     G1.streak=0;
-    document.getElementById('el-fb').innerHTML=`✗ 错了 <span style="color:#7a5048;font-size:11px">${q.exp}</span>`;
+    document.getElementById('el-fb').innerHTML=`✗ 错了 <span style="color:#64748b;font-size:11px">${q.exp}</span>`;
     document.getElementById('el-fb').className='fb fb-err';
-    ckEl.style.color='#C9A227';
+    ckEl.style.color='#10b981';
     const qm=document.getElementById('el-qmain');qm.classList.remove('shake-x');void qm.offsetWidth;qm.classList.add('shake-x');
   }
   document.getElementById('el-sc').textContent=G1.score;
@@ -2903,7 +2903,7 @@ function m1End(){
   // category breakdown
   const stats={};
   for(const r of G1.results){if(!stats[r.cat])stats[r.cat]={ok:0,fail:0};stats[r.cat][r.ok?'ok':'fail']++;}
-  let bd='<div style="font-size:11px;color:#5a3830;margin-bottom:7px">各类别表现</div>';
+  let bd='<div style="font-size:11px;color:#475569;margin-bottom:7px">各类别表现</div>';
   for(const[key,name]of Object.entries(CAT_NAME)){
     const s=stats[key];if(!s)continue;
     const t=s.ok+s.fail;
@@ -2940,7 +2940,7 @@ function m1End(){
       const inNb=nb.find(x=>x.id===q.id);
       return `<div class="wq-item">
         <div class="wq-top"><div class="wq-chars">${mainHtml}</div><span class="wq-cat">${CAT_NAME[q.cat]||q.cat}</span><button class="wq-add-btn${inNb?' added':''}" id="wq-add-${i}" onclick="addSingleToNB(${i})"${inNb?' disabled':''}>＋错题本</button></div>
-        <div class="wq-detail">${chosenHtml}正确：<span class="wq-ans">${q.correct}</span>　<span style="color:#5a3830">${q.exp}</span></div>
+        <div class="wq-detail">${chosenHtml}正确：<span class="wq-ans">${q.correct}</span>　<span style="color:#475569">${q.exp}</span></div>
       </div>`;
     }).join('');
     const newCount=G1.wrongQs.filter(q=>!nb.find(x=>x.id===q.id)).length;
@@ -3303,7 +3303,7 @@ function renderBaziGrid(bazi,sel,allView,gridId,clickFn){
     // 地支十神 + 阴阳行
     for(let p=0;p<4;p++){
       const z=bazi[4+p],bq=ZHI_BENQI[z],shen=bq?getShen(rz,bq)||'':'';
-      const yyCol=YANG_ZHI.has(z)?'#f59e0b':'#E8CC70';
+      const yyCol=YANG_ZHI.has(z)?'#f59e0b':'#93c5fd';
       html+=`<div class="bz-ann bz-ann-shen"><span style="color:${yyCol}">${YANG_ZHI.has(z)?'阳':'阴'}</span>${shen?'·'+shen:''}</div>`;
     }
     // 藏干行
@@ -3355,7 +3355,7 @@ function m3FilterCases(q){
   const filtered=CASES.map((c,i)=>({c,i})).filter(({c})=>!kw||c.n.toLowerCase().includes(kw));
   document.getElementById('m3-pick-list').innerHTML=filtered.map(({c,i})=>
     `<div class="m3pick-item ${i===M3.idx?'cur':''}" onclick="startM3(${i});closeCasePicker()">
-      <span style="color:#5a3830;min-width:32px;font-size:12px">${i+1}</span>
+      <span style="color:#475569;min-width:32px;font-size:12px">${i+1}</span>
       <span>${c.n.replace(/^\d+\./,'')}</span>
     </div>`
   ).join('');
@@ -3397,8 +3397,8 @@ function m3RenderRel(){
     const pn=x=>`${PILLAR[x.p]}${x.t==='g'?'干':'支'}`;
     const gCells=cells.filter(x=>x.t==='g');
     const zCells=cells.filter(x=>x.t==='z');
-    const secHdr=txt=>`<div style="font-size:11px;color:#a08060;font-weight:bold;letter-spacing:2px;margin:10px 0 6px">▸ ${txt}</div>`;
-    const subHdr=txt=>`<div style="font-size:10px;color:#7a5048;font-weight:bold;margin-top:7px;margin-bottom:2px;padding-left:2px">· ${txt}</div>`;
+    const secHdr=txt=>`<div style="font-size:11px;color:#94a3b8;font-weight:bold;letter-spacing:2px;margin:10px 0 6px">▸ ${txt}</div>`;
+    const subHdr=txt=>`<div style="font-size:10px;color:#64748b;font-weight:bold;margin-top:7px;margin-bottom:2px;padding-left:2px">· ${txt}</div>`;
     let html=secHdr('天干信息');
     for(const cell of gCells)
       html+=`<div class="rel-item rel-gen">${PILLAR[cell.p]}干 <b>${cell.v}</b>：脏腑 ${GAN_ZANG[cell.v]}</div>`;
@@ -3414,7 +3414,7 @@ function m3RenderRel(){
     }
     let ggHtml='';
     for(const t of['生克','合（五合）','患','伏吟']){
-      if(ggMap[t]&&ggMap[t].length){ggHtml+=subHdr(t)+ggMap[t].map(r=>`<div class="rel-item ${r.cls}">${r.txt} <span style="color:#5a3830;font-size:10px">（${r.pair}）</span></div>`).join('');}
+      if(ggMap[t]&&ggMap[t].length){ggHtml+=subHdr(t)+ggMap[t].map(r=>`<div class="rel-item ${r.cls}">${r.txt} <span style="color:#475569;font-size:10px">（${r.pair}）</span></div>`).join('');}
     }
     if(ggHtml)html+=secHdr('天干关系')+ggHtml;
     // 地支关系：按关系类型聚合
@@ -3428,7 +3428,7 @@ function m3RenderRel(){
     for(const g of XING3){if(g.every(z=>zCells.some(c=>c.v===z))){const mc=g.map(z=>zCells.filter(c=>c.v===z)).flat();if(zzMap['刑'])zzMap['刑']=zzMap['刑'].filter(r=>!r.txt.includes(`（${g.join('')}三刑）`));if(!zzMap['刑'])zzMap['刑']=[];zzMap['刑'].push({txt:`刑(三刑)：${g.join('')}三刑`,cls:'rel-xing',pair:mc.map(c=>`${c.v}(${pn(c)})`).join('·')});}}
     let zzHtml='';
     for(const t of['冲','合（六合）','暗合','拱合','三会','穿','绝','破','刑','患','地支五行生','地支五行克','伏吟']){
-      if(zzMap[t]&&zzMap[t].length){zzHtml+=subHdr(t)+zzMap[t].map(r=>`<div class="rel-item ${r.cls}">${r.txt} <span style="color:#5a3830;font-size:10px">（${r.pair}）</span></div>`).join('');}
+      if(zzMap[t]&&zzMap[t].length){zzHtml+=subHdr(t)+zzMap[t].map(r=>`<div class="rel-item ${r.cls}">${r.txt} <span style="color:#475569;font-size:10px">（${r.pair}）</span></div>`).join('');}
     }
     if(zzHtml)html+=secHdr('地支关系')+zzHtml;
     // 干支互通 / 虚实 / 十二运 / 纳音
@@ -3458,11 +3458,11 @@ function m3RenderRel(){
     let extra='';
     if(s.t==='z'){
       extra+=`<br><span style="color:#fcd34d;font-size:12px">藏干：${ZHI_CANG_STR[s.v]}</span>`;
-      extra+=`<br><span style="color:#a08060;font-size:12px">脏腑：${ZHI_ZANG[s.v]} · 时辰：${SHICHEN[s.v]}</span>`;
+      extra+=`<br><span style="color:#94a3b8;font-size:12px">脏腑：${ZHI_ZANG[s.v]} · 时辰：${SHICHEN[s.v]}</span>`;
     }else{
-      extra+=`<br><span style="color:#a08060;font-size:12px">脏腑：${GAN_ZANG[s.v]}</span>`;
+      extra+=`<br><span style="color:#94a3b8;font-size:12px">脏腑：${GAN_ZANG[s.v]}</span>`;
     }
-    document.getElementById('m3-rel').innerHTML=`<div class="rel-hint">已选：<b style="color:#E8CC70">${s.v}</b>（${PILLAR[s.p]}${s.t==='g'?'干':'支'}）${extra}<br>再点另一个字查看关系</div>`;
+    document.getElementById('m3-rel').innerHTML=`<div class="rel-hint">已选：<b style="color:#93c5fd">${s.v}</b>（${PILLAR[s.p]}${s.t==='g'?'干':'支'}）${extra}<br>再点另一个字查看关系</div>`;
   }
 }
 
@@ -3603,7 +3603,7 @@ function closeM4SavedList(){document.getElementById('m4-saved-dlg').style.displa
 function m4RenderSavedList(){
   const arr=getSavedM4();
   const el=document.getElementById('m4-saved-items');
-  if(!arr.length){el.innerHTML='<div style="text-align:center;color:#7a5048;padding:30px 16px">暂无保存的八字</div>';return;}
+  if(!arr.length){el.innerHTML='<div style="text-align:center;color:#64748b;padding:30px 16px">暂无保存的八字</div>';return;}
   el.innerHTML=arr.map(r=>`
     <div class="m4saved-item">
       <div class="m4saved-info" onclick="m4LoadSaved('${r.id}')">
@@ -3634,8 +3634,8 @@ function m4RenderRel(){
     for(let row=0;row<2;row++)for(let p=0;p<4;p++){const ci=row*4+p,type=row===0?'g':'z',val=M4.bazi[ci];cells.push({t:type,p,v:val,ci});}
     const pn=x=>`${PILLAR[x.p]}${x.t==='g'?'干':'支'}`;
     const gCells=cells.filter(x=>x.t==='g'),zCells=cells.filter(x=>x.t==='z');
-    const secHdr=txt=>`<div style="font-size:11px;color:#a08060;font-weight:bold;letter-spacing:2px;margin:10px 0 6px">▸ ${txt}</div>`;
-    const subHdr=txt=>`<div style="font-size:10px;color:#7a5048;font-weight:bold;margin-top:7px;margin-bottom:2px;padding-left:2px">· ${txt}</div>`;
+    const secHdr=txt=>`<div style="font-size:11px;color:#94a3b8;font-weight:bold;letter-spacing:2px;margin:10px 0 6px">▸ ${txt}</div>`;
+    const subHdr=txt=>`<div style="font-size:10px;color:#64748b;font-weight:bold;margin-top:7px;margin-bottom:2px;padding-left:2px">· ${txt}</div>`;
     let html=secHdr('天干信息');
     for(const cell of gCells)html+=`<div class="rel-item rel-gen">${PILLAR[cell.p]}干 <b>${cell.v}</b>：脏腑 ${GAN_ZANG[cell.v]}</div>`;
     html+=secHdr('地支信息');
@@ -3647,7 +3647,7 @@ function m4RenderRel(){
       for(const r of detectPair(a,b)){const t=ggTh(r.txt);if(t){if(!ggMap[t])ggMap[t]=[];ggMap[t].push({...r,pair:`${a.v}(${pn(a)})·${b.v}(${pn(b)})`});}}
     }
     let ggHtml='';
-    for(const t of['生克','合（五合）','患','伏吟']){if(ggMap[t]&&ggMap[t].length){ggHtml+=subHdr(t)+ggMap[t].map(r=>`<div class="rel-item ${r.cls}">${r.txt} <span style="color:#5a3830;font-size:10px">（${r.pair}）</span></div>`).join('');}}
+    for(const t of['生克','合（五合）','患','伏吟']){if(ggMap[t]&&ggMap[t].length){ggHtml+=subHdr(t)+ggMap[t].map(r=>`<div class="rel-item ${r.cls}">${r.txt} <span style="color:#475569;font-size:10px">（${r.pair}）</span></div>`).join('');}}
     if(ggHtml)html+=secHdr('天干关系')+ggHtml;
     const zzTh=txt=>txt.startsWith('冲')?'冲':txt.startsWith('合(')?'合（六合）':txt.startsWith('暗合')?'暗合':txt.startsWith('半合')||txt.startsWith('拱合')?'拱合':txt.startsWith('三会')?'三会':txt.startsWith('穿')?'穿':txt.startsWith('绝')?'绝':txt.startsWith('破')?'破':txt.startsWith('刑')?'刑':txt.startsWith('患')?'患':txt.startsWith('地支五行生')?'地支五行生':txt.startsWith('地支五行克')?'地支五行克':txt.startsWith('伏吟')?'伏吟':null;
     const zzMap={};
@@ -3658,7 +3658,7 @@ function m4RenderRel(){
     for(const g of SANHUI){if(g.every(z=>zCells.some(c=>c.v===z))){const mc=g.map(z=>zCells.filter(c=>c.v===z)).flat();if(!zzMap['三会'])zzMap['三会']=[];zzMap['三会'].push({txt:`三会：${g.join('')}方`,cls:'rel-he',pair:mc.map(c=>`${c.v}(${pn(c)})`).join('·')});}}
     for(const g of XING3){if(g.every(z=>zCells.some(c=>c.v===z))){const mc=g.map(z=>zCells.filter(c=>c.v===z)).flat();if(zzMap['刑'])zzMap['刑']=zzMap['刑'].filter(r=>!r.txt.includes(`（${g.join('')}三刑）`));if(!zzMap['刑'])zzMap['刑']=[];zzMap['刑'].push({txt:`刑(三刑)：${g.join('')}三刑`,cls:'rel-xing',pair:mc.map(c=>`${c.v}(${pn(c)})`).join('·')});}}
     let zzHtml='';
-    for(const t of['冲','合（六合）','暗合','拱合','三会','穿','绝','破','刑','患','地支五行生','地支五行克','伏吟']){if(zzMap[t]&&zzMap[t].length){zzHtml+=subHdr(t)+zzMap[t].map(r=>`<div class="rel-item ${r.cls}">${r.txt} <span style="color:#5a3830;font-size:10px">（${r.pair}）</span></div>`).join('');}}
+    for(const t of['冲','合（六合）','暗合','拱合','三会','穿','绝','破','刑','患','地支五行生','地支五行克','伏吟']){if(zzMap[t]&&zzMap[t].length){zzHtml+=subHdr(t)+zzMap[t].map(r=>`<div class="rel-item ${r.cls}">${r.txt} <span style="color:#475569;font-size:10px">（${r.pair}）</span></div>`).join('');}}
     if(zzHtml)html+=secHdr('地支关系')+zzHtml;
     const gzTong=[],gzXushi=[],gzWs12=[],gzNayin=[];
     for(const g of gCells)for(const z of zCells){
@@ -3684,9 +3684,9 @@ function m4RenderRel(){
   }else if(M4.sel.length===1){
     const s=M4.sel[0];
     let extra='';
-    if(s.t==='z'){extra+=`<br><span style="color:#fcd34d;font-size:12px">藏干：${ZHI_CANG_STR[s.v]}</span>`;extra+=`<br><span style="color:#a08060;font-size:12px">脏腑：${ZHI_ZANG[s.v]} · 时辰：${SHICHEN[s.v]}</span>`;}
-    else{extra+=`<br><span style="color:#a08060;font-size:12px">脏腑：${GAN_ZANG[s.v]}</span>`;}
-    document.getElementById('m4-rel').innerHTML=`<div class="rel-hint">已选：<b style="color:#E8CC70">${s.v}</b>（${PILLAR[s.p]}${s.t==='g'?'干':'支'}）${extra}<br>再点另一个字查看关系</div>`;
+    if(s.t==='z'){extra+=`<br><span style="color:#fcd34d;font-size:12px">藏干：${ZHI_CANG_STR[s.v]}</span>`;extra+=`<br><span style="color:#94a3b8;font-size:12px">脏腑：${ZHI_ZANG[s.v]} · 时辰：${SHICHEN[s.v]}</span>`;}
+    else{extra+=`<br><span style="color:#94a3b8;font-size:12px">脏腑：${GAN_ZANG[s.v]}</span>`;}
+    document.getElementById('m4-rel').innerHTML=`<div class="rel-hint">已选：<b style="color:#93c5fd">${s.v}</b>（${PILLAR[s.p]}${s.t==='g'?'干':'支'}）${extra}<br>再点另一个字查看关系</div>`;
   }
 }
 
@@ -3720,10 +3720,10 @@ function nfCheck(){
   nfRender();
   const fb=document.getElementById('nf-fb');
   if(ok){
-    fb.innerHTML=`✓ 正确！${NF.year}年 = <b style="color:#C9A227">${cg}${cz}年</b>`;
+    fb.innerHTML=`✓ 正确！${NF.year}年 = <b style="color:#10b981">${cg}${cz}年</b>`;
     fb.className='fb fb-ok';
   }else{
-    fb.innerHTML=`✗ 答错了。正确答案：<b style="color:#C9A227">${cg}${cz}年</b>`;
+    fb.innerHTML=`✗ 答错了。正确答案：<b style="color:#10b981">${cg}${cz}年</b>`;
     fb.className='fb fb-err';
   }
   document.getElementById('nf-next-btn').style.display='';
@@ -3763,7 +3763,7 @@ function showStats(){
   function sliceDays(n){const r=[];for(let i=0;i<n;i++){const dt=new Date(today);dt.setDate(dt.getDate()-i);const h=hist.find(x=>x.date===ds(dt));if(h)r.push(h);}return r;}
   function calcSt(recs){if(!recs.length)return null;return{n:recs.length,tot:recs.reduce((s,h)=>s+h.correct,0),avg:Math.round(recs.reduce((s,h)=>s+h.score,0)/recs.length),best:Math.max(...recs.map(h=>h.score))};}
   function stHtml(s,lbl){
-    if(!s)return`<div style="text-align:center;color:#5a3830;padding:10px 0">暂无${lbl}记录</div>`;
+    if(!s)return`<div style="text-align:center;color:#475569;padding:10px 0">暂无${lbl}记录</div>`;
     return`<div class="st-nums"><div class="st-num"><div class="st-num-v">${s.n}</div><div class="st-num-l">练习次数</div></div><div class="st-num"><div class="st-num-v">${s.tot}</div><div class="st-num-l">累计对题</div></div><div class="st-num"><div class="st-num-v">${s.avg}</div><div class="st-num-l">平均得分</div></div><div class="st-num"><div class="st-num-v">${s.best}</div><div class="st-num-l">最高得分</div></div></div>`;
   }
 
@@ -3789,10 +3789,10 @@ function showStats(){
   const w7=calcSt(sliceDays(7)),m30=calcSt(sliceDays(30));
   const html=`
     <div class="card"><div class="cal-wrap">
-      <div style="font-size:11px;color:#5a3830;letter-spacing:2px;margin-bottom:6px">打卡日历 · 近35天</div>
-      <div style="display:flex;gap:8px;font-size:10px;color:#5a3830;margin-bottom:6px">
-        <span style="display:inline-flex;align-items:center;gap:3px"><span style="display:inline-block;width:10px;height:10px;background:#6a5010;border-radius:2px"></span>已打卡</span>
-        <span style="display:inline-flex;align-items:center;gap:3px"><span style="display:inline-block;width:10px;height:10px;background:#C9A227;border-radius:2px"></span>高分</span>
+      <div style="font-size:11px;color:#475569;letter-spacing:2px;margin-bottom:6px">打卡日历 · 近35天</div>
+      <div style="display:flex;gap:8px;font-size:10px;color:#475569;margin-bottom:6px">
+        <span style="display:inline-flex;align-items:center;gap:3px"><span style="display:inline-block;width:10px;height:10px;background:#065f46;border-radius:2px"></span>已打卡</span>
+        <span style="display:inline-flex;align-items:center;gap:3px"><span style="display:inline-block;width:10px;height:10px;background:#10b981;border-radius:2px"></span>高分</span>
       </div>
       <div class="cal-hdr">${hdrs}</div>
       <div class="cal-grid">${calCells}</div>
@@ -3817,7 +3817,7 @@ function showMaster(){
   let html=`<div class="ms-sum">
     <div class="ms-sum-ring">${overall}%</div>
     <div class="ms-sum-info">
-      <div style="font-size:14px;font-weight:bold;color:#e8d4a8">综合正确率</div>
+      <div style="font-size:14px;font-weight:bold;color:#e2e8f0">综合正确率</div>
       <div class="ms-sum-sub">已测 ${tested}/${allCats.length} 个题型 · 共答 ${totalA} 题<br>答对 ${totalOk} 题 · 答错 ${totalA-totalOk} 题</div>
     </div>
   </div>`;
@@ -3831,9 +3831,9 @@ function showMaster(){
         return `<div class="ms-row"><span class="ms-name">${name}</span><span class="ms-new ms-pct" style="width:auto;flex:1">未测试</span><span class="ms-ico">⬜</span></div>`;
       }
       const acc=Math.round((st.a-st.e)/st.a*100);
-      const barCol=acc>=90?'#E0B840':acc>=75?'#C9A227':acc>=50?'#f97316':'#ef4444';
+      const barCol=acc>=90?'#34d399':acc>=75?'#10b981':acc>=50?'#f97316':'#ef4444';
       const ico=acc>=90?'✅':acc>=75?'🟢':acc>=50?'🟡':'🔴';
-      const pctCol=acc>=75?'#C9A227':acc>=50?'#f97316':'#ef4444';
+      const pctCol=acc>=75?'#10b981':acc>=50?'#f97316':'#ef4444';
       return `<div class="ms-row">
         <span class="ms-name">${name}</span>
         <div class="ms-bar-wrap"><div class="ms-bar" style="width:${acc}%;background:${barCol}"></div></div>
@@ -4108,7 +4108,7 @@ function jzPick(val){
   });
   const fb=document.getElementById('jz-fb');
   if(ok){
-    fb.style.color='#C9A227';fb.textContent='✓ 正确！';
+    fb.style.color='#10b981';fb.textContent='✓ 正确！';
   }else{
     fb.style.color='#ef4444';
     if(q.type!=='认旬'){
@@ -4133,8 +4133,8 @@ function jzEnd(){
   document.getElementById('jz-q-wrap').innerHTML=`
     <div style="text-align:center;padding:20px 0">
       <div style="font-size:52px">${grade}</div>
-      <div style="font-size:42px;font-weight:bold;color:#e8d4a8;margin:8px 0">${acc}%</div>
-      <div style="color:#7a5048;font-size:14px">答对 ${correct} / ${JZ_TOTAL} 题</div>
+      <div style="font-size:42px;font-weight:bold;color:#e2e8f0;margin:8px 0">${acc}%</div>
+      <div style="color:#64748b;font-size:14px">答对 ${correct} / ${JZ_TOTAL} 题</div>
     </div>
     <button class="btn btn-b" onclick="startJZ()" style="margin:4px 0">再练一次 ↺</button>
     <button class="btn btn-d" onclick="goHome()" style="margin:4px 0">← 首页</button>
