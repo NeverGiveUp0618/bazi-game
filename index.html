@@ -4337,7 +4337,7 @@ function _yxAnswer(btn, sid){
   const state=_yxStates[sid]; if(!state||state.answered)return;
   state.answered=true;
   const q=state.qs[state.idx],ans=q.typeA?q.sx:q.name,chosen=btn.dataset.opt;
-  btn.closest('div').querySelectorAll('.yx-opt').forEach(b=>{b.disabled=true;b.classList.add(b.dataset.opt===ans?'ok':'');});
+  btn.closest('div').querySelectorAll('.yx-opt').forEach(b=>{b.disabled=true;if(b.dataset.opt===ans)b.classList.add('ok');});
   if(chosen!==ans)btn.classList.add('bad');
   if(chosen===ans)state.correct++;
   const ex=document.querySelector(`#${state.sid}-main .yx-explain`);
