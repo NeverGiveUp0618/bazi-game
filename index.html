@@ -452,6 +452,18 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .gj-cq-comma{font-size:16px;color:#334155;text-align:center;margin:4px 0}
 .gj-cq-blank{font-size:22px;letter-spacing:3px;color:#64748b;text-align:center;padding:8px 0;min-height:44px;width:100%;transition:color .25s}
 .gj-cq-blank.revealed{color:#f59e0b;font-weight:bold}
+/* 意象联想测验 */
+.yx-card{background:#1e293b;border:2px solid #10b98140;border-radius:14px;padding:16px;text-align:center;margin-bottom:12px}
+.yx-name{font-size:28px;font-weight:bold;color:#10b981;letter-spacing:4px;margin-bottom:6px}
+.yx-attr{font-size:12px;color:#475569;letter-spacing:1px;margin-bottom:8px}
+.yx-sx{font-size:13px;color:#e2e8f0;font-weight:bold;padding:10px 16px;background:#0f172a;border-radius:8px;line-height:1.8}
+.yx-opt{width:100%;padding:12px 14px;font-size:14px;font-weight:bold;border:2px solid #334155;border-radius:12px;cursor:pointer;background:#1e293b;color:#e2e8f0;margin:6px 0;text-align:center;transition:all .15s;letter-spacing:1px;display:block;-webkit-appearance:none}
+.yx-opt:active{transform:scale(.98)}
+.yx-opt.ok{background:#022c22!important;border-color:#10b981!important;color:#10b981!important}
+.yx-opt.bad{background:#450a0a!important;border-color:#ef4444!important;color:#ef4444!important}
+.yx-explain{display:none;margin-top:8px;font-size:12px;color:#94a3b8;background:#0f172a;border-radius:8px;padding:10px 12px;border-left:3px solid #10b981;line-height:1.8}
+.yx-score{text-align:center;font-size:36px;font-weight:bold;color:#10b981;margin:24px 0 4px;letter-spacing:4px}
+.yx-lv{text-align:center;font-size:14px;color:#64748b;margin-bottom:20px;letter-spacing:3px}
 </style>
 </head>
 <body>
@@ -500,6 +512,17 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   </div>
   <div class="mcard" onclick="startJZ()" style="cursor:pointer">
     <div class="mcard-head"><div class="mcard-icon">🀄</div><div><div class="mcard-name">六十甲子训练 <span class="nt-label">新</span></div><div class="mcard-desc">识旬 · 识空亡 · 认干支 · 三类题型随机出题</div></div><div style="color:#475569;font-size:18px">›</div></div>
+  </div>
+  <div class="mcard">
+    <div class="mcard-head"><div class="mcard-icon">🌀</div><div><div class="mcard-name">意象联想训练 <span class="nt-label">新</span></div><div class="mcard-desc">天干·地支·十神·干支关系·四选一意象速记</div></div></div>
+    <div class="mcard-btns" style="margin-top:0">
+      <button class="btn btn-g" onclick="startGanYX()" style="font-size:11px">天干象意</button>
+      <button class="btn btn-g" onclick="startZhiYX()" style="font-size:11px">地支象意</button>
+    </div>
+    <div class="mcard-btns" style="margin-top:6px">
+      <button class="btn btn-g" onclick="startShenYX()" style="font-size:11px">十神象意</button>
+      <button class="btn btn-g" onclick="startRelYX()" style="font-size:11px">干支关系象意</button>
+    </div>
   </div>
   <div class="mcard">
     <div class="mcard-head"><div class="mcard-icon">🔍</div><div><div class="mcard-name">八字排盘 <span class="nt-label">无计时</span></div><div class="mcard-desc">点任意两字查关系，人鉴117例</div></div></div>
@@ -1957,6 +1980,76 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <div class="jz-opts" id="jz-opts"></div>
     <div class="fb" id="jz-fb"></div>
   </div>
+
+<!-- 天干象意 -->
+<div id="p-ganyx" class="screen">
+  <div class="tbar"><button class="tbk" onclick="goHome()">← 首页</button><div class="tbtitle">🌳 天干象意</div><div class="tbr" id="gyx-p-r"></div></div>
+  <div id="p-ganyx-main">
+    <div class="prog-row"><span class="prog-txt" id="gyx-p-t"></span><div class="prog-wrap"><div class="prog-bar" id="gyx-p-b" style="width:0%"></div></div></div>
+    <div class="yx-card" id="gyx-card"></div>
+    <div id="gyx-opts"></div>
+    <div class="yx-explain"></div>
+  </div>
+  <div id="p-ganyx-res" style="display:none;flex-direction:column;align-items:center;padding:20px 0">
+    <div class="yx-score" id="gyx-score"></div>
+    <div class="yx-lv" id="gyx-lv"></div>
+    <div style="font-size:13px;color:#64748b;text-align:center;margin-bottom:20px" id="gyx-det"></div>
+    <button class="btn btn-g" onclick="startGanYX()" style="margin-bottom:10px;width:100%">再来一轮 ↺</button>
+    <button class="btn btn-d" onclick="goHome()" style="width:100%">← 首页</button>
+  </div>
+</div>
+<!-- 地支象意 -->
+<div id="p-zhiyx" class="screen">
+  <div class="tbar"><button class="tbk" onclick="goHome()">← 首页</button><div class="tbtitle">🐲 地支象意</div><div class="tbr" id="zyx-p-r"></div></div>
+  <div id="p-zhiyx-main">
+    <div class="prog-row"><span class="prog-txt" id="zyx-p-t"></span><div class="prog-wrap"><div class="prog-bar" id="zyx-p-b" style="width:0%"></div></div></div>
+    <div class="yx-card" id="zyx-card"></div>
+    <div id="zyx-opts"></div>
+    <div class="yx-explain"></div>
+  </div>
+  <div id="p-zhiyx-res" style="display:none;flex-direction:column;align-items:center;padding:20px 0">
+    <div class="yx-score" id="zyx-score"></div>
+    <div class="yx-lv" id="zyx-lv"></div>
+    <div style="font-size:13px;color:#64748b;text-align:center;margin-bottom:20px" id="zyx-det"></div>
+    <button class="btn btn-g" onclick="startZhiYX()" style="margin-bottom:10px;width:100%">再来一轮 ↺</button>
+    <button class="btn btn-d" onclick="goHome()" style="width:100%">← 首页</button>
+  </div>
+</div>
+<!-- 十神象意 -->
+<div id="p-shenyx" class="screen">
+  <div class="tbar"><button class="tbk" onclick="goHome()">← 首页</button><div class="tbtitle">⚖️ 十神象意</div><div class="tbr" id="syx-p-r"></div></div>
+  <div id="p-shenyx-main">
+    <div class="prog-row"><span class="prog-txt" id="syx-p-t"></span><div class="prog-wrap"><div class="prog-bar" id="syx-p-b" style="width:0%"></div></div></div>
+    <div class="yx-card" id="syx-card"></div>
+    <div id="syx-opts"></div>
+    <div class="yx-explain"></div>
+  </div>
+  <div id="p-shenyx-res" style="display:none;flex-direction:column;align-items:center;padding:20px 0">
+    <div class="yx-score" id="syx-score"></div>
+    <div class="yx-lv" id="syx-lv"></div>
+    <div style="font-size:13px;color:#64748b;text-align:center;margin-bottom:20px" id="syx-det"></div>
+    <button class="btn btn-g" onclick="startShenYX()" style="margin-bottom:10px;width:100%">再来一轮 ↺</button>
+    <button class="btn btn-d" onclick="goHome()" style="width:100%">← 首页</button>
+  </div>
+</div>
+<!-- 干支关系象意 -->
+<div id="p-relyx" class="screen">
+  <div class="tbar"><button class="tbk" onclick="goHome()">← 首页</button><div class="tbtitle">🔗 干支关系象意</div><div class="tbr" id="ryx-p-r"></div></div>
+  <div id="p-relyx-main">
+    <div class="prog-row"><span class="prog-txt" id="ryx-p-t"></span><div class="prog-wrap"><div class="prog-bar" id="ryx-p-b" style="width:0%"></div></div></div>
+    <div class="yx-card" id="ryx-card"></div>
+    <div id="ryx-opts"></div>
+    <div class="yx-explain"></div>
+  </div>
+  <div id="p-relyx-res" style="display:none;flex-direction:column;align-items:center;padding:20px 0">
+    <div class="yx-score" id="ryx-score"></div>
+    <div class="yx-lv" id="ryx-lv"></div>
+    <div style="font-size:13px;color:#64748b;text-align:center;margin-bottom:20px" id="ryx-det"></div>
+    <button class="btn btn-g" onclick="startRelYX()" style="margin-bottom:10px;width:100%">再来一轮 ↺</button>
+    <button class="btn btn-d" onclick="goHome()" style="width:100%">← 首页</button>
+  </div>
+</div>
+
 </div>
 
 <div id="p-stats" class="screen">
@@ -4163,6 +4256,134 @@ if('serviceWorker' in navigator){
     navigator.serviceWorker.register('./sw.js').catch(()=>{});
   });
 }
+
+// ════════════ 意象联想训练 ════════════
+const GAN_YX=[
+  {name:'甲',cat:'天干',sx:'参天大树·栋梁之才',ex:'刚直向上、开创进取，主权威领导；喜水生、火泄，怕庚金克'},
+  {name:'乙',cat:'天干',sx:'花草藤蔓·随机应变',ex:'柔韧曲折、随势而行，善处理人际；喜丙丁暖，怕辛金剪'},
+  {name:'丙',cat:'天干',sx:'太阳烈火·光明磊落',ex:'热情坦荡、照耀万物，性格外向无私；喜壬水制，怕过燥无润'},
+  {name:'丁',cat:'天干',sx:'灯烛星火·精细温润',ex:'内敛文雅、夜间之光，重细节感情；喜甲木生，怕壬水灭'},
+  {name:'戊',cat:'天干',sx:'高山厚土·稳重包容',ex:'固执守信、稳如山岳，多阻碍也多承载；喜火暖木疏，怕积水成灾'},
+  {name:'己',cat:'天干',sx:'田园沃土·细腻柔顺',ex:'藏纳万物、内敛保守，善于隐藏真实想法；喜火暖丙丁，怕甲木克'},
+  {name:'庚',cat:'天干',sx:'利刃斧钺·刚强决断',ex:'肃杀威严、变革突破，主行动力与决断；喜丁火炼，怕多水泄气'},
+  {name:'辛',cat:'天干',sx:'珠宝首饰·精致敏感',ex:'才华内敛、多愁善感，重颜面与品质；喜壬水洗，怕丙火熔'},
+  {name:'壬',cat:'天干',sx:'江河大海·流通广博',ex:'智慧聪明、善于奔走，包容心强；喜庚金生，怕过多戊土克'},
+  {name:'癸',cat:'天干',sx:'细雨露水·阴柔灵动',ex:'善变机敏、滋养万物，心思细密情绪化；喜辛金生，怕戊土掩'},
+];
+const ZHI_YX=[
+  {name:'子',cat:'地支',sx:'机敏流动·智慧善思',ex:'子水，鼠象，子时；险中求生、暗中谋划，主流动与智慧'},
+  {name:'丑',cat:'地支',sx:'厚重积蓄·仓库田地',ex:'丑土，牛象，丑时；迟缓蓄力、积少成多，主积累与稳固'},
+  {name:'寅',cat:'地支',sx:'威武进取·权威开创',ex:'寅木，虎象，黎明；霸气开创、威严进取，主行动与权威'},
+  {name:'卯',cat:'地支',sx:'温柔文雅·交际灵活',ex:'卯木，兔象，清晨；和风春日、人际灵活，主文雅与交际'},
+  {name:'辰',cat:'地支',sx:'云雨变化·蓄势待发',ex:'辰土，龙象，上午；变化机遇、蓄积力量，主变动与厚藏'},
+  {name:'巳',cat:'地支',sx:'机智专注·阴险蛰伏',ex:'巳火，蛇象，上午；深谋远虑、阴险专注，主潜伏与集中'},
+  {name:'午',cat:'地支',sx:'奔放热情·正大光明',ex:'午火，马象，正午；光明显贵、豪爽奔放，主名誉与激情'},
+  {name:'未',cat:'地支',sx:'温和迷茫·艺术感情',ex:'未土，羊象，下午；细腻感性、田园艺术，主柔顺与迷茫'},
+  {name:'申',cat:'地支',sx:'聪慧机变·驿动奔走',ex:'申金，猴象，下午；机变百出、驿马奔走，主变化与聪明'},
+  {name:'酉',cat:'地支',sx:'精细享受·秋日肃杀',ex:'酉金，鸡象，傍晚；精细收敛、享受阴私，主精致与肃杀'},
+  {name:'戌',cat:'地支',sx:'忠诚守护·孤独守夜',ex:'戌土，狗象，黄昏；忠诚守护、孤独入墓，主坚守与封闭'},
+  {name:'亥',cat:'地支',sx:'宽厚享受·万物归藏',ex:'亥水，猪象，子夜前；宽厚阴暗、深藏不露，主收藏与幽深'},
+];
+const SHEN_YX=[
+  {name:'比肩',cat:'十神',sx:'兄弟朋友·独立竞争',ex:'同性相见，主兄弟朋友、平等竞争；独立自强，不服管束'},
+  {name:'劫财',cat:'十神',sx:'夺财竞争·义气冒险',ex:'同性相见，主夺财破财、义气用事；强取豪夺，冒险精神'},
+  {name:'食神',cat:'十神',sx:'才艺享受·温和创作',ex:'日主所生同性，主口福才华、逍遥享受；制杀有功，性温'},
+  {name:'伤官',cat:'十神',sx:'叛逆才华·不服规矩',ex:'日主所生异性，主聪明才华、叛逆表现欲；克官伤主'},
+  {name:'正财',cat:'十神',sx:'正当收入·勤劳务实',ex:'日主所克异性，主辛苦钱财、务实节俭；按劳得酬'},
+  {name:'偏财',cat:'十神',sx:'横财父星·慷慨大方',ex:'日主所克同性，主横财交际、经商理财；代表父亲'},
+  {name:'正官',cat:'十神',sx:'规矩权威·官职名誉',ex:'克日主异性，主领导约束、遵规守法；贵人相助之象'},
+  {name:'七杀',cat:'十神',sx:'压力挑战·魄力霸气',ex:'克日主同性，主压力强势、逆境磨砺；有魄力但凶险'},
+  {name:'正印',cat:'十神',sx:'慈母学问·滋养保护',ex:'生日主异性，主文书学问、贵人庇佑；慈爱保护之象'},
+  {name:'偏印',cat:'十神',sx:'偏门创意·孤独忧思',ex:'生日主同性，主偏学孤独、另辟蹊径；枭夺食神'},
+];
+const REL_YX=[
+  {name:'六冲',cat:'关系',sx:'冲突对抗·动荡变化',ex:'子午、丑未、寅申、卯酉、辰戌、巳亥相冲；主排斥动荡，动中有变，冲开合局'},
+  {name:'六合',cat:'关系',sx:'合作亲和·融合转化',ex:'子丑、寅亥、卯戌、辰酉、巳申、午未相合；主相互吸引配合，志同道合'},
+  {name:'三合',cat:'关系',sx:'大合局·力量聚合',ex:'申子辰水、寅午戌火、巳酉丑金、亥卯未木；三者共同目标，力量齐聚成格'},
+  {name:'六刑',cat:'关系',sx:'伤害消耗·内部矛盾',ex:'寅巳申、丑戌未、子卯相刑，辰午酉亥自刑；主刑罚折腾、固执内耗'},
+  {name:'六害',cat:'关系',sx:'暗害阻隔·小人作祟',ex:'子未、丑午、寅巳、卯辰、申亥、酉戌相害；主阴暗破坏、背后使绊'},
+  {name:'六破',cat:'关系',sx:'破坏分离·损耗不全',ex:'子酉、丑辰、寅亥、卯午、申巳、戌未相破；主中途而废、损耗不完整'},
+  {name:'暗合',cat:'关系',sx:'隐性感应·暗中相合',ex:'天干五合之地支暗合，如子与丑暗合戊；主不明显的隐性吸引与配合'},
+];
+
+function _yxQuiz(data, sid, catLabel){
+  const pool=shuffleArr([...data]);
+  const qs=pool.map((t,i)=>({...t,typeA:i%2===0}));
+  return {qs, idx:0, correct:0, answered:false, sid, catLabel};
+}
+function _yxRender(state, cardId, optsId, explId, progTId, progBId, progRId, data){
+  const{qs,idx}=state,q=qs[idx],total=qs.length;
+  const r=document.getElementById(progRId); if(r)r.textContent=`${idx+1}/${total}`;
+  const pt=document.getElementById(progTId); if(pt)pt.textContent=`${idx+1}/${total}`;
+  const pb=document.getElementById(progBId); if(pb)pb.style.width=`${idx/total*100}%`;
+  const card=document.getElementById(cardId);
+  let opts,ans;
+  if(q.typeA){
+    card.innerHTML=`<div class="yx-name">${q.name}</div><div class="yx-attr">类别：${q.cat}</div><div class="yx-attr" style="margin-top:4px">主象是？</div>`;
+    ans=q.sx;
+    opts=shuffleArr([ans,...shuffleArr(data.filter(t=>t.name!==q.name)).slice(0,3).map(t=>t.sx)]);
+  } else {
+    card.innerHTML=`<div class="yx-attr" style="margin-top:8px;font-size:11px">主象：</div><div class="yx-sx">${q.sx}</div><div class="yx-attr" style="margin-top:10px">这是哪个${q.cat}？</div>`;
+    ans=q.name;
+    opts=shuffleArr([ans,...shuffleArr(data.filter(t=>t.name!==q.name)).slice(0,3).map(t=>t.name)]);
+  }
+  document.getElementById(optsId).innerHTML=opts.map(o=>`<button class="yx-opt" data-opt="${o}" onclick="_yxAnswer(this,'${state.sid}')" style="letter-spacing:2px">${o}</button>`).join('');
+  const exEl=document.querySelector(`#${state.sid}-main .yx-explain`); if(exEl)exEl.style.display='none';
+  state.answered=false;
+}
+const _yxStates={};
+function _yxAnswer(btn, sid){
+  const state=_yxStates[sid]; if(!state||state.answered)return;
+  state.answered=true;
+  const q=state.qs[state.idx],ans=q.typeA?q.sx:q.name,chosen=btn.dataset.opt;
+  btn.closest('div').querySelectorAll('.yx-opt').forEach(b=>{b.disabled=true;b.classList.add(b.dataset.opt===ans?'ok':'');});
+  if(chosen!==ans)btn.classList.add('bad');
+  if(chosen===ans)state.correct++;
+  const ex=document.querySelector(`#${state.sid}-main .yx-explain`);
+  if(ex){ex.innerHTML=`${chosen===ans?'✓ ':'✗ '}<b>${q.name}</b>（${q.cat}）<br>主象：${q.sx}<br>${q.ex}`;ex.style.display='block';}
+  setTimeout(()=>{
+    state.idx++;
+    if(state.idx>=state.qs.length){_yxEnd(sid);return;}
+    _yxDoRender(sid);window.scrollTo(0,0);
+  },1600);
+}
+function _yxDoRender(sid){
+  const state=_yxStates[sid],cfg=_yxCfg[sid];
+  _yxRender(state,...cfg.renderArgs,cfg.data);
+}
+function _yxEnd(sid){
+  const state=_yxStates[sid],cfg=_yxCfg[sid],{correct,qs}=state,total=qs.length,pct=Math.round(correct/total*100);
+  document.getElementById(`${sid}-main`).style.display='none';
+  document.getElementById(`${sid}-res`).style.display='flex';
+  document.getElementById(cfg.scoreId).textContent=`${correct}/${total}`;
+  document.getElementById(cfg.lvId).textContent=pct>=90?'已熟于心 🎉':pct>=70?'基本掌握 👍':pct>=50?'继续加油 💪':'需多练习 📚';
+  document.getElementById(cfg.detId).innerHTML=`答对 <b>${correct}</b> 题 / 共 <b>${total}</b> 题<br>正确率 <b>${pct}%</b>`;
+}
+
+const _yxCfg={
+  'p-ganyx':{data:GAN_YX,scoreId:'gyx-score',lvId:'gyx-lv',detId:'gyx-det',
+    renderArgs:['gyx-card','gyx-opts','yx-explain','gyx-p-t','gyx-p-b','gyx-p-r']},
+  'p-zhiyx':{data:ZHI_YX,scoreId:'zyx-score',lvId:'zyx-lv',detId:'zyx-det',
+    renderArgs:['zyx-card','zyx-opts','yx-explain','zyx-p-t','zyx-p-b','zyx-p-r']},
+  'p-shenyx':{data:SHEN_YX,scoreId:'syx-score',lvId:'syx-lv',detId:'syx-det',
+    renderArgs:['syx-card','syx-opts','yx-explain','syx-p-t','syx-p-b','syx-p-r']},
+  'p-relyx':{data:REL_YX,scoreId:'ryx-score',lvId:'ryx-lv',detId:'ryx-det',
+    renderArgs:['ryx-card','ryx-opts','yx-explain','ryx-p-t','ryx-p-b','ryx-p-r']},
+};
+function _startYX(sid){
+  const cfg=_yxCfg[sid];
+  const state=_yxQuiz(cfg.data,sid,sid);
+  _yxStates[sid]=state;
+  document.getElementById(`${sid}-main`).style.display='';
+  document.getElementById(`${sid}-res`).style.display='none';
+  show(sid);_yxDoRender(sid);
+}
+function startGanYX(){_startYX('p-ganyx');}
+function startZhiYX(){_startYX('p-zhiyx');}
+function startShenYX(){_startYX('p-shenyx');}
+function startRelYX(){_startYX('p-relyx');}
+// ════════════ 意象联想训练 END ════════════
+
 </script>
 </body>
 </html>
