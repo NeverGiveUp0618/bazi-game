@@ -4306,6 +4306,7 @@ const REL_YX=[
   {name:'暗合',cat:'关系',sx:'隐性感应·暗中相合',ex:'天干五合之地支暗合，如子与丑暗合戊；主不明显的隐性吸引与配合'},
 ];
 
+function shuffleArr(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=0|Math.random()*(i+1);[a[i],a[j]]=[a[j],a[i]];}return a;}
 function _yxQuiz(data, sid, catLabel){
   const pool=shuffleArr([...data]);
   const qs=pool.map((t,i)=>({...t,typeA:i%2===0}));
