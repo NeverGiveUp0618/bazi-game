@@ -564,6 +564,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   <div class="card" style="margin-bottom:9px">
     <div class="hhist">开发时间节点</div>
     <div style="max-height:130px;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:6px;margin-top:2px;padding-right:2px">
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.28</span><span style="color:#94a3b8;font-size:12px">🎭 象法速查（共/合/字/倒·天干事业类象·十神断事方向）</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.28</span><span style="color:#94a3b8;font-size:12px">📊 十天干喜忌速记表·六十甲子虚实对照·天元论命备注</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.28</span><span style="color:#94a3b8;font-size:12px">🌀 意象联想训练（天干/地支/十神/干支关系）·布局嵌套bug修复</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.26</span><span style="color:#94a3b8;font-size:12px">🀄 六十甲子训练·歌诀挖空·干支推算·PWA离线</span></div>
@@ -1590,6 +1591,98 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
           <tr><td style="color:#c4b5fd;font-weight:bold">天地门</td><td style="text-align:left">干支气脉连体改变虚实。</td><td style="text-align:left">虚实后重点护根；仍虚则重喜忌表象。</td><td style="text-align:left;color:#ef4444">单柱虚实一锤定音。</td></tr>
           <tr><td style="color:#60a5fa;font-weight:bold">象法</td><td style="text-align:left">共象、合象、字象、倒象。</td><td style="text-align:left">多重信息交叉指向再下具体断语。</td><td style="text-align:left;color:#ef4444">脱离八步法空谈象。</td></tr>
         </table></div>
+      </div>
+    </div>
+
+    <!-- 象法取象 -->
+    <div class="m5-sec">
+      <button class="m5-tog" onclick="m5Toggle(this)">▶ 🎭 象法·取象法则</button>
+      <div class="m5-body" style="display:none">
+        <div class="m5-sub">象法四类</div>
+        <div style="font-size:10px;color:#475569;text-align:center;padding:4px 0;letter-spacing:.5px">← 左右滑动查看 →</div>
+        <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+          <thead><tr><th>象法</th><th style="min-width:100px">本质</th><th style="min-width:150px">如何用</th><th style="min-width:130px">实战举例</th></tr></thead>
+          <tr><td style="color:#10b981;font-weight:bold">共象</td><td style="text-align:left">多重信息交叉定点<br><span style="font-size:10px;color:#64748b">铁口直断核心</span></td><td style="text-align:left">天干象+地支象+宫位象+十神象→精准锁定</td><td style="text-align:left">丙寅日·印星落月：出版/传媒/教育</td></tr>
+          <tr><td style="color:#f59e0b;font-weight:bold">合象</td><td style="text-align:left">组合定新象<br><span style="font-size:10px;color:#64748b">断事丰富化</span></td><td style="text-align:left">合中看克，相合字互代象意，勿待化</td><td style="text-align:left">甲己合：甲代己象，己代甲象</td></tr>
+          <tr><td style="color:#c4b5fd;font-weight:bold">字象</td><td style="text-align:left">作用定性质<br><span style="font-size:10px;color:#64748b">职业/事件判定</span></td><td style="text-align:left">关系=事件性质；合=掌控，冲=变动，穿=暗耗</td><td style="text-align:left">食神合官：靠才华进体制</td></tr>
+          <tr><td style="color:#ef4444;font-weight:bold">倒象</td><td style="text-align:left">好意向反为凶<br><span style="font-size:10px;color:#64748b">降格/灾祸预警</span></td><td style="text-align:left">喜神被制破→倒象；格局倒置主层次骤降</td><td style="text-align:left">食神犯官：才华成犯法；印旺：学历变依赖</td></tr>
+        </table></div>
+
+        <div class="m5-sub">共象锁定公式</div>
+        <div style="background:#0b1320;border:1px solid #1e293b;border-radius:8px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2">
+          <span style="color:#64748b">① 天干象：</span><span style="color:#c4b5fd">甲=大树·责任·开拓</span><span style="color:#334155">（外在形象）</span><br>
+          <span style="color:#64748b">② 地支象：</span><span style="color:#60a5fa">寅=木·虎·出行·拼搏</span><span style="color:#334155">（内在本性）</span><br>
+          <span style="color:#64748b">③ 宫位象：</span><span style="color:#f59e0b">日柱=自己/配偶，月柱=父母/事业</span><br>
+          <span style="color:#64748b">④ 十神象：</span><span style="color:#10b981">食神=才华输出，官星=权力约束</span><br>
+          <div style="text-align:center;color:#10b981;font-weight:bold;margin-top:4px;font-size:13px;letter-spacing:1px">四项交叉 → 铁口直断</div>
+        </div>
+
+        <div class="m5-sub">三元类象（天/地/人三层）</div>
+        <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+          <thead><tr><th>层次</th><th>对应</th><th style="min-width:100px">代表内容</th><th style="min-width:160px">取象方向</th></tr></thead>
+          <tr><td style="color:#f59e0b;font-weight:bold">天干（天）</td><td>外在</td><td style="text-align:left">形象·表现·社会角色</td><td style="text-align:left">外在特征/行事风格/显性性格</td></tr>
+          <tr><td style="color:#60a5fa;font-weight:bold">地支（地）</td><td>内在</td><td style="text-align:left">本性·内心·真实品格</td><td style="text-align:left">内心世界/隐性特质/核心欲求</td></tr>
+          <tr><td style="color:#94a3b8;font-weight:bold">藏干（人）</td><td>深层</td><td style="text-align:left">潜意识·隐秘动机</td><td style="text-align:left">深层价值观/细节潜力/关系底色</td></tr>
+        </table></div>
+
+        <div class="m5-sub">天干事业类象（实战速查）</div>
+        <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 🌿 甲乙木类象</button>
+        <div class="m5-sub-body" style="display:none">
+          <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+            <thead><tr><th>天干</th><th>核心象</th><th style="min-width:120px">事业方向</th><th style="min-width:130px">人物类型</th></tr></thead>
+            <tr><td class="c-gan">甲</td><td>参天大树</td><td style="text-align:left">开拓·领导·创业·担当</td><td style="text-align:left">创始人/一把手/组织领袖</td></tr>
+            <tr><td class="c-gan">乙</td><td>花草藤蔓</td><td style="text-align:left">技术·艺术·辅佐·细腻</td><td style="text-align:left">技术骨干/艺术家/贤内助</td></tr>
+          </table></div>
+          <div style="font-size:10px;color:#64748b;padding:2px 4px 4px">活木如活树→需养护有生命；死木如建材→雕琢成器（状态不同象意反转）</div>
+        </div>
+        <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 🔥 丙丁火类象</button>
+        <div class="m5-sub-body" style="display:none">
+          <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+            <thead><tr><th>天干</th><th>核心象</th><th style="min-width:120px">事业方向</th><th style="min-width:130px">人物类型</th></tr></thead>
+            <tr><td class="c-gan">丙</td><td>太阳火</td><td style="text-align:left">领导·感召·传播·快速成长</td><td style="text-align:left">演说家/网红/感召型领袖</td></tr>
+            <tr><td class="c-gan">丁</td><td>灯烛火</td><td style="text-align:left">文化·玄学·创意·精专</td><td style="text-align:left">老师/策划/研究者/玄学顾问</td></tr>
+          </table></div>
+          <div style="font-size:10px;color:#64748b;padding:2px 4px 4px">天火（虚透）主名气光环；地火（通根）主实权实力——虚实不同断法截然相反</div>
+        </div>
+        <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 🌍 戊己土类象</button>
+        <div class="m5-sub-body" style="display:none">
+          <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+            <thead><tr><th>天干</th><th>核心象</th><th style="min-width:120px">事业方向</th><th style="min-width:130px">人物类型</th></tr></thead>
+            <tr><td class="c-gan">戊</td><td>高山土</td><td style="text-align:left">大平台·地产·军政·资源</td><td style="text-align:left">大老板/政府/地产/规模化</td></tr>
+            <tr><td class="c-gan">己</td><td>田园土</td><td style="text-align:left">细分领域·策划·资源整合</td><td style="text-align:left">策划师/HR/调解人/精耕者</td></tr>
+          </table></div>
+          <div style="font-size:10px;color:#64748b;padding:2px 4px 4px">戊土宜疏（甲木疏通→得财通路）；己土宜润（乙木种植→出成果）</div>
+        </div>
+        <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 💎 庚辛金类象</button>
+        <div class="m5-sub-body" style="display:none">
+          <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+            <thead><tr><th>天干</th><th>核心象</th><th style="min-width:120px">事业方向</th><th style="min-width:130px">人物类型</th></tr></thead>
+            <tr><td class="c-gan">庚</td><td>矿石钢铁</td><td style="text-align:left">变革·执行·突破·制度</td><td style="text-align:left">改革者/执行官/军人/机械</td></tr>
+            <tr><td class="c-gan">辛</td><td>珠玉首饰</td><td style="text-align:left">精密·品质·审美·技术优化</td><td style="text-align:left">珠宝/医疗/精密仪器/审计</td></tr>
+          </table></div>
+          <div style="font-size:10px;color:#64748b;padding:2px 4px 4px">庚要历练→喜丁火锻炼成器；辛要洁净→喜癸水清秀，过炼则伤品质</div>
+        </div>
+        <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 💧 壬癸水类象</button>
+        <div class="m5-sub-body" style="display:none">
+          <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+            <thead><tr><th>天干</th><th>核心象</th><th style="min-width:120px">事业方向</th><th style="min-width:130px">人物类型</th></tr></thead>
+            <tr><td class="c-gan">壬</td><td>江河大水</td><td style="text-align:left">战略·格局·金融·趋势</td><td style="text-align:left">战略家/金融家/物流/水利</td></tr>
+            <tr><td class="c-gan">癸</td><td>雨露溪泉</td><td style="text-align:left">幕后·参谋·分析·玄学</td><td style="text-align:left">顾问/情报/研究/宗教修行</td></tr>
+          </table></div>
+          <div style="font-size:10px;color:#64748b;padding:2px 4px 4px">壬水需堤岸（戊土导流→收得住）；癸水需木泄（甲乙引导→发散出去）</div>
+        </div>
+
+        <div class="m5-sub" style="margin-top:10px">十神断事方向</div>
+        <div style="font-size:10px;color:#475569;text-align:center;padding:4px 0;letter-spacing:.5px">← 左右滑动查看 →</div>
+        <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+          <thead><tr><th>十神</th><th style="min-width:90px">象意核心</th><th style="min-width:120px">财富方向</th><th style="min-width:140px">职业/事件类型</th></tr></thead>
+          <tr><td style="color:#94a3b8;font-weight:bold">比劫</td><td style="text-align:left">人群·同辈·竞争</td><td style="text-align:left">合伙·风投·流量·团队</td><td style="text-align:left">销售/众筹/组织动员</td></tr>
+          <tr><td style="color:#10b981;font-weight:bold">食伤</td><td style="text-align:left">才华·输出·子女</td><td style="text-align:left">技术·创意·内容变现</td><td style="text-align:left">教育/创作/IP/技术服务</td></tr>
+          <tr><td style="color:#f59e0b;font-weight:bold">财星</td><td style="text-align:left">资源·掌控·现实</td><td style="text-align:left">直接求财·资产掌控</td><td style="text-align:left">商业/金融/地产/实物</td></tr>
+          <tr><td style="color:#ef4444;font-weight:bold">官杀</td><td style="text-align:left">权力·规则·压力</td><td style="text-align:left">体制资源·资本运作</td><td style="text-align:left">政府/体制/法律/权力</td></tr>
+          <tr><td style="color:#c4b5fd;font-weight:bold">印星</td><td style="text-align:left">文书·庇护·传承</td><td style="text-align:left">版权·学历·房产变现</td><td style="text-align:left">出版/教育机构/文化</td></tr>
+        </table></div>
+        <div style="font-size:10px;color:#475569;padding:2px 4px 6px;line-height:1.8">铁律：十神皆可代财富，关键看命局所需与行业属性。财星=鱼（现成钱财）；食伤=渔（生财之源）——无财星，优先找食伤或官印作财富载体。</div>
       </div>
     </div>
 
