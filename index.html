@@ -525,16 +525,11 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     </div>
   </div>
   <div class="mcard">
-    <div class="mcard-head"><div class="mcard-icon">🔍</div><div><div class="mcard-name">八字排盘 <span class="nt-label">无计时</span></div><div class="mcard-desc">点任意两字查关系，人鉴117例</div></div></div>
+    <div class="mcard-head"><div class="mcard-icon">🔍</div><div><div class="mcard-name">八字排盘 <span class="nt-label">无计时</span></div><div class="mcard-desc">人鉴117例 · 自定义输入 · 干支关系速查</div></div></div>
     <div class="mcard-btns">
       <button class="btn btn-b" onclick="startM3(-1)">随机一例</button>
       <button class="btn btn-d" onclick="startM3(0)">从第一例</button>
-    </div>
-  </div>
-  <div class="mcard">
-    <div class="mcard-head"><div class="mcard-icon">✏️</div><div><div class="mcard-name">自定义排盘 <span class="nt-label">无计时</span></div><div class="mcard-desc">输入任意八字，即时查干支关系</div></div></div>
-    <div class="mcard-btns">
-      <button class="btn btn-b" onclick="startM4Input()">输入八字 →</button>
+      <button class="btn btn-b" onclick="startM4Input()">自定义排盘</button>
     </div>
   </div>
   <div class="mcard" onclick="show('p5')" style="cursor:pointer">
@@ -543,11 +538,12 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   <div class="mcard" onclick="show('p-gejue-sel')" style="cursor:pointer">
     <div class="mcard-head"><div class="mcard-icon">📜</div><div><div class="mcard-name">歌诀闪卡 <span class="nt-label">背诵</span></div><div class="mcard-desc">清纯·婚姻·三刑·寿元…14套歌诀翻卡背诵</div></div><div style="color:#475569;font-size:18px">›</div></div>
   </div>
-  <div class="mcard" onclick="showStats()" style="cursor:pointer">
-    <div class="mcard-head"><div class="mcard-icon">📅</div><div><div class="mcard-name">周月统计</div><div class="mcard-desc">打卡日历 · 近7天/30天练习汇总</div></div><div style="color:#475569;font-size:18px">›</div></div>
-  </div>
-  <div class="mcard" onclick="showMaster()" style="cursor:pointer">
-    <div class="mcard-head"><div class="mcard-icon">📊</div><div><div class="mcard-name">掌握度面板</div><div class="mcard-desc" id="el-master-sub">各类别正确率分析，找出薄弱知识点</div></div><div style="color:#475569;font-size:18px">›</div></div>
+  <div class="mcard">
+    <div class="mcard-head"><div class="mcard-icon">📊</div><div><div class="mcard-name">学习报告</div><div class="mcard-desc" id="el-master-sub">打卡日历 · 正确率分析 · 薄弱知识点</div></div></div>
+    <div class="mcard-btns">
+      <button class="btn btn-d" onclick="showStats()">📅 周月统计</button>
+      <button class="btn btn-d" onclick="showMaster()">📊 掌握度面板</button>
+    </div>
   </div>
   <div class="nb-card" onclick="show('p-nb')">
     <div class="nb-card-row">
@@ -564,6 +560,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   <div class="card" style="margin-bottom:9px">
     <div class="hhist">开发时间节点</div>
     <div style="max-height:130px;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:6px;margin-top:2px;padding-right:2px">
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.28</span><span style="color:#94a3b8;font-size:12px">🗂 首页菜单精简（排盘合一·学习报告合并）</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.28</span><span style="color:#94a3b8;font-size:12px">🎭 象法速查（共/合/字/倒·天干事业类象·十神断事方向）</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.28</span><span style="color:#94a3b8;font-size:12px">📊 十天干喜忌速记表·喜忌原理精讲·干支虚实对照·天元论命备注</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.28</span><span style="color:#94a3b8;font-size:12px">🌀 意象联想训练（天干/地支/十神/干支关系）·布局嵌套bug修复</span></div>
