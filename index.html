@@ -564,6 +564,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   <div class="card" style="margin-bottom:9px">
     <div class="hhist">开发时间节点</div>
     <div style="max-height:130px;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:6px;margin-top:2px;padding-right:2px">
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.28</span><span style="color:#94a3b8;font-size:12px">📊 十天干喜忌速记表·六十甲子虚实对照·天元论命备注</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.28</span><span style="color:#94a3b8;font-size:12px">🌀 意象联想训练（天干/地支/十神/干支关系）·布局嵌套bug修复</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.26</span><span style="color:#94a3b8;font-size:12px">🀄 六十甲子训练·歌诀挖空·干支推算·PWA离线</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.26</span><span style="color:#94a3b8;font-size:12px">⚡ 自适应出题·连击特效·歌诀闪卡·配对困难模式</span></div>
@@ -1172,19 +1173,24 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <div class="m5-sec">
       <button class="m5-tog" onclick="m5Toggle(this)">▶ ⚖ 干支虚实</button>
       <div class="m5-body" style="display:none">
+        <div class="m5-sub">六十甲子虚实对照（完整60柱）</div>
         <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
-          <thead><tr><th>天干</th><th style="color:#10b981">实支（有根有生）</th><th style="color:#475569">虚支（无根无生）</th></tr></thead>
-          <tr><td class="c-gan">甲</td><td class="c-shi">寅 辰 子</td><td class="c-xu">申 戌 午</td></tr>
-          <tr><td class="c-gan">乙</td><td class="c-shi">亥 卯 未</td><td class="c-xu">巳 酉 丑</td></tr>
-          <tr><td class="c-gan">丙</td><td class="c-shi">寅 午 戌</td><td class="c-xu">子 申 辰</td></tr>
-          <tr><td class="c-gan">丁</td><td class="c-shi">巳 卯 未</td><td class="c-xu">亥 丑 酉</td></tr>
-          <tr><td class="c-gan">戊</td><td class="c-shi">戌 午 辰</td><td class="c-xu">子 申 寅</td></tr>
-          <tr><td class="c-gan">己</td><td class="c-shi">巳 未 丑</td><td class="c-xu">亥 酉 卯</td></tr>
-          <tr><td class="c-gan">庚</td><td class="c-shi">申 辰</td><td class="c-xu">子 午 寅 戌</td></tr>
-          <tr><td class="c-gan">辛</td><td class="c-shi">丑 酉</td><td class="c-xu">巳 亥 未 卯</td></tr>
-          <tr><td class="c-gan">壬</td><td class="c-shi">申 子 辰</td><td class="c-xu">戌 午 寅</td></tr>
-          <tr><td class="c-gan">癸</td><td class="c-shi">亥 酉 丑</td><td class="c-xu">巳 未 卯</td></tr>
+          <thead><tr><th>天干</th><th style="color:#10b981">实柱（通根·有根有生）</th><th style="color:#475569">虚柱（孤露·无根无生）</th></tr></thead>
+          <tr><td class="c-gan">甲</td><td class="c-shi">甲寅 甲辰 甲子</td><td class="c-xu">甲午 甲申 甲戌</td></tr>
+          <tr><td class="c-gan">乙</td><td class="c-shi">乙卯 乙未 乙亥</td><td class="c-xu">乙丑 乙巳 乙酉</td></tr>
+          <tr><td class="c-gan">丙</td><td class="c-shi">丙寅 丙午 丙戌</td><td class="c-xu">丙子 丙辰 丙申</td></tr>
+          <tr><td class="c-gan">丁</td><td class="c-shi">丁巳 丁未</td><td class="c-xu">丁丑 丁卯 丁酉 丁亥</td></tr>
+          <tr><td class="c-gan">戊</td><td class="c-shi">戊寅 戊辰 戊午 戊戌</td><td class="c-xu">戊子 戊申</td></tr>
+          <tr><td class="c-gan">己</td><td class="c-shi">己丑 己巳 己未</td><td class="c-xu">己卯 己酉 己亥</td></tr>
+          <tr><td class="c-gan">庚</td><td class="c-shi">庚申 庚戌 庚辰</td><td class="c-xu">庚子 庚寅 庚午</td></tr>
+          <tr><td class="c-gan">辛</td><td class="c-shi">辛酉 辛丑 辛巳</td><td class="c-xu">辛卯 辛未 辛亥</td></tr>
+          <tr><td class="c-gan">壬</td><td class="c-shi">壬子 壬申 壬辰</td><td class="c-xu">壬寅 壬午 壬戌</td></tr>
+          <tr><td class="c-gan">癸</td><td class="c-shi">癸亥 癸丑 癸酉</td><td class="c-xu">癸卯 癸巳 癸未</td></tr>
         </table></div>
+        <div style="font-size:10px;color:#475569;padding:2px 4px 8px;line-height:1.9">
+          判别：天干在地支中藏有同类五行（本气/中气/余气）即为实·有根；孤露、无根、被克泄者为虚·无根<br>
+          阳干配阳支（子寅辰午申戌），阴干配阴支（丑卯巳未酉亥），每干恰好6柱（完整六十甲子）
+        </div>
       </div>
     </div>
 
@@ -1275,6 +1281,26 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
           <div>🌿 <span style="color:#34d399">土喜木疏，喜金泄，不喜火生</span></div>
           <div>🌙 <span style="color:#93c5fd">丁虚见壬→控制权力（丁壬合）</span></div>
         </div>
+
+        <div class="m5-sub">天元论命·精要备注（依《民间实用八字命理学》）</div>
+        <div style="font-size:11px;color:#64748b;padding:2px 4px 6px;line-height:1.7">论命次第：先观五行阴阳 → 次观虚实死活 → 定状态后论喜忌 → 最后分度定局</div>
+        <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+          <thead><tr><th>天干</th><th>状态</th><th style="text-align:left;min-width:200px">精要备注</th></tr></thead>
+          <tr><td class="c-gan">甲</td><td style="color:#10b981">活木</td><td style="text-align:left;color:#94a3b8">水火拱配最佳；木火通明格</td></tr>
+          <tr><td class="c-gan">甲</td><td style="color:#ef4444">死木</td><td style="text-align:left;color:#94a3b8">甲喜见庚金（劈木成材）；甲木不见庚多为无寿人</td></tr>
+          <tr><td class="c-gan">乙</td><td style="color:#10b981">活木</td><td style="text-align:left;color:#94a3b8">可借甲根而活（藤萝系甲）</td></tr>
+          <tr><td class="c-gan">乙</td><td style="color:#ef4444">死木</td><td style="text-align:left;color:#94a3b8">借根：乙借甲根可活；甲乙同柱见水可救</td></tr>
+          <tr><td class="c-gan">丙</td><td style="color:#475569">虚天火</td><td style="text-align:left;color:#94a3b8">喜壬忌癸（通行口诀）；丙为太阳喜普照天下</td></tr>
+          <tr><td class="c-gan">丙</td><td style="color:#10b981">实地火</td><td style="text-align:left;color:#94a3b8">地支见巳午寅戌为有根；怕根坏则人伤降格</td></tr>
+          <tr><td class="c-gan">丁</td><td style="color:#475569">虚天火</td><td style="text-align:left;color:#94a3b8">丁似月牙、神秘内敛；甲木引化最宜</td></tr>
+          <tr><td class="c-gan">丁</td><td style="color:#10b981">实地火</td><td style="text-align:left;color:#94a3b8">地支见巳午寅戌为有根；坏根则降格失势</td></tr>
+          <tr><td class="c-gan">戊</td><td>—</td><td style="text-align:left;color:#94a3b8">土生夏月人人烦，要见金水才能安；冬月需火调候暖局</td></tr>
+          <tr><td class="c-gan">己</td><td>—</td><td style="text-align:left;color:#94a3b8">己见乙木→疏土，人秀气俊丽受喜爱；辛金泄秀则才华显</td></tr>
+          <tr><td class="c-gan">庚</td><td>—</td><td style="text-align:left;color:#94a3b8">地支喜辰丑湿土生养，忌燥土；丁火冶炼→成器，壬水→金白水清</td></tr>
+          <tr><td class="c-gan">辛</td><td>—</td><td style="text-align:left;color:#94a3b8">辛见丙合→降格（求财爱色）；喜辰丑湿土；癸水润→水清金亮</td></tr>
+          <tr><td class="c-gan">壬</td><td>—</td><td style="text-align:left;color:#94a3b8">通根之水要旺，怕坏根；甲木统水有情义；戊土为载体</td></tr>
+          <tr><td class="c-gan">癸</td><td>—</td><td style="text-align:left;color:#94a3b8">虚水逍遥，实水如河；辛金细水有源；乙木润花草</td></tr>
+        </table></div>
 
       </div>
     </div>
