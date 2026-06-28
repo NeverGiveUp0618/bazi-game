@@ -1282,25 +1282,126 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
           <div>🌙 <span style="color:#93c5fd">丁虚见壬→控制权力（丁壬合）</span></div>
         </div>
 
-        <div class="m5-sub">天元论命·精要备注（依《民间实用八字命理学》）</div>
-        <div style="font-size:11px;color:#64748b;padding:2px 4px 6px;line-height:1.7">论命次第：先观五行阴阳 → 次观虚实死活 → 定状态后论喜忌 → 最后分度定局</div>
-        <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
-          <thead><tr><th>天干</th><th>状态</th><th style="text-align:left;min-width:200px">精要备注</th></tr></thead>
-          <tr><td class="c-gan">甲</td><td style="color:#10b981">活木</td><td style="text-align:left;color:#94a3b8">水火拱配最佳；木火通明格</td></tr>
-          <tr><td class="c-gan">甲</td><td style="color:#ef4444">死木</td><td style="text-align:left;color:#94a3b8">甲喜见庚金（劈木成材）；甲木不见庚多为无寿人</td></tr>
-          <tr><td class="c-gan">乙</td><td style="color:#10b981">活木</td><td style="text-align:left;color:#94a3b8">可借甲根而活（藤萝系甲）</td></tr>
-          <tr><td class="c-gan">乙</td><td style="color:#ef4444">死木</td><td style="text-align:left;color:#94a3b8">借根：乙借甲根可活；甲乙同柱见水可救</td></tr>
-          <tr><td class="c-gan">丙</td><td style="color:#475569">虚天火</td><td style="text-align:left;color:#94a3b8">喜壬忌癸（通行口诀）；丙为太阳喜普照天下</td></tr>
-          <tr><td class="c-gan">丙</td><td style="color:#10b981">实地火</td><td style="text-align:left;color:#94a3b8">地支见巳午寅戌为有根；怕根坏则人伤降格</td></tr>
-          <tr><td class="c-gan">丁</td><td style="color:#475569">虚天火</td><td style="text-align:left;color:#94a3b8">丁似月牙、神秘内敛；甲木引化最宜</td></tr>
-          <tr><td class="c-gan">丁</td><td style="color:#10b981">实地火</td><td style="text-align:left;color:#94a3b8">地支见巳午寅戌为有根；坏根则降格失势</td></tr>
-          <tr><td class="c-gan">戊</td><td>—</td><td style="text-align:left;color:#94a3b8">土生夏月人人烦，要见金水才能安；冬月需火调候暖局</td></tr>
-          <tr><td class="c-gan">己</td><td>—</td><td style="text-align:left;color:#94a3b8">己见乙木→疏土，人秀气俊丽受喜爱；辛金泄秀则才华显</td></tr>
-          <tr><td class="c-gan">庚</td><td>—</td><td style="text-align:left;color:#94a3b8">地支喜辰丑湿土生养，忌燥土；丁火冶炼→成器，壬水→金白水清</td></tr>
-          <tr><td class="c-gan">辛</td><td>—</td><td style="text-align:left;color:#94a3b8">辛见丙合→降格（求财爱色）；喜辰丑湿土；癸水润→水清金亮</td></tr>
-          <tr><td class="c-gan">壬</td><td>—</td><td style="text-align:left;color:#94a3b8">通根之水要旺，怕坏根；甲木统水有情义；戊土为载体</td></tr>
-          <tr><td class="c-gan">癸</td><td>—</td><td style="text-align:left;color:#94a3b8">虚水逍遥，实水如河；辛金细水有源；乙木润花草</td></tr>
-        </table></div>
+        <div class="m5-sub" style="margin-top:10px">喜忌原理精讲（为什么喜·为什么忌）</div>
+        <div style="font-size:10px;color:#475569;padding:2px 4px 6px;line-height:1.8">论命次第：先观五行阴阳 → 次观虚实死活 → 定状态后论喜忌 → 最后分度定局</div>
+
+        <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 🌿 甲乙木 · 活死框架</button>
+        <div class="m5-sub-body" style="display:none">
+          <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+            <thead><tr><th>干·态</th><th>象</th><th style="color:#10b981;text-align:left;min-width:140px">喜（原理）</th><th style="color:#ef4444;text-align:left;min-width:130px">忌（原理）</th></tr></thead>
+            <tr>
+              <td class="c-gan">甲（活）</td><td>大树</td>
+              <td style="text-align:left"><span class="c-he">水·火</span><br><span style="font-size:10px;color:#64748b">水滋养根，火木火通明·显才华</span></td>
+              <td style="text-align:left"><span class="c-chong">金</span><br><span style="font-size:10px;color:#64748b">损根折干，根断则死</span></td>
+            </tr>
+            <tr>
+              <td class="c-gan">甲（死）</td><td>枯木</td>
+              <td style="text-align:left"><span class="c-he">金</span><br><span style="font-size:10px;color:#64748b">雕琢成材；甲喜见庚，不见庚多为无寿人</span></td>
+              <td style="text-align:left"><span class="c-chong">水·火</span><br><span style="font-size:10px;color:#64748b">水→腐木烂根；火→焚为灰烬</span></td>
+            </tr>
+            <tr>
+              <td class="c-gan">乙（活）</td><td>花草</td>
+              <td style="text-align:left"><span class="c-he">癸·丙·己</span><br><span style="font-size:10px;color:#64748b">癸=雨露滋润；丙=阳光照耀；己=润土培根</span></td>
+              <td style="text-align:left"><span class="c-chong">庚·水过多</span><br><span style="font-size:10px;color:#64748b">庚=阳金斫伐；水多→水泛木浮，乙死于亥</span></td>
+            </tr>
+            <tr>
+              <td class="c-gan">乙（死）</td><td>枯草</td>
+              <td style="text-align:left"><span class="c-he">金</span><br><span style="font-size:10px;color:#64748b">加工成器；可借甲根而活（藤萝系甲）</span></td>
+              <td style="text-align:left"><span class="c-chong">水·火</span><br><span style="font-size:10px;color:#64748b">水腐，火焚</span></td>
+            </tr>
+          </table></div>
+        </div>
+
+        <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 🔥 丙丁火 · 天地之火</button>
+        <div class="m5-sub-body" style="display:none">
+          <div style="font-size:10px;color:#f59e0b;padding:4px 2px 6px;line-height:1.8">💡 区分要诀：丙虚见壬 → 光映江河·主名气；丁虚见壬 → 丁壬合·主权力</div>
+          <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+            <thead><tr><th>干·态</th><th>象</th><th style="color:#10b981;text-align:left;min-width:140px">喜（原理）</th><th style="color:#ef4444;text-align:left;min-width:130px">忌（原理）</th></tr></thead>
+            <tr>
+              <td class="c-gan">丙（虚）</td><td>太阳</td>
+              <td style="text-align:left"><span class="c-he">壬水</span><br><span style="font-size:10px;color:#64748b">壬丙冲·光映江河·名气四射</span></td>
+              <td style="text-align:left"><span class="c-chong">癸水·辛金</span><br><span style="font-size:10px;color:#64748b">癸=雾云遮日；辛=丙辛合→降格·追求细微</span></td>
+            </tr>
+            <tr>
+              <td class="c-gan">丙（实）</td><td>炉火</td>
+              <td style="text-align:left"><span class="c-he">木·比劫</span><br><span style="font-size:10px;color:#64748b">木为燃料，火越旺越好</span></td>
+              <td style="text-align:left"><span class="c-chong">坏根</span><br><span style="font-size:10px;color:#64748b">根损则火熄，人伤降格</span></td>
+            </tr>
+            <tr>
+              <td class="c-gan">丁（虚）</td><td>月亮</td>
+              <td style="text-align:left"><span class="c-he">壬水</span><br><span style="font-size:10px;color:#64748b">丁壬合·控壬水·展现权威与控制力</span></td>
+              <td style="text-align:left"><span class="c-chong">失时失局</span><br><span style="font-size:10px;color:#64748b">无木无根则韬光晦迹，烟消云散</span></td>
+            </tr>
+            <tr>
+              <td class="c-gan">丁（实）</td><td>灯烛</td>
+              <td style="text-align:left"><span class="c-he">木·比劫</span><br><span style="font-size:10px;color:#64748b">乙木为油脂燃料，甲木引火亦可</span></td>
+              <td style="text-align:left"><span class="c-chong">坏根</span><br><span style="font-size:10px;color:#64748b">根损火熄，势败</span></td>
+            </tr>
+          </table></div>
+        </div>
+
+        <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 🌍 戊己土 · 疏泄为要</button>
+        <div class="m5-sub-body" style="display:none">
+          <div style="font-size:10px;color:#10b981;padding:4px 2px 6px;line-height:1.8">总口诀：土喜木疏，喜金泄，不喜火生（冬月须火调候则例外）</div>
+          <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+            <thead><tr><th>干</th><th>象</th><th style="color:#10b981;text-align:left;min-width:150px">喜（原理）</th><th style="color:#ef4444;text-align:left;min-width:130px">忌（原理）</th></tr></thead>
+            <tr>
+              <td class="c-gan">戊</td><td>大地</td>
+              <td style="text-align:left"><span class="c-he">甲木·庚辛金</span><br><span style="font-size:10px;color:#64748b">甲=大地广博木疏则通（戊见甲寅发大财）；庚辛=金泄则显贵</span></td>
+              <td style="text-align:left"><span class="c-chong">火生（夏月尤甚）</span><br><span style="font-size:10px;color:#64748b">土本厚重，再生则燥烈难用；冬月须火暖局</span></td>
+            </tr>
+            <tr>
+              <td class="c-gan">己</td><td>田园</td>
+              <td style="text-align:left"><span class="c-he">乙木·辛金</span><br><span style="font-size:10px;color:#64748b">乙=细木配细土相宜·疏土；辛=细金泄秀·己见乙则人秀气受喜爱</span></td>
+              <td style="text-align:left"><span class="c-chong">火生·庚金过重</span><br><span style="font-size:10px;color:#64748b">火=细土遇燥则裂；庚=泄过度，伤其本体</span></td>
+            </tr>
+          </table></div>
+        </div>
+
+        <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 💎 庚辛金 · 水泄为贵</button>
+        <div class="m5-sub-body" style="display:none">
+          <div style="font-size:10px;color:#10b981;padding:4px 2px 6px;line-height:1.8">总口诀：金喜水泄，水泄则金秀，金白水清</div>
+          <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+            <thead><tr><th>干</th><th>象</th><th style="color:#10b981;text-align:left;min-width:150px">喜（原理）</th><th style="color:#ef4444;text-align:left;min-width:130px">忌（原理）</th></tr></thead>
+            <tr>
+              <td class="c-gan">庚</td><td>矿石</td>
+              <td style="text-align:left"><span class="c-he">丁火·水泄</span><br><span style="font-size:10px;color:#64748b">丁=锻造成器·叩之有声；水泄=金白水清更显贵</span></td>
+              <td style="text-align:left"><span class="c-chong">土埋·木克</span><br><span style="font-size:10px;color:#64748b">土重金埋·无出用之期；木克=薄铁伐茂林·反被木伤</span></td>
+            </tr>
+            <tr>
+              <td class="c-gan">辛</td><td>珠宝</td>
+              <td style="text-align:left"><span class="c-he">丙火·癸水·水泄</span><br><span style="font-size:10px;color:#64748b">丙=阳光映玉·贵气自显；癸=雨露微润·锋芒必现</span></td>
+              <td style="text-align:left"><span class="c-chong">火炎·土重</span><br><span style="font-size:10px;color:#64748b">火炎=过炼则伤·失其美用；土重=埋没珠宝</span></td>
+            </tr>
+          </table></div>
+        </div>
+
+        <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 💧 壬癸水 · 虚实两态</button>
+        <div class="m5-sub-body" style="display:none">
+          <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+            <thead><tr><th>干·态</th><th>象</th><th style="color:#10b981;text-align:left;min-width:150px">喜（原理）</th><th style="color:#ef4444;text-align:left;min-width:120px">忌（原理）</th></tr></thead>
+            <tr>
+              <td class="c-gan">壬（虚）</td><td>江河</td>
+              <td style="text-align:left"><span class="c-he">庚金·甲木·戊土</span><br><span style="font-size:10px;color:#64748b">庚=生水·源源不断；甲=水遇木则止·防泛滥；戊=约束江河·不令散漫</span></td>
+              <td style="text-align:left"><span class="c-chong">无特别大忌</span><br><span style="font-size:10px;color:#64748b">虚水逍遥，较灵活</span></td>
+            </tr>
+            <tr>
+              <td class="c-gan">壬（实）</td><td>大海</td>
+              <td style="text-align:left"><span class="c-he">金生·比劫</span><br><span style="font-size:10px;color:#64748b">众流汇海，源源不竭</span></td>
+              <td style="text-align:left"><span class="c-chong">燥土坏根</span><br><span style="font-size:10px;color:#64748b">戊/未燥土脆性极大·断水之源</span></td>
+            </tr>
+            <tr>
+              <td class="c-gan">癸（虚）</td><td>雨露</td>
+              <td style="text-align:left"><span class="c-he">辛金·乙木</span><br><span style="font-size:10px;color:#64748b">辛=细水细源·雨露配玉泉；乙=细水润花草·相得益彰</span></td>
+              <td style="text-align:left"><span class="c-chong">无特别大忌</span><br><span style="font-size:10px;color:#64748b">虚水逍遥，实水如河</span></td>
+            </tr>
+            <tr>
+              <td class="c-gan">癸（实）</td><td>溪流</td>
+              <td style="text-align:left"><span class="c-he">金生·比劫</span><br><span style="font-size:10px;color:#64748b">让水旺起来，源源流淌</span></td>
+              <td style="text-align:left"><span class="c-chong">燥土坏根</span><br><span style="font-size:10px;color:#64748b">根损则水竭</span></td>
+            </tr>
+          </table></div>
+        </div>
 
       </div>
     </div>
