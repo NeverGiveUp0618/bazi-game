@@ -3566,7 +3566,7 @@ function initHome(){
     if(pd.current){
       const days=planDaysSince(pd.current.createdAt);
       const pcs=getCatStats();
-      const reached=pd.current.cats.filter(c=>{const s=pcs[c];return s&&s.a>=3&&Math.round((s.a-s.e)/s.a*100)>=pd.current.targetRate;}).length;
+      const reached=pd.current.cats.filter(c=>{const s=pcs[c];const snap=pd.current.snapshots?.[c];return s&&s.a>(snap?.a||0)&&Math.round((s.a-s.e)/s.a*100)>=pd.current.targetRate;}).length;
       planSub.textContent=`${pd.current.name} · 第${days}天 · 达标 ${reached}/${pd.current.cats.length}`;
     } else {
       planSub.textContent='制定重点知识点 · 追踪进步效果';
@@ -3904,9 +3904,10 @@ function m1End(){
       let reachedNow=0;
       const catData=plan.cats.map(cat=>{
         const s=cs[cat];
+        const snap=plan.snapshots?.[cat];
         const overall=(s&&s.a>=3)?Math.round((s.a-s.e)/s.a*100):null;
         const ss=sessSt[cat];
-        const atTarget=overall!==null&&overall>=plan.targetRate;
+        const atTarget=overall!==null&&overall>=plan.targetRate&&s.a>(snap?.a||0);
         if(atTarget)reachedNow++;
         return{cat,overall,ss,atTarget};
       });
@@ -5305,7 +5306,8 @@ function showPlan(){
     const init=(snap&&snap.a>=3&&snap.c!=null)?Math.round(snap.c/snap.a*100):null;
     const tgt=plan.targetRate;
     let badge,barColor,barW;
-    if(cur===null){badge=`<span class="plan-badge plan-badge-none">未练习</span>`;barColor='#334155';barW=0;}
+    const practicedInPlan=s&&s.a>(snap?.a||0);
+    if(cur===null||!practicedInPlan){badge=`<span class="plan-badge plan-badge-none">未练习</span>`;barColor='#334155';barW=0;}
     else if(cur>=tgt){reached++;badge=`<span class="plan-badge plan-badge-ok">✓ 达标</span>`;barColor='#10b981';barW=cur;}
     else{badge=`<span class="plan-badge plan-badge-wip">进行中</span>`;barColor='#3b82f6';barW=cur;}
     const delta=(cur!==null&&init!==null)?cur-init:null;
