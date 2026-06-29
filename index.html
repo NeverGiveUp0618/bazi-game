@@ -540,11 +540,13 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <div class="hstat"><div class="hstat-v" id="el-best">0</div><div class="hstat-l">闪卡最高</div></div>
     <div class="hstat"><div class="hstat-v" id="el-total">0</div><div class="hstat-l">累计对题</div></div>
   </div>
+  <!-- 学习计划 -->
   <div class="mcard" onclick="showPlan()" style="cursor:pointer">
-    <div class="mcard-head"><div class="mcard-icon">🎯</div><div><div class="mcard-name">我的学习计划 <span style="font-size:10px;color:#93c5fd;background:#1e3a8a;border-radius:4px;padding:1px 6px;margin-left:4px">成为大师，从计划开始</span></div><div class="mcard-desc" id="el-plan-sub">制定重点知识点 · 追踪进步效果</div></div><div style="color:#475569;font-size:18px">›</div></div>
+    <div class="mcard-head"><div class="mcard-icon">🎯</div><div style="flex:1"><div class="mcard-name">学习计划</div><div class="mcard-desc" id="el-plan-sub">制定重点知识点 · 追踪进步效果</div></div><div style="color:#475569;font-size:18px">›</div></div>
   </div>
+  <!-- 闪卡速答 -->
   <div class="mcard">
-    <div class="mcard-head"><div class="mcard-icon">⚡</div><div><div class="mcard-name">闪卡速答</div><div class="mcard-desc">点选答案，干支知识全覆盖</div></div></div>
+    <div class="mcard-head"><div class="mcard-icon">⚡</div><div><div class="mcard-name">闪卡速答</div><div class="mcard-desc">干支知识全覆盖 · 四选一</div></div></div>
     <div class="qcount-row">
       <button class="qcount-btn" id="qc-10" onclick="setM1Count(10)">10题</button>
       <button class="qcount-btn" id="qc-30" onclick="setM1Count(30)">30题</button>
@@ -563,29 +565,25 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
       <button class="btn btn-b" onclick="show('p-custom');renderCustomSel()">自选挑战 🎯</button>
     </div>
   </div>
-  <div class="mcard" onclick="show('pbdl')" style="cursor:pointer">
-    <div class="mcard-head"><div class="mcard-icon">💡</div><div><div class="mcard-name">八字底层逻辑 <span style="font-size:10px;color:#fbbf24;background:#78350f;border-radius:4px;padding:1px 6px;margin-left:4px">重要</span></div><div class="mcard-desc">民间体系 · 气势＋制 · 读盘七步法 · 应期三式</div></div><div style="color:#475569;font-size:18px">›</div></div>
-  </div>
-  <div class="mcard" onclick="show('p2-sel')" style="cursor:pointer">
-    <div class="mcard-head"><div class="mcard-icon">🔗</div><div><div class="mcard-name">配对连线 <span class="nt-label">无计时</span></div><div class="mcard-desc">六冲 · 六合 · 暗合 · 六穿 · 绝 · 五合 · 禄位 · 虚实 · 纳音…</div></div><div style="color:#475569;font-size:18px">›</div></div>
-  </div>
-  <div class="mcard" onclick="startNF()" style="cursor:pointer">
-    <div class="mcard-head"><div class="mcard-icon">🗓️</div><div><div class="mcard-name">干支推算 <span class="nt-label">新</span></div><div class="mcard-desc">年份→干支 · 1900–2100年随机出题</div></div><div style="color:#475569;font-size:18px">›</div></div>
-  </div>
-  <div class="mcard" onclick="startJZ()" style="cursor:pointer">
-    <div class="mcard-head"><div class="mcard-icon">🀄</div><div><div class="mcard-name">六十甲子训练 <span class="nt-label">新</span></div><div class="mcard-desc">识旬 · 识空亡 · 认干支 · 三类题型随机出题</div></div><div style="color:#475569;font-size:18px">›</div></div>
-  </div>
+  <!-- 专项练习 -->
   <div class="mcard">
-    <div class="mcard-head"><div class="mcard-icon">🌀</div><div><div class="mcard-name">意象联想训练 <span class="nt-label">新</span></div><div class="mcard-desc">天干·地支·十神·干支关系·四选一意象速记</div></div></div>
-    <div class="mcard-btns" style="margin-top:0">
-      <button class="btn btn-g" onclick="startGanYX()" style="font-size:11px">天干象意</button>
-      <button class="btn btn-g" onclick="startZhiYX()" style="font-size:11px">地支象意</button>
+    <div class="mcard-head"><div class="mcard-icon">🎭</div><div><div class="mcard-name">专项练习</div><div class="mcard-desc">连线 · 推算 · 甲子 · 象意 · 排盘看题</div></div></div>
+    <div class="mcard-btns">
+      <button class="btn btn-d" onclick="show('p2-sel')">🔗 配对连线</button>
+      <button class="btn btn-d" onclick="startNF()">🗓️ 干支推算</button>
+      <button class="btn btn-d" onclick="startJZ()">🀄 六十甲子</button>
     </div>
     <div class="mcard-btns" style="margin-top:6px">
-      <button class="btn btn-g" onclick="startShenYX()" style="font-size:11px">十神象意</button>
-      <button class="btn btn-g" onclick="startRelYX()" style="font-size:11px">干支关系象意</button>
+      <button class="btn btn-d" onclick="startGanYX()">天干象意</button>
+      <button class="btn btn-d" onclick="startZhiYX()">地支象意</button>
+      <button class="btn btn-d" onclick="startShenYX()">十神象意</button>
+      <button class="btn btn-d" onclick="startRelYX()">关系象意</button>
+    </div>
+    <div class="mcard-btns" style="margin-top:6px">
+      <button class="btn btn-d" onclick="startPBQuiz()">🔎 排盘看题</button>
     </div>
   </div>
+  <!-- 八字排盘 -->
   <div class="mcard">
     <div class="mcard-head"><div class="mcard-icon">🔍</div><div><div class="mcard-name">八字排盘 <span class="nt-label">无计时</span></div><div class="mcard-desc">人鉴117例 · 自定义输入 · 干支关系速查</div></div></div>
     <div class="mcard-btns">
@@ -593,30 +591,26 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
       <button class="btn btn-d" onclick="startM3(0)">从第一例</button>
       <button class="btn btn-b" onclick="startM4Input()">自定义排盘</button>
     </div>
-    <div class="mcard-btns" style="margin-top:6px">
-      <button class="btn btn-g" onclick="startPBQuiz()" style="flex:1">🔎 排盘看题 — 看盘做题</button>
+  </div>
+  <!-- 查阅学习 -->
+  <div class="mcard">
+    <div class="mcard-head"><div class="mcard-icon">📖</div><div><div class="mcard-name">查阅学习</div><div class="mcard-desc">知识速查 · 歌诀 · 底层逻辑</div></div></div>
+    <div class="mcard-btns">
+      <button class="btn btn-d" onclick="show('p5')">📖 知识速查</button>
+      <button class="btn btn-d" onclick="show('p-gejue-sel')">📜 歌诀闪卡</button>
+      <button class="btn btn-d" onclick="show('pbdl')">💡 底层逻辑</button>
     </div>
   </div>
-  <div class="mcard" onclick="show('p5')" style="cursor:pointer">
-    <div class="mcard-head"><div class="mcard-icon">📖</div><div><div class="mcard-name">知识速查</div><div class="mcard-desc">干支关系 · 十神 · 格局 · 神煞 · 速查参考表</div></div><div style="color:#475569;font-size:18px">›</div></div>
-  </div>
-  <div class="mcard" onclick="show('p-gejue-sel')" style="cursor:pointer">
-    <div class="mcard-head"><div class="mcard-icon">📜</div><div><div class="mcard-name">歌诀闪卡 <span class="nt-label">背诵</span></div><div class="mcard-desc">清纯·婚姻·三刑·寿元…14套歌诀翻卡背诵</div></div><div style="color:#475569;font-size:18px">›</div></div>
-  </div>
+  <!-- 学习报告 -->
   <div class="mcard">
-    <div class="mcard-head"><div class="mcard-icon">📊</div><div><div class="mcard-name">学习报告</div><div class="mcard-desc" id="el-master-sub">打卡日历 · 正确率分析 · 薄弱知识点</div></div></div>
+    <div class="mcard-head"><div class="mcard-icon">📊</div><div><div class="mcard-name">学习报告</div><div class="mcard-desc" id="el-master-sub">打卡统计 · 掌握度 · 错题本</div></div></div>
     <div class="mcard-btns">
       <button class="btn btn-d" onclick="showStats()">📅 周月统计</button>
-      <button class="btn btn-d" onclick="showMaster()">📊 掌握度面板</button>
+      <button class="btn btn-d" onclick="showMaster()">📊 掌握度</button>
+      <button class="btn btn-d" id="el-nb-home-btn" onclick="show('p-nb')">📚 错题本</button>
     </div>
   </div>
-  <div class="nb-card" id="el-nb-card" onclick="show('p-nb')">
-    <div class="nb-card-row">
-      <div style="font-size:22px">📚</div>
-      <div style="flex:1"><div style="font-size:15px;font-weight:bold;color:#e2e8f0">错题本</div><div style="font-size:11px;margin-top:1px" id="el-nb-sub">收录做错的题，随时练习</div></div>
-      <div class="nb-badge" id="el-nb-badge">0 题</div>
-    </div>
-  </div>
+  <!-- 近期记录 -->
   <div class="card">
     <div class="hhist">近期闪卡记录</div>
     <div id="el-hist"><span style="color:#475569;font-size:12px">暂无记录</span></div>
@@ -3212,22 +3206,10 @@ function _delCancel(){
 function _delOutside(e){if(_delPending&&!_delPending.el.contains(e.target))_delCancel();}
 function updateNBBadge(){
   const n=getNB().length;
-  document.getElementById('el-nb-badge').textContent=n+' 题';
   const nb=document.getElementById('nb-count-badge');
   if(nb)nb.textContent=n+' 题';
-  const sub=document.getElementById('el-nb-sub');
-  const card=document.getElementById('el-nb-card');
-  if(sub){
-    if(n>0){
-      sub.textContent=`${n}道错题待练习 · 今日巩固一遍效果翻倍`;
-      sub.style.color='#f59e0b';
-      if(card)card.style.borderColor='#f59e0b50';
-    }else{
-      sub.textContent='收录做错的题，随时练习';
-      sub.style.color='#475569';
-      if(card)card.style.borderColor='';
-    }
-  }
+  const btn=document.getElementById('el-nb-home-btn');
+  if(btn)btn.textContent=n>0?`📚 错题本 · ${n}题`:'📚 错题本';
 }
 
 // ══ QUESTION POOL (Mode 1) ══
