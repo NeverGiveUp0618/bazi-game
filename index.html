@@ -477,6 +477,28 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .bdl-tbl td{padding:5px 6px;text-align:center;border:1px solid #1e293b;color:#94a3b8;line-height:1.5}
 .bdl-tbl td.g{color:#10b981;font-weight:bold}.bdl-tbl td.p{color:#c4b5fd}.bdl-tbl td.y{color:#fcd34d}.bdl-tbl td.r{color:#f87171}
 .bdl-flow{font-family:monospace;font-size:11px;color:#94a3b8;line-height:2.2;letter-spacing:.3px;background:#0f172a;border-radius:8px;padding:12px 14px;border-left:3px solid #10b981;word-break:keep-all}
+/* PLAN */
+.plan-hdr{background:#0f172a;border-radius:12px;padding:14px;margin-bottom:10px;text-align:center}
+.plan-hdr-name{font-size:18px;font-weight:bold;color:#10b981;margin-bottom:4px}
+.plan-hdr-days{font-size:12px;color:#64748b}
+.plan-prog-wrap{background:#1e293b;border-radius:12px;padding:14px;margin-bottom:10px}
+.plan-prog-bar-bg{background:#0f172a;border-radius:6px;height:8px;overflow:hidden;margin:8px 0}
+.plan-prog-bar-fill{height:100%;border-radius:6px;background:#10b981;transition:width .4s}
+.plan-cat-item{background:#0f172a;border-radius:10px;padding:10px 12px;margin-bottom:7px}
+.plan-cat-name-row{font-size:13px;color:#e2e8f0;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center}
+.plan-cat-bar-bg{background:#1e293b;border-radius:4px;height:6px;overflow:hidden;margin-bottom:4px}
+.plan-cat-bar-fill{height:100%;border-radius:4px;transition:width .4s}
+.plan-cat-meta{font-size:11px;color:#475569;display:flex;justify-content:space-between}
+.plan-badge{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:bold}
+.plan-badge-ok{background:#064e3b;color:#6ee7b7}
+.plan-badge-wip{background:#1e3a8a;color:#93c5fd}
+.plan-badge-none{background:#1e293b;color:#475569}
+.pcat-tog{background:#1e293b;border:2px solid transparent;color:#94a3b8;padding:7px 11px;border-radius:9px;font-size:12px;cursor:pointer;transition:all .15s}
+.pcat-tog.on{background:#064e3b;border-color:#10b981;color:#6ee7b7}
+.plan-share-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.85);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px}
+.plan-share-card{background:#0f172a;border:1px solid #1e3a5f;border-radius:20px;padding:20px;max-width:380px;width:100%;max-height:85vh;overflow-y:auto}
+.plan-share-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #1e293b;font-size:12px}
+.plan-share-row:last-child{border-bottom:none}
 </style>
 </head>
 <body>
@@ -553,6 +575,9 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   </div>
   <div class="mcard" onclick="show('p-gejue-sel')" style="cursor:pointer">
     <div class="mcard-head"><div class="mcard-icon">📜</div><div><div class="mcard-name">歌诀闪卡 <span class="nt-label">背诵</span></div><div class="mcard-desc">清纯·婚姻·三刑·寿元…14套歌诀翻卡背诵</div></div><div style="color:#475569;font-size:18px">›</div></div>
+  </div>
+  <div class="mcard" onclick="showPlan()" style="cursor:pointer">
+    <div class="mcard-head"><div class="mcard-icon">🎯</div><div><div class="mcard-name">我的学习计划</div><div class="mcard-desc" id="el-plan-sub">制定重点知识点 · 追踪进步效果</div></div><div style="color:#475569;font-size:18px">›</div></div>
   </div>
   <div class="mcard">
     <div class="mcard-head"><div class="mcard-icon">📊</div><div><div class="mcard-name">学习报告</div><div class="mcard-desc" id="el-master-sub">打卡日历 · 正确率分析 · 薄弱知识点</div></div></div>
@@ -2692,6 +2717,81 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 
 <div class="spop" id="el-spop"></div>
 <div class="toast" id="el-toast"></div>
+
+<!-- 学习计划·看板 -->
+<div id="p-plan" class="screen">
+  <div class="tbar">
+    <button class="tbk" onclick="show('ph')">‹</button>
+    <div class="tbtitle">学习计划</div>
+    <div class="tbr" id="plan-topbar-r" style="color:#10b981"></div>
+  </div>
+  <div id="plan-empty" style="display:none;text-align:center;padding:50px 0 30px">
+    <div style="font-size:48px;margin-bottom:16px">🎯</div>
+    <div style="font-size:15px;color:#94a3b8;margin-bottom:8px">暂无学习计划</div>
+    <div style="font-size:12px;color:#475569;margin-bottom:28px">选定重点知识点，追踪学习进步效果</div>
+    <button class="btn btn-g" style="max-width:200px" onclick="showPlanCreate(false)">＋ 新建计划</button>
+  </div>
+  <div id="plan-dash" style="display:none">
+    <div class="plan-hdr">
+      <div class="plan-hdr-name" id="plan-dash-name"></div>
+      <div class="plan-hdr-days" id="plan-dash-days"></div>
+    </div>
+    <div class="plan-prog-wrap">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px">
+        <span style="font-size:13px;color:#94a3b8">整体进度</span>
+        <span style="font-size:14px;font-weight:bold;color:#10b981" id="plan-prog-text"></span>
+      </div>
+      <div class="plan-prog-bar-bg"><div class="plan-prog-bar-fill" id="plan-prog-fill" style="width:0%"></div></div>
+      <div style="font-size:11px;color:#475569;text-align:right" id="plan-prog-sub"></div>
+    </div>
+    <div id="plan-cats-list"></div>
+    <div style="display:flex;gap:8px;margin-top:10px">
+      <button class="btn btn-d" style="flex:1;font-size:13px" onclick="showPlanShare()">📤 分享</button>
+      <button class="btn btn-d" style="flex:1;font-size:13px" onclick="showPlanCreate(true)">✏️ 编辑</button>
+      <button class="btn btn-d" style="flex:1;font-size:13px" onclick="showPlanCreate(false)">＋ 新建</button>
+    </div>
+    <button class="btn btn-d" style="margin-top:8px;font-size:12px;color:#475569" onclick="confirmCompletePlan()">归档此计划 →</button>
+    <div id="plan-history" style="margin-top:16px"></div>
+  </div>
+</div>
+
+<!-- 学习计划·新建/编辑 -->
+<div id="p-plan-create" class="screen">
+  <div class="tbar">
+    <button class="tbk" onclick="showPlan()">‹</button>
+    <div class="tbtitle" id="pcreate-title">新建计划</div>
+  </div>
+  <div style="margin-bottom:12px">
+    <div style="font-size:12px;color:#64748b;margin-bottom:6px">计划名称</div>
+    <input id="plan-name-inp" type="text" placeholder="例：本周攻克地支关系" maxlength="20"
+      style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:10px;padding:10px 12px;color:#e2e8f0;font-size:14px;outline:none;-webkit-appearance:none">
+  </div>
+  <div style="margin-bottom:14px">
+    <div style="font-size:12px;color:#64748b;margin-bottom:6px">目标正确率：<span id="plan-rate-val" style="color:#10b981;font-weight:bold">80%</span></div>
+    <input id="plan-rate-inp" type="range" min="60" max="100" step="5" value="80"
+      oninput="document.getElementById('plan-rate-val').textContent=this.value+'%'"
+      style="width:100%;accent-color:#10b981">
+  </div>
+  <div style="font-size:12px;color:#64748b;margin-bottom:8px">选择重点知识点 <span id="pcreate-sel-count" style="color:#10b981;font-weight:bold"></span></div>
+  <div id="pcreate-cats-body"></div>
+  <button class="btn btn-g" style="margin-top:14px" id="pcreate-save-btn" onclick="savePlanCreate()">保存计划</button>
+</div>
+
+<!-- 分享弹层 -->
+<div id="plan-share-overlay" class="plan-share-overlay" style="display:none" onclick="this.style.display='none'">
+  <div class="plan-share-card" onclick="event.stopPropagation()">
+    <div style="font-size:16px;font-weight:bold;color:#10b981;margin-bottom:4px" id="psh-name"></div>
+    <div style="font-size:11px;color:#475569;margin-bottom:14px" id="psh-sub"></div>
+    <div id="psh-rows"></div>
+    <div style="text-align:center;font-size:11px;color:#334155;margin-top:14px;line-height:1.8">长按截图分享 · 或点击下方按钮</div>
+    <div style="display:flex;gap:8px;margin-top:10px">
+      <button class="btn btn-b btn-sm" style="flex:1" onclick="planCopyText()">📋 复制文字</button>
+      <button class="btn btn-d btn-sm" style="flex:1" onclick="planShareURL()">🔗 分享模板</button>
+    </div>
+    <button class="btn btn-d btn-sm" style="width:100%;margin-top:8px" onclick="document.getElementById('plan-share-overlay').style.display='none'">关闭</button>
+  </div>
+</div>
+
 </div>
 
 <script>
@@ -3412,6 +3512,19 @@ function initHome(){
     const sub=document.getElementById('el-master-sub');
     if(sub)sub.textContent=`综合正确率 ${Math.round(ok/tot*100)}% · 已测 ${tested}/${allCats.length} 题型`;
   }
+  // 学习计划副标题
+  const pd=getPlanData();
+  const planSub=document.getElementById('el-plan-sub');
+  if(planSub){
+    if(pd.current){
+      const days=planDaysSince(pd.current.createdAt);
+      const pcs=getCatStats();
+      const reached=pd.current.cats.filter(c=>{const s=pcs[c];return s&&s.a>=3&&Math.round(s.c/s.a*100)>=pd.current.targetRate;}).length;
+      planSub.textContent=`${pd.current.name} · 第${days}天 · 达标 ${reached}/${pd.current.cats.length}`;
+    } else {
+      planSub.textContent='制定重点知识点 · 追踪进步效果';
+    }
+  }
 }
 
 const BK_DATE_KEY='bazi_backup_date';
@@ -3428,7 +3541,7 @@ function checkBkRemind(){
   }
 }
 function exportBackup(){
-  const data={v:1,date:todayStr(),bazi:getData(),nb:getNB(),m4saved:getSavedM4(),custom_cats:[...CUSTOM_CATS],cat_stats:getCatStats()};
+  const data={v:1,date:todayStr(),bazi:getData(),nb:getNB(),m4saved:getSavedM4(),custom_cats:[...CUSTOM_CATS],cat_stats:getCatStats(),plan:getPlanData()};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
@@ -3453,6 +3566,7 @@ function importBackup(){
         setSavedM4(d.m4saved||[]);
         if(d.custom_cats){CUSTOM_CATS=new Set(d.custom_cats);localStorage.setItem('bazi_custom_cats',JSON.stringify([...CUSTOM_CATS]));}
         if(d.cat_stats)saveCatStats(d.cat_stats);
+        if(d.plan)savePlanData(d.plan);
         localStorage.setItem(BK_DATE_KEY,todayStr());
         toast('数据已恢复！');
         setTimeout(()=>location.reload(),1200);
@@ -4928,8 +5042,211 @@ document.addEventListener('keydown',e=>{
   }
 });
 
+// ════════════ 学习计划 ════════════
+const PLAN_KEY='bazi_plan';
+function getPlanData(){try{return JSON.parse(localStorage.getItem(PLAN_KEY)||'{"current":null,"history":[]}')}catch{return{current:null,history:[]}}}
+function savePlanData(d){localStorage.setItem(PLAN_KEY,JSON.stringify(d))}
+function planDaysSince(dateStr){const s=new Date(dateStr),n=new Date(todayStr());return Math.max(0,Math.floor((n-s)/86400000))}
+
+function showPlan(){
+  const pd=getPlanData();
+  const empty=document.getElementById('plan-empty');
+  const dash=document.getElementById('plan-dash');
+  if(!pd.current){
+    empty.style.display='';dash.style.display='none';
+    document.getElementById('plan-topbar-r').textContent='';
+    show('p-plan');return;
+  }
+  empty.style.display='none';dash.style.display='';
+  const plan=pd.current;
+  const days=planDaysSince(plan.createdAt);
+  document.getElementById('plan-dash-name').textContent=plan.name;
+  document.getElementById('plan-dash-days').textContent=`已持续 ${days} 天 · 始于 ${plan.createdAt} · 目标 ${plan.targetRate}%`;
+  document.getElementById('plan-topbar-r').textContent=`+${days}天`;
+  const cs=getCatStats();
+  let reached=0;
+  const listEl=document.getElementById('plan-cats-list');
+  listEl.innerHTML=plan.cats.map(cat=>{
+    const s=cs[cat];
+    const cur=(s&&s.a>=3)?Math.round(s.c/s.a*100):null;
+    const snap=plan.snapshots[cat];
+    const init=(snap&&snap.a>=3)?Math.round(snap.c/snap.a*100):null;
+    const tgt=plan.targetRate;
+    let badge,barColor,barW;
+    if(cur===null){badge=`<span class="plan-badge plan-badge-none">未练习</span>`;barColor='#334155';barW=0;}
+    else if(cur>=tgt){reached++;badge=`<span class="plan-badge plan-badge-ok">✓ 达标</span>`;barColor='#10b981';barW=cur;}
+    else{badge=`<span class="plan-badge plan-badge-wip">进行中</span>`;barColor='#3b82f6';barW=cur;}
+    const delta=(cur!==null&&init!==null)?cur-init:null;
+    const deltaHtml=delta!==null?`<span style="color:${delta>=0?'#6ee7b7':'#f87171'};font-size:11px">${delta>=0?'+':''}${delta}%</span>`:'';
+    return `<div class="plan-cat-item">
+      <div class="plan-cat-name-row"><span>${CAT_NAME[cat]||cat}</span><span style="display:flex;align-items:center;gap:5px">${deltaHtml}${badge}</span></div>
+      <div class="plan-cat-bar-bg"><div class="plan-cat-bar-fill" style="width:${Math.min(barW,100)}%;background:${barColor}"></div></div>
+      <div class="plan-cat-meta"><span>${init!==null?'初始 '+init+'%':'初始无数据'}</span><span>当前 ${cur!==null?cur+'%':'--'} / 目标 ${tgt}%</span></div>
+    </div>`;
+  }).join('');
+  const total=plan.cats.length;
+  const pct=total>0?Math.round(reached/total*100):0;
+  document.getElementById('plan-prog-text').textContent=`${reached} / ${total} 达标`;
+  document.getElementById('plan-prog-fill').style.width=pct+'%';
+  document.getElementById('plan-prog-sub').textContent=`共 ${total} 个知识点 · ${pct}% 完成`;
+  _renderPlanHistory(pd.history);
+  show('p-plan');
+}
+
+function _renderPlanHistory(history){
+  const el=document.getElementById('plan-history');
+  if(!history||history.length===0){el.innerHTML='';return;}
+  el.innerHTML=`<div style="font-size:12px;color:#475569;margin-bottom:8px;letter-spacing:1px">历史计划</div>`+
+    history.slice().reverse().map(h=>{
+      const days=Math.floor((new Date(h.completedAt)-new Date(h.createdAt))/86400000);
+      const reached=h.cats.filter(c=>(h.finalRates[c]||0)>=h.targetRate).length;
+      return `<div class="card" style="margin-bottom:7px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">
+          <span style="font-size:13px;color:#94a3b8">${h.name}</span>
+          <span style="font-size:10px;color:#475569">${h.completedAt}</span>
+        </div>
+        <div style="font-size:11px;color:#64748b">持续 ${days} 天 · 达标 ${reached}/${h.cats.length} · 目标 ${h.targetRate}%</div>
+      </div>`;
+    }).join('');
+}
+
+let _planEditMode=false;
+function showPlanCreate(editMode){
+  _planEditMode=!!editMode;
+  document.getElementById('pcreate-title').textContent=editMode?'编辑计划':'新建计划';
+  const pd=getPlanData();
+  const plan=editMode?pd.current:null;
+  document.getElementById('plan-name-inp').value=plan?plan.name:'';
+  const rate=plan?plan.targetRate:80;
+  document.getElementById('plan-rate-inp').value=rate;
+  document.getElementById('plan-rate-val').textContent=rate+'%';
+  const selCats=new Set(plan?plan.cats:[]);
+  const body=document.getElementById('pcreate-cats-body');
+  body.innerHTML=CSEL_GROUPS.map(g=>`
+    <div style="margin-bottom:12px">
+      <div style="font-size:11px;color:#475569;margin-bottom:6px;letter-spacing:1px">${g.lbl}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">
+        ${g.cats.map(c=>`<button class="pcat-tog${selCats.has(c)?' on':''}" data-cat="${c}" onclick="pcatToggle(this)">${CAT_NAME[c]||c}</button>`).join('')}
+      </div>
+    </div>`).join('');
+  _updatePcreateCount();
+  show('p-plan-create');
+}
+
+function pcatToggle(btn){btn.classList.toggle('on');_updatePcreateCount();}
+function _updatePcreateCount(){
+  const n=document.querySelectorAll('#pcreate-cats-body .pcat-tog.on').length;
+  document.getElementById('pcreate-sel-count').textContent=n>0?`已选 ${n} 项`:'';
+  document.getElementById('pcreate-save-btn').disabled=n===0;
+}
+
+function savePlanCreate(){
+  const name=document.getElementById('plan-name-inp').value.trim()||'学习计划';
+  const targetRate=parseInt(document.getElementById('plan-rate-inp').value);
+  const cats=[...document.querySelectorAll('#pcreate-cats-body .pcat-tog.on')].map(b=>b.dataset.cat);
+  if(cats.length===0){toast('请至少选择一个知识点');return;}
+  const pd=getPlanData();
+  const cs=getCatStats();
+  if(_planEditMode&&pd.current){
+    const existing=pd.current.snapshots||{};
+    const snap={};
+    cats.forEach(c=>{snap[c]=existing[c]||(cs[c]?{c:cs[c].c,a:cs[c].a}:{c:0,a:0});});
+    pd.current.name=name;pd.current.targetRate=targetRate;pd.current.cats=cats;pd.current.snapshots=snap;
+  } else {
+    if(pd.current)_archivePlan(pd);
+    const snap={};
+    cats.forEach(c=>{const s=cs[c];snap[c]=s?{c:s.c,a:s.a}:{c:0,a:0};});
+    pd.current={id:Date.now(),name,createdAt:todayStr(),targetRate,cats,snapshots:snap};
+  }
+  savePlanData(pd);
+  toast('计划已保存！');
+  showPlan();
+}
+
+function _archivePlan(pd){
+  const plan=pd.current,cs=getCatStats(),finalRates={};
+  plan.cats.forEach(c=>{const s=cs[c];finalRates[c]=(s&&s.a>0)?Math.round(s.c/s.a*100):0;});
+  pd.history=(pd.history||[]);
+  pd.history.push({...plan,completedAt:todayStr(),finalRates});
+  if(pd.history.length>5)pd.history=pd.history.slice(-5);
+  pd.current=null;
+}
+
+function confirmCompletePlan(){
+  if(!confirm('确定归档当前计划？\n归档后可在历史记录中查看'))return;
+  const pd=getPlanData();if(!pd.current)return;
+  _archivePlan(pd);savePlanData(pd);toast('计划已归档');showPlan();
+}
+
+function showPlanShare(){
+  const pd=getPlanData();if(!pd.current)return;
+  const plan=pd.current,cs=getCatStats();
+  const days=planDaysSince(plan.createdAt);
+  document.getElementById('psh-name').textContent=`🎯 ${plan.name}`;
+  document.getElementById('psh-sub').textContent=`已持续 ${days} 天 · 目标 ${plan.targetRate}% · 始于 ${plan.createdAt}`;
+  let reached=0;
+  document.getElementById('psh-rows').innerHTML=plan.cats.map(cat=>{
+    const s=cs[cat];
+    const cur=(s&&s.a>=3)?Math.round(s.c/s.a*100):null;
+    const snap=plan.snapshots[cat];
+    const init=(snap&&snap.a>=3)?Math.round(snap.c/snap.a*100):null;
+    const ok=cur!==null&&cur>=plan.targetRate;if(ok)reached++;
+    const delta=(cur!==null&&init!==null)?cur-init:null;
+    const deltaHtml=delta!==null?`<span style="color:${delta>=0?'#6ee7b7':'#f87171'};font-size:10px"> (${delta>=0?'+':''}${delta}%)</span>`:'';
+    return `<div class="plan-share-row">
+      <span style="color:${ok?'#6ee7b7':'#94a3b8'}">${ok?'✓':'·'} ${CAT_NAME[cat]||cat}</span>
+      <span style="color:#e2e8f0">${cur!==null?cur+'%':'--'}${deltaHtml}</span>
+    </div>`;
+  }).join('')+`<div style="text-align:center;margin-top:12px;font-size:13px;color:#64748b">已达标 ${reached}/${plan.cats.length} 项</div>`;
+  document.getElementById('plan-share-overlay').style.display='';
+}
+
+function planCopyText(){
+  const pd=getPlanData();if(!pd.current)return;
+  const plan=pd.current,cs=getCatStats(),days=planDaysSince(plan.createdAt);
+  let reached=0,lines=[];
+  plan.cats.forEach(cat=>{
+    const s=cs[cat];
+    const cur=(s&&s.a>=3)?Math.round(s.c/s.a*100):null;
+    const snap=plan.snapshots[cat];
+    const init=(snap&&snap.a>=3)?Math.round(snap.c/snap.a*100):null;
+    const ok=cur!==null&&cur>=plan.targetRate;if(ok)reached++;
+    const delta=(cur!==null&&init!==null)?` (${cur-init>=0?'+':''}${cur-init}%)`:'';
+    lines.push(`${ok?'✓':'·'} ${CAT_NAME[cat]||cat}：${cur!==null?cur+'%':'未练习'}${delta}`);
+  });
+  const text=`【${plan.name}】\n已持续 ${days} 天 | 目标 ${plan.targetRate}%\n${plan.createdAt} 开始\n\n${lines.join('\n')}\n\n已达标 ${reached}/${plan.cats.length} 项\n——来自「基础知识日练」`;
+  navigator.clipboard.writeText(text).then(()=>toast('已复制！可粘贴到微信')).catch(()=>toast('复制失败，请手动截图'));
+}
+
+function planShareURL(){
+  const pd=getPlanData();if(!pd.current)return;
+  const {name,cats,targetRate}=pd.current;
+  const encoded=btoa(encodeURIComponent(JSON.stringify({name,cats,targetRate})));
+  const url=location.origin+location.pathname+'#plan='+encoded;
+  navigator.clipboard.writeText(url).then(()=>toast('模板链接已复制！发给朋友可导入同款计划')).catch(()=>toast('复制失败'));
+}
+
+function checkPlanImportURL(){
+  const hash=location.hash;
+  if(!hash.startsWith('#plan='))return;
+  try{
+    const tpl=JSON.parse(decodeURIComponent(atob(hash.slice(6))));
+    if(!tpl.name||!Array.isArray(tpl.cats)||!tpl.targetRate)return;
+    history.replaceState(null,'',location.pathname);
+    const catNames=tpl.cats.map(c=>CAT_NAME[c]||c).join('·');
+    if(!confirm(`导入学习计划模板？\n\n「${tpl.name}」\n${catNames}\n目标正确率 ${tpl.targetRate}%`))return;
+    const pd=getPlanData();
+    if(pd.current)_archivePlan(pd);
+    const cs=getCatStats(),snap={};
+    tpl.cats.forEach(c=>{const s=cs[c];snap[c]=s?{c:s.c,a:s.a}:{c:0,a:0};});
+    pd.current={id:Date.now(),name:tpl.name,createdAt:todayStr(),targetRate:tpl.targetRate,cats:tpl.cats,snapshots:snap};
+    savePlanData(pd);toast('计划已导入！');showPlan();
+  }catch{}
+}
+// ════════════ 学习计划 END ════════════
+
 // ══ INIT ══
-initHome();m2SetDiff(_m2hard);gjSetMode(_gjMode);
+initHome();m2SetDiff(_m2hard);gjSetMode(_gjMode);checkPlanImportURL();
 
 // ══ PWA ══
 if('serviceWorker' in navigator){
