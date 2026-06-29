@@ -5327,18 +5327,32 @@ function showPlan(){
 function _renderPlanHistory(history){
   const el=document.getElementById('plan-history');
   if(!history||history.length===0){el.innerHTML='';return;}
+  const _phLen=history.length;
   el.innerHTML=`<div style="font-size:12px;color:#475569;margin-bottom:8px;letter-spacing:1px">历史计划</div>`+
-    history.slice().reverse().map(h=>{
+    history.slice().reverse().map((h,revIdx)=>{
+      const origIdx=_phLen-1-revIdx;
       const days=Math.floor((new Date(h.completedAt)-new Date(h.createdAt))/86400000);
       const reached=h.cats.filter(c=>(h.finalRates[c]||0)>=h.targetRate).length;
       return `<div class="card" style="margin-bottom:7px">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">
           <span style="font-size:13px;color:#94a3b8">${h.name}</span>
-          <span style="font-size:10px;color:#475569">${h.completedAt}</span>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:10px;color:#475569">${h.completedAt}</span>
+            <button onclick="deletePlanHistory(${origIdx})" style="font-size:10px;color:#ef4444;background:none;border:none;padding:0;cursor:pointer">删除</button>
+          </div>
         </div>
         <div style="font-size:11px;color:#64748b">持续 ${days} 天 · 达标 ${reached}/${h.cats.length} · 目标 ${h.targetRate}%</div>
       </div>`;
     }).join('');
+}
+
+function deletePlanHistory(idx){
+  if(!confirm('确认删除此历史计划？删除后该计划的达标记录将不再显示。'))return;
+  const pd=getPlanData();
+  pd.history.splice(idx,1);
+  savePlanData(pd);
+  showPlan();
+  toast('已删除');
 }
 
 let _planEditMode=false;
@@ -5352,12 +5366,14 @@ function showPlanCreate(editMode){
   document.getElementById('plan-rate-inp').value=rate;
   document.getElementById('plan-rate-val').textContent=rate+'%';
   const selCats=new Set(plan?plan.cats:[]);
+  const masteredCats=new Set();
+  pd.history.forEach(h=>h.cats.forEach(c=>{if((h.finalRates?.[c]||0)>=h.targetRate)masteredCats.add(c);}));
   const body=document.getElementById('pcreate-cats-body');
   body.innerHTML=CSEL_GROUPS.map(g=>`
     <div style="margin-bottom:12px">
       <div style="font-size:11px;color:#475569;margin-bottom:6px;letter-spacing:1px">${g.lbl}</div>
       <div style="display:flex;flex-wrap:wrap;gap:6px">
-        ${g.cats.map(c=>`<button class="pcat-tog${selCats.has(c)?' on':''}" data-cat="${c}" onclick="pcatToggle(this)">${CAT_NAME[c]||c}</button>`).join('')}
+        ${g.cats.map(c=>`<button class="pcat-tog${selCats.has(c)?' on':''}" data-cat="${c}" onclick="pcatToggle(this)">${CAT_NAME[c]||c}${masteredCats.has(c)?'<span style="color:#22c55e;font-size:9px;margin-left:2px;pointer-events:none">✓</span>':''}</button>`).join('')}
       </div>
     </div>`).join('');
   _updatePcreateCount();
