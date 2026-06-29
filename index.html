@@ -544,6 +544,15 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   <div class="mcard" onclick="showPlan()" style="cursor:pointer">
     <div class="mcard-head"><div class="mcard-icon">🎯</div><div style="flex:1"><div class="mcard-name">学习计划</div><div class="mcard-desc" id="el-plan-sub">制定重点知识点 · 追踪进步效果</div></div><div style="color:#475569;font-size:18px">›</div></div>
   </div>
+  <!-- 查阅学习 -->
+  <div class="mcard">
+    <div class="mcard-head"><div class="mcard-icon">📖</div><div><div class="mcard-name">查阅学习</div><div class="mcard-desc">知识速查 · 歌诀 · 底层逻辑</div></div></div>
+    <div class="mcard-btns">
+      <button class="btn btn-d" onclick="show('p5')">📖 知识速查</button>
+      <button class="btn btn-d" onclick="show('p-gejue-sel')">📜 歌诀闪卡</button>
+      <button class="btn btn-d" onclick="show('pbdl')">💡 底层逻辑</button>
+    </div>
+  </div>
   <!-- 闪卡速答 -->
   <div class="mcard">
     <div class="mcard-head"><div class="mcard-icon">⚡</div><div><div class="mcard-name">闪卡速答</div><div class="mcard-desc">干支知识全覆盖 · 四选一</div></div></div>
@@ -567,7 +576,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   </div>
   <!-- 专项练习 -->
   <div class="mcard">
-    <div class="mcard-head"><div class="mcard-icon">🎭</div><div><div class="mcard-name">专项练习</div><div class="mcard-desc">连线 · 推算 · 甲子 · 象意 · 排盘看题</div></div></div>
+    <div class="mcard-head"><div class="mcard-icon">🧩</div><div><div class="mcard-name">专项练习</div><div class="mcard-desc">连线 · 推算 · 甲子 · 象意 · 排盘看题</div></div></div>
     <div class="mcard-btns">
       <button class="btn btn-d" onclick="show('p2-sel')">🔗 配对连线</button>
       <button class="btn btn-d" onclick="startNF()">🗓️ 干支推算</button>
@@ -590,15 +599,6 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
       <button class="btn btn-b" onclick="startM3(-1)">随机一例</button>
       <button class="btn btn-d" onclick="startM3(0)">从第一例</button>
       <button class="btn btn-b" onclick="startM4Input()">自定义排盘</button>
-    </div>
-  </div>
-  <!-- 查阅学习 -->
-  <div class="mcard">
-    <div class="mcard-head"><div class="mcard-icon">📖</div><div><div class="mcard-name">查阅学习</div><div class="mcard-desc">知识速查 · 歌诀 · 底层逻辑</div></div></div>
-    <div class="mcard-btns">
-      <button class="btn btn-d" onclick="show('p5')">📖 知识速查</button>
-      <button class="btn btn-d" onclick="show('p-gejue-sel')">📜 歌诀闪卡</button>
-      <button class="btn btn-d" onclick="show('pbdl')">💡 底层逻辑</button>
     </div>
   </div>
   <!-- 学习报告 -->
