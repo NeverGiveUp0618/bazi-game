@@ -3434,20 +3434,6 @@ function updateCatStats(results){
   for(const r of results){const c=r.cat;if(!s[c])s[c]={a:0,e:0};s[c].a++;if(!r.ok)s[c].e++;}
   saveCatStats(s);
 }
-const CAT_HIST_KEY='bazi_cat_hist';
-function getCatHist(){try{return JSON.parse(localStorage.getItem(CAT_HIST_KEY)||'{}')}catch{return{}}}
-function saveCatHist(h){localStorage.setItem(CAT_HIST_KEY,JSON.stringify(h))}
-function appendCatHist(results){
-  const h=getCatHist(),today=todayStr(),sess={};
-  for(const r of results){if(!sess[r.cat])sess[r.cat]={ok:0,tot:0};sess[r.cat].tot++;if(r.ok)sess[r.cat].ok++;}
-  for(const[cat,{ok,tot}]of Object.entries(sess)){
-    if(tot<2)continue;
-    if(!h[cat])h[cat]=[];
-    h[cat].push({d:today,ok,tot});
-    if(h[cat].length>20)h[cat]=h[cat].slice(-20);
-  }
-  saveCatHist(h);
-}
 function adaptiveQuota(){
   const s=getCatStats(),q={...QUOTA};
   for(const cat of Object.keys(q)){
@@ -3611,7 +3597,7 @@ function checkBkRemind(){
   }
 }
 function exportBackup(){
-  const data={v:1,date:todayStr(),bazi:getData(),nb:getNB(),m4saved:getSavedM4(),custom_cats:[...CUSTOM_CATS],cat_stats:getCatStats(),plan:getPlanData(),daily_task:getDailyTask(),cat_hist:getCatHist()};
+  const data={v:1,date:todayStr(),bazi:getData(),nb:getNB(),m4saved:getSavedM4(),custom_cats:[...CUSTOM_CATS],cat_stats:getCatStats(),plan:getPlanData(),daily_task:getDailyTask()};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
@@ -3638,7 +3624,6 @@ function importBackup(){
         if(d.cat_stats)saveCatStats(d.cat_stats);
         if(d.plan)savePlanData(d.plan);
         if(d.daily_task)saveDailyTask(d.daily_task);
-        if(d.cat_hist)saveCatHist(d.cat_hist);
         localStorage.setItem(BK_DATE_KEY,todayStr());
         toast('数据已恢复！');
         setTimeout(()=>location.reload(),1200);
@@ -3852,7 +3837,7 @@ function m1End(){
   const elapsed=Date.now()-G1.t0,mins=0|elapsed/60000,secs=0|(elapsed%60000)/1000;
   const timeStr=`${mins}:${String(secs).padStart(2,'0')}`;
   const total=G1.qs.length;
-  if(G1.mode!=='nb'){saveM1Result(G1.score,G1.correct,G1.maxCombo,timeStr);updateCatStats(G1.results);appendCatHist(G1.results);checkMastery(G1.results);}
+  if(G1.mode!=='nb'){saveM1Result(G1.score,G1.correct,G1.maxCombo,timeStr);updateCatStats(G1.results);checkMastery(G1.results);}
   const acc=G1.correct/total;
   const grade=acc>=.95?'🏆':acc>=.85?'🥇':acc>=.70?'🥈':acc>=.55?'🥉':acc>=.35?'🌿':'🌱';
   document.getElementById('el-grade').textContent=grade;
@@ -4820,19 +4805,6 @@ function showStats(){
   show('p-stats');
 }
 
-function sparklineSVG(hist,w=52,h=14){
-  if(!hist||hist.length<2)return'';
-  const pts=hist.map((s,i)=>{
-    const acc=s.tot>0?s.ok/s.tot:0;
-    const x=Math.round(i/(hist.length-1)*w);
-    const y=Math.round((1-acc)*h);
-    return`${x},${y}`;
-  }).join(' ');
-  const last=hist[hist.length-1],lastPct=last.tot>0?last.ok/last.tot*100:0;
-  const col=lastPct>=80?'#34d399':lastPct>=50?'#f59e0b':'#ef4444';
-  return`<svg width="${w}" height="${h}" style="display:inline-block;vertical-align:middle;margin-left:5px;flex-shrink:0;opacity:.85"><polyline points="${pts}" fill="none" stroke="${col}" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/></svg>`;
-}
-
 // ══ 掌握度面板 ══
 function showMaster(){
   ensureMasteryUpToDate();
@@ -4932,9 +4904,7 @@ function showMaster(){
         if(isDue){extra=`<span class="ms-stage ms-s${stage}" style="color:#f97316">⚠️复习</span>`;}
         else if(st.reviewAt){const d=Math.ceil((new Date(st.reviewAt)-new Date(today))/86400000);extra=`<span class="ms-stage ms-s${stage}">${d}天后</span>`;}
       } else if(stage===4){extra=`<span class="ms-stage ms-s4">长期</span>`;}
-      const catHist=getCatHist()[cat];
-      const spark=catHist&&catHist.length>=2?sparklineSVG(catHist.slice(-10)):'';
-      return `<div class="ms-row${isDue?' ms-row-due':''}"><span class="ms-name">${name}${extra}</span><div class="ms-bar-wrap"><div class="ms-bar" style="width:${acc}%;background:${barCol}"></div></div><span class="ms-pct" style="color:${pctCol}">${acc}%</span>${spark}<span class="ms-ico">${ico}</span></div>`;
+      return `<div class="ms-row${isDue?' ms-row-due':''}"><span class="ms-name">${name}${extra}</span><div class="ms-bar-wrap"><div class="ms-bar" style="width:${acc}%;background:${barCol}"></div></div><span class="ms-pct" style="color:${pctCol}">${acc}%</span><span class="ms-ico">${ico}</span></div>`;
     }).join('');
     html+=`<div class="ms-grp card"><div class="ms-grp-lbl">${grp.lbl}</div>${rows}</div>`;
   }
