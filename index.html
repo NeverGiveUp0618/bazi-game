@@ -268,7 +268,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .csel-grp{margin-bottom:13px}
 .csel-lbl{font-size:11px;color:#475569;letter-spacing:2px;margin-bottom:6px;padding:0 2px;font-weight:bold}
 .csel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-.ctog{background:#1e293b;border:2px solid #1e293b;border-radius:10px;cursor:pointer;padding:8px 4px;text-align:center;transition:all .15s;color:#64748b;font-size:11px;font-weight:bold;line-height:1.4;width:100%}
+.ctog{background:#1e293b;border:2px solid #1e293b;border-radius:10px;cursor:pointer;padding:8px 4px;text-align:center;transition:all .15s;color:#64748b;font-size:11px;font-weight:bold;line-height:1.4;width:100%;position:relative}
 .ctog:active{transform:scale(.97)}
 .ctog.on{background:#0c2a1a;border-color:#10b981;color:#34d399}
 .csel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;flex-shrink:0}
@@ -409,6 +409,10 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .ms-pct{font-size:11px;width:36px;text-align:right;flex-shrink:0}
 .ms-ico{font-size:13px;width:18px;flex-shrink:0}
 .ms-new{font-size:10px;color:#334155;font-style:italic}
+.ms-stage{font-size:9px;padding:1px 5px;border-radius:6px;font-weight:bold;margin-left:4px;vertical-align:middle}
+.ms-s1{background:#1e3a2a;color:#34d399}.ms-s2{background:#1e3a5f;color:#93c5fd}.ms-s3{background:#2d1657;color:#c4b5fd}.ms-s4{background:#1c1400;color:#fcd34d}
+.ms-row-due{border-left:3px solid #f97316!important;padding-left:5px!important}
+.ctog-due::after{content:'🔁';font-size:8px;position:absolute;top:-3px;right:-3px;line-height:1}
 .ms-ov{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px}
 .ms-ov-cell{background:#1e293b;border-radius:11px;padding:10px 4px;text-align:center}
 .ms-ov-v{font-size:20px;font-weight:bold;color:#e2e8f0}
@@ -529,7 +533,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <div class="hstat"><div class="hstat-v" id="el-total">0</div><div class="hstat-l">累计对题</div></div>
   </div>
   <div class="mcard" onclick="showPlan()" style="cursor:pointer">
-    <div class="mcard-head"><div class="mcard-icon">🎯</div><div><div class="mcard-name">我的学习计划</div><div class="mcard-desc" id="el-plan-sub">制定重点知识点 · 追踪进步效果</div></div><div style="color:#475569;font-size:18px">›</div></div>
+    <div class="mcard-head"><div class="mcard-icon">🎯</div><div><div class="mcard-name">我的学习计划 <span style="font-size:10px;color:#93c5fd;background:#1e3a8a;border-radius:4px;padding:1px 6px;margin-left:4px">成为大师，从计划开始</span></div><div class="mcard-desc" id="el-plan-sub">制定重点知识点 · 追踪进步效果</div></div><div style="color:#475569;font-size:18px">›</div></div>
   </div>
   <div class="mcard">
     <div class="mcard-head"><div class="mcard-icon">⚡</div><div><div class="mcard-name">闪卡速答</div><div class="mcard-desc">点选答案，干支知识全覆盖</div></div></div>
@@ -3520,7 +3524,8 @@ function initHome(){
   if(tested>0){
     let tot=0,ok=0;for(const s of Object.values(cs)){tot+=s.a;ok+=s.a-s.e;}
     const sub=document.getElementById('el-master-sub');
-    if(sub)sub.textContent=`综合正确率 ${Math.round(ok/tot*100)}% · 已测 ${tested}/${allCats.length} 题型`;
+    const dueCount=getMasteredDue().due.length;
+    if(sub)sub.textContent=dueCount>0?`⚠️ ${dueCount}项待复习 · 综合 ${Math.round(ok/tot*100)}%`:`综合正确率 ${Math.round(ok/tot*100)}% · 已测 ${tested}/${allCats.length} 题型`;
   }
   // 学习计划副标题
   const pd=getPlanData();
@@ -3625,12 +3630,15 @@ function prepNBQuestions(){
 function renderCustomSel(){
   const body=document.getElementById('el-csel-body');
   if(!body)return;
+  const {due}=getMasteredDue();const dueSet=new Set(due.map(d=>d.cat));
   body.innerHTML=CSEL_GROUPS.map(g=>`
     <div class="csel-grp">
       <div class="csel-lbl">${g.lbl}</div>
-      <div class="csel-grid">${g.cats.map(c=>`<button class="ctog${CUSTOM_CATS.has(c)?' on':''}" onclick="toggleCat('${c}')">${CAT_NAME[c]||c}</button>`).join('')}</div>
+      <div class="csel-grid">${g.cats.map(c=>{const isDue=dueSet.has(c);return`<button class="ctog${CUSTOM_CATS.has(c)?' on':''}${isDue?' ctog-due':''}" onclick="toggleCat('${c}')">${isDue?'🔁 ':''}${CAT_NAME[c]||c}</button>`;}).join('')}</div>
     </div>`).join('');
-  document.getElementById('el-csel-count').textContent=`已选 ${CUSTOM_CATS.size} 个知识点`;
+  const dueInSel=[...dueSet].filter(c=>CUSTOM_CATS.has(c)).length;
+  const hint=dueInSel>0?` · 含${dueInSel}项待复习🔁`:'';
+  document.getElementById('el-csel-count').textContent=`已选 ${CUSTOM_CATS.size} 个知识点${hint}`;
 }
 function toggleCat(cat){
   if(CUSTOM_CATS.has(cat))CUSTOM_CATS.delete(cat);else CUSTOM_CATS.add(cat);
@@ -3787,7 +3795,7 @@ function m1End(){
   const elapsed=Date.now()-G1.t0,mins=0|elapsed/60000,secs=0|(elapsed%60000)/1000;
   const timeStr=`${mins}:${String(secs).padStart(2,'0')}`;
   const total=G1.qs.length;
-  if(G1.mode!=='nb'){saveM1Result(G1.score,G1.correct,G1.maxCombo,timeStr);updateCatStats(G1.results);}
+  if(G1.mode!=='nb'){saveM1Result(G1.score,G1.correct,G1.maxCombo,timeStr);updateCatStats(G1.results);checkMastery(G1.results);}
   const acc=G1.correct/total;
   const grade=acc>=.95?'🏆':acc>=.85?'🥇':acc>=.70?'🥈':acc>=.55?'🥉':acc>=.35?'🌿':'🌱';
   document.getElementById('el-grade').textContent=grade;
@@ -4704,27 +4712,28 @@ function showStats(){
 
 // ══ 掌握度面板 ══
 function showMaster(){
-  const cs=getCatStats();
+  ensureMasteryUpToDate();
+  const cs=getCatStats(),today=todayStr();
   let totalA=0,totalOk=0;
   for(const s of Object.values(cs)){totalA+=s.a;totalOk+=s.a-s.e;}
   const overall=totalA?Math.round(totalOk/totalA*100):0;
   const allCats=Object.keys(QUOTA);
-  const MASTER_THR=80; // 掌握阈值
+  const MASTER_THR=80;
 
-  // 分类统计：已掌握 / 需加强 / 未开始
   const mastered=[],weak=[],untested=[];
   for(const cat of allCats){
     const s=cs[cat];
     if(!s||s.a<3){untested.push(cat);}
     else{
       const acc=Math.round((s.a-s.e)/s.a*100);
-      if(acc>=MASTER_THR)mastered.push({cat,acc});
+      const stage=s.reviewStage||0;
+      if(stage>=1)mastered.push({cat,acc,stage,reviewAt:s.reviewAt});
+      else if(acc>=MASTER_THR)mastered.push({cat,acc,stage:0,reviewAt:null});
       else weak.push({cat,acc});
     }
   }
-  weak.sort((a,b)=>a.acc-b.acc); // 正确率低的排前面
+  weak.sort((a,b)=>a.acc-b.acc);
 
-  // 总览卡
   let html=`<div class="ms-ov">
     <div class="ms-ov-cell"><div class="ms-ov-v">${allCats.length}</div><div class="ms-ov-l">全部题型</div></div>
     <div class="ms-ov-cell"><div class="ms-ov-v" style="color:#34d399">${mastered.length}</div><div class="ms-ov-l">已掌握</div></div>
@@ -4732,7 +4741,6 @@ function showMaster(){
     <div class="ms-ov-cell"><div class="ms-ov-v" style="color:#475569">${untested.length}</div><div class="ms-ov-l">未开始</div></div>
   </div>`;
 
-  // 正确率环
   const tested=allCats.length-untested.length;
   html+=`<div class="ms-sum">
     <div class="ms-sum-ring">${overall}%</div>
@@ -4742,17 +4750,37 @@ function showMaster(){
     </div>
   </div>`;
 
-  // 未掌握知识点列表
+  // 复习计划
+  const {due,pending,longterm}=getMasteredDue();
+  if(due.length>0||pending.length>0||longterm.length>0){
+    html+=`<div class="card" style="margin-bottom:12px"><div class="ms-grp-lbl" style="margin-bottom:8px">📅 复习计划</div>`;
+    if(due.length>0){
+      html+=`<div style="font-size:11px;color:#f97316;margin-bottom:7px;font-weight:bold">⚠️ 待复习（${due.length}项，答题即计入复习）</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px">
+          ${due.map(({cat,stage})=>`<span style="background:#78350f;color:#fcd34d;font-size:11px;padding:4px 9px;border-radius:7px">${STAGE_ICON[stage]} ${CAT_NAME[cat]||cat}</span>`).join('')}
+        </div>`;
+    }
+    if(pending.length>0){
+      html+=`<div style="font-size:11px;color:#475569;margin-bottom:7px">⏳ 安排中</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">
+          ${pending.map(({cat,stage,days})=>`<span style="background:#1e293b;color:#64748b;font-size:11px;padding:4px 9px;border-radius:7px">${STAGE_ICON[stage]} ${CAT_NAME[cat]||cat} <span style="color:#475569">${days}天后</span></span>`).join('')}
+        </div>`;
+    }
+    if(longterm.length>0){
+      html+=`<div style="font-size:11px;color:#475569;margin-bottom:7px">🏆 长期掌握（${longterm.length}项）</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          ${longterm.map(cat=>`<span style="background:#1e293b;color:#fcd34d;font-size:11px;padding:4px 9px;border-radius:7px">🏆 ${CAT_NAME[cat]||cat}</span>`).join('')}
+        </div>`;
+    }
+    html+=`<div style="font-size:10px;color:#334155;margin-top:10px;line-height:1.8">🌱初次掌握→7天 · 🌿第1次复习→21天 · 🌳第2次复习→60天 · 🏆长期掌握</div></div>`;
+  }
+
+  // 需加强列表
   if(weak.length>0||untested.length>0){
-    html+=`<div class="card" style="margin-bottom:12px">
-      <div class="ms-grp-lbl" style="margin-bottom:8px">🔴 需加强（${weak.length}项）</div>`;
+    html+=`<div class="card" style="margin-bottom:12px"><div class="ms-grp-lbl" style="margin-bottom:8px">🔴 需加强（${weak.length}项）</div>`;
     for(const {cat,acc} of weak){
       const col=acc>=60?'#f97316':'#ef4444';
-      html+=`<div class="ms-weak-item">
-        <span class="ms-weak-name">${CAT_NAME[cat]||cat}</span>
-        <div class="ms-weak-bar"><div class="ms-weak-fill" style="width:${acc}%;background:${col}"></div></div>
-        <span class="ms-weak-pct" style="color:${col}">${acc}%</span>
-      </div>`;
+      html+=`<div class="ms-weak-item"><span class="ms-weak-name">${CAT_NAME[cat]||cat}</span><div class="ms-weak-bar"><div class="ms-weak-fill" style="width:${acc}%;background:${col}"></div></div><span class="ms-weak-pct" style="color:${col}">${acc}%</span></div>`;
     }
     if(untested.length>0){
       html+=`<div class="ms-grp-lbl" style="margin-top:10px;margin-bottom:6px">⬜ 未开始（${untested.length}项）</div>
@@ -4761,39 +4789,35 @@ function showMaster(){
         </div>`;
     }
     html+=`</div>`;
-  } else {
-    html+=`<div class="card" style="margin-bottom:12px;text-align:center;padding:16px">
-      <div style="font-size:22px;margin-bottom:6px">🎉</div>
-      <div style="font-size:13px;color:#10b981;font-weight:bold">全部题型均已掌握！</div>
-    </div>`;
+  } else if(due.length===0&&pending.length===0&&longterm.length===0){
+    html+=`<div class="card" style="margin-bottom:12px;text-align:center;padding:16px"><div style="font-size:22px;margin-bottom:6px">🎉</div><div style="font-size:13px;color:#10b981;font-weight:bold">全部题型均已掌握！</div></div>`;
   }
 
-  // per group（详细分组，折叠状态下默认收起）
+  // 详细分组
   for(const grp of CSEL_GROUPS){
     const rows=grp.cats.map(cat=>{
-      const st=cs[cat];
-      const name=CAT_NAME[cat]||cat;
-      if(!st||st.a<3){
-        return `<div class="ms-row"><span class="ms-name">${name}</span><span class="ms-new ms-pct" style="width:auto;flex:1">未测试</span><span class="ms-ico">⬜</span></div>`;
-      }
+      const st=cs[cat];const name=CAT_NAME[cat]||cat;
+      if(!st||st.a<3){return `<div class="ms-row"><span class="ms-name">${name}</span><span class="ms-new ms-pct" style="width:auto;flex:1">未测试</span><span class="ms-ico">⬜</span></div>`;}
       const acc=Math.round((st.a-st.e)/st.a*100);
-      const barCol=acc>=90?'#34d399':acc>=MASTER_THR?'#10b981':acc>=50?'#f97316':'#ef4444';
-      const ico=acc>=90?'✅':acc>=MASTER_THR?'🟢':acc>=50?'🟡':'🔴';
-      const pctCol=acc>=MASTER_THR?'#10b981':acc>=50?'#f97316':'#ef4444';
-      return `<div class="ms-row">
-        <span class="ms-name">${name}</span>
-        <div class="ms-bar-wrap"><div class="ms-bar" style="width:${acc}%;background:${barCol}"></div></div>
-        <span class="ms-pct" style="color:${pctCol}">${acc}%</span>
-        <span class="ms-ico">${ico}</span>
-      </div>`;
+      const stage=st.reviewStage||0;
+      const isDue=stage>=1&&stage<=3&&st.reviewAt&&today>=st.reviewAt;
+      const barCol=stage>=4?'#fcd34d':stage>=1?'#34d399':acc>=MASTER_THR?'#10b981':acc>=50?'#f97316':'#ef4444';
+      const pctCol=stage>=4?'#fcd34d':stage>=1?'#34d399':acc>=MASTER_THR?'#10b981':acc>=50?'#f97316':'#ef4444';
+      const ico=stage>=4?'🏆':stage>=1?STAGE_ICON[stage]:acc>=90?'✅':acc>=MASTER_THR?'🟢':acc>=50?'🟡':'🔴';
+      let extra='';
+      if(stage>=1&&stage<=3){
+        if(isDue){extra=`<span class="ms-stage ms-s${stage}" style="color:#f97316">⚠️复习</span>`;}
+        else if(st.reviewAt){const d=Math.ceil((new Date(st.reviewAt)-new Date(today))/86400000);extra=`<span class="ms-stage ms-s${stage}">${d}天后</span>`;}
+      } else if(stage===4){extra=`<span class="ms-stage ms-s4">长期</span>`;}
+      return `<div class="ms-row${isDue?' ms-row-due':''}"><span class="ms-name">${name}${extra}</span><div class="ms-bar-wrap"><div class="ms-bar" style="width:${acc}%;background:${barCol}"></div></div><span class="ms-pct" style="color:${pctCol}">${acc}%</span><span class="ms-ico">${ico}</span></div>`;
     }).join('');
     html+=`<div class="ms-grp card"><div class="ms-grp-lbl">${grp.lbl}</div>${rows}</div>`;
   }
   document.getElementById('el-master-body').innerHTML=html;
 
-  // update home subtitle
   const sub=document.getElementById('el-master-sub');
-  if(sub)sub.textContent=tested?`综合正确率 ${overall}% · 已测 ${tested}/${allCats.length} 题型`:'各类别正确率分析，找出薄弱知识点';
+  const dueCount=getMasteredDue().due.length;
+  if(sub)sub.textContent=tested?(dueCount>0?`⚠️ ${dueCount}项待复习 · 综合 ${overall}%`:`综合正确率 ${overall}% · 已测 ${tested}/${allCats.length} 题型`):'各类别正确率分析，找出薄弱知识点';
 
   _scrollPos['p-master']=0;
   show('p-master');
@@ -5099,6 +5123,74 @@ document.addEventListener('keydown',e=>{
     if(e.key==='ArrowLeft')m3Move(-1);if(e.key==='ArrowRight')m3Move(1);
   }
 });
+
+// ════════════ 间隔复习 ════════════
+function addDays(dateStr,n){const d=new Date(dateStr);d.setDate(d.getDate()+n);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+const REVIEW_DAYS={1:7,2:21,3:60}; // stage → 下次复习间隔天数（stage4=长期，不再安排）
+const STAGE_ICON={1:'🌱',2:'🌿',3:'🌳',4:'🏆'};
+const STAGE_LABEL={1:'7天后复习',2:'21天后复习',3:'60天后复习',4:'长期掌握'};
+
+function checkMastery(results){
+  const s=getCatStats(),today=todayStr();
+  const sessionCats=[...new Set(results.map(r=>r.cat))];
+  for(const cat of sessionCats){
+    const st=s[cat];if(!st||st.a<3)continue;
+    const stage=st.reviewStage||0;
+    const acc=(st.a-st.e)/st.a;
+    if(stage===0){
+      if(st.a>=10&&acc>=0.8){
+        st.reviewStage=1;st.masteredAt=today;
+        st.reviewAt=addDays(today,7);st.reviewSnap={a:st.a,e:st.e};
+      }
+    } else if(stage>=1&&stage<=3){
+      if(st.reviewAt&&today>=st.reviewAt){
+        const snap=st.reviewSnap||{a:0,e:0};
+        const rA=st.a-snap.a,rE=st.e-snap.e;
+        if(rA>=2){
+          const rAcc=(rA-rE)/rA;
+          if(rAcc>=0.75){
+            const ns=stage+1;st.reviewStage=ns;
+            st.reviewAt=ns<=3?addDays(today,REVIEW_DAYS[ns]):null;
+            st.reviewSnap={a:st.a,e:st.e};
+          } else if(rAcc<0.6){
+            st.reviewStage=1;st.reviewAt=addDays(today,7);st.reviewSnap={a:st.a,e:st.e};
+          }
+        }
+      }
+    }
+  }
+  saveCatStats(s);
+}
+
+function ensureMasteryUpToDate(){
+  const s=getCatStats(),today=todayStr();let changed=false;
+  for(const[cat,st]of Object.entries(s)){
+    if((st.reviewStage||0)===0&&st.a>=10){
+      if((st.a-st.e)/st.a>=0.8){
+        st.reviewStage=1;st.masteredAt=today;
+        st.reviewAt=addDays(today,7);st.reviewSnap={a:st.a,e:st.e};changed=true;
+      }
+    }
+  }
+  if(changed)saveCatStats(s);
+}
+
+function getMasteredDue(){
+  const s=getCatStats(),today=todayStr();
+  const due=[],pending=[],longterm=[];
+  for(const[cat,st]of Object.entries(s)){
+    const stage=st.reviewStage||0;if(stage===0)continue;
+    if(stage===4){longterm.push(cat);continue;}
+    if(st.reviewAt&&today>=st.reviewAt)due.push({cat,stage});
+    else if(st.reviewAt){
+      const days=Math.ceil((new Date(st.reviewAt)-new Date(today))/86400000);
+      pending.push({cat,stage,days});
+    }
+  }
+  pending.sort((a,b)=>a.days-b.days);
+  return{due,pending,longterm};
+}
+// ════════════ 间隔复习 END ════════════
 
 // ════════════ 学习计划 ════════════
 const PLAN_KEY='bazi_plan';
