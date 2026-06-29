@@ -409,6 +409,15 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .ms-pct{font-size:11px;width:36px;text-align:right;flex-shrink:0}
 .ms-ico{font-size:13px;width:18px;flex-shrink:0}
 .ms-new{font-size:10px;color:#334155;font-style:italic}
+.ms-ov{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px}
+.ms-ov-cell{background:#1e293b;border-radius:11px;padding:10px 4px;text-align:center}
+.ms-ov-v{font-size:20px;font-weight:bold;color:#e2e8f0}
+.ms-ov-l{font-size:10px;color:#475569;margin-top:2px}
+.ms-weak-item{display:flex;align-items:center;gap:7px;padding:7px 10px;background:#0f172a;border-radius:9px;margin:4px 0}
+.ms-weak-name{font-size:12px;color:#e2e8f0;flex:1}
+.ms-weak-bar{flex:2;background:#1e293b;border-radius:99px;height:6px;overflow:hidden}
+.ms-weak-fill{height:100%;border-radius:99px}
+.ms-weak-pct{font-size:11px;width:32px;text-align:right;flex-shrink:0}
 
 
 /* 自适应出题 */
@@ -519,6 +528,9 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <div class="hstat"><div class="hstat-v" id="el-best">0</div><div class="hstat-l">闪卡最高</div></div>
     <div class="hstat"><div class="hstat-v" id="el-total">0</div><div class="hstat-l">累计对题</div></div>
   </div>
+  <div class="mcard" onclick="showPlan()" style="cursor:pointer">
+    <div class="mcard-head"><div class="mcard-icon">🎯</div><div><div class="mcard-name">我的学习计划</div><div class="mcard-desc" id="el-plan-sub">制定重点知识点 · 追踪进步效果</div></div><div style="color:#475569;font-size:18px">›</div></div>
+  </div>
   <div class="mcard">
     <div class="mcard-head"><div class="mcard-icon">⚡</div><div><div class="mcard-name">闪卡速答</div><div class="mcard-desc">点选答案，干支知识全覆盖</div></div></div>
     <div class="qcount-row">
@@ -576,9 +588,6 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   <div class="mcard" onclick="show('p-gejue-sel')" style="cursor:pointer">
     <div class="mcard-head"><div class="mcard-icon">📜</div><div><div class="mcard-name">歌诀闪卡 <span class="nt-label">背诵</span></div><div class="mcard-desc">清纯·婚姻·三刑·寿元…14套歌诀翻卡背诵</div></div><div style="color:#475569;font-size:18px">›</div></div>
   </div>
-  <div class="mcard" onclick="showPlan()" style="cursor:pointer">
-    <div class="mcard-head"><div class="mcard-icon">🎯</div><div><div class="mcard-name">我的学习计划</div><div class="mcard-desc" id="el-plan-sub">制定重点知识点 · 追踪进步效果</div></div><div style="color:#475569;font-size:18px">›</div></div>
-  </div>
   <div class="mcard">
     <div class="mcard-head"><div class="mcard-icon">📊</div><div><div class="mcard-name">学习报告</div><div class="mcard-desc" id="el-master-sub">打卡日历 · 正确率分析 · 薄弱知识点</div></div></div>
     <div class="mcard-btns">
@@ -601,6 +610,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   <div class="card" style="margin-bottom:9px">
     <div class="hhist">开发时间节点</div>
     <div style="max-height:130px;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:6px;margin-top:2px;padding-right:2px">
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.6.29</span><span style="color:#94a3b8;font-size:12px">🎯 学习计划——自选知识点·进度追踪·分享模板；掌握度面板新增全局已掌握/需加强/未开始总览</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.29</span><span style="color:#94a3b8;font-size:12px">🏠 八字底层逻辑升为首页重要入口·修复返回按钮</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.29</span><span style="color:#94a3b8;font-size:12px">💡 底层逻辑白话——完整重写为民间体系（ren老18道·气势＋制·应期七步法）</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.28</span><span style="color:#94a3b8;font-size:12px">🗂 首页菜单精简（排盘合一·学习报告合并）</span></div>
@@ -4695,22 +4705,70 @@ function showStats(){
 // ══ 掌握度面板 ══
 function showMaster(){
   const cs=getCatStats();
-  let totalA=0,totalOk=0,testedCats=0;
-  for(const s of Object.values(cs)){totalA+=s.a;totalOk+=s.a-s.e;if(s.a>=5)testedCats++;}
+  let totalA=0,totalOk=0;
+  for(const s of Object.values(cs)){totalA+=s.a;totalOk+=s.a-s.e;}
   const overall=totalA?Math.round(totalOk/totalA*100):0;
   const allCats=Object.keys(QUOTA);
-  const tested=allCats.filter(c=>cs[c]&&cs[c].a>=5).length;
+  const MASTER_THR=80; // 掌握阈值
 
-  // summary
-  let html=`<div class="ms-sum">
+  // 分类统计：已掌握 / 需加强 / 未开始
+  const mastered=[],weak=[],untested=[];
+  for(const cat of allCats){
+    const s=cs[cat];
+    if(!s||s.a<3){untested.push(cat);}
+    else{
+      const acc=Math.round((s.a-s.e)/s.a*100);
+      if(acc>=MASTER_THR)mastered.push({cat,acc});
+      else weak.push({cat,acc});
+    }
+  }
+  weak.sort((a,b)=>a.acc-b.acc); // 正确率低的排前面
+
+  // 总览卡
+  let html=`<div class="ms-ov">
+    <div class="ms-ov-cell"><div class="ms-ov-v">${allCats.length}</div><div class="ms-ov-l">全部题型</div></div>
+    <div class="ms-ov-cell"><div class="ms-ov-v" style="color:#34d399">${mastered.length}</div><div class="ms-ov-l">已掌握</div></div>
+    <div class="ms-ov-cell"><div class="ms-ov-v" style="color:#f97316">${weak.length}</div><div class="ms-ov-l">需加强</div></div>
+    <div class="ms-ov-cell"><div class="ms-ov-v" style="color:#475569">${untested.length}</div><div class="ms-ov-l">未开始</div></div>
+  </div>`;
+
+  // 正确率环
+  const tested=allCats.length-untested.length;
+  html+=`<div class="ms-sum">
     <div class="ms-sum-ring">${overall}%</div>
     <div class="ms-sum-info">
       <div style="font-size:14px;font-weight:bold;color:#e2e8f0">综合正确率</div>
-      <div class="ms-sum-sub">已测 ${tested}/${allCats.length} 个题型 · 共答 ${totalA} 题<br>答对 ${totalOk} 题 · 答错 ${totalA-totalOk} 题</div>
+      <div class="ms-sum-sub">已练 ${tested}/${allCats.length} 个题型 · 共答 ${totalA} 题<br>答对 ${totalOk} 题 · 掌握阈值 ${MASTER_THR}%</div>
     </div>
   </div>`;
 
-  // per group
+  // 未掌握知识点列表
+  if(weak.length>0||untested.length>0){
+    html+=`<div class="card" style="margin-bottom:12px">
+      <div class="ms-grp-lbl" style="margin-bottom:8px">🔴 需加强（${weak.length}项）</div>`;
+    for(const {cat,acc} of weak){
+      const col=acc>=60?'#f97316':'#ef4444';
+      html+=`<div class="ms-weak-item">
+        <span class="ms-weak-name">${CAT_NAME[cat]||cat}</span>
+        <div class="ms-weak-bar"><div class="ms-weak-fill" style="width:${acc}%;background:${col}"></div></div>
+        <span class="ms-weak-pct" style="color:${col}">${acc}%</span>
+      </div>`;
+    }
+    if(untested.length>0){
+      html+=`<div class="ms-grp-lbl" style="margin-top:10px;margin-bottom:6px">⬜ 未开始（${untested.length}项）</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          ${untested.map(c=>`<span style="background:#1e293b;color:#475569;font-size:11px;padding:4px 9px;border-radius:7px">${CAT_NAME[c]||c}</span>`).join('')}
+        </div>`;
+    }
+    html+=`</div>`;
+  } else {
+    html+=`<div class="card" style="margin-bottom:12px;text-align:center;padding:16px">
+      <div style="font-size:22px;margin-bottom:6px">🎉</div>
+      <div style="font-size:13px;color:#10b981;font-weight:bold">全部题型均已掌握！</div>
+    </div>`;
+  }
+
+  // per group（详细分组，折叠状态下默认收起）
   for(const grp of CSEL_GROUPS){
     const rows=grp.cats.map(cat=>{
       const st=cs[cat];
@@ -4719,9 +4777,9 @@ function showMaster(){
         return `<div class="ms-row"><span class="ms-name">${name}</span><span class="ms-new ms-pct" style="width:auto;flex:1">未测试</span><span class="ms-ico">⬜</span></div>`;
       }
       const acc=Math.round((st.a-st.e)/st.a*100);
-      const barCol=acc>=90?'#34d399':acc>=75?'#10b981':acc>=50?'#f97316':'#ef4444';
-      const ico=acc>=90?'✅':acc>=75?'🟢':acc>=50?'🟡':'🔴';
-      const pctCol=acc>=75?'#10b981':acc>=50?'#f97316':'#ef4444';
+      const barCol=acc>=90?'#34d399':acc>=MASTER_THR?'#10b981':acc>=50?'#f97316':'#ef4444';
+      const ico=acc>=90?'✅':acc>=MASTER_THR?'🟢':acc>=50?'🟡':'🔴';
+      const pctCol=acc>=MASTER_THR?'#10b981':acc>=50?'#f97316':'#ef4444';
       return `<div class="ms-row">
         <span class="ms-name">${name}</span>
         <div class="ms-bar-wrap"><div class="ms-bar" style="width:${acc}%;background:${barCol}"></div></div>
