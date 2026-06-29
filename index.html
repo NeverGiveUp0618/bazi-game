@@ -700,6 +700,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   </div>
   <div class="card" id="el-bd"></div>
   <div id="el-adapt" style="display:none"></div>
+  <div id="el-plan-result" style="display:none"></div>
   <!-- wrong questions -->
   <div id="el-wq-section" style="display:none">
     <div class="wq-hdr" id="el-wq-hdr"></div>
@@ -708,6 +709,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   </div>
   <div class="share-box" id="el-share"></div>
   <button class="btn btn-b" onclick="copyShare()" style="margin:4px 0">📋 复制结果发给队友</button>
+  <button class="btn btn-g" id="el-plan-back" onclick="showPlan()" style="display:none;margin:4px 0">← 查看计划</button>
   <button class="btn btn-d" onclick="goHome()" style="margin:4px 0">← 返回首页</button>
 </div>
 
@@ -2759,7 +2761,8 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
       <div style="font-size:11px;color:#475569;text-align:right" id="plan-prog-sub"></div>
     </div>
     <div id="plan-cats-list"></div>
-    <div style="display:flex;gap:8px;margin-top:10px">
+    <button class="btn btn-g" style="margin-top:10px" onclick="startPlanPractice()">▶ 按计划练习</button>
+    <div style="display:flex;gap:8px;margin-top:8px">
       <button class="btn btn-d" style="flex:1;font-size:13px" onclick="showPlanShare()">📤 分享</button>
       <button class="btn btn-d" style="flex:1;font-size:13px" onclick="showPlanCreate(true)">✏️ 编辑</button>
       <button class="btn btn-d" style="flex:1;font-size:13px" onclick="showPlanCreate(false)">＋ 新建</button>
@@ -3534,7 +3537,7 @@ function initHome(){
     if(pd.current){
       const days=planDaysSince(pd.current.createdAt);
       const pcs=getCatStats();
-      const reached=pd.current.cats.filter(c=>{const s=pcs[c];return s&&s.a>=3&&Math.round(s.c/s.a*100)>=pd.current.targetRate;}).length;
+      const reached=pd.current.cats.filter(c=>{const s=pcs[c];return s&&s.a>=3&&Math.round((s.a-s.e)/s.a*100)>=pd.current.targetRate;}).length;
       planSub.textContent=`${pd.current.name} · 第${days}天 · 达标 ${reached}/${pd.current.cats.length}`;
     } else {
       planSub.textContent='制定重点知识点 · 追踪进步效果';
@@ -3803,7 +3806,7 @@ function m1End(){
   document.getElementById('el-rc').textContent=`${G1.correct}/${total}`;
   document.getElementById('el-rm').textContent=G1.maxCombo;
   document.getElementById('el-rt').textContent=timeStr;
-  const rlbls={'nb':'错题本练习结果','custom':'自选挑战结果','custom-nt':'自选挑战结果'};
+  const rlbls={'nb':'错题本练习结果','custom':'自选挑战结果','custom-nt':'自选挑战结果','plan':'学习计划练习结果'};
   document.getElementById('r1-lbl').textContent=rlbls[G1.mode]||'本局结果';
 
   // category breakdown
@@ -3857,12 +3860,50 @@ function m1End(){
     wqSec.style.display='none';
   }
 
+  // plan result
+  const planResEl=document.getElementById('el-plan-result');
+  const planBackBtn=document.getElementById('el-plan-back');
+  if(G1.mode==='plan'){
+    planBackBtn.style.display='';
+    const pd=getPlanData();const plan=pd.current;
+    if(plan){
+      const cs=getCatStats();
+      const sessSt={};
+      for(const r of G1.results){if(!sessSt[r.cat])sessSt[r.cat]={ok:0,tot:0};sessSt[r.cat].tot++;if(r.ok)sessSt[r.cat].ok++;}
+      let reachedNow=0;
+      const rows=plan.cats.map(cat=>{
+        const s=cs[cat];
+        const overall=(s&&s.a>=3)?Math.round((s.a-s.e)/s.a*100):null;
+        const ss=sessSt[cat];
+        const sessHtml=ss?`本局 ${ss.ok}/${ss.tot}`:'未出题';
+        const atTarget=overall!==null&&overall>=plan.targetRate;
+        if(atTarget)reachedNow++;
+        const col=atTarget?'#34d399':ss?'#94a3b8':'#475569';
+        const ico=atTarget?'✅':'🔘';
+        return `<div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid #1e293b">
+          <span style="color:${col};font-size:13px">${ico} ${CAT_NAME[cat]||cat}</span>
+          <span style="font-size:12px;color:#64748b">${sessHtml} · 整体 ${overall!==null?overall+'%':'--'}</span>
+        </div>`;
+      }).join('');
+      planResEl.innerHTML=`<div class="card" style="margin-bottom:8px">
+        <div style="font-size:11px;color:#475569;margin-bottom:8px;letter-spacing:1px">📋 计划进度</div>
+        ${rows}
+        <div style="margin-top:8px;font-size:13px;color:#10b981;font-weight:bold">已达标 ${reachedNow}/${plan.cats.length} 项（目标 ${plan.targetRate}%）</div>
+      </div>`;
+      planResEl.style.display='';
+    }else{planResEl.style.display='none';planBackBtn.style.display='none';}
+  }else{
+    planResEl.style.display='none';
+    if(planBackBtn)planBackBtn.style.display='none';
+  }
+
   // share
   const emojis=G1.results.map(r=>r.ok?'✅':'❌').join('');
   const nt=G1.timed?'':'🔓';
   const isCustom=G1.mode==='custom'||G1.mode==='custom-nt';
-  const catLine=isCustom?`\n知识点：${[...CUSTOM_CATS].map(c=>CAT_NAME[c]||c).join('·')}`:'';
-  const modeTag=isCustom?'【自选】':'';
+  const isPlan=G1.mode==='plan';
+  const catLine=isCustom?`\n知识点：${[...CUSTOM_CATS].map(c=>CAT_NAME[c]||c).join('·')}`:isPlan?`\n学习计划：${getPlanData().current?.name||''}`:'';
+  const modeTag=isCustom?'【自选】':isPlan?'【计划】':'';
   const shareText=`📅 基础知识日练${nt}${modeTag} ${todayStr()}${catLine}\n🏆 得分：${G1.score} | 正确：${G1.correct}/${total}\n⚡ 最大连击：${G1.maxCombo} | ⏱️ 用时：${timeStr}\n${emojis}`;
   document.getElementById('el-share').textContent=shareText;
   window._shareText=shareText;
@@ -5218,7 +5259,7 @@ function showPlan(){
   const listEl=document.getElementById('plan-cats-list');
   listEl.innerHTML=plan.cats.map(cat=>{
     const s=cs[cat];
-    const cur=(s&&s.a>=3)?Math.round(s.c/s.a*100):null;
+    const cur=(s&&s.a>=3)?Math.round((s.a-s.e)/s.a*100):null;
     const snap=plan.snapshots[cat];
     const init=(snap&&snap.a>=3)?Math.round(snap.c/snap.a*100):null;
     const tgt=plan.targetRate;
@@ -5300,12 +5341,12 @@ function savePlanCreate(){
   if(_planEditMode&&pd.current){
     const existing=pd.current.snapshots||{};
     const snap={};
-    cats.forEach(c=>{snap[c]=existing[c]||(cs[c]?{c:cs[c].c,a:cs[c].a}:{c:0,a:0});});
+    cats.forEach(c=>{snap[c]=existing[c]||(cs[c]?{c:cs[c].a-cs[c].e,a:cs[c].a}:{c:0,a:0});});
     pd.current.name=name;pd.current.targetRate=targetRate;pd.current.cats=cats;pd.current.snapshots=snap;
   } else {
     if(pd.current)_archivePlan(pd);
     const snap={};
-    cats.forEach(c=>{const s=cs[c];snap[c]=s?{c:s.c,a:s.a}:{c:0,a:0};});
+    cats.forEach(c=>{const s=cs[c];snap[c]=s?{c:s.a-s.e,a:s.a}:{c:0,a:0};});
     pd.current={id:Date.now(),name,createdAt:todayStr(),targetRate,cats,snapshots:snap};
   }
   savePlanData(pd);
@@ -5315,7 +5356,7 @@ function savePlanCreate(){
 
 function _archivePlan(pd){
   const plan=pd.current,cs=getCatStats(),finalRates={};
-  plan.cats.forEach(c=>{const s=cs[c];finalRates[c]=(s&&s.a>0)?Math.round(s.c/s.a*100):0;});
+  plan.cats.forEach(c=>{const s=cs[c];finalRates[c]=(s&&s.a>0)?Math.round((s.a-s.e)/s.a*100):0;});
   pd.history=(pd.history||[]);
   pd.history.push({...plan,completedAt:todayStr(),finalRates});
   if(pd.history.length>5)pd.history=pd.history.slice(-5);
@@ -5337,7 +5378,7 @@ function showPlanShare(){
   let reached=0;
   document.getElementById('psh-rows').innerHTML=plan.cats.map(cat=>{
     const s=cs[cat];
-    const cur=(s&&s.a>=3)?Math.round(s.c/s.a*100):null;
+    const cur=(s&&s.a>=3)?Math.round((s.a-s.e)/s.a*100):null;
     const snap=plan.snapshots[cat];
     const init=(snap&&snap.a>=3)?Math.round(snap.c/snap.a*100):null;
     const ok=cur!==null&&cur>=plan.targetRate;if(ok)reached++;
@@ -5357,7 +5398,7 @@ function planCopyText(){
   let reached=0,lines=[];
   plan.cats.forEach(cat=>{
     const s=cs[cat];
-    const cur=(s&&s.a>=3)?Math.round(s.c/s.a*100):null;
+    const cur=(s&&s.a>=3)?Math.round((s.a-s.e)/s.a*100):null;
     const snap=plan.snapshots[cat];
     const init=(snap&&snap.a>=3)?Math.round(snap.c/snap.a*100):null;
     const ok=cur!==null&&cur>=plan.targetRate;if(ok)reached++;
@@ -5388,10 +5429,24 @@ function checkPlanImportURL(){
     const pd=getPlanData();
     if(pd.current)_archivePlan(pd);
     const cs=getCatStats(),snap={};
-    tpl.cats.forEach(c=>{const s=cs[c];snap[c]=s?{c:s.c,a:s.a}:{c:0,a:0};});
+    tpl.cats.forEach(c=>{const s=cs[c];snap[c]=s?{c:s.a-s.e,a:s.a}:{c:0,a:0};});
     pd.current={id:Date.now(),name:tpl.name,createdAt:todayStr(),targetRate:tpl.targetRate,cats:tpl.cats,snapshots:snap};
     savePlanData(pd);toast('计划已导入！');showPlan();
   }catch{}
+}
+function startPlanPractice(){
+  const pd=getPlanData();
+  if(!pd.current||!pd.current.cats.length){toast('暂无学习计划');return;}
+  const cats=pd.current.cats;
+  const seed=Math.random()*0x100000000>>>0;
+  let qs=selectQsCustom(seed,cats);
+  if(!qs||!qs.length){toast('计划知识点暂无题目');return;}
+  qs=qs.slice(0,M1_COUNT);
+  Object.assign(G1,{qs,cur:0,score:0,streak:0,maxCombo:0,correct:0,t0:Date.now(),qt0:0,timer:null,answered:false,results:[],mode:'plan',timed:true,wrongQs:[]});
+  document.getElementById('m1-lbl').textContent=`学习计划 · ${pd.current.name}`;
+  document.getElementById('el-nt-badge').style.display='none';
+  document.getElementById('el-tbar-t').style.opacity='1';
+  show('p1g');m1Next();
 }
 // ════════════ 学习计划 END ════════════
 
