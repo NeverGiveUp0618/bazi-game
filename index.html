@@ -210,6 +210,14 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .bz-ann-shen{color:#c4b5fd;font-weight:bold}
 .bz-ann-cang{color:#64748b;font-size:10px;letter-spacing:1px}
 .bz-ann-ny{color:#475569;font-size:9px;letter-spacing:.5px}
+/* 排盘看题 mini display */
+.pbq-disp{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:#0f172a;border-radius:10px;padding:8px;margin-bottom:8px}
+.pbq-col{text-align:center;padding:5px 2px;border-radius:7px;background:#1e293b}
+.pbq-col.rz{background:#1e3a2f;border:1px solid #065f46}
+.pbq-pl{font-size:9px;color:#475569;margin-bottom:2px}
+.pbq-g{font-size:24px;font-weight:bold;color:#e2e8f0;line-height:1.2}
+.pbq-g.rz-c{color:#34d399}
+.pbq-z{font-size:20px;font-weight:bold;color:#94a3b8;line-height:1.2}
 
 /* 错题本 */
 .nb-screen-hdr{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-shrink:0}
@@ -593,6 +601,9 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
       <button class="btn btn-d" onclick="startM3(0)">从第一例</button>
       <button class="btn btn-b" onclick="startM4Input()">自定义排盘</button>
     </div>
+    <div class="mcard-btns" style="margin-top:6px">
+      <button class="btn btn-g" onclick="startPBQuiz()" style="flex:1">🔎 排盘看题 — 看盘做题</button>
+    </div>
   </div>
   <div class="mcard" onclick="show('p5')" style="cursor:pointer">
     <div class="mcard-head"><div class="mcard-icon">📖</div><div><div class="mcard-name">知识速查</div><div class="mcard-desc">干支关系 · 十神 · 格局 · 神煞 · 速查参考表</div></div><div style="color:#475569;font-size:18px">›</div></div>
@@ -622,7 +633,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   <div class="card" style="margin-bottom:9px">
     <div class="hhist">开发时间节点</div>
     <div style="max-height:130px;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:6px;margin-top:2px;padding-right:2px">
-      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.6.29</span><span style="color:#94a3b8;font-size:12px">☀️ 今日任务卡（智能推荐·待复习/薄弱/未测）；错题本高亮提醒；掌握度面板「需加强/未开始」点击即练</span></div>
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.6.29</span><span style="color:#94a3b8;font-size:12px">🔎 排盘看题——看真实命盘做题（日主五行·十神·地支关系·天干五合）；☀️今日任务卡；错题本提醒；薄弱点一键练</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.29</span><span style="color:#94a3b8;font-size:12px">🎯 学习计划——自选知识点·进度追踪·分享模板；掌握度面板新增全局已掌握/需加强/未开始总览</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.29</span><span style="color:#94a3b8;font-size:12px">🏠 八字底层逻辑升为首页重要入口·修复返回按钮</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.29</span><span style="color:#94a3b8;font-size:12px">💡 底层逻辑白话——完整重写为民间体系（ren老18道·气势＋制·应期七步法）</span></div>
@@ -685,6 +696,10 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <div class="hud-box"><div class="hud-l">得分</div><div class="hud-v" id="el-sc">0</div></div>
     <div class="hud-box"><div class="hud-l">连击</div><div class="hud-v" id="el-ck">0</div></div>
     <div class="hud-box"><div class="hud-l">倍率</div><div class="hud-v" id="el-mu">×1.0</div></div>
+  </div>
+  <div id="el-pb-header" style="display:none">
+    <div id="el-pb-casename" style="font-size:10px;color:#475569;text-align:center;margin-bottom:4px"></div>
+    <div id="el-pb-disp" class="pbq-disp"></div>
   </div>
   <div class="qcard">
     <div class="tbar-t" id="el-tbar-t"><div class="tbar-b" id="el-tm" style="width:100%"></div></div>
@@ -3831,7 +3846,8 @@ function m1End(){
   document.getElementById('el-rm').textContent=G1.maxCombo;
   document.getElementById('el-rt').textContent=timeStr;
   if(G1.mode==='daily-task'){const t=getDailyTask();if(t){t.done=true;saveDailyTask(t);}}
-  const rlbls={'nb':'错题本练习结果','custom':'自选挑战结果','custom-nt':'自选挑战结果','plan':'学习计划练习结果','daily-task':'今日任务结果'};
+  document.getElementById('el-pb-header').style.display='none';
+  const rlbls={'nb':'错题本练习结果','custom':'自选挑战结果','custom-nt':'自选挑战结果','plan':'学习计划练习结果','daily-task':'今日任务结果','pb-quiz':'排盘看题结果'};
   document.getElementById('r1-lbl').textContent=rlbls[G1.mode]||'本局结果';
 
   // category breakdown
@@ -3938,9 +3954,10 @@ function m1End(){
   const isCustom=G1.mode==='custom'||G1.mode==='custom-nt';
   const isPlan=G1.mode==='plan';
   const isDailyTask=G1.mode==='daily-task';
+  const isPBQuiz=G1.mode==='pb-quiz';
   const dtask=isDailyTask?getDailyTask():null;
-  const catLine=isCustom?`\n知识点：${[...CUSTOM_CATS].map(c=>CAT_NAME[c]||c).join('·')}`:isPlan?planShareLines:isDailyTask&&dtask?`\n今日任务：${dtask.cats.map(c=>CAT_NAME[c]||c).join('·')}`:'';
-  const modeTag=isCustom?'【自选】':isPlan?'【计划】':isDailyTask?'【今日任务】':'';
+  const catLine=isCustom?`\n知识点：${[...CUSTOM_CATS].map(c=>CAT_NAME[c]||c).join('·')}`:isPlan?planShareLines:isDailyTask&&dtask?`\n今日任务：${dtask.cats.map(c=>CAT_NAME[c]||c).join('·')}`:isPBQuiz&&G1.pbCaseName?`\n命盘：${G1.pbCaseName} [${(G1.pbBazi||[]).join('')}]`:'';
+  const modeTag=isCustom?'【自选】':isPlan?'【计划】':isDailyTask?'【今日任务】':isPBQuiz?'【排盘看题】':'';
   const shareText=`📅 基础知识日练${nt}${modeTag} ${todayStr()}${catLine}\n🏆 得分：${G1.score} | 正确：${G1.correct}/${total}\n⚡ 最大连击：${G1.maxCombo} | ⏱️ 用时：${timeStr}\n${emojis}`;
   document.getElementById('el-share').textContent=shareText;
   window._shareText=shareText;
@@ -5486,6 +5503,80 @@ function startPlanPractice(){
   show('p1g');m1Next();
 }
 // ════════════ 学习计划 END ════════════
+
+// ════════════ 排盘看题 ════════════
+function renderPBDisplay(bazi,caseName){
+  document.getElementById('el-pb-casename').textContent=caseName||'';
+  const pl=['年','月','日','时'];
+  document.getElementById('el-pb-disp').innerHTML=pl.map((p,i)=>`
+    <div class="pbq-col${i===2?' rz':''}">
+      <div class="pbq-pl">${p}柱</div>
+      <div class="pbq-g${i===2?' rz-c':''}">${bazi[i]}</div>
+      <div class="pbq-z">${bazi[4+i]}</div>
+    </div>`).join('');
+}
+
+function genPBQs(bazi,rng){
+  const [yg,mg,dg,hg,yz,mz,dz,hz]=bazi;
+  const gArr=[yg,mg,dg,hg],zArr=[yz,mz,dz,hz];
+  const pl=['年','月','日','时'];
+  const qs=[];
+
+  // 日主五行
+  const dw=G_WX[dg];
+  qs.push({cat:'wx',main:[dg],qt:`<b>日主${dg}</b>是哪个五行？`,correct:dw,opts:mkOpts(rng,dw,WX5),exp:`${dg}（${YY[dg]}${dw}）`});
+
+  // 各柱天干五行（年/月/时干）
+  for(const p of [0,1,3]){
+    const g=gArr[p],gw=G_WX[g];
+    qs.push({cat:'wx',main:[g],qt:`<b>${pl[p]}干${g}</b>属于哪个五行？`,correct:gw,opts:mkOpts(rng,gw,WX5),exp:`${g}（${YY[g]}${gw}）`});
+  }
+
+  // 十神（年/月/时干 vs 日主）
+  for(const p of [0,1,3]){
+    const og=gArr[p],shen=getShen(dg,og);
+    if(!shen)continue;
+    qs.push({cat:'shen',main:[dg,og],qt:`以<b>${dg}</b>为日主，<b>${pl[p]}干${og}</b>是什么<b>十神</b>？`,correct:shen,opts:mkOpts(rng,shen,SHENS),exp:`${dg}日主，${og}为${shen}`});
+  }
+
+  // 天干五合（存在即出题）
+  for(let i=0;i<4;i++)for(let j=i+1;j<4;j++){
+    const g1=gArr[i],g2=gArr[j];
+    if(TGHE[g1]===g2)
+      qs.push({cat:'tghe',main:[g1,g2],qt:`命盘<b>${pl[i]}干${g1}</b>与<b>${pl[j]}干${g2}</b>是否<b>天干五合</b>？`,correct:'✓ 有',opts:shuffle(rng,['✓ 有','✗ 无']),exp:`${g1}${g2}天干五合`});
+  }
+
+  // 地支关系（全部6对，有关系的点名，无关系的也出题）
+  const ZREL=['六冲','六合','暗合','无关系'];
+  const pairs6=[];
+  for(let i=0;i<4;i++)for(let j=i+1;j<4;j++)pairs6.push([i,j]);
+  for(const[i,j]of pairs6){
+    const z1=zArr[i],z2=zArr[j];
+    let rel='无关系';
+    if(CHONG[z1]===z2)rel='六冲';
+    else if(LIUHE[z1]===z2)rel='六合';
+    else if(ANHE_SET.has(z1+z2))rel='暗合';
+    qs.push({cat:'chong',main:[z1,z2],qt:`命盘<b>${pl[i]}支${z1}</b>与<b>${pl[j]}支${z2}</b>是什么<b>地支关系</b>？`,correct:rel,opts:mkOpts(rng,rel,ZREL),exp:`${z1}${z2}：${rel}`});
+  }
+
+  return shuffle(rng,qs);
+}
+
+function startPBQuiz(){
+  const rng=mkRng(Math.random()*0x100000000>>>0);
+  const c=CASES[0|rng()*CASES.length];
+  const rng2=mkRng(Math.random()*0x100000000>>>0);
+  const qs=genPBQs(c.b,rng2).slice(0,M1_COUNT);
+  if(!qs.length){toast('暂无题目');return;}
+  Object.assign(G1,{qs,cur:0,score:0,streak:0,maxCombo:0,correct:0,t0:Date.now(),qt0:0,timer:null,answered:false,results:[],mode:'pb-quiz',timed:true,wrongQs:[],pbBazi:c.b,pbCaseName:c.n});
+  document.getElementById('m1-lbl').textContent='排盘看题 🔎';
+  document.getElementById('el-nt-badge').style.display='none';
+  document.getElementById('el-tbar-t').style.opacity='1';
+  document.getElementById('el-pb-header').style.display='';
+  renderPBDisplay(c.b,c.n);
+  show('p1g');m1Next();
+}
+// ════════════ 排盘看题 END ════════════
 
 // ════════════ 今日任务 ════════════
 const DTASK_KEY='bazi_daily_task';
