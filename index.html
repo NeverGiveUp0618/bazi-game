@@ -2777,7 +2777,10 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
       <div style="font-size:11px;color:#475569;text-align:right" id="plan-prog-sub"></div>
     </div>
     <div id="plan-cats-list"></div>
-    <button class="btn btn-g" style="margin-top:10px" onclick="startPlanPractice()">▶ 按计划练习</button>
+    <div style="display:flex;gap:8px;margin-top:10px">
+      <button class="btn btn-g" style="flex:1" onclick="startPlanPractice(true)">▶ 计时练习</button>
+      <button class="btn btn-d" style="flex:1" onclick="startPlanPractice(false)">▶ 无计时</button>
+    </div>
     <div style="display:flex;gap:8px;margin-top:8px">
       <button class="btn btn-d" style="flex:1;font-size:13px" onclick="showPlanShare()">📤 分享</button>
       <button class="btn btn-d" style="flex:1;font-size:13px" onclick="showPlanCreate(true)">✏️ 编辑</button>
@@ -5477,7 +5480,7 @@ function checkPlanImportURL(){
     savePlanData(pd);toast('计划已导入！');showPlan();
   }catch{}
 }
-function startPlanPractice(){
+function startPlanPractice(timed=true){
   const pd=getPlanData();
   if(!pd.current||!pd.current.cats.length){toast('暂无学习计划');return;}
   const cats=pd.current.cats;
@@ -5485,10 +5488,10 @@ function startPlanPractice(){
   let qs=selectQsCustom(seed,cats);
   if(!qs||!qs.length){toast('计划知识点暂无题目');return;}
   qs=qs.slice(0,M1_COUNT);
-  Object.assign(G1,{qs,cur:0,score:0,streak:0,maxCombo:0,correct:0,t0:Date.now(),qt0:0,timer:null,answered:false,results:[],mode:'plan',timed:true,wrongQs:[]});
+  Object.assign(G1,{qs,cur:0,score:0,streak:0,maxCombo:0,correct:0,t0:Date.now(),qt0:0,timer:null,answered:false,results:[],mode:'plan',timed,wrongQs:[]});
   document.getElementById('m1-lbl').textContent=`学习计划 · ${pd.current.name}`;
-  document.getElementById('el-nt-badge').style.display='none';
-  document.getElementById('el-tbar-t').style.opacity='1';
+  document.getElementById('el-nt-badge').style.display=timed?'none':'';
+  document.getElementById('el-tbar-t').style.opacity=timed?'1':'0';
   show('p1g');m1Next();
 }
 // ════════════ 学习计划 END ════════════
