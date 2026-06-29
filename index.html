@@ -3863,6 +3863,7 @@ function m1End(){
   // plan result
   const planResEl=document.getElementById('el-plan-result');
   const planBackBtn=document.getElementById('el-plan-back');
+  let planShareLines='';
   if(G1.mode==='plan'){
     planBackBtn.style.display='';
     const pd=getPlanData();const plan=pd.current;
@@ -3871,13 +3872,16 @@ function m1End(){
       const sessSt={};
       for(const r of G1.results){if(!sessSt[r.cat])sessSt[r.cat]={ok:0,tot:0};sessSt[r.cat].tot++;if(r.ok)sessSt[r.cat].ok++;}
       let reachedNow=0;
-      const rows=plan.cats.map(cat=>{
+      const catData=plan.cats.map(cat=>{
         const s=cs[cat];
         const overall=(s&&s.a>=3)?Math.round((s.a-s.e)/s.a*100):null;
         const ss=sessSt[cat];
-        const sessHtml=ss?`本局 ${ss.ok}/${ss.tot}`:'未出题';
         const atTarget=overall!==null&&overall>=plan.targetRate;
         if(atTarget)reachedNow++;
+        return{cat,overall,ss,atTarget};
+      });
+      const rows=catData.map(({cat,overall,ss,atTarget})=>{
+        const sessHtml=ss?`本局 ${ss.ok}/${ss.tot}`:'未出题';
         const col=atTarget?'#34d399':ss?'#94a3b8':'#475569';
         const ico=atTarget?'✅':'🔘';
         return `<div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid #1e293b">
@@ -3891,6 +3895,12 @@ function m1End(){
         <div style="margin-top:8px;font-size:13px;color:#10b981;font-weight:bold">已达标 ${reachedNow}/${plan.cats.length} 项（目标 ${plan.targetRate}%）</div>
       </div>`;
       planResEl.style.display='';
+      planShareLines=`\n📋 ${plan.name}（目标 ${plan.targetRate}%）\n`
+        +catData.map(({cat,overall,ss,atTarget})=>{
+          const sessStr=ss?`本局${ss.ok}/${ss.tot} · `:'';
+          return`${atTarget?'✅':'🔘'} ${CAT_NAME[cat]||cat}：${sessStr}整体 ${overall!==null?overall+'%':'--'}`;
+        }).join('\n')
+        +`\n已达标 ${reachedNow}/${plan.cats.length} 项`;
     }else{planResEl.style.display='none';planBackBtn.style.display='none';}
   }else{
     planResEl.style.display='none';
@@ -3902,7 +3912,7 @@ function m1End(){
   const nt=G1.timed?'':'🔓';
   const isCustom=G1.mode==='custom'||G1.mode==='custom-nt';
   const isPlan=G1.mode==='plan';
-  const catLine=isCustom?`\n知识点：${[...CUSTOM_CATS].map(c=>CAT_NAME[c]||c).join('·')}`:isPlan?`\n学习计划：${getPlanData().current?.name||''}`:'';
+  const catLine=isCustom?`\n知识点：${[...CUSTOM_CATS].map(c=>CAT_NAME[c]||c).join('·')}`:isPlan?planShareLines:'';
   const modeTag=isCustom?'【自选】':isPlan?'【计划】':'';
   const shareText=`📅 基础知识日练${nt}${modeTag} ${todayStr()}${catLine}\n🏆 得分：${G1.score} | 正确：${G1.correct}/${total}\n⚡ 最大连击：${G1.maxCombo} | ⏱️ 用时：${timeStr}\n${emojis}`;
   document.getElementById('el-share').textContent=shareText;
