@@ -540,14 +540,6 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <div class="hstat"><div class="hstat-v" id="el-best">0</div><div class="hstat-l">闪卡最高</div></div>
     <div class="hstat"><div class="hstat-v" id="el-total">0</div><div class="hstat-l">累计对题</div></div>
   </div>
-  <div class="mcard" id="el-dtask-card">
-    <div class="mcard-head">
-      <div class="mcard-icon" id="el-dtask-icon">☀️</div>
-      <div style="flex:1"><div class="mcard-name">今日任务 <span id="el-dtask-status"></span></div><div class="mcard-desc" id="el-dtask-desc">每日精选知识点，系统推荐</div></div>
-    </div>
-    <div id="el-dtask-cats" style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px"></div>
-    <button class="btn btn-g" id="el-dtask-btn" onclick="startDailyTask()" style="margin-top:0">开始今日任务 ▶</button>
-  </div>
   <div class="mcard" onclick="showPlan()" style="cursor:pointer">
     <div class="mcard-head"><div class="mcard-icon">🎯</div><div><div class="mcard-name">我的学习计划 <span style="font-size:10px;color:#93c5fd;background:#1e3a8a;border-radius:4px;padding:1px 6px;margin-left:4px">成为大师，从计划开始</span></div><div class="mcard-desc" id="el-plan-sub">制定重点知识点 · 追踪进步效果</div></div><div style="color:#475569;font-size:18px">›</div></div>
   </div>
@@ -3580,7 +3572,6 @@ function initHome(){
       planSub.textContent='制定重点知识点 · 追踪进步效果';
     }
   }
-  renderDailyTask();
 }
 
 const BK_DATE_KEY='bazi_backup_date';
@@ -3597,7 +3588,7 @@ function checkBkRemind(){
   }
 }
 function exportBackup(){
-  const data={v:1,date:todayStr(),bazi:getData(),nb:getNB(),m4saved:getSavedM4(),custom_cats:[...CUSTOM_CATS],cat_stats:getCatStats(),plan:getPlanData(),daily_task:getDailyTask()};
+  const data={v:1,date:todayStr(),bazi:getData(),nb:getNB(),m4saved:getSavedM4(),custom_cats:[...CUSTOM_CATS],cat_stats:getCatStats(),plan:getPlanData()};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
@@ -3623,7 +3614,6 @@ function importBackup(){
         if(d.custom_cats){CUSTOM_CATS=new Set(d.custom_cats);localStorage.setItem('bazi_custom_cats',JSON.stringify([...CUSTOM_CATS]));}
         if(d.cat_stats)saveCatStats(d.cat_stats);
         if(d.plan)savePlanData(d.plan);
-        if(d.daily_task)saveDailyTask(d.daily_task);
         localStorage.setItem(BK_DATE_KEY,todayStr());
         toast('数据已恢复！');
         setTimeout(()=>location.reload(),1200);
@@ -3845,9 +3835,8 @@ function m1End(){
   document.getElementById('el-rc').textContent=`${G1.correct}/${total}`;
   document.getElementById('el-rm').textContent=G1.maxCombo;
   document.getElementById('el-rt').textContent=timeStr;
-  if(G1.mode==='daily-task'){const t=getDailyTask();if(t){t.done=true;saveDailyTask(t);}}
   document.getElementById('el-pb-header').style.display='none';
-  const rlbls={'nb':'错题本练习结果','custom':'自选挑战结果','custom-nt':'自选挑战结果','plan':'学习计划练习结果','daily-task':'今日任务结果','pb-quiz':'排盘看题结果'};
+  const rlbls={'nb':'错题本练习结果','custom':'自选挑战结果','custom-nt':'自选挑战结果','plan':'学习计划练习结果','pb-quiz':'排盘看题结果'};
   document.getElementById('r1-lbl').textContent=rlbls[G1.mode]||'本局结果';
 
   // category breakdown
@@ -3953,11 +3942,9 @@ function m1End(){
   const nt=G1.timed?'':'🔓';
   const isCustom=G1.mode==='custom'||G1.mode==='custom-nt';
   const isPlan=G1.mode==='plan';
-  const isDailyTask=G1.mode==='daily-task';
   const isPBQuiz=G1.mode==='pb-quiz';
-  const dtask=isDailyTask?getDailyTask():null;
-  const catLine=isCustom?`\n知识点：${[...CUSTOM_CATS].map(c=>CAT_NAME[c]||c).join('·')}`:isPlan?planShareLines:isDailyTask&&dtask?`\n今日任务：${dtask.cats.map(c=>CAT_NAME[c]||c).join('·')}`:isPBQuiz&&G1.pbCaseName?`\n命盘：${G1.pbCaseName} [${(G1.pbBazi||[]).join('')}]`:'';
-  const modeTag=isCustom?'【自选】':isPlan?'【计划】':isDailyTask?'【今日任务】':isPBQuiz?'【排盘看题】':'';
+  const catLine=isCustom?`\n知识点：${[...CUSTOM_CATS].map(c=>CAT_NAME[c]||c).join('·')}`:isPlan?planShareLines:isPBQuiz&&G1.pbCaseName?`\n命盘：${G1.pbCaseName} [${(G1.pbBazi||[]).join('')}]`:'';
+  const modeTag=isCustom?'【自选】':isPlan?'【计划】':isPBQuiz?'【排盘看题】':'';
   const shareText=`📅 基础知识日练${nt}${modeTag} ${todayStr()}${catLine}\n🏆 得分：${G1.score} | 正确：${G1.correct}/${total}\n⚡ 最大连击：${G1.maxCombo} | ⏱️ 用时：${timeStr}\n${emojis}`;
   document.getElementById('el-share').textContent=shareText;
   window._shareText=shareText;
@@ -4761,7 +4748,7 @@ function showStats(){
   const hist=getData().history||[];
   const today=new Date();
   function ds(dt){return`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`}
-  function sliceDays(n){const r=[];for(let i=0;i<n;i++){const dt=new Date(today);dt.setDate(dt.getDate()-i);const h=hist.find(x=>x.date===ds(dt));if(h)r.push(h);}return r;}
+  function sliceDays(n){const r=[];for(let i=0;i<n;i++){const dt=new Date(today);dt.setDate(dt.getDate()-i);const h=hist.find(x=>x.date===ds(dt)&&x.type==='m1');if(h)r.push(h);}return r;}
   function calcSt(recs){if(!recs.length)return null;return{n:recs.length,tot:recs.reduce((s,h)=>s+h.correct,0),avg:Math.round(recs.reduce((s,h)=>s+h.score,0)/recs.length),best:Math.max(...recs.map(h=>h.score))};}
   function stHtml(s,lbl){
     if(!s)return`<div style="text-align:center;color:#475569;padding:10px 0">暂无${lbl}记录</div>`;
@@ -5315,7 +5302,7 @@ function showPlan(){
     const s=cs[cat];
     const cur=(s&&s.a>=3)?Math.round((s.a-s.e)/s.a*100):null;
     const snap=plan.snapshots[cat];
-    const init=(snap&&snap.a>=3)?Math.round(snap.c/snap.a*100):null;
+    const init=(snap&&snap.a>=3&&snap.c!=null)?Math.round(snap.c/snap.a*100):null;
     const tgt=plan.targetRate;
     let badge,barColor,barW;
     if(cur===null){badge=`<span class="plan-badge plan-badge-none">未练习</span>`;barColor='#334155';barW=0;}
@@ -5434,7 +5421,7 @@ function showPlanShare(){
     const s=cs[cat];
     const cur=(s&&s.a>=3)?Math.round((s.a-s.e)/s.a*100):null;
     const snap=plan.snapshots[cat];
-    const init=(snap&&snap.a>=3)?Math.round(snap.c/snap.a*100):null;
+    const init=(snap&&snap.a>=3&&snap.c!=null)?Math.round(snap.c/snap.a*100):null;
     const ok=cur!==null&&cur>=plan.targetRate;if(ok)reached++;
     const delta=(cur!==null&&init!==null)?cur-init:null;
     const deltaHtml=delta!==null?`<span style="color:${delta>=0?'#6ee7b7':'#f87171'};font-size:10px"> (${delta>=0?'+':''}${delta}%)</span>`:'';
@@ -5454,7 +5441,7 @@ function planCopyText(){
     const s=cs[cat];
     const cur=(s&&s.a>=3)?Math.round((s.a-s.e)/s.a*100):null;
     const snap=plan.snapshots[cat];
-    const init=(snap&&snap.a>=3)?Math.round(snap.c/snap.a*100):null;
+    const init=(snap&&snap.a>=3&&snap.c!=null)?Math.round(snap.c/snap.a*100):null;
     const ok=cur!==null&&cur>=plan.targetRate;if(ok)reached++;
     const delta=(cur!==null&&init!==null)?` (${cur-init>=0?'+':''}${cur-init}%)`:'';
     lines.push(`${ok?'✓':'·'} ${CAT_NAME[cat]||cat}：${cur!==null?cur+'%':'未练习'}${delta}`);
@@ -5578,78 +5565,6 @@ function startPBQuiz(){
 }
 // ════════════ 排盘看题 END ════════════
 
-// ════════════ 今日任务 ════════════
-const DTASK_KEY='bazi_daily_task';
-function getDailyTask(){try{return JSON.parse(localStorage.getItem(DTASK_KEY)||'null')}catch{return null}}
-function saveDailyTask(t){localStorage.setItem(DTASK_KEY,JSON.stringify(t))}
-
-function genDailyTaskCats(){
-  const cs=getCatStats(),allCats=Object.keys(QUOTA);
-  const {due}=getMasteredDue();
-  const picks=[];
-  // P1: 间隔复习到期（最多3个）
-  due.forEach(d=>{if(picks.length<3)picks.push(d.cat);});
-  // P2: 薄弱点（答题≥5次，错误率≥40%），按错误率降序
-  const weak=allCats
-    .filter(c=>!picks.includes(c))
-    .filter(c=>{const s=cs[c];return s&&s.a>=5&&s.e/s.a>=0.4;})
-    .sort((a,b)=>cs[b].e/cs[b].a-cs[a].e/cs[a].a);
-  weak.forEach(c=>{if(picks.length<5)picks.push(c);});
-  // P3: 未测试（a<3），用日期种子保持每天一致
-  if(picks.length<3){
-    const untested=allCats.filter(c=>!picks.includes(c)&&(!cs[c]||cs[c].a<3));
-    const rng=mkRng(dateSeed());
-    shuffle(rng,[...untested]).forEach(c=>{if(picks.length<3)picks.push(c);});
-  }
-  // P4: 兜底——随机补到3个
-  if(picks.length<3){
-    const rest=allCats.filter(c=>!picks.includes(c));
-    const rng=mkRng(dateSeed()+1);
-    shuffle(rng,rest).forEach(c=>{if(picks.length<3)picks.push(c);});
-  }
-  return picks.slice(0,5);
-}
-
-function renderDailyTask(){
-  const today=todayStr();
-  let task=getDailyTask();
-  if(!task||task.date!==today){
-    task={date:today,cats:genDailyTaskCats(),done:false};
-    saveDailyTask(task);
-  }
-  const cs=getCatStats();
-  const {due}=getMasteredDue();
-  const dueSet=new Set(due.map(d=>d.cat));
-  const dueN=task.cats.filter(c=>dueSet.has(c)).length;
-  const weakN=task.cats.filter(c=>{const s=cs[c];return !dueSet.has(c)&&s&&s.a>=5&&s.e/s.a>=0.4;}).length;
-  const unN=task.cats.length-dueN-weakN;
-  const parts=[];
-  if(dueN>0)parts.push(`${dueN}项待复习`);
-  if(weakN>0)parts.push(`${weakN}项薄弱点`);
-  if(unN>0)parts.push(`${unN}项待解锁`);
-  document.getElementById('el-dtask-desc').textContent=parts.join(' · ')||'每日精选知识点';
-  document.getElementById('el-dtask-cats').innerHTML=task.cats.map(c=>{
-    const isDue=dueSet.has(c);
-    const s=cs[c];const isWeak=!isDue&&s&&s.a>=5&&s.e/s.a>=0.4;
-    const bg=isDue?'#78350f':isWeak?'#450a0a':'#1e3a5f';
-    const col=isDue?'#fcd34d':isWeak?'#fca5a5':'#93c5fd';
-    const pre=isDue?'🔁 ':isWeak?'⚠️ ':'';
-    return `<span style="background:${bg};color:${col};font-size:11px;padding:3px 8px;border-radius:6px">${pre}${CAT_NAME[c]||c}</span>`;
-  }).join('');
-  const iconEl=document.getElementById('el-dtask-icon');
-  const statusEl=document.getElementById('el-dtask-status');
-  const btnEl=document.getElementById('el-dtask-btn');
-  if(task.done){
-    iconEl.textContent='✅';
-    statusEl.innerHTML='<span style="font-size:10px;color:#34d399;background:#064e3b;border-radius:4px;padding:1px 6px;margin-left:4px">今日已完成</span>';
-    btnEl.textContent='再练一轮 ↺';btnEl.className='btn btn-d';
-  }else{
-    iconEl.textContent='☀️';
-    statusEl.innerHTML='';
-    btnEl.textContent='开始今日任务 ▶';btnEl.className='btn btn-g';
-  }
-}
-
 function startSingleCat(cat){
   const seed=Math.random()*0x100000000>>>0;
   let qs=selectQsCustom(seed,[cat]);
@@ -5662,21 +5577,6 @@ function startSingleCat(cat){
   show('p1g');m1Next();
 }
 
-function startDailyTask(){
-  const today=todayStr();
-  let task=getDailyTask();
-  if(!task||task.date!==today){task={date:today,cats:genDailyTaskCats(),done:false};saveDailyTask(task);}
-  const seed=Math.random()*0x100000000>>>0;
-  let qs=selectQsCustom(seed,task.cats);
-  if(!qs||!qs.length){toast('今日任务知识点暂无题目');return;}
-  qs=qs.slice(0,M1_COUNT);
-  Object.assign(G1,{qs,cur:0,score:0,streak:0,maxCombo:0,correct:0,t0:Date.now(),qt0:0,timer:null,answered:false,results:[],mode:'daily-task',timed:true,wrongQs:[]});
-  document.getElementById('m1-lbl').textContent='今日任务 ☀️';
-  document.getElementById('el-nt-badge').style.display='none';
-  document.getElementById('el-tbar-t').style.opacity='1';
-  show('p1g');m1Next();
-}
-// ════════════ 今日任务 END ════════════
 
 // ══ INIT ══
 initHome();m2SetDiff(_m2hard);gjSetMode(_gjMode);checkPlanImportURL();
