@@ -2378,247 +2378,312 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 </div>
 
 <div class="screen" id="pbdl">
-  <div class="tbar"><button class="tbk" onclick="show('home')">←</button><div class="tbtitle">八字底层逻辑白话</div></div>
-  <div class="bdl-lead">八字是用出生时间换算的五行能量表，读懂这张表就能读懂一个人的内在结构和人生走向。<br>本文用大白话讲清楚八字的底层机制——从零开始，不绕弯子。</div>
+  <div class="tbar"><button class="tbk" onclick="show('home')">←</button><div class="tbtitle">民间八字底层逻辑</div></div>
+  <div class="bdl-lead">内容来自任付红《民间实用八字十八道法门》。<br>这套民间体系和传统子平差别极大——<span style="color:#10b981;font-weight:bold">不看固定旺衰、不找用神忌神</span>，核心是「气势＋制」，象法是最高境界。</div>
 
-  <div class="bdl-sec">整体结构</div>
+  <div class="bdl-sec">十八道法门体系</div>
   <div class="card" style="padding:10px 13px;margin-bottom:8px">
-    <div style="font-size:11px;color:#475569;margin-bottom:8px;letter-spacing:1px">十层运作机制（由浅入深）</div>
+    <div style="font-size:11px;color:#475569;margin-bottom:8px;letter-spacing:1px">民间看命十八道门，各门针对不同事，缺一不可</div>
     <div style="font-size:12px;color:#64748b;line-height:2.1">
-      第一层：<span style="color:#94a3b8">摆盘——四柱八字是什么</span><br>
-      第二层：<span style="color:#94a3b8">日主——"我"在哪里</span><br>
-      第三层：<span style="color:#94a3b8">五行生克——底层运算法则</span><br>
-      第四层：<span style="color:#94a3b8">十神——角色关系翻译</span><br>
-      第五层：<span style="color:#94a3b8">旺衰——日主能量判断</span><br>
-      第六层：<span style="color:#10b981;font-weight:bold">喜用忌神——命局核心答案</span><br>
-      第七层：<span style="color:#94a3b8">大运流年——时间轴</span><br>
-      第八层：<span style="color:#94a3b8">神煞——特殊加成标记</span><br>
-      第九层：<span style="color:#94a3b8">格局——命局整体类型</span><br>
-      第十层：<span style="color:#94a3b8">读盘顺序——完整操作流程</span>
+      第一道：<span style="color:#94a3b8">定时论命——先把时辰定准</span><br>
+      第二道：<span style="color:#94a3b8">纳音论命——六十甲子纳音断事</span><br>
+      第三道：<span style="color:#94a3b8">格局论命——清浊判断贵贱</span><br>
+      第四道：<span style="color:#94a3b8">宫位论命——四柱时间坐标</span><br>
+      第五道：<span style="color:#94a3b8">十神论命——角色关系体系</span><br>
+      第六道：<span style="color:#fcd34d">旺衰论命——活看，非固定表</span><br>
+      第七道：<span style="color:#fcd34d">用神论命——活论，针对不同事</span><br>
+      第九道：<span style="color:#94a3b8">神煞论命——只用六种神煞</span><br>
+      第十道：<span style="color:#94a3b8">象数论命——取象断事最高境界</span><br>
+      第十三道：<span style="color:#94a3b8">十天干论命——死活分，性情各异</span><br>
+      第十五道：<span style="color:#10b981;font-weight:bold">作用方式法——合/冲/刑/穿/墓库</span><br>
+      第十八道：<span style="color:#10b981;font-weight:bold">大运流年定事法——应期三种方式</span>
     </div>
   </div>
 
-  <button class="m5-tog" onclick="m5Toggle(this)">第一层：摆盘——四柱八字是什么</button>
+  <button class="m5-tog" onclick="m5Toggle(this)">先读这里：和传统子平的核心区别</button>
   <div class="m5-body">
-    <div class="bdl-lead">把出生时间拆成4个维度，每个维度一个干+一个支，共4×2=8个字，这就是"八字"。</div>
-    <div class="bdl-sec">四柱对照</div>
+    <div class="bdl-sec">最核心的区别</div>
+    <div class="bdl-row"><div class="bdl-lbl" style="color:#f87171;border-color:#f87171">旺衰</div><div class="bdl-v">传统：固定旺相休囚死表。民间：<span style="color:#10b981">活看旺衰</span>，中级班更明确说"完全不用旺衰分析"</div></div>
+    <div class="bdl-row"><div class="bdl-lbl" style="color:#f87171;border-color:#f87171">用神</div><div class="bdl-v">传统：找固定用神忌神。民间：<span style="color:#10b981">活论用神</span>，看财就有财的用神，看官就有官的用神，同一命局不同事用神不同</div></div>
+    <div class="bdl-row"><div class="bdl-lbl" style="color:#f87171;border-color:#f87171">格局</div><div class="bdl-v">传统：建禄/食神/正财/七杀等八种格。民间：<span style="color:#10b981">看清浊</span>，命局五行清不清纯</div></div>
+    <div class="bdl-row"><div class="bdl-lbl" style="color:#f87171;border-color:#f87171">神煞</div><div class="bdl-v">传统：驿马/桃花/文昌/天乙贵人等数十种。民间：<span style="color:#10b981">只用6种</span>（伏吟/空亡/将军箭/亡神/劫杀/自缢煞）</div></div>
+    <div class="bdl-row"><div class="bdl-lbl" style="color:#f87171;border-color:#f87171">核心框架</div><div class="bdl-v">传统：平衡五行，寻求调和。民间：<span style="color:#10b981">气势＋制</span>——谁制谁，制的力度够不够</div></div>
+    <div class="bdl-sec">其他差异</div>
+    <div class="bdl-row"><div class="bdl-lbl">制的力度</div><div class="bdl-v"><span style="color:#10b981">合制 &gt; 冲制/刑制 &gt; 克制</span>（合最强，纯克最弱）</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">天干死活</div><div class="bdl-v">甲乙木分死活；丙不能过旺，丁不怕衰；庚不喜旺，辛不怕弱——每干性情不同，不能混用</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">宫位为主</div><div class="bdl-v">同一个字在不同宫位意义完全不同，宫位比十神更重要</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">穿力大冲</div><div class="bdl-v">地支六穿（害）的力量大于六冲</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">干克支</div><div class="bdl-v">天干只克地支，地支不克天干（干支自合的9个柱子除外）</div></div>
+    <div class="bdl-gold">民间看命口诀：八字讲贵贱，大运讲吉凶，流年看应期。</div>
+  </div>
+
+  <button class="m5-tog" onclick="m5Toggle(this)">第一＋四道法门：定时与宫位（基础坐标）</button>
+  <div class="m5-body">
+    <div class="bdl-lead">看命第一步：先把时辰定准。时辰不准，四柱就错了，后面全白看。</div>
+    <div class="bdl-sec">四柱宫位对照</div>
     <table class="bdl-tbl">
       <tr><th>柱</th><th>年柱</th><th>月柱</th><th>日柱</th><th>时柱</th></tr>
-      <tr><td>天干</td><td>年干</td><td>月干</td><td class="g">日干（日主）</td><td>时干</td></tr>
-      <tr><td>地支</td><td>年支</td><td>月支（月令）</td><td>日支</td><td>时支</td></tr>
-      <tr><td>代表</td><td class="p">祖辈·幼年</td><td class="p">父母·青年</td><td class="g">本人·婚姻</td><td class="p">子女·晚年</td></tr>
+      <tr><td>年龄段</td><td>1-18岁</td><td>18-35岁</td><td>35-55岁</td><td>55岁后</td></tr>
+      <tr><td>六亲</td><td class="p">祖先·远方</td><td class="p">父母·兄弟</td><td class="g">自己·配偶</td><td class="p">子女·门户</td></tr>
+      <tr><td>身体</td><td>腿足</td><td>躯干</td><td>五脏六腑</td><td>头面手耳</td></tr>
+      <tr><td>其他</td><td>出生条件</td><td>工作单位</td><td>婚姻宫</td><td>口才交际</td></tr>
     </table>
-    <div class="bdl-sec">天干 vs 地支</div>
-    <div class="bdl-row"><div class="bdl-lbl">天干</div><div class="bdl-v">阳面·显性·对外表现的能量（直接可见）</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">地支</div><div class="bdl-v">阴面·隐性·深层蓄藏（包含"藏干"信息层）</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">藏干</div><div class="bdl-v">每个地支藏着1-3个天干，是比地支更深的五行信息，相当于"隐性基因"</div></div>
-    <div class="bdl-sec">十二地支藏干表</div>
+    <div class="bdl-sec">主与宾</div>
+    <div class="bdl-row"><div class="bdl-lbl">日干</div><div class="bdl-v">就是"我"（命主），整盘以日干为中心</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">日支</div><div class="bdl-v">婚姻宫，男看妻，女看夫；也表现居住地</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">月令</div><div class="bdl-v">工作单位、财源主地、父母宫</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">时柱</div><div class="bdl-v">门户（时为门户，主口才交际）、子女宫</div></div>
+    <div class="bdl-sec">三元</div>
+    <div class="bdl-row"><div class="bdl-lbl">天元</div><div class="bdl-v">天干——显性表面，做事主动</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">地元</div><div class="bdl-v">地支——隐性根基，深层运作</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">人元</div><div class="bdl-v">地支藏干——最深层信息，三元相辅缺一不可</div></div>
+    <div class="bdl-gold">同一个字在不同宫位意义完全不同——财在月令是工作财源，财在年柱是祖业，财在时柱是子女之财。宫位是断事的坐标轴。</div>
+  </div>
+
+  <button class="m5-tog" onclick="m5Toggle(this)">第五道法门：十神论命（三阴阳版本·人事·体用）</button>
+  <div class="m5-body">
+    <div class="bdl-lead">民间体系的十神和传统一样，但理解方式不同：不只是五行关系标签，更是宫位人事+体用分析的工具。</div>
+    <div class="bdl-sec">十神五组关系（以日干为基准）</div>
+    <div class="bdl-row"><div class="bdl-lbl" style="background:#1a1a2e;border-color:#6366f1;color:#818cf8">同我</div><div class="bdl-v"><span style="color:#c4b5fd">比肩</span>（同五行·同阴阳）/ <span style="color:#c4b5fd">劫财</span>（同五行·异阴阳）— 兄弟竞争、朋友、合伙</div></div>
+    <div class="bdl-row"><div class="bdl-lbl" style="background:#0c1f17;border-color:#10b981;color:#6ee7b7">我生</div><div class="bdl-v"><span style="color:#10b981">食神</span>（同阴阳）/ <span style="color:#10b981">伤官</span>（异阴阳）— 才华技艺、子女（女命）、口才</div></div>
+    <div class="bdl-row"><div class="bdl-lbl" style="background:#1a0e00;border-color:#f59e0b;color:#fcd34d">我克</div><div class="bdl-v"><span style="color:#fcd34d">偏财</span>（同阴阳）/ <span style="color:#fcd34d">正财</span>（异阴阳）— 财富；男：正财=正妻，偏财=父亲</div></div>
+    <div class="bdl-row"><div class="bdl-lbl" style="background:#1a0000;border-color:#f87171;color:#fca5a5">克我</div><div class="bdl-v"><span style="color:#f87171">七杀</span>（同阴阳）/ <span style="color:#f87171">正官</span>（异阴阳）— 权威压力；女：正官=丈夫</div></div>
+    <div class="bdl-row"><div class="bdl-lbl" style="background:#0c0c24;border-color:#60a5fa;color:#93c5fd">生我</div><div class="bdl-v"><span style="color:#60a5fa">偏印</span>（同阴阳）/ <span style="color:#60a5fa">正印</span>（异阴阳）— 学问贵人；正印=母亲</div></div>
+    <div class="bdl-sec">十神三个阴阳版本</div>
+    <div class="bdl-lead">任付红讲十神有三个层次：第一阴阳（天干与天干），第二阴阳（天干与地支主气），第三阴阳（天干与藏干余气）。三层读下来才完整。</div>
+    <div class="bdl-sec">体用概念</div>
+    <div class="bdl-row"><div class="bdl-lbl">体</div><div class="bdl-v">整个命局的五行格局整体（气势所在）</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">用</div><div class="bdl-v">针对某件具体事看哪个字：看财就有财用神，看官就有官用神，每事用神不同</div></div>
+    <div class="bdl-gold">传统用一个固定用神管全局，民间是活用——同一张八字，看婚姻和看财运取的"用神"不同。</div>
+    <div class="bdl-sec">十神与宫位人事（重点）</div>
     <table class="bdl-tbl">
-      <tr><th>地支</th><th>子</th><th>丑</th><th>寅</th><th>卯</th><th>辰</th><th>巳</th></tr>
-      <tr><td>主气</td><td>癸</td><td>己</td><td>甲</td><td>乙</td><td>戊</td><td>丙</td></tr>
-      <tr><td>中气</td><td>—</td><td>癸</td><td>丙</td><td>—</td><td>乙</td><td>庚</td></tr>
-      <tr><td>余气</td><td>—</td><td>辛</td><td>戊</td><td>—</td><td>癸</td><td>戊</td></tr>
+      <tr><th>十神</th><th>男命六亲</th><th>女命六亲</th><th>事业/物象</th></tr>
+      <tr><td class="p">比肩/劫财</td><td>兄弟</td><td>姐妹</td><td>竞争、合伙、破财</td></tr>
+      <tr><td class="g">食神/伤官</td><td>子女</td><td>子女/官杀的克星</td><td>才华、产出、口舌</td></tr>
+      <tr><td class="y">正财/偏财</td><td>妻/父</td><td>父亲</td><td>财富、工作成果</td></tr>
+      <tr><td class="r">正官/七杀</td><td>子女（杀）</td><td>丈夫/情人</td><td>权力、官司、压力</td></tr>
+      <tr><td style="color:#60a5fa">正印/偏印</td><td>母亲</td><td>母亲</td><td>学问、贵人、文件</td></tr>
     </table>
+  </div>
+
+  <button class="m5-tog" onclick="m5Toggle(this)">第十五道法门：作用方式（合冲刑穿破墓，力度排序）</button>
+  <div class="m5-body">
+    <div class="bdl-lead">民间最重要的一层：两个干支之间如何发生作用。合/冲/刑/穿的力度不一样，必须分清楚。</div>
+    <div class="bdl-sec">制的力度排序（最核心）</div>
+    <div class="bdl-gold" style="font-size:13px;text-align:center;letter-spacing:2px">合制 &gt; 冲制/刑制 &gt; 克制</div>
+    <div class="bdl-row"><div class="bdl-lbl" style="color:#10b981;border-color:#10b981">合制</div><div class="bdl-v">最强！合住对方，对方被合化，彻底失去作用力；主动、稳定</div></div>
+    <div class="bdl-row"><div class="bdl-lbl" style="color:#fcd34d;border-color:#fcd34d">冲制/刑制</div><div class="bdl-v">次之，冲开或刑动，强行打散，有动荡感；穿（害）力量大于冲</div></div>
+    <div class="bdl-row"><div class="bdl-lbl" style="color:#f87171;border-color:#f87171">克制</div><div class="bdl-v">最弱，纯五行生克，力量最小；天干只克地支，不反过来</div></div>
+    <div class="bdl-sec">各种作用方式详解</div>
+    <div class="bdl-row"><div class="bdl-lbl">天干五合</div><div class="bdl-v">甲己合·乙庚合·丙辛合·丁壬合·戊癸合；合者牵绊，主被合方失去独立作用</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">地支六合</div><div class="bdl-v">子丑·寅亥·卯戌·辰酉·巳申·午未；合的力量稳定，主情分、缘分、牵绊</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">三合局</div><div class="bdl-v">申子辰水·亥卯未木·寅午戌火·巳酉丑金；三字全合化五行最强，差一字为"半合"</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">地支六冲</div><div class="bdl-v">子午·丑未·寅申·卯酉·辰戌·巳亥；主动荡、变动、分离；库必须冲才开（辰戌冲/丑未冲）</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">地支三刑</div><div class="bdl-v">寅巳申·丑戌未·子卯（相刑）；刑主是非、刑伤、官司；力量强于克，弱于冲</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">地支六穿（害）</div><div class="bdl-v">子未·丑午·寅巳·卯辰·申亥·酉戌；<span style="color:#f87171">穿的力量大于冲</span>，主伤害、暗损、长期消耗</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">地支六破</div><div class="bdl-v">子酉·丑辰·寅亥·卯午·申巳·戌未；破相对较轻</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">入墓</div><div class="bdl-v">辰=水墓，戌=火墓，丑=金墓，未=木墓；五行遇对应墓库则收藏受制。<span style="color:#fcd34d">必须刑冲才开库</span></div></div>
+    <div class="bdl-sec">干支自合（特殊9个柱子）</div>
+    <div class="bdl-lead">以下9个柱子天干地支互相合——这9个柱子中，地支藏干可以反克天干（唯一例外）：</div>
+    <div class="bdl-gold" style="text-align:center;letter-spacing:3px">丁亥　己亥　辛巳　癸巳　壬午　甲午　戊子　丙戌　壬戌</div>
+    <div class="bdl-sec">天干克地支规则</div>
+    <div class="bdl-row"><div class="bdl-lbl">基本规则</div><div class="bdl-v">天干克地支（主气），地支不反克天干——单向作用</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">例外</div><div class="bdl-v">干支自合的9个柱子中，地支藏干可以对天干产生反制</div></div>
+  </div>
+
+  <button class="m5-tog" onclick="m5Toggle(this)">核心框架：气势＋制（民间断命主轴）</button>
+  <div class="m5-body">
+    <div class="bdl-lead">民间八字的核心不是旺衰平衡，而是看谁的气势强、谁在制谁、制的力度够不够。这是整个分析体系的主轴。</div>
+    <div class="bdl-sec">六种气势</div>
     <table class="bdl-tbl">
-      <tr><th>地支</th><th>午</th><th>未</th><th>申</th><th>酉</th><th>戌</th><th>亥</th></tr>
-      <tr><td>主气</td><td>丁</td><td>己</td><td>庚</td><td>辛</td><td>戊</td><td>壬</td></tr>
-      <tr><td>中气</td><td>己</td><td>乙</td><td>壬</td><td>—</td><td>辛</td><td>甲</td></tr>
-      <tr><td>余气</td><td>—</td><td>丁</td><td>戊</td><td>—</td><td>丁</td><td>—</td></tr>
+      <tr><th>气势</th><th>成立条件</th><th>代表意象</th></tr>
+      <tr><td class="g">木势</td><td>木多（甲乙寅卯亥未）成局，力量集中</td><td>主仁德、生发、文教、肝胆</td></tr>
+      <tr><td class="r">火势</td><td>火多（丙丁巳午寅戌）成局</td><td>主礼、光明、科技、心脏</td></tr>
+      <tr><td class="y">燥土势</td><td>戊土/辰戌未多，干燥型土</td><td>主信、厚重、固执、脾胃</td></tr>
+      <tr><td class="y">湿土势</td><td>己土/丑多，或水土混杂型</td><td>主暗土、潮湿、藏纳</td></tr>
+      <tr><td style="color:#e2e8f0">金势</td><td>金多（庚辛申酉巳丑）成局</td><td>主义、收敛、刚决、肺肠</td></tr>
+      <tr><td style="color:#60a5fa">水势</td><td>水多（壬癸子亥申辰）成局</td><td>主智、流动、玄奥、肾膀胱</td></tr>
     </table>
-  </div>
-
-  <button class="m5-tog" onclick="m5Toggle(this)">第二层：日主——"我"在哪里</button>
-  <div class="m5-body">
-    <div class="bdl-lead">日柱天干 = 日主 = 就是"你"这个人。整张八字以日主为核心展开，其他7个字都是日主的关系网。</div>
-    <div class="bdl-row"><div class="bdl-lbl">日主</div><div class="bdl-v">日柱天干，代表"我"，是整盘分析的中心轴</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">其他7字</div><div class="bdl-v">都是日主的"关系人"，需要看它们和日主是什么五行关系（→ 进入第四层十神）</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">读盘起点</div><div class="bdl-v">永远先确认日主五行，再展开其他所有分析</div></div>
-    <div class="bdl-gold">譬如日主是甲木——"我"就是一棵树。其他字要么帮树生长（水生木·木助木），要么消耗树（木生火），要么克制树（金克木），要么被树消耗（木克土）。整张八字就是围绕这棵树展开的生态图。</div>
-  </div>
-
-  <button class="m5-tog" onclick="m5Toggle(this)">第三层：五行生克——底层运算法则</button>
-  <div class="m5-body">
-    <div class="bdl-lead">五行生克是八字的"物理定律"，死规矩，不可更改。所有十神、旺衰、喜忌都建立在这层运算上。</div>
-    <div class="bdl-sec">五行相生（母子关系）</div>
-    <div class="card" style="text-align:center;padding:12px;font-size:13px;color:#10b981;letter-spacing:3px;margin-bottom:8px">木 → 火 → 土 → 金 → 水 → 木</div>
-    <div class="bdl-row"><div class="bdl-lbl">木生火</div><div class="bdl-v">木燃烧生火，柴薪之象</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">火生土</div><div class="bdl-v">火燃成灰归土，灰烬成地</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">土生金</div><div class="bdl-v">土中孕矿，矿石藏金</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">金生水</div><div class="bdl-v">金遇热化液，凝成水</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">水生木</div><div class="bdl-v">水滋润土地，木得水而生</div></div>
-    <div class="bdl-sec">五行相克（间隔制约）</div>
-    <div class="card" style="text-align:center;padding:12px;font-size:13px;color:#f87171;letter-spacing:2px;margin-bottom:8px">木克土 · 土克水 · 水克火 · 火克金 · 金克木</div>
-    <div class="bdl-row"><div class="bdl-lbl">木克土</div><div class="bdl-v">树根穿土，木主伸展疏土</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">土克水</div><div class="bdl-v">土堤截流，土能吸水堵水</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">水克火</div><div class="bdl-v">水能灭火，最直接的克</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">火克金</div><div class="bdl-v">烈火熔金，火能软化金属</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">金克木</div><div class="bdl-v">刀斧砍树，金器制木</div></div>
-    <div class="bdl-sec">五行属性对照</div>
+    <div class="bdl-sec">十种基本制关系</div>
     <table class="bdl-tbl">
-      <tr><th>五行</th><th>天干</th><th>方位</th><th>季节</th><th>颜色</th><th>脏腑</th></tr>
-      <tr><td class="g">木</td><td>甲乙</td><td>东</td><td>春</td><td>青绿</td><td>肝胆</td></tr>
-      <tr><td class="r">火</td><td>丙丁</td><td>南</td><td>夏</td><td>红色</td><td>心肠</td></tr>
-      <tr><td class="y">土</td><td>戊己</td><td>中</td><td>四季末</td><td>黄色</td><td>脾胃</td></tr>
-      <tr><td style="color:#e2e8f0">金</td><td>庚辛</td><td>西</td><td>秋</td><td>白色</td><td>肺大肠</td></tr>
-      <tr><td style="color:#60a5fa">水</td><td>壬癸</td><td>北</td><td>冬</td><td>黑色</td><td>肾膀胱</td></tr>
+      <tr><th>制关系</th><th>谁制谁</th><th>断命意义</th></tr>
+      <tr><td class="p">比劫制财</td><td>同类五行制财星</td><td>财被克，破财、财来财去</td></tr>
+      <tr><td class="y">财制比劫</td><td>财星反制同类</td><td>财多则比劫失力，不助身</td></tr>
+      <tr><td class="r">官杀制比劫</td><td>官杀克同类</td><td>有管束，坐不住，受压制</td></tr>
+      <tr><td class="p">比劫制官杀</td><td>同类反制官杀</td><td>不怕管束，敢冒险</td></tr>
+      <tr><td class="g">食伤制官杀</td><td>食伤克官杀</td><td>制住权威，敢说敢做</td></tr>
+      <tr><td class="r">官杀制食伤</td><td>官杀克食伤</td><td>才华被压，不敢发挥</td></tr>
+      <tr><td class="y">财制印</td><td>财克印绶</td><td>财旺则印弱，学历贵人无力</td></tr>
+      <tr><td style="color:#60a5fa">印制食伤</td><td>印克食伤</td><td>才华被封，口才受限</td></tr>
+      <tr><td class="g">食伤制财（生财）</td><td>食伤生财</td><td>才华变现，劳动获利</td></tr>
+      <tr><td style="color:#60a5fa">印制比劫（生身）</td><td>印生比劫</td><td>有贵人助、有学问护身</td></tr>
     </table>
+    <div class="bdl-sec">富贵命的判断标准</div>
+    <div class="bdl-row"><div class="bdl-lbl" style="color:#10b981;border-color:#10b981">基本条件</div><div class="bdl-v">有气势（五行成局）＋ 有制伏（能制住对方）= 有力量、有成就</div></div>
+    <div class="bdl-row"><div class="bdl-lbl" style="color:#fcd34d;border-color:#fcd34d">富</div><div class="bdl-v">财势强且有食伤生财，日主能拿住财（不被财制）</div></div>
+    <div class="bdl-row"><div class="bdl-lbl" style="color:#c4b5fd;border-color:#c4b5fd">贵</div><div class="bdl-v">官杀有力且有制（食伤制杀或印化杀），格局清纯</div></div>
+    <div class="bdl-row"><div class="bdl-lbl" style="color:#f87171;border-color:#f87171">贫贱</div><div class="bdl-v">无气势（五行散乱）或有气势无制（一面倒），格局混浊</div></div>
+    <div class="bdl-gold">民间口诀：有气势而无制，是强人但缺控制力；有制而无气势，是弱势而被管束。最好是有势有制，攻守兼备。</div>
   </div>
 
-  <button class="m5-tog" onclick="m5Toggle(this)">第四层：十神——角色关系翻译</button>
+  <button class="m5-tog" onclick="m5Toggle(this)">第三道法门：格局清浊（不用八格，看清纯）</button>
   <div class="m5-body">
-    <div class="bdl-lead">八字里其他7个字（及藏干）和日主的五行关系，决定了它是什么"角色"——这就是十神。十神把抽象五行翻译成具体人事。</div>
-    <div class="bdl-sec">十神定义（五组关系）</div>
-    <div class="bdl-row"><div class="bdl-lbl" style="background:#1a1a2e;border-color:#6366f1;color:#818cf8">同我</div><div class="bdl-v"><span style="color:#c4b5fd">比肩</span>（同五行·同阴阳）/ <span style="color:#c4b5fd">劫财</span>（同五行·异阴阳）<br>兄弟姐妹、朋友同伴、竞争者</div></div>
-    <div class="bdl-row"><div class="bdl-lbl" style="background:#0c1f17;border-color:#10b981;color:#6ee7b7">我生</div><div class="bdl-v"><span style="color:#10b981">食神</span>（同阴阳）/ <span style="color:#10b981">伤官</span>（异阴阳）<br>才华、表达、子女（女命）、技艺、口福</div></div>
-    <div class="bdl-row"><div class="bdl-lbl" style="background:#1a0e00;border-color:#f59e0b;color:#fcd34d">我克</div><div class="bdl-v"><span style="color:#fcd34d">偏财</span>（同阴阳）/ <span style="color:#fcd34d">正财</span>（异阴阳）<br>财富资源；男命：正财=正妻，偏财=父亲/偏妻</div></div>
-    <div class="bdl-row"><div class="bdl-lbl" style="background:#1a0000;border-color:#f87171;color:#fca5a5">克我</div><div class="bdl-v"><span style="color:#f87171">七杀</span>（同阴阳）/ <span style="color:#f87171">正官</span>（异阴阳）<br>权威管束；女命：正官=丈夫，七杀=情人/克星</div></div>
-    <div class="bdl-row"><div class="bdl-lbl" style="background:#0c0c24;border-color:#60a5fa;color:#93c5fd">生我</div><div class="bdl-v"><span style="color:#60a5fa">偏印</span>（同阴阳）/ <span style="color:#60a5fa">正印</span>（异阴阳）<br>学问贵人；正印=母亲/文凭，偏印=偏门技能/继母</div></div>
-    <div class="bdl-sec">十神人事速查</div>
+    <div class="bdl-lead">民间不用传统建禄/食神/七杀等八种格局。格局就是看命局清不清纯——五行是否专一干净，还是杂乱互冲。</div>
+    <div class="bdl-sec">清纯 vs 混浊</div>
+    <div class="bdl-row"><div class="bdl-lbl" style="color:#10b981;border-color:#10b981">清</div><div class="bdl-v">五行专一、气势集中、作用清楚——高格局，人生方向明确，成就高</div></div>
+    <div class="bdl-row"><div class="bdl-lbl" style="color:#f87171;border-color:#f87171">浊</div><div class="bdl-v">五行杂乱、互相冲克、气势分散——低格局，人生多波折，方向不定</div></div>
+    <div class="bdl-sec">清纯歌诀（原文）</div>
+    <div class="bdl-flow">清纯歌：一清到底有精神，管取生平富贵真。
+澄浊求清清得去，时来寒谷也回春。
+官印相生清纯格，富贵功名两皆盈。
+财官双美无刑冲，聪明秀气自然成。</div>
+    <div class="bdl-sec">五种伤官格清浊判断</div>
     <table class="bdl-tbl">
-      <tr><th>十神</th><th>男命</th><th>女命</th><th>主事领域</th></tr>
-      <tr><td class="p">比肩</td><td>兄弟</td><td>姐妹</td><td>合伙、独立、自力更生</td></tr>
-      <tr><td class="p">劫财</td><td>兄弟</td><td>姐妹</td><td>破财、竞争、义气兄弟</td></tr>
-      <tr><td class="g">食神</td><td>子女</td><td>子女</td><td>才艺、口福、寿星之神</td></tr>
-      <tr><td class="g">伤官</td><td>子女</td><td>—</td><td>叛逆、才华、出风头</td></tr>
-      <tr><td class="y">偏财</td><td>父亲</td><td>父亲</td><td>横财、投机、交际广</td></tr>
-      <tr><td class="y">正财</td><td>妻子</td><td>—</td><td>正当收入、节俭、务实</td></tr>
-      <tr><td class="r">七杀</td><td>子女</td><td>情人</td><td>武职、冒险、竞争压力</td></tr>
-      <tr><td class="r">正官</td><td>—</td><td>丈夫</td><td>名誉、法规、管理职位</td></tr>
-      <tr><td style="color:#60a5fa">偏印</td><td>继母</td><td>继母</td><td>偏门技能、独立、克食</td></tr>
-      <tr><td style="color:#60a5fa">正印</td><td>母亲</td><td>母亲</td><td>学历、贵人庇护、文书</td></tr>
+      <tr><th>类型</th><th>喜/忌</th><th>断命方向</th></tr>
+      <tr><td>木火伤官</td><td>喜水（官）</td><td>木生火旺，喜水官制，清则贵</td></tr>
+      <tr><td>火土伤官</td><td>喜木（印）</td><td>火生土，喜印化，清则有文才</td></tr>
+      <tr><td>土金伤官</td><td>喜火（官）</td><td>土生金，金伤官，喜官杀制</td></tr>
+      <tr><td>金水伤官</td><td>喜官（火）</td><td>金生水，水聪明，官不忌</td></tr>
+      <tr><td>水木伤官</td><td>喜火（财）</td><td>水木秀气，喜财星流通</td></tr>
     </table>
-    <div class="bdl-gold">判断十神快捷法：先看是否同五行（同→比劫），不同再看生克方向（我生→食伤，我克→财，克我→官杀，生我→印），最后看阴阳是否相同区分正偏。</div>
-  </div>
-
-  <button class="m5-tog" onclick="m5Toggle(this)">第五层：旺衰——日主的能量判断</button>
-  <div class="m5-body">
-    <div class="bdl-lead">旺衰就是判断日主的"电量"——能量足不足，决定命局该用什么策略读。</div>
-    <div class="bdl-sec">核心判断步骤</div>
-    <div class="bdl-row"><div class="bdl-lbl">① 月令</div><div class="bdl-v">最关键！月支是"令"，日主五行在月令中是旺相还是休囚死？当令者旺</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">② 帮身</div><div class="bdl-v">天干地支中有多少比劫（同五行）和印绶（生日主）在帮扶？越多越旺</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">③ 克泄</div><div class="bdl-v">有多少官杀（克日主）、食伤（日主泄气）、财星（日主克）在消耗？越多越弱</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">④ 通根</div><div class="bdl-v">日主五行在地支中是否有"根"（地支藏干含同类）？有根则气不散</div></div>
-    <div class="bdl-sec">月令旺相休囚死</div>
-    <table class="bdl-tbl">
-      <tr><th>季节/五行</th><th>木</th><th>火</th><th>土</th><th>金</th><th>水</th></tr>
-      <tr><td>春（寅卯月）</td><td class="g">旺</td><td>相</td><td>死</td><td>囚</td><td>休</td></tr>
-      <tr><td>夏（巳午月）</td><td>休</td><td class="r">旺</td><td>相</td><td>死</td><td>囚</td></tr>
-      <tr><td>季末（辰戌丑未）</td><td>囚</td><td>休</td><td class="y">旺</td><td>相</td><td>死</td></tr>
-      <tr><td>秋（申酉月）</td><td>死</td><td>囚</td><td>休</td><td class="p">旺</td><td>相</td></tr>
-      <tr><td>冬（亥子月）</td><td>相</td><td>死</td><td>囚</td><td>休</td><td style="color:#60a5fa">旺</td></tr>
-    </table>
-    <div style="font-size:11px;color:#475569;margin:4px 0 8px">旺=当令最强；相=月令生我；休=我生月令；囚=我克月令；死=月令克我</div>
-    <div class="bdl-sec">旺衰等级</div>
-    <div class="bdl-row"><div class="bdl-lbl" style="color:#f87171">极旺</div><div class="bdl-v">月令当令+天干有根+多比劫印，能量过剩，需大量消耗</div></div>
-    <div class="bdl-row"><div class="bdl-lbl" style="color:#fcd34d">身旺</div><div class="bdl-v">月令当令或有强根，整体偏强，喜消耗泄气</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">中和</div><div class="bdl-v">旺衰相当，不明显，参考格局再定</div></div>
-    <div class="bdl-row"><div class="bdl-lbl" style="color:#60a5fa">身弱</div><div class="bdl-v">月令失令，帮身力弱，喜比劫印绶生扶</div></div>
-    <div class="bdl-row"><div class="bdl-lbl" style="color:#94a3b8">极弱</div><div class="bdl-v">月令受克+天干无根+多官杀食伤财，可能成"从格"</div></div>
-  </div>
-
-  <button class="m5-tog" onclick="m5Toggle(this)">第六层：喜用忌神——命局核心答案</button>
-  <div class="m5-body">
-    <div class="bdl-lead">这是整张八字分析最核心的结论。找到喜用忌神，就找到了这张命盘的"操作系统"。</div>
-    <div class="bdl-sec">基本原则</div>
-    <div class="bdl-row"><div class="bdl-lbl" style="color:#10b981;border-color:#10b981">身旺</div><div class="bdl-v">能量过剩，需消耗克制 → <span style="color:#10b981">喜食伤、财星、官杀</span>（耗泄克制日主的五行）</div></div>
-    <div class="bdl-row"><div class="bdl-lbl" style="color:#60a5fa;border-color:#60a5fa">身弱</div><div class="bdl-v">能量不足，需帮扶滋养 → <span style="color:#60a5fa">喜比劫、印绶</span>（同类和生我的五行）</div></div>
-    <div class="bdl-sec">三个层次</div>
-    <div class="bdl-row"><div class="bdl-lbl">喜神</div><div class="bdl-v">对日主整体有利的五行/十神，让命盘运转顺畅的东西</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">用神</div><div class="bdl-v">喜神中最核心、最关键的那一个，整盘的着力点；格局中力量最强的喜神即为用神</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">忌神</div><div class="bdl-v">对日主有害的五行/十神，会削弱命盘运转、引发麻烦的东西</div></div>
-    <div class="bdl-sec">应用方向</div>
-    <div class="bdl-row"><div class="bdl-lbl">职业</div><div class="bdl-v">木=教育/文艺/林木，火=科技/热能/光电，土=地产/农业/中介，金=金融/机械/军警，水=贸易/运输/流动</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">方位</div><div class="bdl-v">喜用神五行对应的发展方向（木=东，火=南，土=中，金=西，水=北）</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">颜色</div><div class="bdl-v">喜用神五行对应颜色（木=绿，火=红，土=黄，金=白，水=黑）多穿为宜</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">流年</div><div class="bdl-v">喜用神旺的年份=顺畅；忌神旺的年份=阻力大</div></div>
-    <div class="bdl-gold">身旺喜官杀：能忍受压力管束，适合体制内稳定职位；身弱喜印绶：靠学问贵人，靠背景资历；身旺喜财：能挣钱，管得住财；身弱见财：容易为钱所累，财多身弱反贫。</div>
-  </div>
-
-  <button class="m5-tog" onclick="m5Toggle(this)">第七层：大运流年——时间轴</button>
-  <div class="m5-body">
-    <div class="bdl-lead">八字是静态结构，大运流年是时间轴。把静态的五行表推动起来，就能读出人生各阶段的气候。</div>
-    <div class="bdl-sec">大运</div>
-    <div class="bdl-row"><div class="bdl-lbl">定义</div><div class="bdl-v">每10年一换，代表人生大阶段的背景气候；一共经历7-8个大运</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">起算</div><div class="bdl-v">以月柱为基准——阳年男/阴年女：顺推节气；阴年男/阳年女：逆推节气；数到下一节气天数÷3=起运岁数</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">运程</div><div class="bdl-v">大运前5年看天干影响，后5年看地支影响（天干管显性，地支管深层）</div></div>
-    <div class="bdl-sec">流年</div>
-    <div class="bdl-row"><div class="bdl-lbl">定义</div><div class="bdl-v">每年一个年干支，叠加在大运和原局上，决定当年的具体感受</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">优先级</div><div class="bdl-v">大运方向 > 流年具体 > 月份细化；流年与原局发生冲合时感受最强</div></div>
-    <div class="bdl-sec">判断好坏</div>
-    <div class="bdl-row"><div class="bdl-lbl" style="color:#10b981;border-color:#10b981">好运</div><div class="bdl-v">大运/流年干支五行属于喜用神，且不冲克原局用神</div></div>
-    <div class="bdl-row"><div class="bdl-lbl" style="color:#f87171;border-color:#f87171">差运</div><div class="bdl-v">大运/流年干支五行属于忌神，或冲克原局喜用神</div></div>
-    <div class="bdl-sec">常见地支关系</div>
-    <div class="bdl-row"><div class="bdl-lbl">六冲</div><div class="bdl-v">子午·丑未·寅申·卯酉·辰戌·巳亥——主变动、分离、冲突</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">六合</div><div class="bdl-v">子丑·寅亥·卯戌·辰酉·巳申·午未——主合化、牵绊、稳定</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">三合</div><div class="bdl-v">申子辰（水局）·亥卯未（木局）·寅午戌（火局）·巳酉丑（金局）——化气成局，力量最大</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">三刑</div><div class="bdl-v">寅巳申（无恩之刑）·丑戌未（持势之刑）·子卯（无礼之刑）·辰午酉亥（自刑）——主是非、刑伤、官司</div></div>
-    <div class="bdl-gold">运逢喜用之地，原局缺陷暂时弥补，人生顺畅；运逢忌神之地，原局弱点被放大，挫折频繁。命好不如运好——好命遇坏运照样出问题，差命遇好运也能翻身。</div>
-  </div>
-
-  <button class="m5-tog" onclick="m5Toggle(this)">第八层：神煞——特殊加成标记</button>
-  <div class="m5-body">
-    <div class="bdl-lead">神煞是叠加在干支上的特殊信息层，相当于"技能标签"——不改变基本旺衰，但影响某类事件的发生概率和质量。</div>
-    <div class="bdl-sec">常用神煞速查</div>
-    <table class="bdl-tbl">
-      <tr><th>神煞</th><th>起算方式</th><th>主象</th><th>出现代表</th></tr>
-      <tr><td class="y">驿马</td><td>年/日支三合局动方</td><td>奔波动荡</td><td>出行、工作变动、行商</td></tr>
-      <tr><td style="color:#f472b6">桃花</td><td>年/日支三合局长生方</td><td>人缘缘分</td><td>感情好、人缘佳、异性缘</td></tr>
-      <tr><td class="g">文昌</td><td>食神长生地</td><td>聪明才智</td><td>考试利、学问好、口才佳</td></tr>
-      <tr><td style="color:#fcd34d">天乙贵人</td><td>日干对应的两个地支</td><td>逢凶化吉</td><td>有贵人相助、难中得救</td></tr>
-      <tr><td class="p">将星</td><td>三合局旺方（子午卯酉）</td><td>领袖气质</td><td>管理能力强、有号召力</td></tr>
-      <tr><td style="color:#94a3b8">华盖</td><td>三合局库方（辰戌丑未）</td><td>孤高艺术</td><td>宗教缘、艺术天赋、独处</td></tr>
-      <tr><td class="r">羊刃</td><td>日主五行旺极之支</td><td>刚强锋芒</td><td>主动进取、有冲劲、脾气急</td></tr>
-      <tr><td style="color:#475569">空亡</td><td>当旬未涵盖的两地支</td><td>落空减弱</td><td>所落字应验打折、有始无终</td></tr>
-    </table>
-    <div class="bdl-sec">天乙贵人速查</div>
+    <div class="bdl-sec">原身与禄（格局清浊参照）</div>
     <table class="bdl-tbl">
       <tr><th>日干</th><th>甲</th><th>乙</th><th>丙</th><th>丁</th><th>戊</th><th>己</th><th>庚</th><th>辛</th><th>壬</th><th>癸</th></tr>
-      <tr><td>贵人</td><td>丑未</td><td>子申</td><td>亥酉</td><td>亥酉</td><td>丑未</td><td>子申</td><td>丑未</td><td>寅午</td><td>卯巳</td><td>卯巳</td></tr>
+      <tr><td>禄（旺地）</td><td>寅</td><td>卯</td><td>巳</td><td>午</td><td>巳</td><td>午</td><td>申</td><td>酉</td><td>亥</td><td>子</td></tr>
     </table>
-    <div class="bdl-sec">驿马桃花速查</div>
-    <table class="bdl-tbl">
-      <tr><th>年/日支</th><th>申子辰</th><th>寅午戌</th><th>亥卯未</th><th>巳酉丑</th></tr>
-      <tr><td class="y">驿马</td><td>寅</td><td>申</td><td>巳</td><td>亥</td></tr>
-      <tr><td style="color:#f472b6">桃花</td><td>酉</td><td>卯</td><td>子</td><td>午</td></tr>
-    </table>
+    <div class="bdl-gold">看格局清浊要整体看：命局气势清一，作用简单，就是清；合冲乱、五行互制、方向不明，就是浊。</div>
   </div>
 
-  <button class="m5-tog" onclick="m5Toggle(this)">第九层：格局——命局整体类型</button>
+  <button class="m5-tog" onclick="m5Toggle(this)">第六·七道法门：旺衰与用神（活看，不固定）</button>
   <div class="m5-body">
-    <div class="bdl-lead">格局是从整体给命局"定型"，相当于打一个总标签——这张八字是什么档次、什么走向。格局决定用神方向。</div>
-    <div class="bdl-sec">正格取法</div>
-    <div class="bdl-lead">取格法：看月支藏哪些天干，再看这些藏干有没有透出天干——透出的那个就是格局。</div>
-    <table class="bdl-tbl">
-      <tr><th>月令透干</th><th>格局</th><th>用神方向</th></tr>
-      <tr><td>透比劫</td><td>建禄/月刃格</td><td>食伤财官为用</td></tr>
-      <tr><td>透食神</td><td class="g">食神格</td><td>财为用（食生财）</td></tr>
-      <tr><td>透伤官</td><td class="g">伤官格</td><td>财星为用（伤官生财）</td></tr>
-      <tr><td>透偏财</td><td class="y">偏财格</td><td>食伤为用（生财）</td></tr>
-      <tr><td>透正财</td><td class="y">正财格</td><td>食伤印绶为用</td></tr>
-      <tr><td>透七杀</td><td class="r">七杀格</td><td>食神制杀/印绶化杀</td></tr>
-      <tr><td>透正官</td><td class="r">正官格</td><td>财印为用（财生官/印护官）</td></tr>
-      <tr><td>透偏印</td><td style="color:#60a5fa">偏印格</td><td>财制印/食伤泄身</td></tr>
-      <tr><td>透正印</td><td style="color:#60a5fa">正印格</td><td>官杀为用（官生印）</td></tr>
-    </table>
-    <div class="bdl-sec">特殊格（从格）</div>
-    <div class="bdl-row"><div class="bdl-lbl">从财格</div><div class="bdl-v">日主极弱，全局财星独旺，顺从财星——喜财运，忌比劫破格</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">从杀格</div><div class="bdl-v">日主极弱，全局官杀独旺，顺从官杀——喜官杀财运，忌印绶生身</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">从儿格</div><div class="bdl-v">日主极弱，全局食伤独旺，顺从食伤——喜食伤财运，忌官杀克食伤</div></div>
-    <div class="bdl-gold">格局高低：格局清纯（用神有力，忌神不破格）= 高格，人生起点高；格局混杂（用神被冲克）= 低格，人生多波折。同样的格局，好运能弥补；格局差，遇好运也能过得不错。</div>
+    <div class="bdl-lead">民间的旺衰和传统最大的不同：不是固定表，是活看。中级班明确说"完全不用旺衰分析"，高级班再讲旺衰时是"活用"而非死套表。</div>
+    <div class="bdl-sec">活看旺衰的含义</div>
+    <div class="bdl-row"><div class="bdl-lbl">活看旺</div><div class="bdl-v">不只看月令当令，还看整局五行气势、合冲刑后的实际状态</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">活看衰</div><div class="bdl-v">一个字表面弱，但被合住或有根，实际力量不弱；不能只看月令</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">虚实判断</div><div class="bdl-v">干支虚实：天干透出为实，藏在地支为虚；有根为实，无根为虚</div></div>
+    <div class="bdl-sec">活论用神（针对不同事）</div>
+    <div class="bdl-row"><div class="bdl-lbl">看财运</div><div class="bdl-v">以财星所在宫位、强弱、被制关系为用神</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">看婚姻</div><div class="bdl-v">男看财星+日支；女看官杀+日支；以作用关系定用神</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">看事业</div><div class="bdl-v">以官杀/食伤的气势和制关系为用神</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">看子女</div><div class="bdl-v">以食伤/官杀（男女不同）在时柱的宫位状态为用神</div></div>
+    <div class="bdl-gold">民间口诀：用神不固定，事事有事的用神。同一张命，问不同的事，答案的着力点不同——这才是"活论"。</div>
+    <div class="bdl-sec">干支虚实速查原则</div>
+    <div class="bdl-row"><div class="bdl-lbl">实</div><div class="bdl-v">天干透出（可见），或地支有同类多个，气势足</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">虚</div><div class="bdl-v">只藏在地支余气，或被合绊失效，或空亡，力量弱</div></div>
   </div>
 
-  <button class="m5-tog" onclick="m5Toggle(this)">第十层：读盘顺序——完整操作流程</button>
+  <button class="m5-tog" onclick="m5Toggle(this)">第九道法门：神煞（民间只用6种）</button>
   <div class="m5-body">
-    <div class="bdl-lead">前九层学完之后，面对一张实际八字该怎么操作？以下是完整的读盘顺序。</div>
-    <div class="bdl-sec">十步读盘法</div>
-    <div class="bdl-flow">第一步：定日主 — 找日柱天干，明确日主五行<br>第二步：看月令 — 月支是什么，日主五行是否当令<br>第三步：判旺衰 — 统计帮身 vs 克泄，确定身旺/中/弱<br>第四步：定喜忌 — 身旺→喜食伤财官；身弱→喜比劫印<br>第五步：取格局 — 月令透干取格，特殊格另论<br>第六步：布十神 — 其他7字+藏干各是什么十神<br>第七步：读人事 — 父母（印）/ 配偶（财官）/ 子女（食伤七杀）/ 财运 / 事业<br>第八步：走大运 — 当前哪个大运？干支五行属喜忌？<br>第九步：看流年 — 当年年干支，是否冲合原局重要神<br>第十步：论吉凶 — 喜神得令+用神清纯=顺；忌神旺+用神受冲=阻</div>
-    <div class="bdl-sec">读人事常用框架</div>
-    <div class="bdl-row"><div class="bdl-lbl">感情婚姻</div><div class="bdl-v">男看财星（妻）+日支；女看官杀（夫）+日支；看合/冲/刑时间点</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">工作事业</div><div class="bdl-v">官杀=职位压力，食伤=创业才华，财星=经商结果；格局定方向</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">财富财运</div><div class="bdl-v">财星力量+日主能否拿住财（日主旺才能控财）；流年财星入命</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">健康身体</div><div class="bdl-v">日主五行对应脏腑；忌神冲克对应部位；大运忌神堆叠须注意</div></div>
-    <div class="bdl-sec">四句话总结</div>
-    <div class="bdl-gold">① 八字 = 时间坐标换算的五行能量表，天干地支是载体，五行是语言<br>② 日主是"我"，其余一切都是日主的关系网——关系网就是人事<br>③ 旺衰定策略，喜用忌神是核心答案，格局是整体定性<br>④ 大运流年是时间轴，把静态结构推演成动态人生——命好不如运好</div>
+    <div class="bdl-lead">传统神煞几十种，民间只用6种——这6种都有具体的口诀和实战用法，其余一概不用。</div>
+    <div class="bdl-sec">六种神煞速查</div>
+    <table class="bdl-tbl">
+      <tr><th>神煞</th><th>判断方式</th><th>主象</th></tr>
+      <tr><td class="y">伏吟</td><td>命局中同一个字重复出现</td><td>双姓、事情重复、难以改变</td></tr>
+      <tr><td style="color:#475569">空亡</td><td>阳为空，阴为亡；四大空亡：甲子旬空戌亥，甲戌旬空申酉……</td><td>落空减力；四大空亡阳寿最多三十三</td></tr>
+      <tr><td class="r">将军箭煞</td><td>特定干支组合（需对表）</td><td>一箭伤人三岁死，两箭六岁亡，三箭防九岁</td></tr>
+      <tr><td class="p">亡神（截煞）</td><td>寅申巳亥为亡神/劫煞根基</td><td>亡神劫煞犯官符，合克身命遭砍头</td></tr>
+      <tr><td class="p">劫杀（官符）</td><td>与亡神配合使用</td><td>官司刑罚，破财是非</td></tr>
+      <tr><td style="color:#f87171">自缢煞（破身凶亡煞）</td><td>戊己亥辰并未寅</td><td>一死悬梁一水中（非正常死亡风险）</td></tr>
+    </table>
+    <div class="bdl-sec">伏吟详解</div>
+    <div class="bdl-flow">伏吟歌：一字重现叫伏吟，命占伏吟定双姓。
+重者伏吟主两姓，轻者事情多重复。</div>
+    <div class="bdl-sec">空亡详解</div>
+    <div class="bdl-row"><div class="bdl-lbl">阳空阴亡</div><div class="bdl-v">阳支落空叫"空"，阴支落空叫"亡"，合称空亡</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">四大空亡</div><div class="bdl-v">甲子旬空戌亥；甲戌旬空申酉；甲申旬空午未；甲午旬空辰巳；甲辰旬空寅卯；甲寅旬空子丑</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">四大空亡</div><div class="bdl-v">命局同时具备戌亥、申酉、午未、辰巳四对空亡之一，阳寿最多三十三岁</div></div>
+    <div class="bdl-sec">将军箭煞口诀</div>
+    <div class="bdl-flow">一箭伤人三岁死，两箭六岁亡，三箭防九岁，四箭在十二。
+此煞主早年凶险，逢之须看化解。</div>
+    <div class="bdl-sec">自缢煞口诀</div>
+    <div class="bdl-flow">自缢煞：戊巳亥辰并未寅，一死悬梁一水中。
+此六字同时出现两个以上，主非正常死亡风险，需配合其他凶星看。</div>
+    <div class="bdl-gold">民间神煞原则：不追求数量，只用这6种，每种都有具体歌诀和实战口诀，断命时直接套用。</div>
+  </div>
+
+  <button class="m5-tog" onclick="m5Toggle(this)">第十道法门：象数论命（带象·倒象·合象）</button>
+  <div class="m5-body">
+    <div class="bdl-lead">象数是民间八字的最高境界。不只看生克制化，还要看八字的"象"——直接读出具象画面，精准断事。</div>
+    <div class="bdl-sec">什么是象</div>
+    <div class="bdl-row"><div class="bdl-lbl">象</div><div class="bdl-v">每个干支本身具有的具体意象：甲=参天大树，乙=藤蔓花草，庚=刀斧器具……</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">带象</div><div class="bdl-v">命局中某个字带来某种特定象，可以直接断出职业/性格/六亲形象</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">倒象</div><div class="bdl-v">象发生翻转：如甲被克断=大树被砍，断伤残或职业相关</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">合象</div><div class="bdl-v">两个以上干支合在一起产生新象：水木合象=水边有树，断住水边/林业/渔业</div></div>
+    <div class="bdl-sec">带象13个柱子（常用）</div>
+    <div class="bdl-lead">以下13个柱子有特定的"带象"效果，看到即可直接断：</div>
+    <div class="bdl-flow">壬子——大水汪洋，主聪明流动，水产、运输、玄学
+癸亥——阴水至极，主聪明深沉，或孤独隐士
+甲寅——参天之木，主高大、正直、领袖气质
+乙卯——丛林花草，主才华横溢，文艺、医药
+丙午——烈日当空，主热情外向，光明磊落
+丁巳——地下之火，主内敛聪明，灯烛、技艺
+戊午——燥热之土，主刚强固执，地产、山地
+己亥——湿土遇水，主内秀、暗藏能量
+庚申——刀剑利器，主决断、武职、金融
+辛酉——珠宝首饰，主精细、美丽、艺术
+壬午——水火既济，主智慧与激情并存，反差大
+甲午——木被火泄，主付出多收获少，或热情助人
+癸巳——水火相激，主聪明但有暗伤，反差命</div>
+    <div class="bdl-gold">象数是经验积累，越多实例越熟练。初学先掌握带象13柱，再逐步学习倒象和合象的断法。</div>
+  </div>
+
+  <button class="m5-tog" onclick="m5Toggle(this)">第十三道法门：十天干死活与性情</button>
+  <div class="m5-body">
+    <div class="bdl-lead">民间对十天干的理解和传统不同——每个天干有自己的"性情"和"死活"之分，不能混同处理。</div>
+    <div class="bdl-sec">木（甲乙）</div>
+    <div class="bdl-row"><div class="bdl-lbl" style="color:#10b981">甲</div><div class="bdl-v"><strong>活木</strong>——参天大树，最怕的是金克（断树）。甲木有根，生机旺盛，喜水生，不喜火太旺（烧林）</div></div>
+    <div class="bdl-row"><div class="bdl-lbl" style="color:#10b981">乙</div><div class="bdl-v"><strong>死木</strong>——花草藤蔓，柔韧性强，反而不怕金（草割了再生）。乙木怕燥，喜湿润</div></div>
+    <div class="bdl-sec">火（丙丁）</div>
+    <div class="bdl-row"><div class="bdl-lbl" style="color:#f87171">丙</div><div class="bdl-v"><strong>不怕旺</strong>——太阳之火，越旺越好。丙火极旺也无妨，但怕水克（阴云盖日）</div></div>
+    <div class="bdl-row"><div class="bdl-lbl" style="color:#f87171">丁</div><div class="bdl-v"><strong>不怕衰</strong>——灯烛之火，微弱也能照明。丁火最怕壬水（壬合丁，火被合绊）</div></div>
+    <div class="bdl-sec">土（戊己）</div>
+    <div class="bdl-row"><div class="bdl-lbl" style="color:#fcd34d">戊</div><div class="bdl-v"><strong>燥土</strong>——山岳大地，固执厚重。戊土喜火（暖土），怕水多（泥泞）</div></div>
+    <div class="bdl-row"><div class="bdl-lbl" style="color:#fcd34d">己</div><div class="bdl-v"><strong>湿土</strong>——田园沃土，柔顺包容。己土喜火暖，怕水木（木克土，水泡土）</div></div>
+    <div class="bdl-sec">金（庚辛）</div>
+    <div class="bdl-row"><div class="bdl-lbl" style="color:#e2e8f0">庚</div><div class="bdl-v"><strong>不喜旺</strong>——刀剑毛坯，需要火炼才成器。庚金过旺则顽铁，必须见丁火煅炼才有用</div></div>
+    <div class="bdl-row"><div class="bdl-lbl" style="color:#e2e8f0">辛</div><div class="bdl-v"><strong>不怕弱</strong>——珠宝首饰，本身精贵，不需要多。辛金怕火（镕化），喜壬水洗涤</div></div>
+    <div class="bdl-sec">水（壬癸）</div>
+    <div class="bdl-row"><div class="bdl-lbl" style="color:#60a5fa">壬</div><div class="bdl-v"><strong>江河之水</strong>——奔流不息，主聪明流动。壬水怕戊土截流，喜庚金生</div></div>
+    <div class="bdl-row"><div class="bdl-lbl" style="color:#60a5fa">癸</div><div class="bdl-v"><strong>雨露之水</strong>——细腻滋润，主智慧内敛。癸水怕戊合（戊癸合化火），见合则失水性</div></div>
+    <div class="bdl-gold">民间看天干不是固定模板：甲与乙性情完全不同，同是木却一活一死；丙与丁同是火，一个不怕旺一个不怕衰。这是民间体系的精髓之一。</div>
+  </div>
+
+  <button class="m5-tog" onclick="m5Toggle(this)">读盘七步法 ＋ 大运流年应期（完整流程）</button>
+  <div class="m5-body">
+    <div class="bdl-lead">民间八字的完整读盘流程是七步，不是传统的十步。大运流年有专门的应期判断方式。</div>
+    <div class="bdl-sec">读盘七步法</div>
+    <div class="bdl-flow">第一步：看原局整体气势
+  — 五行偏向哪边？木/火/金/水/燥土/湿土，哪种势力最强？
+
+第二步：找各种作用方式
+  — 有哪些合/冲/刑/穿/破/入墓？都标出来
+
+第三步：判断主要作用
+  — 这些作用中哪个最重要（合制&gt;冲刑&gt;克），主导整局的是什么
+
+第四步：看宫位六亲
+  — 各柱分别代表什么六亲、什么年龄段，宫位里的字什么情况
+
+第五步：看象
+  — 命局有没有带象柱子？倒象？合象？直接读出具象
+
+第六步：判断富贵贫贱
+  — 有气势+有制=富贵；无气势或无制=贫贱；格局清浊定档次
+
+第七步：看大运流年应期
+  — 好事/坏事什么时候发生？用应期三种方式判断</div>
+    <div class="bdl-sec">大运流年应期三种方式</div>
+    <div class="bdl-row"><div class="bdl-lbl" style="color:#10b981">合者主动</div><div class="bdl-v">流年/大运的干支与原局发生合时，主动触发事件（好合→好事，坏合→麻烦）</div></div>
+    <div class="bdl-row"><div class="bdl-lbl" style="color:#fcd34d">冲者主动</div><div class="bdl-v">流年/大运冲原局时，强制触发变动——冲财星则财有变，冲婚宫则婚变</div></div>
+    <div class="bdl-row"><div class="bdl-lbl" style="color:#94a3b8">墓者主收</div><div class="bdl-v">遇入墓之年，事情收尾、收场、结束——财入墓则财散，官入墓则职位终</div></div>
+    <div class="bdl-row"><div class="bdl-lbl" style="color:#f87171">穿者主伤</div><div class="bdl-v">遇穿（害）之年，主暗中受损——健康暗伤、感情暗耗、财被偷漏</div></div>
+    <div class="bdl-sec">三句总口诀</div>
+    <div class="bdl-gold" style="font-size:13px;text-align:center;line-height:2.5">八字讲贵贱<br>大运讲吉凶<br>流年看应期</div>
+    <div class="bdl-sec">应期判断要点</div>
+    <div class="bdl-row"><div class="bdl-lbl">大运</div><div class="bdl-v">每10年一运，看这10年是走喜用之地还是忌神之地，决定大方向吉凶</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">流年</div><div class="bdl-v">每年一个干支，与原局发生合冲墓穿时，当年具体事件就此应期</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">月份</div><div class="bdl-v">流年中再看月份，三支同时触发（原局+大运+流年）时应期最准</div></div>
+    <div class="bdl-gold">合者事情最和顺、主动来找；冲者事情最激烈、主变动破裂；穿者事情最隐蔽、主暗伤；墓者事情终结、主收场。这四种应期涵盖了绝大多数断命时间点。</div>
   </div>
 
   <div style="height:24px"></div>
