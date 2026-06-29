@@ -2723,7 +2723,7 @@ const SANHE_WX=['水','木','火','金'];
 const ZIXING_SET=new Set(['辰','午','酉','亥']);
 const YANG_ZHI=new Set(['寅','申','巳','亥','辰','戌']);
 const ZHI_NOZIXING=ZHI.filter(z=>!ZIXING_SET.has(z));
-const CAT_NAME={tf_rel:'判断题',wx:'五行归属',chong:'六冲',tghe:'天干五合',liuhe:'地支六合',tong:'干支互通',shen:'十神',sanhe:'三合补完',sanhetype:'三合识局',xing3:'三刑补完',po:'破识别',zixing:'自刑字',xushi:'虚实判断',xushi2:'实支识别',nayin:'纳音五行',anhe:'地支暗合',zihe:'干支自合',num:'数字口诀',wxs:'天干相生',wxk:'天干相克',lqs:'六亲相生',lqk:'六亲相克',tdyy:'天地阴阳',shuma:'数字编码',nfgz:'年份干支',shichen:'十二时辰',ganzang:'天干脏腑',zhizang:'地支脏腑',ws12:'旺衰十二运',ws_zhi:'旺衰地支',wx_zhi:'五行长生',ws_order:'长生顺序',yuejian:'月建',duanming:'断命步骤',wxsys:'五行系统',jieqi:'节气月建',cang:'地支藏干',cang_bq:'三气·本气',cang_zq:'三气·中气',cang_yq:'三气·余气'};
+const CAT_NAME={tf_rel:'判断题',wx:'五行归属',chong:'六冲',tghe:'天干五合',liuhe:'地支六合',tong:'干支互通',shen:'十神',sanhe:'三合补完',sanhetype:'三合识局',xing3:'三刑补完',po:'破识别',zixing:'自刑字',xushi:'虚实判断',xushi2:'实支识别',nayin:'纳音五行',anhe:'地支暗合',zihe:'干支自合',num:'数字口诀',wxs:'天干相生',wxk:'天干相克',lqs:'六亲相生',lqk:'六亲相克',tdyy:'天地阴阳',shuma:'数字编码',nfgz:'年份干支',shichen:'十二时辰',ganzang:'天干脏腑',zhizang:'地支脏腑',ws12:'旺衰十二运',ws_zhi:'旺衰地支',wx_zhi:'五行长生',ws_order:'长生顺序',yuejian:'月建',duanming:'断命步骤',wxsys:'五行系统',jieqi:'节气月建',cang:'地支藏干',cang_bq:'三气·本气',cang_zq:'三气·中气',cang_yq:'三气·余气',gan_xi:'天干喜忌',gongwei:'宫位大限',shen_yi:'十神义象'};
 const GZ60=(()=>{const g=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'],z=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];return Array.from({length:60},(_,i)=>g[i%10]+z[i%12]);})();
 const YR_GZ_PAIRS=(()=>{const g=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'],z=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];return Array.from({length:151},(_,i)=>{const y=1900+i;return[String(y),g[(y-4)%10]+z[(y-4)%12]];});})();
 const SHICHEN={子:'23-1时',丑:'1-3时',寅:'3-5时',卯:'5-7时',辰:'7-9时',巳:'9-11时',午:'11-13时',未:'13-15时',申:'15-17时',酉:'17-19时',戌:'19-21时',亥:'21-23时'};
@@ -2766,6 +2766,46 @@ const JIEQI_NAMES=['立春','雨水','惊蛰','春分','清明','谷雨','立夏
 const MONTHS_12=['寅月','卯月','辰月','巳月','午月','未月','申月','酉月','戌月','亥月','子月','丑月'];
 const SHUMA_MAP={'00':'望远镜','01':'衣服','02':'耳朵','03':'大山','04':'寺庙','05':'老虎','06':'哨子','07':'镰刀','08':'葫芦','09':'啤酒','10':'棒球','11':'筷子','12':'鱼儿','13':'医生','14':'钥匙','15':'鹦鹉','16':'石榴','17':'仪器','18':'渔网','19':'药酒','20':'按铃','21':'鳄鱼','22':'双胞胎','23':'乔丹','24':'闹钟','25':'二胡','26':'河流','27':'耳机','28':'恶霸','29':'按钮','30':'山洞','31':'山药','32':'哪吒','33':'蝴蝶','34':'扇子','35':'珊瑚','36':'山路','37':'山鸡','38':'妇女','39':'三角','40':'司令','41':'司仪','42':'试卷','43':'雪山','44':'狮子','45':'水壶','46':'饲料','47':'司机','48':'蜘蛛','49':'死狗','50':'武林高手','51':'工人','52':'木耳','53':'午餐','54':'武士','55':'火车','56':'五楼','57':'大炮','58':'电脑','59':'武警','60':'榴莲','61':'儿童','62':'驴儿','63':'硫酸','64':'螺丝','65':'锣鼓','66':'绿豆','67':'楼梯','68':'喇叭','69':'鹿角','70':'冰激凌','71':'洗衣机','72':'企鹅','73':'旗杆','74':'骑士','75':'鸡毛掸子','76':'汽油','77':'鹊桥','78':'西瓜','79':'气球','80':'巴黎铁塔','81':'蚂蚁','82':'白鹅','83':'耙子','84':'巴士','85':'宝物盒','86':'八路','87':'热带雨林','88':'爸爸','89':'芭蕉叶','90':'精灵','91':'救生衣','92':'球儿','93':'旧伞','94':'酒刺','95':'酒壶','96':'旧炉','97':'香港脚','98':'球拍','99':'舅舅'};
 const PILLAR=['年','月','日','时'];
+// 天干喜忌数据
+const GAN_XIJI=[
+  {g:'甲',st:'活',xi:'水·火',ji:'金',xi_exp:'水滋根，火发荣（木火通明）',ji_exp:'金克伤根，根断则死'},
+  {g:'甲',st:'死',xi:'金',ji:'水·火',xi_exp:'金雕成材，甲见庚方成器',ji_exp:'水腐烂根，火焚成灰'},
+  {g:'乙',st:'活',xi:'癸·丙·己',ji:'庚·水多',xi_exp:'癸雨露滋润，丙阳光照耀，己润土培根',ji_exp:'庚金斫伐，水多浮木乙死'},
+  {g:'乙',st:'死',xi:'金',ji:'水·火',xi_exp:'加工成器，可借甲根而活',ji_exp:'水腐，火焚'},
+  {g:'丙',st:'虚',xi:'壬水',ji:'癸·辛',xi_exp:'壬丙冲，光映江河，名气四射',ji_exp:'癸水雾云遮日；辛金丙辛合降格'},
+  {g:'丙',st:'实',xi:'木·比劫',ji:'坏根',xi_exp:'木为燃料，火越旺越好',ji_exp:'根损则火熄，人伤降格'},
+  {g:'丁',st:'虚',xi:'壬水',ji:'失时失局',xi_exp:'丁壬合，控壬水，展现权威与控制力',ji_exp:'无木无根则烟消云散'},
+  {g:'丁',st:'实',xi:'木·比劫',ji:'坏根',xi_exp:'乙木为油脂，甲木引火',ji_exp:'根损火熄，势败'},
+  {g:'戊',st:'',xi:'甲木·庚辛金',ji:'火生',xi_exp:'甲疏大地，庚辛泄秀显贵（戊见甲寅发大财）',ji_exp:'土厚再生则燥烈难用，冬月须火调候除外'},
+  {g:'己',st:'',xi:'乙木·辛金',ji:'火生·庚重',xi_exp:'乙木细疏田土，辛金泄秀细腻',ji_exp:'火生土裂，庚金泄过度伤本体'},
+  {g:'庚',st:'',xi:'丁火·水泄',ji:'土埋·木克',xi_exp:'丁火锻造成器，水泄金清则秀贵',ji_exp:'土重埋没，木克薄金伤身'},
+  {g:'辛',st:'',xi:'丙火·癸水',ji:'火炎·土重',xi_exp:'丙照玉贵，癸润锋芒现',ji_exp:'火炎过炼失用，土重埋宝'},
+  {g:'壬',st:'虚',xi:'庚·甲·戊',ji:'无特别大忌',xi_exp:'庚生源，甲止泛，戊约束导流',ji_exp:'虚水逍遥较灵活'},
+  {g:'壬',st:'实',xi:'金生·比劫',ji:'燥土坏根',xi_exp:'众流汇海，源源不竭',ji_exp:'戊/未燥土断水之源'},
+  {g:'癸',st:'虚',xi:'辛·乙',ji:'无特别大忌',xi_exp:'辛金细源，乙木润花草相得益彰',ji_exp:'虚水逍遥灵活'},
+  {g:'癸',st:'实',xi:'金生·比劫',ji:'燥土坏根',xi_exp:'金生旺水源源流淌',ji_exp:'根损则水竭'},
+];
+const GAN_XI_VALS=['水·火','金','癸·丙·己','庚·水多','壬水','癸·辛','木·比劫','坏根','甲木·庚辛金','火生','乙木·辛金','火生·庚重','丁火·水泄','土埋·木克','丙火·癸水','火炎·土重','庚·甲·戊','无特别大忌','金生·比劫','燥土坏根','辛·乙','失时失局'];
+const GAN_JI_VALS=['金','水·火','庚·水多','癸·辛','坏根','失时失局','火生','火生·庚重','土埋·木克','火炎·土重','无特别大忌','燥土坏根'];
+// 宫位大限数据
+const GONGWEI_DATA=[
+  {gw:'年柱',dx:'0-18岁',lq:'祖上·长辈'},
+  {gw:'月柱',dx:'18-36岁',lq:'父母·兄弟'},
+  {gw:'日柱',dx:'36-54岁',lq:'自己·配偶'},
+  {gw:'时柱',dx:'54岁后',lq:'子女·晚辈'},
+];
+const GONGWEI_DX=['0-18岁','18-36岁','36-54岁','54岁后'];
+const GONGWEI_LQ=['祖上·长辈','父母·兄弟','自己·配偶','子女·晚辈'];
+// 十神义象数据
+const SHEN_YI_DATA=[
+  {shen:'比劫',rel:'同我',lq:'兄弟·朋友'},
+  {shen:'食伤',rel:'我生',lq:'子女·学生'},
+  {shen:'财星',rel:'我克',lq:'父亲·妻缘'},
+  {shen:'官杀',rel:'克我',lq:'丈夫·领导'},
+  {shen:'印星',rel:'生我',lq:'母亲·长辈'},
+];
+const SHEN_REL_OPTS=['同我','我生','我克','克我','生我'];
+const SHEN_LQ_OPTS=['兄弟·朋友','子女·学生','父亲·妻缘','丈夫·领导','母亲·长辈'];
 const DAILY_QUOTES=[
   '滴水穿石，非一日之功；积学成才，非一时之功。',
   '不怕慢，只怕站；一步一步，终至远方。',
@@ -3070,16 +3110,17 @@ function poolForCat(cat){
   return ZHI;
 }
 
-const QUOTA={tf_rel:4,wx:3,chong:2,tghe:2,liuhe:2,tong:3,shen:3,sanhe:3,sanhetype:2,xing3:2,po:2,zixing:1,xushi:3,xushi2:2,nayin:3,anhe:2,zihe:2,wxs:2,wxk:2,lqs:2,lqk:2,tdyy:3,shichen:2,ganzang:2,zhizang:2,ws12:5,ws_zhi:3,yuejian:3,wxsys:2,jieqi:3,cang:3,cang_bq:3,cang_zq:2,cang_yq:2};
+const QUOTA={tf_rel:4,wx:3,chong:2,tghe:2,liuhe:2,tong:3,shen:3,sanhe:3,sanhetype:2,xing3:2,po:2,zixing:1,xushi:3,xushi2:2,nayin:3,anhe:2,zihe:2,wxs:2,wxk:2,lqs:2,lqk:2,tdyy:3,shichen:2,ganzang:2,zhizang:2,ws12:5,ws_zhi:3,yuejian:3,wxsys:2,jieqi:3,cang:3,cang_bq:3,cang_zq:2,cang_yq:2,gan_xi:3,gongwei:2,shen_yi:2,duanming:2};
 const CSEL_GROUPS=[
   {lbl:'🧭 五行基础', cats:['wx','tdyy','wxsys']},
   {lbl:'✅ 判断题', cats:['tf_rel']},
   {lbl:'🌀 地支关系', cats:['chong','liuhe','anhe','sanhe','sanhetype','xing3','po','zixing','cang','cang_bq','cang_zq','cang_yq']},
-  {lbl:'☰ 天干关系', cats:['tghe','tong','zihe','shen']},
+  {lbl:'☰ 天干关系', cats:['tghe','tong','zihe','shen','gan_xi']},
   {lbl:'⚡ 生克关系', cats:['wxs','wxk','lqs','lqk']},
   {lbl:'🔄 旺衰运势', cats:['ws12','ws_zhi']},
   {lbl:'⚖ 虚实纳音', cats:['xushi','xushi2','nayin']},
   {lbl:'🕐 时辰历法', cats:['shichen','ganzang','zhizang','yuejian','jieqi']},
+  {lbl:'🔮 命理体系', cats:['shen_yi','gongwei','duanming']},
 ];
 let CUSTOM_CATS=new Set(JSON.parse(localStorage.getItem('bazi_custom_cats')||'[]'));
 
@@ -3197,6 +3238,30 @@ function buildPool(rng){
   for(const z of ZHI_HAS_ZQ){const c=ZHI_SANQI[z].中气;qs.push({cat:'cang_zq',main:[z],qt:'该地支的<b>中气</b>天干是？',correct:c,opts:mkOpts(rng,c,GAN),exp:`${z}中气＝${c}`});}
   // 三气·余气
   for(const z of ZHI_HAS_YQ){const c=ZHI_SANQI[z].余气;qs.push({cat:'cang_yq',main:[z],qt:'该地支的<b>余气</b>天干是？',correct:c,opts:mkOpts(rng,c,GAN),exp:`${z}余气＝${c}`});}
+  // 天干喜忌（喜用 + 最忌，各16题共32题）
+  for(const d of GAN_XIJI){
+    const key=d.st?`${d.g}（${d.st}）`:d.g;
+    const ma=d.st?[d.g,d.st]:[d.g];
+    qs.push({cat:'gan_xi',main:ma,qt:`${key}，<b>喜用</b>什么？`,correct:d.xi,opts:mkOpts(rng,d.xi,GAN_XI_VALS),exp:`${key}喜${d.xi}：${d.xi_exp}`});
+    qs.push({cat:'gan_xi',main:ma,qt:`${key}，<b>最忌</b>什么？`,correct:d.ji,opts:mkOpts(rng,d.ji,GAN_JI_VALS),exp:`${key}忌${d.ji}：${d.ji_exp}`});
+  }
+  // 宫位大限（年段 + 六亲，各4题共8题）
+  for(const d of GONGWEI_DATA){
+    qs.push({cat:'gongwei',main:[d.gw],qt:`<b>${d.gw}</b>对应哪个大限年段？`,correct:d.dx,opts:shuffle(rng,GONGWEI_DX),exp:`${d.gw}大限：${d.dx}`});
+    qs.push({cat:'gongwei',main:[d.gw],qt:`<b>${d.gw}</b>主管哪方面六亲？`,correct:d.lq,opts:shuffle(rng,GONGWEI_LQ),exp:`${d.gw}→${d.lq}`});
+  }
+  // 十神义象（与日主关系 + 六亲，各5题共10题）
+  for(const d of SHEN_YI_DATA){
+    qs.push({cat:'shen_yi',main:[d.shen],qt:`<b>${d.shen}</b>与日主的关系是？`,correct:d.rel,opts:shuffle(rng,SHEN_REL_OPTS),exp:`${d.shen}→${d.rel}`});
+    qs.push({cat:'shen_yi',main:[d.shen],qt:`<b>${d.shen}</b>六亲常用象是？`,correct:d.lq,opts:mkOpts(rng,d.lq,SHEN_LQ_OPTS),exp:`${d.shen}→${d.lq}`});
+  }
+  // 断命步骤（正向 + 反向，各8题共16题）
+  const dm_vals=Object.values(DUANMING_STEPS);
+  for(const k of DUANMING_KEYS){
+    const c=DUANMING_STEPS[k];
+    qs.push({cat:'duanming',main:[k],qt:`断命<b>${k}</b>是？`,correct:c,opts:mkOpts(rng,c,dm_vals),exp:`断命${k}→${c}`});
+    qs.push({cat:'duanming',main:[c],qt:`"${c}"是断命第几步？`,correct:k,opts:mkOpts(rng,k,DUANMING_KEYS),exp:`${k}→${c}`});
+  }
   return qs;
 }
 function selectQs(seed){
