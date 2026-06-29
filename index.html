@@ -2775,8 +2775,8 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
       <button class="btn btn-d" style="flex:1;font-size:13px" onclick="showPlanCreate(false)">＋ 新建</button>
     </div>
     <button class="btn btn-d" style="margin-top:8px;font-size:12px;color:#475569" onclick="confirmCompletePlan()">归档此计划 →</button>
-    <div id="plan-history" style="margin-top:16px"></div>
   </div>
+  <div id="plan-history" style="margin-top:16px"></div>
 </div>
 
 <!-- 学习计划·新建/编辑 -->
@@ -5280,6 +5280,7 @@ function showPlan(){
   if(!pd.current){
     empty.style.display='';dash.style.display='none';
     document.getElementById('plan-topbar-r').textContent='';
+    _renderPlanHistory(pd.history);
     show('p-plan');return;
   }
   empty.style.display='none';dash.style.display='';
