@@ -3545,7 +3545,7 @@ function initHome(){
     if(pd.current){
       const days=planDaysSince(pd.current.createdAt);
       const pcs=getCatStats();
-      const reached=pd.current.cats.filter(c=>{const s=pcs[c];const snap=pd.current.snapshots?.[c];return s&&s.a>(snap?.a||0)&&Math.round((s.a-s.e)/s.a*100)>=pd.current.targetRate;}).length;
+      const reached=pd.current.cats.filter(c=>{const s=pcs[c];const snap=pd.current.snapshots?.[c];const{newTotal,newAcc}=planCatStat(s,snap);return newTotal>=PLAN_MIN_QS&&newAcc>=pd.current.targetRate;}).length;
       planSub.textContent=`${pd.current.name} · 第${days}天 · 达标 ${reached}/${pd.current.cats.length}`;
     } else {
       planSub.textContent='制定重点知识点 · 追踪进步效果';
@@ -3884,31 +3884,36 @@ function m1End(){
       const catData=plan.cats.map(cat=>{
         const s=cs[cat];
         const snap=plan.snapshots?.[cat];
-        const overall=(s&&s.a>=3)?Math.round((s.a-s.e)/s.a*100):null;
+        const{newTotal,newAcc}=planCatStat(s,snap);
         const ss=sessSt[cat];
-        const atTarget=overall!==null&&overall>=plan.targetRate&&s.a>(snap?.a||0);
+        const atTarget=newTotal>=PLAN_MIN_QS&&newAcc>=plan.targetRate;
         if(atTarget)reachedNow++;
-        return{cat,overall,ss,atTarget};
+        return{cat,newTotal,newAcc,ss,atTarget};
       });
-      const rows=catData.map(({cat,overall,ss,atTarget})=>{
+      const rows=catData.map(({cat,newTotal,newAcc,ss,atTarget})=>{
         const sessHtml=ss?`本局 ${ss.ok}/${ss.tot}`:'未出题';
-        const col=atTarget?'#34d399':ss?'#94a3b8':'#475569';
-        const ico=atTarget?'✅':'🔘';
-        return `<div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid #1e293b">
-          <span style="color:${col};font-size:13px">${ico} ${CAT_NAME[cat]||cat}</span>
-          <span style="font-size:12px;color:#64748b">${sessHtml} · 整体 ${overall!==null?overall+'%':'--'}</span>
+        const planHtml=newTotal>0?(newTotal<PLAN_MIN_QS?`计划内${newTotal}题（还需${PLAN_MIN_QS-newTotal}）`:`计划内${newTotal}题·${newAcc}%`):'计划内0题';
+        const col=atTarget?'#34d399':newTotal>=PLAN_MIN_QS?'#f97316':ss?'#94a3b8':'#475569';
+        const ico=atTarget?'✅':newTotal>=PLAN_MIN_QS?'🟡':'🔘';
+        return `<div style="padding:6px 0;border-bottom:1px solid #1e293b">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="color:${col};font-size:13px">${ico} ${CAT_NAME[cat]||cat}</span>
+            <span style="font-size:12px;color:#64748b">${sessHtml}</span>
+          </div>
+          <div style="font-size:11px;color:#475569;margin-top:2px">${planHtml}</div>
         </div>`;
       }).join('');
       planResEl.innerHTML=`<div class="card" style="margin-bottom:8px">
-        <div style="font-size:11px;color:#475569;margin-bottom:8px;letter-spacing:1px">📋 计划进度</div>
+        <div style="font-size:11px;color:#475569;margin-bottom:8px;letter-spacing:1px">📋 计划进度（达标需计划内答满${PLAN_MIN_QS}题）</div>
         ${rows}
         <div style="margin-top:8px;font-size:13px;color:#10b981;font-weight:bold">已达标 ${reachedNow}/${plan.cats.length} 项（目标 ${plan.targetRate}%）</div>
       </div>`;
       planResEl.style.display='';
-      planShareLines=`\n📋 ${plan.name}（目标 ${plan.targetRate}%）\n`
-        +catData.map(({cat,overall,ss,atTarget})=>{
+      planShareLines=`\n📋 ${plan.name}（目标 ${plan.targetRate}%，需满${PLAN_MIN_QS}题）\n`
+        +catData.map(({cat,newTotal,newAcc,ss,atTarget})=>{
           const sessStr=ss?`本局${ss.ok}/${ss.tot} · `:'';
-          return`${atTarget?'✅':'🔘'} ${CAT_NAME[cat]||cat}：${sessStr}整体 ${overall!==null?overall+'%':'--'}`;
+          const planStr=newTotal>=PLAN_MIN_QS?`计划内${newAcc}%`:`计划内${newTotal}题`;
+          return`${atTarget?'✅':'🔘'} ${CAT_NAME[cat]||cat}：${sessStr}${planStr}`;
         }).join('\n')
         +`\n已达标 ${reachedNow}/${plan.cats.length} 项`;
     }else{planResEl.style.display='none';planBackBtn.style.display='none';}
@@ -5259,6 +5264,14 @@ const PLAN_KEY='bazi_plan';
 function getPlanData(){try{return JSON.parse(localStorage.getItem(PLAN_KEY)||'{"current":null,"history":[]}')}catch{return{current:null,history:[]}}}
 function savePlanData(d){localStorage.setItem(PLAN_KEY,JSON.stringify(d))}
 function planDaysSince(dateStr){const s=new Date(dateStr),n=new Date(todayStr());return Math.max(0,Math.floor((n-s)/86400000))}
+const PLAN_MIN_QS=15;
+function planCatStat(s,snap){
+  const snapA=snap?.a||0,snapC=snap?.c||0;
+  const newTotal=s?s.a-snapA:0;
+  const newOk=s?(s.a-s.e)-(snapA-snapC):0;
+  const newAcc=newTotal>0?Math.round(newOk/newTotal*100):null;
+  return{newTotal,newOk,newAcc};
+}
 
 function showPlan(){
   const pd=getPlanData();
@@ -5280,21 +5293,25 @@ function showPlan(){
   const listEl=document.getElementById('plan-cats-list');
   listEl.innerHTML=plan.cats.map(cat=>{
     const s=cs[cat];
-    const cur=(s&&s.a>=3)?Math.round((s.a-s.e)/s.a*100):null;
     const snap=plan.snapshots[cat];
-    const init=(snap&&snap.a>=3&&snap.c!=null)?Math.round(snap.c/snap.a*100):null;
+    const{newTotal,newAcc}=planCatStat(s,snap);
     const tgt=plan.targetRate;
     let badge,barColor,barW;
-    const practicedInPlan=s&&s.a>(snap?.a||0);
-    if(cur===null||!practicedInPlan){badge=`<span class="plan-badge plan-badge-none">未练习</span>`;barColor='#334155';barW=0;}
-    else if(cur>=tgt){reached++;badge=`<span class="plan-badge plan-badge-ok">✓ 达标</span>`;barColor='#10b981';barW=cur;}
-    else{badge=`<span class="plan-badge plan-badge-wip">进行中</span>`;barColor='#3b82f6';barW=cur;}
-    const delta=(cur!==null&&init!==null)?cur-init:null;
-    const deltaHtml=delta!==null?`<span style="color:${delta>=0?'#6ee7b7':'#f87171'};font-size:11px">${delta>=0?'+':''}${delta}%</span>`:'';
+    if(newTotal===0){
+      badge=`<span class="plan-badge plan-badge-none">未开始</span>`;barColor='#334155';barW=0;
+    }else if(newTotal<PLAN_MIN_QS){
+      badge=`<span class="plan-badge plan-badge-wip">练习中 · 还需${PLAN_MIN_QS-newTotal}题</span>`;barColor='#3b82f6';barW=newAcc||0;
+    }else if(newAcc>=tgt){
+      reached++;badge=`<span class="plan-badge plan-badge-ok">✓ 达标</span>`;barColor='#10b981';barW=newAcc;
+    }else{
+      badge=`<span class="plan-badge plan-badge-wip">继续加油</span>`;barColor='#f97316';barW=newAcc;
+    }
+    const metaL=newTotal>0?`计划内已答 ${newTotal} 题`:'计划期间尚未答题';
+    const metaR=newAcc!==null?`正确率 ${newAcc}% · 目标 ${tgt}%`:`目标 ${tgt}%`;
     return `<div class="plan-cat-item">
-      <div class="plan-cat-name-row"><span>${CAT_NAME[cat]||cat}</span><span style="display:flex;align-items:center;gap:5px">${deltaHtml}${badge}</span></div>
+      <div class="plan-cat-name-row"><span>${CAT_NAME[cat]||cat}</span>${badge}</div>
       <div class="plan-cat-bar-bg"><div class="plan-cat-bar-fill" style="width:${Math.min(barW,100)}%;background:${barColor}"></div></div>
-      <div class="plan-cat-meta"><span>${init!==null?'初始 '+init+'%':'初始无数据'}</span><span>当前 ${cur!==null?cur+'%':'--'} / 目标 ${tgt}%</span></div>
+      <div class="plan-cat-meta"><span>${metaL}</span><span>${metaR}</span></div>
     </div>`;
   }).join('');
   const total=plan.cats.length;
@@ -5536,10 +5553,10 @@ function startPBQuiz(){
   const rng2=mkRng(Math.random()*0x100000000>>>0);
   const qs=genPBQs(c.b,rng2).slice(0,M1_COUNT);
   if(!qs.length){toast('暂无题目');return;}
-  Object.assign(G1,{qs,cur:0,score:0,streak:0,maxCombo:0,correct:0,t0:Date.now(),qt0:0,timer:null,answered:false,results:[],mode:'pb-quiz',timed:true,wrongQs:[],pbBazi:c.b,pbCaseName:c.n});
+  Object.assign(G1,{qs,cur:0,score:0,streak:0,maxCombo:0,correct:0,t0:Date.now(),qt0:0,timer:null,answered:false,results:[],mode:'pb-quiz',timed:false,wrongQs:[],pbBazi:c.b,pbCaseName:c.n});
   document.getElementById('m1-lbl').textContent='排盘看题 🔎';
-  document.getElementById('el-nt-badge').style.display='none';
-  document.getElementById('el-tbar-t').style.opacity='1';
+  document.getElementById('el-nt-badge').style.display='';
+  document.getElementById('el-tbar-t').style.opacity='0';
   document.getElementById('el-pb-header').style.display='';
   renderPBDisplay(c.b,c.n);
   show('p1g');m1Next();
