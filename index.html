@@ -543,6 +543,9 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   <!-- 学习计划 -->
   <div class="mcard" onclick="showPlan()" style="cursor:pointer">
     <div class="mcard-head"><div class="mcard-icon">🎯</div><div style="flex:1"><div class="mcard-name">学习计划</div><div class="mcard-desc" id="el-plan-sub">制定重点知识点 · 追踪进步效果</div></div><div style="color:#475569;font-size:18px">›</div></div>
+    <div style="margin:0 -15px -13px;background:linear-gradient(90deg,#1a1000,#2e1e00,#1a1000);border-radius:0 0 14px 14px;padding:6px 15px;text-align:center;border-top:1px solid #3d2800">
+      <span style="font-size:11px;color:#fbbf24;font-weight:bold;letter-spacing:1.5px;text-shadow:0 0 10px rgba(251,191,36,.35)">✦ 你与大师，就差一个计划 ✦</span>
+    </div>
   </div>
   <!-- 查阅学习 -->
   <div class="mcard">
@@ -3493,7 +3496,7 @@ function renderM5Nayin(el){
   el.innerHTML=h+'</tbody></table>';el.dataset.r='1';
 }
 function renderM5Shuma(el){
-  const ent=Object.entries(SHUMA_MAP);
+  const ent=Object.entries(SHUMA_MAP).sort((a,b)=>a[0]<b[0]?-1:1);
   let h='<table class="m5-tbl"><thead><tr><th>码</th><th style="text-align:left">图像</th><th>码</th><th style="text-align:left">图像</th><th>码</th><th style="text-align:left">图像</th><th>码</th><th style="text-align:left">图像</th></tr></thead><tbody>';
   for(let i=0;i<ent.length;i+=4){
     h+='<tr>';
