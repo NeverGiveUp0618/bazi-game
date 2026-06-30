@@ -1155,7 +1155,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
             <tr><td class="c-zhi">辰</td><td class="c-bq">戊土</td><td style="color:#f59e0b">乙木</td><td style="color:#94a3b8">癸水</td></tr>
             <tr><td class="c-zhi">巳</td><td class="c-bq">丙火</td><td style="color:#f59e0b">庚金</td><td style="color:#94a3b8">戊土</td></tr>
             <tr><td class="c-zhi">午</td><td class="c-bq">丁火</td><td style="color:#f59e0b">己土</td><td class="c-xu">—</td></tr>
-            <tr><td class="c-zhi">未</td><td class="c-bq">己土</td><td style="color:#f59e0b">乙木</td><td style="color:#94a3b8">丁火</td></tr>
+            <tr><td class="c-zhi">未</td><td class="c-bq">己土</td><td style="color:#f59e0b">丁火</td><td style="color:#94a3b8">乙木</td></tr>
             <tr><td class="c-zhi">申</td><td class="c-bq">庚金</td><td style="color:#f59e0b">壬水</td><td style="color:#94a3b8">戊土</td></tr>
             <tr><td class="c-zhi">酉</td><td class="c-bq">辛金</td><td class="c-xu">—</td><td class="c-xu">—</td></tr>
             <tr><td class="c-zhi">戌</td><td class="c-bq">戊土</td><td style="color:#f59e0b">辛金</td><td style="color:#94a3b8">丁火</td></tr>
@@ -1204,21 +1204,21 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 
         <!-- 四墓库 -->
         <div style="background:#181208;border:1px solid #352810;border-radius:8px;padding:9px 11px;margin-bottom:4px">
-          <div style="font-size:11px;font-weight:bold;color:#f59e0b;margin-bottom:6px;letter-spacing:.5px">③ 四墓库（丑 辰 未 戌）— 本气皆土，辰未乙同·未戌丁同</div>
+          <div style="font-size:11px;font-weight:bold;color:#f59e0b;margin-bottom:6px;letter-spacing:.5px">③ 四墓库（丑 辰 未 戌）— 本气皆土，中气水木火金循环</div>
           <div class="m5-wrap" style="margin:0 0 6px">
             <table class="m5-tbl" style="width:100%">
               <tr><th>地支</th><th style="color:#10b981">本气</th><th style="color:#f59e0b">中气</th><th style="color:#94a3b8">余气</th></tr>
               <tr><td class="c-zhi">丑</td><td class="c-bq">己</td><td style="color:#f59e0b">癸</td><td style="color:#94a3b8">辛</td></tr>
               <tr><td class="c-zhi">辰</td><td class="c-bq">戊</td><td style="color:#f59e0b">乙</td><td style="color:#94a3b8">癸</td></tr>
-              <tr><td class="c-zhi">未</td><td class="c-bq">己</td><td style="color:#f59e0b">乙</td><td style="color:#94a3b8">丁</td></tr>
+              <tr><td class="c-zhi">未</td><td class="c-bq">己</td><td style="color:#f59e0b">丁</td><td style="color:#94a3b8">乙</td></tr>
               <tr><td class="c-zhi">戌</td><td class="c-bq">戊</td><td style="color:#f59e0b">辛</td><td style="color:#94a3b8">丁</td></tr>
             </table>
           </div>
           <div style="font-size:10px;color:#475569;border-top:1px solid #1e293b;padding-top:5px;line-height:1.9">
             💡 <b style="color:#64748b">本气规律</b>：全是土！丑未 = 己土（阴），辰戌 = 戊土（阳）<br>
-            💡 <b style="color:#64748b">中气规律</b>：丑=癸水 · 辰未=乙木（同）· 戌=辛金<br>
-            💡 <b style="color:#64748b">余气规律</b>：丑=辛金 · 辰=癸水 · 未戌=丁火（同）<br>
-            💡 <b style="color:#64748b">终极口诀</b>：<span style="color:#f59e0b">「丑癸辛 · 辰乙癸 · 未乙丁 · 戌辛丁」（中气在前，余气在后）</span>
+            💡 <b style="color:#64748b">中气规律</b>：丑=癸水·辰=乙木·未=丁火·戌=辛金，水→木→火→金 阴干循环！<br>
+            💡 <b style="color:#64748b">余气规律</b>：每库余气＝前一库中气（辰余癸=丑中·未余乙=辰中·戌余丁=未中·丑余辛=戌中）<br>
+            💡 <b style="color:#64748b">终极口诀</b>：<span style="color:#f59e0b">「丑癸辛 · 辰乙癸 · 未丁乙 · 戌辛丁」（中气在前，余气在后）</span>
           </div>
         </div>
 
@@ -2918,7 +2918,7 @@ const SHICHEN_TIMES=['23-1时','1-3时','3-5时','5-7时','7-9时','9-11时','11
 const GAN_ZANG={甲:'胆',乙:'肝',丙:'小肠',丁:'心',戊:'胃',己:'脾',庚:'大肠',辛:'肺',壬:'膀胱',癸:'肾'};
 const ZHI_ZANG={子:'胆',丑:'肝',寅:'肺',卯:'大肠',辰:'胃',巳:'脾',午:'心',未:'小肠',申:'膀胱',酉:'肾',戌:'心包',亥:'三焦'};
 const ZANG12=['胆','肝','肺','大肠','胃','脾','心','小肠','膀胱','肾','心包','三焦'];
-const ZHI_CANG={子:['癸'],丑:['己','癸','辛'],寅:['甲','丙','戊'],卯:['乙'],辰:['戊','乙','癸'],巳:['丙','庚','戊'],午:['丁','己'],未:['己','乙','丁'],申:['庚','壬','戊'],酉:['辛'],戌:['戊','辛','丁'],亥:['壬','甲']};
+const ZHI_CANG={子:['癸'],丑:['己','癸','辛'],寅:['甲','丙','戊'],卯:['乙'],辰:['戊','乙','癸'],巳:['丙','庚','戊'],午:['丁','己'],未:['己','丁','乙'],申:['庚','壬','戊'],酉:['辛'],戌:['戊','辛','丁'],亥:['壬','甲']};
 const ZHI_CANG_STR=Object.fromEntries(ZHI.map(z=>[z,ZHI_CANG[z].join('')]));
 const CANG_STRS=ZHI.map(z=>ZHI_CANG_STR[z]);
 const ZHI_SANQI={
@@ -2929,7 +2929,7 @@ const ZHI_SANQI={
   辰:{本气:'戊',中气:'乙',余气:'癸'},
   巳:{本气:'丙',中气:'庚',余气:'戊'},
   午:{本气:'丁',中气:'己'},
-  未:{本气:'己',中气:'乙',余气:'丁'},
+  未:{本气:'己',中气:'丁',余气:'乙'},
   申:{本气:'庚',中气:'壬',余气:'戊'},
   酉:{本气:'辛'},
   戌:{本气:'戊',中气:'辛',余气:'丁'},
