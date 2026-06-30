@@ -1041,10 +1041,10 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
           <thead><tr><th>合对</th><th>类型</th></tr></thead>
           <tr><td><span class="c-zhi">子</span>＋<span class="c-zhi">丑</span></td><td class="c-xu">克合</td></tr>
           <tr><td><span class="c-zhi">寅</span>＋<span class="c-zhi">亥</span></td><td class="c-he">生合</td></tr>
-          <tr><td><span class="c-zhi">卯</span>＋<span class="c-zhi">戌</span></td><td class="c-he">生合</td></tr>
+          <tr><td><span class="c-zhi">卯</span>＋<span class="c-zhi">戌</span></td><td class="c-xu">克合</td></tr>
           <tr><td><span class="c-zhi">辰</span>＋<span class="c-zhi">酉</span></td><td class="c-he">生合</td></tr>
           <tr><td><span class="c-zhi">巳</span>＋<span class="c-zhi">申</span></td><td class="c-xu">克合</td></tr>
-          <tr><td><span class="c-zhi">午</span>＋<span class="c-zhi">未</span></td><td class="c-xu">克合</td></tr>
+          <tr><td><span class="c-zhi">午</span>＋<span class="c-zhi">未</span></td><td class="c-he">生合</td></tr>
         </table></div>
         <div class="m5-sub">暗合</div>
         <div class="m5-wrap"><table class="m5-tbl">
@@ -2918,7 +2918,7 @@ const SHICHEN_TIMES=['23-1时','1-3时','3-5时','5-7时','7-9时','9-11时','11
 const GAN_ZANG={甲:'胆',乙:'肝',丙:'小肠',丁:'心',戊:'胃',己:'脾',庚:'大肠',辛:'肺',壬:'膀胱',癸:'肾'};
 const ZHI_ZANG={子:'胆',丑:'肝',寅:'肺',卯:'大肠',辰:'胃',巳:'脾',午:'心',未:'小肠',申:'膀胱',酉:'肾',戌:'心包',亥:'三焦'};
 const ZANG12=['胆','肝','肺','大肠','胃','脾','心','小肠','膀胱','肾','心包','三焦'];
-const ZHI_CANG={子:['癸'],丑:['己','癸','辛'],寅:['丙','戊','甲'],卯:['乙'],辰:['癸','戊','乙'],巳:['丙','戊','庚'],午:['丁','己'],未:['乙','丁','己'],申:['戊','壬','庚'],酉:['辛'],戌:['戊','辛','丁'],亥:['甲','壬']};
+const ZHI_CANG={子:['癸'],丑:['己','癸','辛'],寅:['甲','丙','戊'],卯:['乙'],辰:['戊','乙','癸'],巳:['丙','庚','戊'],午:['丁','己'],未:['己','乙','丁'],申:['庚','壬','戊'],酉:['辛'],戌:['戊','辛','丁'],亥:['壬','甲']};
 const ZHI_CANG_STR=Object.fromEntries(ZHI.map(z=>[z,ZHI_CANG[z].join('')]));
 const CANG_STRS=ZHI.map(z=>ZHI_CANG_STR[z]);
 const ZHI_SANQI={
