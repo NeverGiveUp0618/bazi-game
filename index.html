@@ -622,6 +622,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   <div class="card" style="margin-bottom:9px">
     <div class="hhist">开发时间节点</div>
     <div style="max-height:130px;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:6px;margin-top:2px;padding-right:2px">
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.7.3</span><span style="color:#94a3b8;font-size:12px">🌲 死活木判定专题——速查含口诀·根水细则·两条排斥规则·木之五法·喜忌对照；题库新增「死活木」知识点(21题)</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.6.30</span><span style="color:#94a3b8;font-size:12px">🔍 知识点全面审查——修正六合类型互换(卯戌/午未)·藏干顺序·统一破/刑体系(子卯归破·去六破)</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.29</span><span style="color:#94a3b8;font-size:12px">🏠 首页重构——6张紧凑卡片，配对/推算/甲子/象意合入专项练习，速查/歌诀/逻辑合入查阅</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.29</span><span style="color:#94a3b8;font-size:12px">🎯 学习计划优化——无计时模式·达标逻辑修正（必须计划期间答题）·编辑计划</span></div>
@@ -1525,6 +1526,75 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
               <td style="text-align:left"><span class="c-chong">燥土坏根</span><br><span style="font-size:10px;color:#64748b">根损则水竭</span></td>
             </tr>
           </table></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 甲乙木死活木判定（专题） -->
+    <div class="m5-sec">
+      <button class="m5-tog" onclick="m5Toggle(this)">▶ 🌲 甲乙木·死活木判定</button>
+      <div class="m5-body" style="display:none">
+
+        <div style="font-size:10px;color:#f59e0b;padding:2px 4px 6px;line-height:1.8">💡 甲乙木死活是实战「分水岭」：状态判错则喜忌全反、满盘皆错。活木≠吉、死木≠凶，只是两种自然状态。</div>
+
+        <div class="m5-sub">判定口诀</div>
+        <div style="background:#0f172a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;font-size:12px;line-height:2.2;color:#94a3b8">
+          <div>🌱 <span style="color:#34d399">有水有根为活木，无根无水死木推；</span></div>
+          <div style="padding-left:20px"><span style="color:#34d399">死活难分看周围，接应干支定乾坤。</span></div>
+          <div>🔎 <span style="color:#f59e0b">先找根、后找水：无根直接死木（不必看水）；有根再查水，有水活、无水死。</span></div>
+          <div>📍 <span style="color:#93c5fd">根只在地支（扎根大地），水可在天干或地支（天降甘霖·江河湖海）。</span></div>
+          <div>⚖ <span style="color:#c4b5fd">活木喜水火·怕金坏根；死木喜金雕琢·忌水火（状态不同，喜忌全反）。</span></div>
+        </div>
+
+        <div class="m5-sub">「根」与「水」细则</div>
+        <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+          <thead><tr><th>类型</th><th>取用</th><th style="text-align:left;min-width:180px">说明</th></tr></thead>
+          <tr><td class="c-he">本气直根</td><td class="c-gan">寅·卯</td><td style="text-align:left">见即有根（甲寅/乙卯有根缺直水，需他柱配合）</td></tr>
+          <tr><td class="c-he">藏干余根</td><td class="c-gan">亥·辰·未</td><td style="text-align:left">亥藏甲、辰藏乙、未藏乙；需结合干支判断</td></tr>
+          <tr><td class="c-he" style="color:#34d399">直接活木柱</td><td class="c-gan" style="color:#34d399">甲辰·乙亥</td><td style="text-align:left">六十甲子中仅此两柱自带根＋水，见之直接论活木</td></tr>
+          <tr><td class="c-chong" style="color:#fbbf24">特殊有根柱</td><td class="c-gan">乙未</td><td style="text-align:left">有根无水，需他柱见水方活，否则死木</td></tr>
+          <tr><td class="c-he">水之源</td><td class="c-gan">壬癸·亥子</td><td style="text-align:left">以「明水」为准；藏干余气水（丑癸/申壬）力微，常规不看</td></tr>
+        </table></div>
+
+        <div class="m5-sub" style="margin-top:8px">两条「排斥」规则（高频考点·有水也判死木）</div>
+        <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+          <thead><tr><th>组合</th><th>作用</th><th style="text-align:left;min-width:150px">核心逻辑</th><th style="text-align:left;min-width:140px">判定</th></tr></thead>
+          <tr><td class="c-gan">乙未 ＋ 子</td><td class="c-chong">未子相穿</td><td style="text-align:left">斥水之生：子不生未</td><td style="text-align:left">仅见子→死木；另见壬/癸/亥→活木</td></tr>
+          <tr><td class="c-gan">乙卯 ＋ 子</td><td class="c-chong">子卯相破</td><td style="text-align:left">纯则不生：四正旺气至纯，子破卯</td><td style="text-align:left">仅见子→死木；另见壬/癸/亥→活木；<span style="color:#ef4444">双子/多子亦不破此规，仍死木</span></td></tr>
+        </table></div>
+
+        <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 🔗 木之五法（连根·借根）</button>
+        <div class="m5-sub-body" style="display:none">
+          <div style="font-size:10px;color:#64748b;padding:2px 4px 6px;line-height:1.8">场景：根不在坐下（多在月/时柱），判远根能否「连」上日干。找根顺序：日支→月时支→年支；隔柱需通关引通之神。优先级：水接＞火引/土组/借根，遇金挡则断。</div>
+          <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+            <thead><tr><th>技法</th><th>条件</th><th style="text-align:left;min-width:190px">逻辑与要点</th></tr></thead>
+            <tr><td class="c-he" style="color:#34d399">水接活木</td><td>壬癸水同生日干与远根</td><td style="text-align:left">架「水桥」，水气相连直接构成活木（优先级最高）</td></tr>
+            <tr><td class="c-he">火引连根</td><td>地支藏木＋天干透火引通</td><td style="text-align:left">甲寅生丙午，火聚木气引连；<span style="color:#fbbf24">仅连根不定死活，仍须再查水</span></td></tr>
+            <tr><td class="c-chong">金挡断根</td><td>日干与远根间见金（庚/申）</td><td style="text-align:left">金克木阻断，根被挡克不可用；<span style="color:#ef4444">即便见水也是「有水无根」的死木</span></td></tr>
+            <tr><td class="c-he">土组连根</td><td>日干克月/时干之土＋该支有木根</td><td style="text-align:left">木穿透土：土薄可连（己卯/虚土），<span style="color:#ef4444">土厚不连（己未/戊辰厚土）</span>；连后仍需水</td></tr>
+            <tr><td class="c-he">借根活木</td><td>日主无根，借邻柱已成活木之根</td><td style="text-align:left">同五行可借；<span style="color:#34d399">活木借根得贵人（藤萝系甲）</span>、<span style="color:#ef4444">死木借根反成劫财夺财</span></td></tr>
+          </table></div>
+          <div style="font-size:10px;color:#64748b;padding:4px 4px 2px;line-height:1.8">特殊柱：<span style="color:#93c5fd">丁亥自合</span>（乙酉+丁亥，丁壬合化木引亥中甲、亥含水→活木；对比乙酉+辛亥金挡→死木）；<span style="color:#93c5fd">壬辰月</span>（甲乙日，壬通根辰水库、辰藏乙→水接活木）。</div>
+        </div>
+
+        <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ ⚖ 活木·死木 喜忌对照</button>
+        <div class="m5-sub-body" style="display:none">
+          <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+            <thead><tr><th>态</th><th style="color:#10b981">喜</th><th style="color:#ef4444">忌</th><th style="text-align:left;min-width:150px">断事指向</th></tr></thead>
+            <tr><td class="c-gan" style="color:#34d399">活木</td><td style="text-align:left"><span class="c-he">水（印）·火（食伤）</span></td><td style="text-align:left"><span class="c-chong">地支金坏根·土（财坏印）</span></td><td style="text-align:left">喜配：根基稳·才华显；<span style="color:#94a3b8">天干庚金修枝不伤根，甲见庚反贵</span></td></tr>
+            <tr><td class="c-gan" style="color:#fbbf24">死木</td><td style="text-align:left"><span class="c-he">金（雕琢）·土（财制印）</span></td><td style="text-align:left"><span class="c-chong">水（腐/漂）·火（焚/昙花）</span></td><td style="text-align:left">见金成材、见庚则贵；忌水火，逢之易破耗虚名</td></tr>
+          </table></div>
+          <div style="font-size:10px;color:#10b981;padding:4px 2px 6px;line-height:1.8">喜忌总纲：忌神越制越好（无制不吉）；喜神越用越好（坏则出凶）。<span style="color:#f59e0b">活木喜水火→相战论凶；死木忌水火→相战反论吉（忌神互制，坐山观虎斗）。</span></div>
+        </div>
+
+        <div class="m5-sub" style="margin-top:8px">避坑提示</div>
+        <div style="font-size:11px;color:#94a3b8;padding:2px 4px 6px;line-height:1.9">
+          <div>· 「见水就是活木」❌ → 必先有根，无根见水仅为「漂木」，仍属死木。</div>
+          <div>· 「死木一定凶」❌ → 得金雕琢可成栋梁（甲申/乙酉配强金），需结合十神格局。</div>
+          <div>· 混淆喜忌相战 → 活木相战论凶、死木相战论吉，状态不同结论全反。</div>
+          <div>· 「甲坐子＝有靠」❌ → 子非木根、水不算根，甲子无他根即死木。</div>
+          <div>· 年柱连根条件极苛（水/火相容且无克破），占比极低，不可滥用。</div>
         </div>
 
       </div>
@@ -2910,7 +2980,7 @@ const SANHE_WX=['水','木','火','金'];
 const ZIXING_SET=new Set(['辰','午','酉','亥']);
 const YANG_ZHI=new Set(['寅','申','巳','亥','辰','戌']);
 const ZHI_NOZIXING=ZHI.filter(z=>!ZIXING_SET.has(z));
-const CAT_NAME={tf_rel:'判断题',wx:'五行归属',chong:'六冲',tghe:'天干五合',liuhe:'地支六合',tong:'干支互通',shen:'十神',sanhe:'三合补完',sanhetype:'三合识局',xing3:'三刑补完',po:'破识别',zixing:'自刑字',xushi:'虚实判断',xushi2:'实支识别',nayin:'纳音五行',anhe:'地支暗合',zihe:'干支自合',num:'数字口诀',wxs:'天干相生',wxk:'天干相克',lqs:'六亲相生',lqk:'六亲相克',tdyy:'天地阴阳',shuma:'数字编码',nfgz:'年份干支',shichen:'十二时辰',ganzang:'天干脏腑',zhizang:'地支脏腑',ws12:'旺衰十二运',ws_zhi:'旺衰地支',wx_zhi:'五行长生',ws_order:'长生顺序',yuejian:'月建',duanming:'断命步骤',wxsys:'五行系统',jieqi:'节气月建',cang:'地支藏干',cang_bq:'三气·本气',cang_zq:'三气·中气',cang_yq:'三气·余气',gan_xi:'天干喜忌',gongwei:'宫位大限',shen_yi:'十神义象'};
+const CAT_NAME={tf_rel:'判断题',wx:'五行归属',chong:'六冲',tghe:'天干五合',liuhe:'地支六合',tong:'干支互通',shen:'十神',sanhe:'三合补完',sanhetype:'三合识局',xing3:'三刑补完',po:'破识别',zixing:'自刑字',xushi:'虚实判断',xushi2:'实支识别',nayin:'纳音五行',anhe:'地支暗合',zihe:'干支自合',num:'数字口诀',wxs:'天干相生',wxk:'天干相克',lqs:'六亲相生',lqk:'六亲相克',tdyy:'天地阴阳',shuma:'数字编码',nfgz:'年份干支',shichen:'十二时辰',ganzang:'天干脏腑',zhizang:'地支脏腑',ws12:'旺衰十二运',ws_zhi:'旺衰地支',wx_zhi:'五行长生',ws_order:'长生顺序',yuejian:'月建',duanming:'断命步骤',wxsys:'五行系统',jieqi:'节气月建',cang:'地支藏干',cang_bq:'三气·本气',cang_zq:'三气·中气',cang_yq:'三气·余气',gan_xi:'天干喜忌',gongwei:'宫位大限',shen_yi:'十神义象',shmu:'死活木'};
 const GZ60=(()=>{const g=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'],z=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];return Array.from({length:60},(_,i)=>g[i%10]+z[i%12]);})();
 const YR_GZ_PAIRS=(()=>{const g=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'],z=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];return Array.from({length:151},(_,i)=>{const y=1900+i;return[String(y),g[(y-4)%10]+z[(y-4)%12]];});})();
 const SHICHEN={子:'23-1时',丑:'1-3时',寅:'3-5时',卯:'5-7时',辰:'7-9时',巳:'9-11时',午:'11-13时',未:'13-15时',申:'15-17时',酉:'17-19时',戌:'19-21时',亥:'21-23时'};
@@ -3303,7 +3373,7 @@ const CSEL_GROUPS=[
   {lbl:'🧭 五行基础', cats:['wx','tdyy','wxsys']},
   {lbl:'✅ 判断题', cats:['tf_rel']},
   {lbl:'🌀 地支关系', cats:['chong','liuhe','anhe','sanhe','sanhetype','xing3','po','zixing','cang','cang_bq','cang_zq','cang_yq']},
-  {lbl:'☰ 天干关系', cats:['tghe','tong','zihe','shen','gan_xi']},
+  {lbl:'☰ 天干关系', cats:['tghe','tong','zihe','shen','gan_xi','shmu']},
   {lbl:'⚡ 生克关系', cats:['wxs','wxk','lqs','lqk']},
   {lbl:'🔄 旺衰运势', cats:['ws12','ws_zhi']},
   {lbl:'⚖ 虚实纳音', cats:['xushi','xushi2','nayin']},
@@ -3450,6 +3520,34 @@ function buildPool(rng){
     qs.push({cat:'duanming',main:[k],qt:`断命<b>${k}</b>是？`,correct:c,opts:mkOpts(rng,c,dm_vals),exp:`断命${k}→${c}`});
     qs.push({cat:'duanming',main:[c],qt:`"${c}"是断命第几步？`,correct:k,opts:mkOpts(rng,k,DUANMING_KEYS),exp:`${k}→${c}`});
   }
+  // 死活木（甲乙木死活判定·排斥规则·五法·喜忌）
+  const SHMU_JUDGE=[
+    {m:['甲辰'],c:'活木',e:'甲辰自带根＋水（辰藏乙·辰为水库藏癸），六十甲子中直接论活木'},
+    {m:['乙亥'],c:'活木',e:'乙亥自坐亥（既是根又含水），直接论活木'},
+    {m:['甲寅','天干透壬'],c:'活木',e:'甲寅有根，天干透壬水滋养＝活木'},
+    {m:['乙未'],c:'死木',e:'乙未有根（未藏乙）却无水，无他柱见水即死木'},
+    {m:['甲子','无他根'],c:'死木',e:'子非木根、水不算根；甲坐子为有生无根，无他根则死木'},
+    {m:['乙卯','独见子水'],c:'死木',e:'子卯相破·纯则不生，子不生卯；双子多子亦不破此规，仍死木'},
+    {m:['乙未','独见子水'],c:'死木',e:'未子相穿·子不生未；仅见子水论死木，另见壬癸亥方活'},
+    {m:['甲戌','辛亥月'],c:'死木',e:'辛克甲、戌克亥，金挡＋根被破，亥水连不上＝死木'},
+    {m:['甲申','秋生·金旺'],c:'死木',e:'甲申坐绝地、无近根无水＝死木（死木喜金，反主成就）'},
+  ];
+  for(const d of SHMU_JUDGE){qs.push({cat:'shmu',main:d.m,qt:'甲乙木的<b>死活</b>状态？',correct:d.c,opts:shuffle(rng,['活木','死木']),exp:d.e});}
+  const SHMU_QA=[
+    {q:'<b>活木</b>最喜哪两类？',c:'水与火',p:['水与火','金与土','土与水','金与火'],e:'活木喜水（滋养根系）、喜火（食伤吐秀·开花结果）'},
+    {q:'<b>活木</b>地支见什么最忌（坏根）？',c:'金',p:['金','水','火','土'],e:'地支金冲穿坏根→根损人伤；但天干庚金修枝不伤根，甲见庚反贵'},
+    {q:'<b>活木</b>忌哪个（财坏印）？',c:'土',p:['土','火','水','金'],e:'土重克水为财坏印，断生命之源'},
+    {q:'<b>死木</b>最喜什么？',c:'金',p:['金','水','火','木'],e:'死木需金雕琢劈刻方成栋梁器物，见庚则贵'},
+    {q:'<b>死木</b>忌什么？',c:'水与火',p:['水与火','金与土','金','土'],e:'死木遇水则腐（水多木漂）、遇火则焚（昙花一现）'},
+    {q:'<b>死木</b>喜什么（财制印）？',c:'土',p:['土','水','火','木'],e:'死木忌水，土来克水反为好事，利求财'},
+    {q:'远根与日干之间见庚金/申，属五法哪种？',c:'金挡断根',p:['金挡断根','水接活木','火引连根','土组连根'],e:'金克木阻断，即使见水亦为「有水无根」死木'},
+    {q:'壬癸水同生日干与远根架起水桥，属？',c:'水接活木',p:['水接活木','火引连根','借根活木','金挡断根'],e:'水具相容性作媒介，水气相连直接构成活木（五法优先级最高）'},
+    {q:'日主无根，借邻柱已成活木之根，属？',c:'借根活木',p:['借根活木','火引连根','土组连根','水接活木'],e:'同柱一家亲，活木借根得贵人（藤萝系甲）；死木借根反成劫财夺财'},
+    {q:'己未/戊辰这类厚土能连根吗？',c:'不能（土厚不连）',p:['不能（土厚不连）','能连','厚土反助','不一定'],e:'土薄可穿透（己卯/虚土），土厚如厚墙挡根不可强连'},
+    {q:'火引连根后能直接断活木吗？',c:'不能，还需再查水',p:['不能，还需再查水','能，直接活木','直接死木','看日主'],e:'火引仅连根、不定死活，仍需命局有水方为活木'},
+    {q:'六十甲子中「自带根＋水」的直接活木柱是？',c:'甲辰·乙亥',p:['甲辰·乙亥','甲寅·乙卯','甲子·乙丑','甲午·乙巳'],e:'甲辰（辰藏乙·水库藏癸）、乙亥（亥为根又含水）见之直接活木'},
+  ];
+  for(const d of SHMU_QA){qs.push({cat:'shmu',main:[],qt:d.q,correct:d.c,opts:shuffle(rng,d.p),exp:d.e});}
   return qs;
 }
 function selectQs(seed){
