@@ -622,6 +622,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   <div class="card" style="margin-bottom:9px">
     <div class="hhist">开发时间节点</div>
     <div style="max-height:130px;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:6px;margin-top:2px;padding-right:2px">
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.7.6</span><span style="color:#94a3b8;font-size:12px">🐛 修复干支自合判题——壬/甲同争午、壬/丙同争戌等多答案干扰项混入致误判（选壬戌被判错），主题库+错题本均已排除；实支识别错题本同类修复</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.7.3</span><span style="color:#94a3b8;font-size:12px">🌲 死活木判定专题——速查含口诀·根水细则·两条排斥规则·木之五法·喜忌对照；题库新增「死活木」知识点(21题)</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.6.30</span><span style="color:#94a3b8;font-size:12px">🔍 知识点全面审查——修正六合类型互换(卯戌/午未)·藏干顺序·统一破/刑体系(子卯归破·去六破)</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.29</span><span style="color:#94a3b8;font-size:12px">🏠 首页重构——6张紧凑卡片，配对/推算/甲子/象意合入专项练习，速查/歌诀/逻辑合入查阅</span></div>
@@ -3412,7 +3413,7 @@ function buildPool(rng){
   }
   // 干支自合（给天干，选自合地支）
   for(const[g,z]of[['戊','子'],['壬','午'],['甲','午'],['壬','戌'],['丙','戌'],['丁','亥'],['己','亥'],['辛','巳'],['癸','巳']]){
-    qs.push({cat:'zihe',main:[g],qt:'与哪个地支<b>干支自合</b>？',correct:z,opts:mkOpts(rng,z,ZHI),exp:`${g}${z}干支自合`});
+    qs.push({cat:'zihe',main:[g],qt:'与哪个地支<b>干支自合</b>？',correct:z,opts:mkOpts(rng,z,ZHI,ZHI.filter(x=>!ZIHE.has(g+x))),exp:`${g}${z}干支自合`});
   }
   // 虚实判断（给干支组合，判断虚/实，2选项）
   for(const[g,{实:shi,虚:xu}]of Object.entries(XUSHI)){
@@ -3737,7 +3738,14 @@ function startM1(mode){
 function prepNBQuestions(){
   const nb=getNB();if(!nb.length)return null;
   const rng=mkRng(Math.random()*0x100000000>>>0);
-  return shuffle(rng,nb.map(q=>({...q,opts:mkOpts(rng,q.correct,poolForCat(q.cat))})));
+  return shuffle(rng,nb.map(q=>({...q,opts:mkOpts(rng,q.correct,poolForCat(q.cat),wrongPoolForQ(q))})));
+}
+// 多答案知识点（如壬既合午又合戌）：干扰项须排除其它同样正确的答案
+function wrongPoolForQ(q){
+  const m=q.main&&q.main[0];
+  if(q.cat==='zihe'&&m)return ZHI.filter(x=>!ZIHE.has(m+x));
+  if(q.cat==='xushi2'&&m&&XUSHI[m])return ZHI.filter(x=>!XUSHI[m].实.includes(x));
+  return null;
 }
 
 function renderCustomSel(){
