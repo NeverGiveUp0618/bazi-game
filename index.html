@@ -3782,6 +3782,18 @@ function selectQsCustom(seed,catArr){
   const aq=adaptiveQuota();
   let picks=[];
   for(const cat of catArr)picks.push(...rpick(rng,byC[cat]||[],aq[cat]||2));
+  // 知识点少、题不够时循环补题凑满题量（允许重复，每轮整池洗牌，选项顺序重洗）
+  const all=catArr.flatMap(c=>byC[c]||[]);
+  if(all.length){
+    let guard=0;
+    while(picks.length<M1_COUNT&&guard<200){
+      for(const q of shuffle(rng,all)){
+        if(picks.length>=M1_COUNT)break;
+        picks.push({...q,opts:shuffle(rng,q.opts)});
+      }
+      guard++;
+    }
+  }
   return shuffle(rng,picks);
 }
 function startM1Custom(timed){
