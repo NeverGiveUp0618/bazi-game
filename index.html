@@ -3548,7 +3548,7 @@ function saveGJResult(cards,cat){
 
 // ══ NAVIGATION ══
 const _scrollPos={};
-function show(id){
+function _applyScreen(id){
   const cur=document.querySelector('.screen.active');
   if(cur)_scrollPos[cur.id]=window.scrollY;
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
@@ -3556,6 +3556,28 @@ function show(id){
   if(id==='p-nb')renderNB();
   window.scrollTo(0,_scrollPos[id]||0);
 }
+/* ===== 浏览器返回键/全面屏手势 → App内逐屏后退（套壳iframe/独立打开均适用） =====
+   包装 show()：前进则 pushState；目标已在栈中(上层)则 history.go(-n) 折叠后退；
+   popstate 时幂等重放对应屏。所有 show()/goHome() 调用点无需改动。 */
+var _scrStack=['ph'],_navApplying=false;
+function show(id){
+  _applyScreen(id);
+  if(_navApplying)return;
+  var topId=_scrStack[_scrStack.length-1];
+  if(id===topId)return;
+  var idx=_scrStack.lastIndexOf(id);
+  if(idx>=0){var back=_scrStack.length-1-idx;_scrStack.length=idx+1;try{history.go(-back);}catch(e){}return;}
+  _scrStack.push(id);
+  try{history.pushState({i:_scrStack.length-1},'');}catch(e){}
+}
+window.addEventListener('popstate',function(e){
+  var i=(e.state&&typeof e.state.i==='number')?e.state.i:0;
+  if(i<0)i=0; if(i>_scrStack.length-1)i=_scrStack.length-1;
+  _scrStack.length=i+1;
+  if(window.G1&&G1.timer)clearInterval(G1.timer);   // 退出做题时停掉计时器
+  _navApplying=true; _applyScreen(_scrStack[i]); _navApplying=false;
+});
+try{history.replaceState({i:0},'');}catch(e){}
 
 function m5SubToggle(btn){
   const body=btn.nextElementSibling;
@@ -5601,7 +5623,7 @@ function checkPlanImportURL(){
   try{
     const tpl=JSON.parse(decodeURIComponent(atob(hash.slice(6))));
     if(!tpl.name||!Array.isArray(tpl.cats)||!tpl.targetRate)return;
-    history.replaceState(null,'',location.pathname);
+    history.replaceState({i:0},'',location.pathname);
     const catNames=tpl.cats.map(c=>CAT_NAME[c]||c).join('·');
     if(!confirm(`导入学习计划模板？\n\n「${tpl.name}」\n${catNames}\n目标正确率 ${tpl.targetRate}%`))return;
     const pd=getPlanData();
