@@ -3548,13 +3548,18 @@ function saveGJResult(cards,cat){
 
 // ══ NAVIGATION ══
 const _scrollPos={};
+try{history.scrollRestoration='manual'}catch(e){}
+function _restoreScreenScroll(id){
+  const y=_scrollPos[id]||0,restore=()=>window.scrollTo(0,y);
+  restore();requestAnimationFrame(()=>{restore();requestAnimationFrame(restore)});
+}
 function _applyScreen(id){
   const cur=document.querySelector('.screen.active');
   if(cur)_scrollPos[cur.id]=window.scrollY;
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   if(id==='p-nb')renderNB();
-  window.scrollTo(0,_scrollPos[id]||0);
+  _restoreScreenScroll(id);
 }
 /* ===== 浏览器返回键/全面屏手势 → App内逐屏后退（套壳iframe/独立打开均适用） =====
    包装 show()：前进则 pushState；目标已在栈中(上层)则 history.go(-n) 折叠后退；
