@@ -5878,6 +5878,8 @@ function startGanYX(){_startYX('p-ganyx');}
 function startZhiYX(){_startYX('p-zhiyx');}
 function startShenYX(){_startYX('p-shenyx');}
 function startRelYX(){_startYX('p-relyx');}
+function sendYstProgress(){try{const s=getCatStats();let a=0,e=0;Object.values(s).forEach(v=>{a+=+v.a||0;e+=+v.e||0});parent.postMessage({type:'yst-progress',app:'bazi',text:a?`已练 ${a} 题 · 正确率 ${Math.round((a-e)/a*100)}%`:'尚未开始练习'},'https://nevergiveup0618.github.io')}catch(e){}}
+sendYstProgress();
 // ════════════ 意象联想训练 END ════════════
 
 </script>
