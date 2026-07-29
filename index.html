@@ -622,6 +622,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   <div class="card" style="margin-bottom:9px">
     <div class="hhist">开发时间节点</div>
     <div style="max-height:130px;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:6px;margin-top:2px;padding-right:2px">
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.7.29</span><span style="color:#94a3b8;font-size:12px">🐛 修正知识速查·干支虚实：六十甲子表丁卯/戊寅/庚戌/辛巳四柱与书相反、水火六柱表丁行虚实整行颠倒，均已照书订正；判别规则改为书上原话「有根有生者实、无根无生者虚」，并写明虚实≠衰旺、只就本柱论、主看应期。题库数据本来就是对的，未改动</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.7.6</span><span style="color:#94a3b8;font-size:12px">🐛 修复干支自合判题——壬/甲同争午、壬/丙同争戌等多答案干扰项混入致误判（选壬戌被判错），主题库+错题本均已排除；实支识别错题本同类修复</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.7.3</span><span style="color:#94a3b8;font-size:12px">🌲 死活木判定专题——速查含口诀·根水细则·两条排斥规则·木之五法·喜忌对照；题库新增「死活木」知识点(21题)</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.6.30</span><span style="color:#94a3b8;font-size:12px">🔍 知识点全面审查——修正六合类型互换(卯戌/午未)·藏干顺序·统一破/刑体系(子卯归破·去六破)</span></div>
@@ -1246,16 +1247,18 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
           <tr><td class="c-gan">甲</td><td class="c-shi">甲寅 甲辰 甲子</td><td class="c-xu">甲午 甲申 甲戌</td></tr>
           <tr><td class="c-gan">乙</td><td class="c-shi">乙卯 乙未 乙亥</td><td class="c-xu">乙丑 乙巳 乙酉</td></tr>
           <tr><td class="c-gan">丙</td><td class="c-shi">丙寅 丙午 丙戌</td><td class="c-xu">丙子 丙辰 丙申</td></tr>
-          <tr><td class="c-gan">丁</td><td class="c-shi">丁巳 丁未</td><td class="c-xu">丁丑 丁卯 丁酉 丁亥</td></tr>
-          <tr><td class="c-gan">戊</td><td class="c-shi">戊寅 戊辰 戊午 戊戌</td><td class="c-xu">戊子 戊申</td></tr>
+          <tr><td class="c-gan">丁</td><td class="c-shi">丁巳 丁卯 丁未</td><td class="c-xu">丁亥 丁丑 丁酉</td></tr>
+          <tr><td class="c-gan">戊</td><td class="c-shi">戊戌 戊午 戊辰</td><td class="c-xu">戊子 戊申 戊寅</td></tr>
           <tr><td class="c-gan">己</td><td class="c-shi">己丑 己巳 己未</td><td class="c-xu">己卯 己酉 己亥</td></tr>
-          <tr><td class="c-gan">庚</td><td class="c-shi">庚申 庚戌 庚辰</td><td class="c-xu">庚子 庚寅 庚午</td></tr>
-          <tr><td class="c-gan">辛</td><td class="c-shi">辛酉 辛丑 辛巳</td><td class="c-xu">辛卯 辛未 辛亥</td></tr>
+          <tr><td class="c-gan">庚</td><td class="c-shi">庚申 庚辰</td><td class="c-xu">庚子 庚午 庚寅 庚戌</td></tr>
+          <tr><td class="c-gan">辛</td><td class="c-shi">辛丑 辛酉</td><td class="c-xu">辛巳 辛亥 辛未 辛卯</td></tr>
           <tr><td class="c-gan">壬</td><td class="c-shi">壬子 壬申 壬辰</td><td class="c-xu">壬寅 壬午 壬戌</td></tr>
           <tr><td class="c-gan">癸</td><td class="c-shi">癸亥 癸丑 癸酉</td><td class="c-xu">癸卯 癸巳 癸未</td></tr>
         </table></div>
         <div style="font-size:10px;color:#475569;padding:2px 4px 8px;line-height:1.9">
-          判别：天干在地支中藏有同类五行（本气/中气/余气）即为实·有根；孤露、无根、被克泄者为虚·无根<br>
+          <b style="color:#f59e0b">虚实 ≠ 衰旺。</b>衰旺是参照月令定的；虚实<b>只就一柱干支而言，与周围的生克关系没有联系</b>。虚与实本身就有象，在四柱中表示一定的含义，更重要的应用是<b>看八字的应期</b>。<br>
+          天干之气弱、地支之气强，天干要依附于地支才能得旺；地支不生扶天干，则为虚。基本原则：<b style="color:#10b981">天干有根有生者实</b>，<b style="color:#94a3b8">天干无根无生者虚</b>。<br>
+          <b style="color:#ef4444">注意：不能只查藏干表。</b>戊寅（寅藏戊）、庚戌（戌藏辛）、辛巳（巳藏庚）虽然通根，但本气甲木克戊、丁火克庚、丙火克辛，<b>有根仍作虚</b>；丁卯无火根，但卯木生丁火，<b>无根却作实</b>。以本表为准。<br>
           阳干配阳支（子寅辰午申戌），阴干配阴支（丑卯巳未酉亥），每干恰好6柱（完整六十甲子）
         </div>
       </div>
@@ -1295,7 +1298,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
         <div class="m5-wrap"><table class="m5-tbl">
           <thead><tr><th>天干</th><th style="color:#10b981">实（通根三柱）</th><th style="color:#ef4444">虚（透天三柱）</th><th>实象↔虚象</th></tr></thead>
           <tr><td class="c-gan">丙</td><td class="c-shi">丙寅 丙午 丙戌</td><td class="c-xu">丙子 丙申 丙辰</td><td>炉火↔太阳</td></tr>
-          <tr><td class="c-gan">丁</td><td class="c-shi">丁丑 丁酉 丁亥</td><td class="c-xu">丁卯 丁巳 丁未</td><td>灯烛↔月亮</td></tr>
+          <tr><td class="c-gan">丁</td><td class="c-shi">丁巳 丁卯 丁未</td><td class="c-xu">丁亥 丁丑 丁酉</td><td>灯烛↔月亮</td></tr>
           <tr><td class="c-gan">壬</td><td class="c-shi">壬申 壬子 壬辰</td><td class="c-xu">壬寅 壬午 壬戌</td><td>大海↔江河</td></tr>
           <tr><td class="c-gan">癸</td><td class="c-shi">癸酉 癸亥 癸丑</td><td class="c-xu">癸卯 癸巳 癸未</td><td>溪流↔雨露</td></tr>
         </table></div>
@@ -2681,7 +2684,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <div class="bdl-sec">活看旺衰的含义</div>
     <div class="bdl-row"><div class="bdl-lbl">活看旺</div><div class="bdl-v">不只看月令当令，还看整局五行气势、合冲刑后的实际状态</div></div>
     <div class="bdl-row"><div class="bdl-lbl">活看衰</div><div class="bdl-v">一个字表面弱，但被合住或有根，实际力量不弱；不能只看月令</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">虚实判断</div><div class="bdl-v">干支虚实：天干透出为实，藏在地支为虚；有根为实，无根为虚</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">虚实判断</div><div class="bdl-v">干支虚实：<b>天干有根有生者实，无根无生者虚</b>；只就本柱干支论，与周围生克无关，也不等同于衰旺</div></div>
     <div class="bdl-sec">活论用神（针对不同事）</div>
     <div class="bdl-row"><div class="bdl-lbl">看财运</div><div class="bdl-v">以财星所在宫位、强弱、被制关系为用神</div></div>
     <div class="bdl-row"><div class="bdl-lbl">看婚姻</div><div class="bdl-v">男看财星+日支；女看官杀+日支；以作用关系定用神</div></div>
@@ -2689,8 +2692,10 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <div class="bdl-row"><div class="bdl-lbl">看子女</div><div class="bdl-v">以食伤/官杀（男女不同）在时柱的宫位状态为用神</div></div>
     <div class="bdl-gold">民间口诀：用神不固定，事事有事的用神。同一张命，问不同的事，答案的着力点不同——这才是"活论"。</div>
     <div class="bdl-sec">干支虚实速查原则</div>
-    <div class="bdl-row"><div class="bdl-lbl">实</div><div class="bdl-v">天干透出（可见），或地支有同类多个，气势足</div></div>
-    <div class="bdl-row"><div class="bdl-lbl">虚</div><div class="bdl-v">只藏在地支余气，或被合绊失效，或空亡，力量弱</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">实</div><div class="bdl-v">天干<b>有根有生</b>——地支生扶得住这个天干。主实质·物质·权力·财富</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">虚</div><div class="bdl-v">天干<b>无根无生</b>——地支不生扶天干。主抽象·精神·名气·才华</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">辨析</div><div class="bdl-v"><b style="color:#f59e0b">虚实不是衰旺。</b>衰旺参照月令、看整局；虚实<b>只就一柱干支而言，与周围的生克关系没有联系</b>，也与合绊、空亡无关。虚实更重要的应用是<b>看应期</b>。逐柱定值见「⚖ 干支虚实」六十甲子表</div></div>
+    <div class="bdl-row"><div class="bdl-lbl">反常</div><div class="bdl-v">虚是一种存在状态。某字<b>喜虚</b>时，大运一旦通根见实，就是一种反常；某字本<b>以实为吉</b>，大运一旦变虚，也是反常。这种反常要特别注意，用以辨别吉凶</div></div>
   </div>
 
   <button class="m5-tog" onclick="m5Toggle(this)">第九道法门：神煞（民间只用6种）</button>
