@@ -128,6 +128,138 @@ setTimeout(()=>{
    if(/干支虚实速查原则[\s\S]{0,300}?空亡，力量弱/.test(src))bad.push('速查原则仍按力量强弱描述');
    return bad.length?bad.join(' | '):true});
 
+
+ console.log('\n════ 知识速查 19 区块 ════');
+ // 取某个 m5 区块的纯文本
+ const block=name=>{const b=[...d.querySelectorAll('#p5 .m5-tog,.m5-tog')].find(x=>x.textContent.includes(name));
+   return b?b.nextElementSibling.textContent.replace(/[＋+↔→·、\s]/g,''):''};
+ // 两行制表格：一行表头一行取值，按位配对
+ const rowPairs=(name,headLabel,valLabel)=>{
+   const b=[...d.querySelectorAll('.m5-tog')].find(x=>x.textContent.includes(name));
+   if(!b)return null;
+   for(const tr of b.nextElementSibling.querySelectorAll('tr')){
+     const c=[...tr.children].map(x=>x.textContent.trim());
+     if(c[0]===headLabel){
+       const nx=tr.nextElementSibling; if(!nx)continue;
+       const v=[...nx.children].map(x=>x.textContent.trim());
+       if(v[0]!==valLabel)continue;
+       const m={};for(let i=1;i<c.length;i++)m[c[i]]=v[i];return m;
+     }}
+   return null;};
+
+ console.log('【旺衰十二运（含表格懒渲染）】');
+ t('WANGSHUAI 合十二长生定式（阳顺阴逆·长生位）',()=>{
+   const ZHI='子丑寅卯辰巳午未申酉戌亥'.split(''),W=E('WANGSHUAI');
+   const CS={甲:'亥',乙:'午',丙:'寅',丁:'酉',戊:'寅',己:'酉',庚:'巳',辛:'子',壬:'申',癸:'卯'};
+   const YANG='甲丙戊庚壬',bad=[];
+   Object.entries(CS).forEach(([g,s])=>{
+     const dir=YANG.includes(g)?1:-1,i0=ZHI.indexOf(s);
+     const exp=Array.from({length:12},(_,k)=>ZHI[((i0+dir*k)%12+12)%12]);
+     if(W[g].join('')!==exp.join(''))bad.push(`${g}: 得${W[g].join('')} 应${exp.join('')}`)});
+   return bad.length?bad.join(' | '):true});
+ t('旺衰表渲染后与 WANGSHUAI 一致',()=>{
+   const el=d.getElementById('m5-wangshuai-tbl');if(!el)return '无表格容器';
+   E('renderM5Wangshuai(document.getElementById("m5-wangshuai-tbl"))');
+   const txt=el.textContent.replace(/\s+/g,''),W=E('WANGSHUAI'),bad=[];
+   Object.entries(W).forEach(([g,arr])=>{if(!txt.includes(g+arr.join('')))
+     {/*行内可能有别的列，退化为逐字包含*/ if(!arr.every(z=>txt.includes(z)))bad.push(g)}});
+   return bad.length?'缺: '+bad.join(','):true});
+
+ console.log('\n【纳音五行】');
+ t('NAYIN 覆盖六十甲子且每纳音恰好2柱',()=>{
+   const N=E('NAYIN'),ks=Object.keys(N);
+   if(ks.length!==60)return '柱数 '+ks.length;
+   const c={};Object.values(N).forEach(v=>c[v]=(c[v]||0)+1);
+   const bad=Object.entries(c).filter(([,n])=>n!==2);
+   return bad.length?JSON.stringify(bad.slice(0,4)):true});
+ t('NAYIN 抽样对标准（甲子海中金·壬戌大海水·丙寅炉中火）',()=>{
+   const N=E('NAYIN'),want={甲子:'海中金',乙丑:'海中金',丙寅:'炉中火',壬戌:'大海水',癸亥:'大海水',戊辰:'大林木'};
+   const bad=Object.entries(want).filter(([k,v])=>N[k]!==v).map(([k,v])=>`${k}应${v}得${N[k]}`);
+   return bad.length?bad.join(','):true});
+
+ console.log('\n【藏干三气 ↔ 速查表】');
+ t('三气表逐支与 ZHI_SANQI 一致（表内带五行后缀）',()=>{
+   const S=E('ZHI_SANQI'),txt=block('藏干三气'),bad=[];
+   const WX={甲:'木',乙:'木',丙:'火',丁:'火',戊:'土',己:'土',庚:'金',辛:'金',壬:'水',癸:'水'};
+   Object.entries(S).forEach(([z,o])=>{
+     const seq=[o.本气,o.中气,o.余气].filter(Boolean).map(g=>g+WX[g]).join('');
+     if(!txt.includes(z+seq))bad.push(`${z}应${seq}`)});
+   return bad.length?'表中未见: '+bad.join(' '):true});
+
+ console.log('\n【脏腑 · 时辰 ↔ 速查表】');
+ t('天干脏腑表（两行制）逐位与 GAN_ZANG 一致',()=>{
+   const G=E('GAN_ZANG'),m=rowPairs('脏腑时辰','天干','脏腑');
+   if(!m)return '未解析到两行制表格';
+   const bad=Object.entries(G).filter(([g,v])=>m[g]!==v).map(([g,v])=>`${g}应${v}得${m[g]}`);
+   return bad.length?bad.join(' '):true});
+ t('地支脏腑表与 ZHI_ZANG 一致',()=>{
+   const Z=E('ZHI_ZANG'),txt=block('脏腑时辰').replace(/\s/g,'');
+   const bad=Object.entries(Z).filter(([z,v])=>!txt.includes(z+v)).map(([z,v])=>z+v);
+   return bad.length?'表中未见: '+bad.join(' '):true});
+ t('SHICHEN 十二时段连续无缺',()=>{
+   const S=E('SHICHEN'),v=Object.values(S);
+   return v.length===12&&new Set(v).size===12?true:JSON.stringify(v)});
+
+ console.log('\n【时历推算 ↔ 速查表】');
+ t('月建表与 YUEJIAN 一致',()=>{
+   const Y=E('YUEJIAN'),txt=block('时历推算').replace(/\s/g,'');
+   const bad=Object.entries(Y).filter(([z,m])=>!txt.includes(z)||!txt.includes(m));
+   return bad.length?'缺: '+bad.map(x=>x.join('')).join(' '):true});
+ t('JIEQI 24节气各归其月且每月2气',()=>{
+   const J=E('JIEQI'),c={};Object.values(J).forEach(m=>c[m]=(c[m]||0)+1);
+   if(Object.keys(J).length!==24)return '节气数 '+Object.keys(J).length;
+   const bad=Object.entries(c).filter(([,n])=>n!==2);
+   return bad.length?JSON.stringify(bad):true});
+ t('立春归寅月·冬至归子月',()=>{const J=E('JIEQI');
+   return (J['立春']==='寅月'&&J['冬至']==='子月'&&J['大寒']==='丑月')||`立春${J['立春']} 冬至${J['冬至']}`});
+
+ console.log('\n【数字编码】');
+ t('SHUMA_MAP 00~99 齐全',()=>{const S=E('SHUMA_MAP'),miss=[];
+   for(let i=0;i<100;i++){const k=String(i).padStart(2,'0');if(!S[k])miss.push(k)}
+   return miss.length?'缺: '+miss.join(','):true});
+ t('数字表渲染顺序为 00→99（旧坑：Object.entries 会把10~99排前）',()=>{
+   const el=d.getElementById('m5-shuma-tbl');if(!el)return '无容器';
+   E('renderM5Shuma(document.getElementById("m5-shuma-tbl"))');
+   const txt=el.textContent;
+   const i00=txt.indexOf('00'),i10=txt.indexOf('10'),i99=txt.indexOf('99');
+   return (i00>=0&&i00<i10&&i10<i99)?true:`位置 00@${i00} 10@${i10} 99@${i99}`});
+
+ console.log('\n【地支/天干关系 ↔ 引擎常量】');
+ t('地支关系区块含全部六冲/六合/暗合/绝/穿/三刑',()=>{
+   const txt=block('地支关系'),bad=[];
+   const need=[['子午','丑未','寅申','卯酉','辰戌','巳亥'],
+     ['子丑','寅亥','卯戌','辰酉','巳申','午未'],['申卯','亥午','丑寅','子巳'],
+     ['申卯','亥午','子巳','寅酉'],['寅巳','丑午','申亥','酉戌','卯辰','子未'],
+     ['丑戌未','寅巳申']].flat();
+   need.forEach(p=>{if(!txt.includes(p)&&!txt.includes([...p].reverse().join('')))bad.push(p)});
+   return bad.length?'缺: '+bad.join(' '):true});
+ t('六合生克分类与 SHENGHE 一致',()=>{
+   const txt=block('地支关系');
+   const sheng=['寅亥生合','辰酉生合','午未生合'],ke=['子丑克合','卯戌克合','巳申克合'];
+   const bad=[...sheng,...ke].filter(x=>!txt.includes(x));
+   return bad.length?'表中未见: '+bad.join(' '):true});
+ t('六穿生克分类与 CHUAN_S/K_CANON 一致',()=>{
+   const txt=block('地支关系');
+   const bad=['寅巳生穿','酉戌生穿','丑午生穿','申亥生穿','卯辰克穿','子未克穿'].filter(x=>!txt.includes(x));
+   return bad.length?'表中未见: '+bad.join(' '):true});
+ t('禄位表（两行制）逐位与 LU 一致',()=>{
+   const L={甲:'寅',乙:'卯',丙:'巳',丁:'午',戊:'巳',己:'午',庚:'申',辛:'酉',壬:'亥',癸:'子'};
+   const m=rowPairs('天干关系','天干','禄位');
+   if(!m)return '未解析到禄位两行制表格';
+   const bad=Object.entries(L).filter(([g,z])=>m[g]!==z).map(([g,z])=>`${g}应${z}得${m[g]}`);
+   return bad.length?bad.join(' '):true});
+ t('天干关系区块自合与 ZIHE 一致',()=>{
+   const Z=[...E('ZIHE')],txt=block('天干关系').replace(/\s/g,'');
+   const bad=Z.filter(p=>!txt.includes(p));
+   return bad.length?'缺: '+bad.join(' '):true});
+
+ console.log('\n【神煞速查 · 定式查法】');
+ t('禄神/羊刃/驿马/空亡 在神煞区块中可见',()=>{
+   const txt=block('神煞速查').replace(/\s/g,'');
+   const miss=['禄','羊刃','驿马','空亡'].filter(k=>!txt.includes(k));
+   return miss.length?'缺: '+miss.join(' '):true});
+
+
  console.log('\n【PWA / 资源】');
  const src=fs.readFileSync(P,'utf8');
  t('sw.js 缓存版本号与页面一致',()=>{
