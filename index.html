@@ -17,6 +17,25 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh;display:flex;justify-content:center}
 .app{width:100%;max-width:480px;min-height:100vh}
+/* ⭐ 宽屏铺开（2026-08-11）：手机保持单列，桌面把卡片排成多列。
+   ⚠️ 三个坑，改别的站照抄这段前先核对：
+   1) 卡片挂在 .screen 里而不是 .app 下 → grid 要加在 .screen.active 上；
+   2) 只对 .active 加，否则破坏其余 .screen 的 display:none；
+   3) 必须用 .app .screen.active 提特异性，否则被后面的
+      .screen.active{display:flex} 覆盖（同特异性时靠后者胜）。
+   写法是「所有直接子元素跨满整行，只让卡片参与分列」——
+   这样头部/统计/日志都不受影响，日后新增块也自动整宽。 */
+@media(min-width:900px){
+  .app{max-width:1040px}
+  .app .screen.active{display:grid;grid-template-columns:1fr 1fr;
+                      gap:0 14px;align-content:start;align-items:start}
+  .app .screen.active>*{grid-column:1/-1}
+  .app .screen.active>.mcard,.app .screen.active>.card{grid-column:auto;margin-left:0;margin-right:0}
+}
+@media(min-width:1360px){
+  .app{max-width:1420px}
+  .app .screen.active{grid-template-columns:repeat(3,1fr)}
+}
 @media(min-width:600px){body{background:#060d1b;padding:20px 0}.app{border-radius:24px;overflow:hidden;box-shadow:0 8px 60px rgba(0,0,0,.7)}.screen{min-height:0!important}}
 .screen{display:none;flex-direction:column;padding:14px 14px 28px;min-height:100vh}
 .screen.active{display:flex}
