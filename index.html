@@ -527,6 +527,17 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .plan-share-card{background:#0f172a;border:1px solid #1e3a5f;border-radius:20px;padding:20px;max-width:380px;width:100%;max-height:85vh;overflow-y:auto}
 .plan-share-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #1e293b;font-size:12px}
 .plan-share-row:last-child{border-bottom:none}
+
+/* ⭐ 2026-08-12 开发时间节点默认收起，点标题展开。
+   它是给自己看的变更记录，天天占着首页一大块不合适。
+   ⚠️ 内层原有的 max-height/overflow-y 保留——展开后仍然是可滚动的短列表。 */
+.devlog>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;
+  -webkit-tap-highlight-color:transparent}
+.devlog>summary::-webkit-details-marker{display:none}
+.devlog>summary span{margin-left:auto;font-size:11px;opacity:.7;font-weight:normal}
+.devlog>summary::after{content:"展开";font-size:11px;opacity:.6;font-weight:normal}
+.devlog[open]>summary::after{content:"收起"}
+.devlog[open]>summary{margin-bottom:8px}
 </style>
 </head>
 <body>
@@ -626,8 +637,8 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <div id="el-hist"><span style="color:#475569;font-size:12px">暂无记录</span></div>
   </div>
   <!-- 开发时间节点 -->
-  <div class="card" style="margin-bottom:9px">
-    <div class="hhist">开发时间节点</div>
+  <details class="card devlog" style="margin-bottom:9px">
+    <summary class="hhist">开发时间节点<span>13 条</span></summary>
     <div style="max-height:130px;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:6px;margin-top:2px;padding-right:2px">
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.7.29</span><span style="color:#94a3b8;font-size:12px">🐛 修正知识速查·干支虚实：六十甲子表丁卯/戊寅/庚戌/辛巳四柱与书相反、水火六柱表丁行虚实整行颠倒，均已照书订正；判别规则改为书上原话「有根有生者实、无根无生者虚」，并写明虚实≠衰旺、只就本柱论、主看应期。题库数据本来就是对的，未改动</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.7.6</span><span style="color:#94a3b8;font-size:12px">🐛 修复干支自合判题——壬/甲同争午、壬/丙同争戌等多答案干扰项混入致误判（选壬戌被判错），主题库+错题本均已排除；实支识别错题本同类修复</span></div>
@@ -643,7 +654,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.25</span><span style="color:#94a3b8;font-size:12px">📖 知识速查（神煞·干支法门·歌诀汇编）·备份导出/导入</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.17</span><span style="color:#94a3b8;font-size:12px">🏗 项目初始化，人鉴八字日练正式上线</span></div>
     </div>
-  </div>
+  </details>
   <!-- 备份提醒 -->
   <div class="bk-banner" id="bk-remind">
     <div class="bk-banner-icon">💾</div>
