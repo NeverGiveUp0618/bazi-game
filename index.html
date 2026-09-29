@@ -1286,11 +1286,28 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
         </div>
 
         <div class="m5-sub" style="margin-top:10px">⚠️ 这张表只看<b>单柱</b>——虚的还能靠「连体」变实</div>
-        <div style="font-size:11px;color:#94a3b8;padding:2px 4px 6px;line-height:1.9">
-          <div>· 本表就一柱干支论，<b style="color:#ef4444">与周围的生克、合绊、空亡都无关</b>；但实战里<b style="color:#c4b5fd">气脉连上了就当一个整体看</b>，虚的可以变实。</div>
-          <div>· 这套机制叫「<b style="color:#c4b5fd">天地门</b>」（连体）：<b>一字为门天地开，五行之气地天连</b>。哪一行能与哪几行连，有一张总表。</div>
-          <div>· 👉 <b style="color:#34d399">知识速查 →「🌿 天干取象」→「🌐 天地门·五行连线总表」</b>；木日主的细则（水接／火引／土组／金挡／借根）也在那一块。</div>
+        <div style="font-size:11px;color:#94a3b8;padding:2px 4px 8px;line-height:1.9">
+          本表就一柱干支论，<b style="color:#ef4444">与周围的生克、合绊、空亡都无关</b>；但实战里<b style="color:#c4b5fd">气脉连上了就当一个整体看</b>，虚的可以变实。这套机制叫「<b style="color:#c4b5fd">天地门</b>」：<b>一字为门天地开，五行之气地天连</b>。
         </div>
+
+        <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 🌐 天地门·五行连线总表（通则）</button>
+        <div class="m5-sub-body" style="display:none">
+          <div style="font-size:10px;color:#64748b;padding:2px 4px 6px;line-height:1.8">每一行日干<b style="color:#c4b5fd">能与哪几行连</b>的通则表。上面那张虚实表只看单柱，<b>连上了就当一个整体看，虚的可以变实</b>。<br>木日主另有细则（水接／火引／土组／金挡／借根），在「🌿 天干取象」那一块。</div>
+          <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+            <thead><tr><th style="width:44px">日干</th><th style="width:96px">能连</th><th style="text-align:left;min-width:210px">特殊情况</th></tr></thead>
+            <tr><td class="c-gan" style="color:#34d399">木</td><td class="c-he">水·火·土·木</td><td style="text-align:left">土厚不连根｜水有相容性，可连到<b>年柱</b>｜甲乙木见<b style="color:#93c5fd">丁亥</b>是活木（<span style="color:#ef4444">须丁亥同柱且与木挨着</span>）｜<span style="color:#ef4444">甲辰错位不同柱为死木</span></td></tr>
+            <tr><td class="c-gan" style="color:#f87171">火</td><td class="c-he">木·火</td><td style="text-align:left">—</td></tr>
+            <tr><td class="c-gan" style="color:#fbbf24">土</td><td class="c-he">火·金</td><td style="text-align:left">天干金<span style="color:#ef4444">不连</span>两土；地支金<span style="color:#34d399">可连</span>两土｜但<b>未、戌为燥土</b>，也要特殊论不连</td></tr>
+            <tr><td class="c-gan" style="color:#e2e8f0">金</td><td class="c-he">土·水</td><td style="text-align:left">天干有金 ＋ 地支<b style="color:#93c5fd">金库丑</b>，也可连</td></tr>
+            <tr><td class="c-gan" style="color:#60a5fa">水</td><td class="c-he">金·水</td><td style="text-align:left">如果<b>都是水</b>，四柱都可以连一起</td></tr>
+          </table></div>
+          <div style="font-size:10px;color:#94a3b8;padding:4px 4px 2px;line-height:1.9">
+            <div>· <b style="color:#34d399">木是唯一能连四行的</b>（水火土木），其余各行只有两项。</div>
+            <div>· <b style="color:#ef4444">土、金不能同气相连</b>——它们那一组里没有自己那一行；木、火、水可以（水还能四柱连成一片）。</div>
+            <div>· 「借根」（藤萝系甲）是<b>木专属的叫法</b>；问「能不能连」看这张表，问「叫不叫借根」才是木的事。</div>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -1692,24 +1709,11 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
           <tr><td style="color:#94a3b8;font-weight:bold">金挡</td><td style="text-align:left">金克木阻隔，多不连。</td></tr>
           <tr><td style="color:#475569;font-weight:bold">年柱连根</td><td style="text-align:left">条件极严，不可滥用远根。</td></tr>
         </table></div>
-
-        <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 🌐 天地门·五行连线总表（通则）</button>
-        <div class="m5-sub-body" style="display:none">
-          <div style="font-size:10px;color:#64748b;padding:2px 4px 6px;line-height:1.8">上面那几条是<b style="color:#94a3b8">木日主</b>的操作手册；这张表是<b style="color:#c4b5fd">通则</b>——每一行日干能与哪几行连。气脉连上了就当一个整体看，虚的可以变实。</div>
-          <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
-            <thead><tr><th style="width:44px">日干</th><th style="width:96px">能连</th><th style="text-align:left;min-width:210px">特殊情况</th></tr></thead>
-            <tr><td class="c-gan" style="color:#34d399">木</td><td class="c-he">水·火·土·木</td><td style="text-align:left">土厚不连根｜水有相容性，可连到<b>年柱</b>｜甲乙木见<b style="color:#93c5fd">丁亥</b>是活木（<span style="color:#ef4444">须丁亥同柱且与木挨着</span>）｜<span style="color:#ef4444">甲辰错位不同柱为死木</span></td></tr>
-            <tr><td class="c-gan" style="color:#f87171">火</td><td class="c-he">木·火</td><td style="text-align:left">—</td></tr>
-            <tr><td class="c-gan" style="color:#fbbf24">土</td><td class="c-he">火·金</td><td style="text-align:left">天干金<span style="color:#ef4444">不连</span>两土；地支金<span style="color:#34d399">可连</span>两土｜但<b>未、戌为燥土</b>，也要特殊论不连</td></tr>
-            <tr><td class="c-gan" style="color:#e2e8f0">金</td><td class="c-he">土·水</td><td style="text-align:left">天干有金 ＋ 地支<b style="color:#93c5fd">金库丑</b>，也可连</td></tr>
-            <tr><td class="c-gan" style="color:#60a5fa">水</td><td class="c-he">金·水</td><td style="text-align:left">如果<b>都是水</b>，四柱都可以连一起</td></tr>
-          </table></div>
-          <div style="font-size:10px;color:#94a3b8;padding:4px 4px 2px;line-height:1.9">
-            <div>· <b style="color:#34d399">木是唯一能连四行的</b>（水火土木），其余各行只有两项。</div>
-            <div>· <b style="color:#ef4444">土、金不能同气相连</b>——它们那一组里没有自己那一行；木、火、水可以（水还能四柱连成一片）。</div>
-            <div>· 「借根」（藤萝系甲）是<b>木专属的叫法</b>；问「能不能连」看这张表，问「叫不叫借根」才是木的事。</div>
-          </div>
+        <div style="font-size:10px;color:#94a3b8;padding:4px 4px 8px;line-height:1.9">
+          👉 上面这几条是<b>木日主</b>的细则；<b style="color:#c4b5fd">哪一行能与哪几行连</b>的通则表，
+          在「<b style="color:#34d399">⚖ 干支虚实</b>」那一块里（天地门是判虚实用的）。
         </div>
+
       </div>
     </div>
 
