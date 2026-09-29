@@ -1,4 +1,4 @@
-const CACHE = 'bazi-v12-nfrange';
+const CACHE = 'bazi-v13-xushi-link';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {
