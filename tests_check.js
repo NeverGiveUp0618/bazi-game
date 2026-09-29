@@ -260,6 +260,24 @@ setTimeout(()=>{
    return miss.length?'缺: '+miss.join(' '):true});
 
 
+ console.log('\n【干支推算 · 出题年份范围】');
+ {
+   const src0=fs.readFileSync(P,'utf8');
+   t('年份范围常量是 1900–2050',()=>{
+     const m=src0.match(/const NF_Y0=(\d+),\s*NF_YN=(\d+)/);
+     if(!m) return '找不到 NF_Y0/NF_YN 常量';
+     const y0=+m[1], y1=y0+ +m[2]-1;
+     return (y0===1900&&y1===2050)||`范围是 ${y0}–${y1}`;
+   });
+   t('抽题不再写死数字（改范围只要动常量）',()=>
+     !/NF\.year=\d+\+Math\.floor/.test(src0)||'nfNext 里还写着字面数字');
+   t('配对模式的年份对子也是 151 年',()=>{
+     const m=src0.match(/YR_GZ_PAIRS[\s\S]{0,200}?length:(\d+)/);
+     if(!m) return '找不到 YR_GZ_PAIRS';
+     return +m[1]===151||`配对 ${m[1]} 年，与推算的 151 年对不上`;
+   });
+ }
+
  console.log('\n【PWA / 资源】');
  const src=fs.readFileSync(P,'utf8');
  t('sw.js 缓存版本号与页面一致',()=>{

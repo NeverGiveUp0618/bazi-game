@@ -4861,12 +4861,15 @@ function m4RenderRel(){
 // ══ 干支推算 ══
 let NF={year:0,selG:'',selZ:'',answered:false,correct:0,total:0};
 function yearToGZ(y){return{g:GAN[(y-4+400)%10],z:ZHI[(y-4+60)%12]};}
+const NF_Y0=1900, NF_YN=151;   // 干支推算的出题年份：1900 起、共 151 年 ⇒ 到 2050
 function startNF(){
   NF={year:0,selG:'',selZ:'',answered:false,correct:0,total:0};
   nfNext();show('p-nf');
 }
 function nfNext(){
-  NF.year=1900+Math.floor(Math.random()*201);
+  // 出题范围 1900–2050（151 年）。与配对模式的 YR_GZ_PAIRS 保持一致 ——
+  // 那边本来就是 Array.from({length:151})，两处别再各写各的。
+  NF.year=NF_Y0+Math.floor(Math.random()*NF_YN);
   NF.selG='';NF.selZ='';NF.answered=false;
   nfRender();
 }
