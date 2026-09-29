@@ -1,4 +1,4 @@
-const CACHE = 'bazi-v10-netfirst';
+const CACHE = 'bazi-v11-tiandimen';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {

@@ -648,7 +648,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.29</span><span style="color:#94a3b8;font-size:12px">🎯 学习计划优化——无计时模式·达标逻辑修正（必须计划期间答题）·编辑计划</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.29</span><span style="color:#94a3b8;font-size:12px">🔎 排盘看题·间隔复习系统·掌握度总览·薄弱点一键练·错题本提醒</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.29</span><span style="color:#94a3b8;font-size:12px">🎯 学习计划——自选知识点·进度追踪·按计划练习·分享模板·历史归档</span></div>
-      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.29</span><span style="color:#94a3b8;font-size:12px">💡 底层逻辑白话——民间体系（ren老18道·气势＋制·七步读盘法·应期三式）</span></div>
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.29</span><span style="color:#94a3b8;font-size:12px">💡 底层逻辑白话——民间体系（大任18道·气势＋制·七步读盘法·应期三式）</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.28</span><span style="color:#94a3b8;font-size:12px">🌀 意象联想训练（天干/地支/十神/干支关系）·象法速查·十天干喜忌·干支虚实</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.26</span><span style="color:#94a3b8;font-size:12px">🀄 六十甲子·歌诀挖空·干支推算·自适应出题·连击特效·歌诀闪卡·配对困难</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#334155;font-size:11px;flex-shrink:0">26.6.25</span><span style="color:#94a3b8;font-size:12px">📖 知识速查（神煞·干支法门·歌诀汇编）·备份导出/导入</span></div>
@@ -1100,6 +1100,11 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
           <tr><th>阳</th><td class="c-zhi">寅</td><td class="c-zhi">申</td><td class="c-zhi">巳</td><td class="c-zhi">亥</td><td class="c-zhi">辰</td><td class="c-zhi">戌</td></tr>
           <tr><th>阴</th><td class="c-zhi">子</td><td class="c-zhi">午</td><td class="c-zhi">卯</td><td class="c-zhi">酉</td><td class="c-zhi">丑</td><td class="c-zhi">未</td></tr>
         </table></div>
+        <div style="font-size:10px;color:#94a3b8;padding:2px 4px 6px;line-height:1.9">
+          <div>· 这一套是<b style="color:#c4b5fd">定十神</b>用的，与<b>藏干本气</b>的阴阳一致（寅＝甲阳、子＝癸阴…）。</div>
+          <div>· <span style="color:#ef4444">地支阴阳有三套，混用必错</span>：另两套是「寅卯辰巳午未为阳」（断事取象用）、「子寅辰午申戌为阳」（<b>查神煞</b>用，断事不用）。</div>
+          <div>· 差异就在 <b style="color:#93c5fd">子·巳·午·亥</b> 四支 —— 甲日见子是<b style="color:#34d399">正印</b>（不是偏印）、见午是<b style="color:#34d399">伤官</b>（不是食神）。</div>
+        </div>
         <div class="m5-sub">三刑</div>
         <div class="m5-wrap"><table class="m5-tbl">
           <tr><td><span class="c-zhi">丑</span>＋<span class="c-zhi">戌</span>＋<span class="c-zhi">未</span></td><td style="width:16px"></td><td><span class="c-zhi">寅</span>＋<span class="c-zhi">巳</span>＋<span class="c-zhi">申</span></td></tr>
@@ -1680,6 +1685,24 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
           <tr><td style="color:#94a3b8;font-weight:bold">金挡</td><td style="text-align:left">金克木阻隔，多不连。</td></tr>
           <tr><td style="color:#475569;font-weight:bold">年柱连根</td><td style="text-align:left">条件极严，不可滥用远根。</td></tr>
         </table></div>
+
+        <button class="m5-sub-tog" onclick="m5SubToggle(this)">▶ 🌐 天地门·五行连线总表（通则）</button>
+        <div class="m5-sub-body" style="display:none">
+          <div style="font-size:10px;color:#64748b;padding:2px 4px 6px;line-height:1.8">上面那几条是<b style="color:#94a3b8">木日主</b>的操作手册；这张表是<b style="color:#c4b5fd">通则</b>——每一行日干能与哪几行连。气脉连上了就当一个整体看，虚的可以变实。</div>
+          <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
+            <thead><tr><th style="width:44px">日干</th><th style="width:96px">能连</th><th style="text-align:left;min-width:210px">特殊情况</th></tr></thead>
+            <tr><td class="c-gan" style="color:#34d399">木</td><td class="c-he">水·火·土·木</td><td style="text-align:left">土厚不连根｜水有相容性，可连到<b>年柱</b>｜甲乙木见<b style="color:#93c5fd">丁亥</b>是活木（<span style="color:#ef4444">须丁亥同柱且与木挨着</span>）｜<span style="color:#ef4444">甲辰错位不同柱为死木</span></td></tr>
+            <tr><td class="c-gan" style="color:#f87171">火</td><td class="c-he">木·火</td><td style="text-align:left">—</td></tr>
+            <tr><td class="c-gan" style="color:#fbbf24">土</td><td class="c-he">火·金</td><td style="text-align:left">天干金<span style="color:#ef4444">不连</span>两土；地支金<span style="color:#34d399">可连</span>两土｜但<b>未、戌为燥土</b>，也要特殊论不连</td></tr>
+            <tr><td class="c-gan" style="color:#e2e8f0">金</td><td class="c-he">土·水</td><td style="text-align:left">天干有金 ＋ 地支<b style="color:#93c5fd">金库丑</b>，也可连</td></tr>
+            <tr><td class="c-gan" style="color:#60a5fa">水</td><td class="c-he">金·水</td><td style="text-align:left">如果<b>都是水</b>，四柱都可以连一起</td></tr>
+          </table></div>
+          <div style="font-size:10px;color:#94a3b8;padding:4px 4px 2px;line-height:1.9">
+            <div>· <b style="color:#34d399">木是唯一能连四行的</b>（水火土木），其余各行只有两项。</div>
+            <div>· <b style="color:#ef4444">土、金不能同气相连</b>——它们那一组里没有自己那一行；木、火、水可以（水还能四柱连成一片）。</div>
+            <div>· 「借根」（藤萝系甲）是<b>木专属的叫法</b>；问「能不能连」看这张表，问「叫不叫借根」才是木的事。</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -2521,7 +2544,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 
 <div class="screen" id="pbdl">
   <div class="tbar"><button class="tbk" onclick="show('ph')">←</button><div class="tbtitle">民间八字底层逻辑</div></div>
-  <div class="bdl-lead">内容来自ren老《民间实用八字18道》。<br>这套民间体系和传统子平差别极大——<span style="color:#10b981;font-weight:bold">不看固定旺衰、不找用神忌神</span>，核心是「气势＋制」，象法是最高境界。</div>
+  <div class="bdl-lead">内容来自大任《民间实用八字18道》。<br>这套民间体系和传统子平差别极大——<span style="color:#10b981;font-weight:bold">不看固定旺衰、不找用神忌神</span>，核心是「气势＋制」，象法是最高境界。</div>
 
   <div class="bdl-sec">18道体系</div>
   <div class="card" style="padding:10px 13px;margin-bottom:8px">
@@ -2592,7 +2615,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <div class="bdl-row"><div class="bdl-lbl" style="background:#1a0000;border-color:#f87171;color:#fca5a5">克我</div><div class="bdl-v"><span style="color:#f87171">七杀</span>（同阴阳）/ <span style="color:#f87171">正官</span>（异阴阳）— 权威压力；女：正官=丈夫</div></div>
     <div class="bdl-row"><div class="bdl-lbl" style="background:#0c0c24;border-color:#60a5fa;color:#93c5fd">生我</div><div class="bdl-v"><span style="color:#60a5fa">偏印</span>（同阴阳）/ <span style="color:#60a5fa">正印</span>（异阴阳）— 学问贵人；正印=母亲</div></div>
     <div class="bdl-sec">十神三个阴阳版本</div>
-    <div class="bdl-lead">ren老讲十神有三个层次：第一阴阳（天干与天干），第二阴阳（天干与地支主气），第三阴阳（天干与藏干余气）。三层读下来才完整。</div>
+    <div class="bdl-lead">大任讲十神有三个层次：第一阴阳（天干与天干），第二阴阳（天干与地支主气），第三阴阳（天干与藏干余气）。三层读下来才完整。</div>
     <div class="bdl-sec">体用概念</div>
     <div class="bdl-row"><div class="bdl-lbl">体</div><div class="bdl-v">整个命局的五行格局整体（气势所在）</div></div>
     <div class="bdl-row"><div class="bdl-lbl">用</div><div class="bdl-v">针对某件具体事看哪个字：看财就有财用神，看官就有官用神，每事用神不同</div></div>
