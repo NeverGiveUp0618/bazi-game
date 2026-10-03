@@ -1,4 +1,4 @@
-const CACHE = 'bazi-v14-tiandimen-move';
+const CACHE = 'bazi-v15-tablet';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {

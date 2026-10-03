@@ -20,8 +20,9 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 /* ⭐ 宽屏拉开（2026-08-11 修正）：**布局不变**，只把容器宽度放开，
    让原有的单列/网格随屏幕横向拉长——与择日学习、命理精讲一致。
    ⚠️ 初版做成了「卡片重排多列」，用户反馈「整体布局都变了」，已撤销。
-      要的是拉长，不是重排。 */
-@media(min-width:900px){
+      要的是拉长，不是重排。
+   ⚠️ 2026-10-03 阈值 900→481：平板竖屏(768~834)原先没触发、两边留空。 */
+@media(min-width:481px){
   .app{max-width:none}
 }
 @media(min-width:600px){body{background:#060d1b;padding:20px 0}.app{border-radius:24px;overflow:hidden;box-shadow:0 8px 60px rgba(0,0,0,.7)}.screen{min-height:0!important}}
