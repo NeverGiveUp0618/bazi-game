@@ -306,6 +306,7 @@ setTimeout(()=>{
    const sw=fs.readFileSync(P.replace('index.html','sw.js'),'utf8');
    const v=(sw.match(/CACHE\s*=\s*'([^']+)'/)||[])[1];
    console.log('   sw 版本: '+v);return true});
+ t('首次访问不因 sw 接管而刷新（只在原本有 controller 时刷）',()=>/const _hadSwCtrl=!!navigator\.serviceWorker\.controller;[\s\S]{0,200}controllerchange[\s\S]{0,60}if\(!_hadSwCtrl\) return;/.test(src)||'controllerchange 缺少首访守卫');
  t('manifest 与图标齐全',()=>['manifest.json','icon-192.png','icon-512.png'].every(f=>fs.existsSync(P.replace('index.html',f)))||'缺文件');
  t('index.html 无西里尔/异常字符',()=>{const b=src.match(/[Ѐ-ӿ]+/g);return b?'含: '+[...new Set(b)]:true});
 

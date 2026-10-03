@@ -196,7 +196,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .bio-yun .c.end{opacity:.45}
 .bio-top .p{font-size:10px;color:#64748b;line-height:1.3;white-space:nowrap}
 .bio-yun .p{color:#fcd34d}
-.bio-top .ss{font-size:10px;color:#a78bfa;line-height:1.3;height:13px;white-space:nowrap}
+.bio-top .ss{font-size:10px;color:#e8dcc4;line-height:1.3;height:13px;white-space:nowrap}
 .bio-top .g,.bio-top .z{display:block;font-family:Georgia,"Songti SC",serif;font-size:20px;font-weight:700;line-height:1.18}
 .bio-top .yr{font-size:9.5px;color:#64748b;line-height:1.3}
 .bio-yunlb{font-size:10px;color:#94a3b8;margin:4px 0 0;display:flex;justify-content:space-between}
@@ -268,7 +268,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .bz-grid.allview .bz-cell{aspect-ratio:auto;height:60px;font-size:30px}
 @media(min-width:400px){.bz-grid.allview .bz-cell{font-size:34px;height:66px}}
 .bz-ann{display:flex;align-items:center;justify-content:center;text-align:center;padding:2px 1px;font-size:11px;line-height:1.2}
-.bz-ann-shen{color:#c4b5fd;font-weight:bold}
+.bz-ann-shen{color:#e8dcc4;font-weight:bold}  /* 十神标注：米白（2026-10-03 用户嫌紫色不好看） */
 .bz-ann-cang{color:#64748b;font-size:10px;letter-spacing:1px}
 .bz-ann-ny{color:#475569;font-size:9px;letter-spacing:.5px}
 /* 排盘看题 mini display */
@@ -4737,7 +4737,7 @@ function renderBio(c,key){
     nav.push(['bio-yunsec','大运']);
     const N=bioYunNote(c,M);
     h+=`<div class="bio-sec" id="bio-yunsec"><h4>大运</h4><div class="bio-card">`+
-      YL.map(s=>{const a1=by&&s.y?s.y-by+1:null;return `<div class="bio-it"><div class="l">${bioGz(s.g+s.z)}</div><div>${s.y?`${s.y}–${s.y+10} 年 · `:''}${a1?`虚岁 ${a1}–${a1+10} · `:''}<span style="color:#a78bfa">${getShen(c.b[2],s.g)} / ${zhiShen(c.b[2],s.z)}</span></div></div>`;}).join('')+
+      YL.map(s=>{const a1=by&&s.y?s.y-by+1:null;return `<div class="bio-it"><div class="l">${bioGz(s.g+s.z)}</div><div>${s.y?`${s.y}–${s.y+10} 年 · `:''}${a1?`虚岁 ${a1}–${a1+10} · `:''}<span style="color:#e8dcc4">${getShen(c.b[2],s.g)} / ${zhiShen(c.b[2],s.z)}</span></div></div>`;}).join('')+
       `<div class="bio-it"><div class="l">起运</div><div>${N.t}${bioQ(N.q)}</div></div></div></div>`;
   }
   B.sections.forEach((s,i)=>{
@@ -6024,8 +6024,13 @@ if('serviceWorker' in navigator){
     navigator.serviceWorker.register('./sw.js').catch(()=>{});
   });
   /* 新 sw 接管后刷一次，否则本次访问仍由旧 sw 供旧页面（把链接发给别人、对方看到旧版就是这么来的）。
-     ⚠️ 守卫必须放 sessionStorage：普通 JS 变量会被 reload 清零，那个「只刷一次」一次都不生效，会死循环。 */
+     ⚠️ 守卫必须放 sessionStorage：普通 JS 变量会被 reload 清零，那个「只刷一次」一次都不生效，会死循环。
+     ⚠️⚠️ 只在「本来就有旧 sw 控制页面」时才刷：首次访问没有 controller，sw 装好后 clients.claim()
+        也会触发 controllerchange——那次页面本来就是从网络拿的最新版，刷了只会让人看到几秒后「闪跳一下」
+        （2026-10-03 用户报的就是这个）。 */
+  const _hadSwCtrl=!!navigator.serviceWorker.controller;
   navigator.serviceWorker.addEventListener('controllerchange',()=>{
+    if(!_hadSwCtrl) return;
     try{
       if(sessionStorage.getItem('bazi_sw_reloaded')) return;
       sessionStorage.setItem('bazi_sw_reloaded','1');
