@@ -179,28 +179,58 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .m3pick-item{padding:11px 16px;border-bottom:1px solid #1e293b55;color:#94a3b8;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:10px}
 .m3pick-item:active{background:#1e3a8a55}
 .m3pick-item.cur{background:#1e3a8a;color:#93c5fd}
-/* 命主生平 */
+/* 命主生平 —— 盘吸顶、五行配色与「命理精讲」一致（深色版色值） */
 .bio-btn{margin-top:8px;width:100%;padding:10px;border-radius:10px;border:1px solid #a16207;background:#422006;color:#fcd34d;font-size:14px;font-weight:600;cursor:pointer}
 .bio-btn.none{border-color:#334155;background:#1e293b;color:#64748b;font-weight:400}
-.bio-modal{max-height:90vh}
-.bio-chips{display:flex;gap:6px;overflow-x:auto;padding:8px 12px;border-bottom:1px solid #334155;flex-shrink:0;-webkit-overflow-scrolling:touch}
+.bio-modal{max-height:92vh;height:92vh}
+.bio-body{padding:0 14px 28px;flex:1}
+.w-mu{color:#5fbf8f}.w-huo{color:#e8705f}.w-tu{color:#b07d54}.w-jin{color:#d9a94e}.w-shui{color:#6fa8dc}
+/* 吸顶区：盘 + 分类导航，滚动时一直在顶上 */
+.bio-stick{position:sticky;top:0;z-index:5;margin:0 -14px;padding:8px 14px 0;background:rgba(30,41,59,.96);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid #334155}
+.bio-top{display:flex;align-items:flex-start;gap:8px}
+.bio-chart{display:flex;gap:3px;flex:none}
+.bio-yun{display:flex;gap:3px;flex:1;min-width:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-left:8px;border-left:1px dashed #475569;position:relative}
+.bio-yun::-webkit-scrollbar{display:none}
+.bio-top .c{width:42px;flex:none;text-align:center;padding:2px 0 3px;border-radius:8px}
+.bio-chart .c.day{background:#1e3a8a55;box-shadow:0 0 0 1px #3b5bdb66}
+.bio-yun .c.end{opacity:.45}
+.bio-top .p{font-size:10px;color:#64748b;line-height:1.3;white-space:nowrap}
+.bio-yun .p{color:#fcd34d}
+.bio-top .ss{font-size:10px;color:#a78bfa;line-height:1.3;height:13px;white-space:nowrap}
+.bio-top .g,.bio-top .z{display:block;font-family:Georgia,"Songti SC",serif;font-size:20px;font-weight:700;line-height:1.18}
+.bio-top .yr{font-size:9.5px;color:#64748b;line-height:1.3}
+.bio-yunlb{font-size:10px;color:#94a3b8;margin:4px 0 0;display:flex;justify-content:space-between}
+.bio-yunlb span:last-child{color:#64748b}
+.bio-tl .yun{color:#fcd34d;font-size:11.5px;margin-right:6px;opacity:.85}
+.bio-chips{display:flex;gap:6px;overflow-x:auto;padding:8px 0;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.bio-chips::-webkit-scrollbar{display:none}
 .bio-chips button{flex-shrink:0;background:#0f172a;border:1px solid #334155;color:#94a3b8;border-radius:14px;padding:4px 11px;font-size:12px;cursor:pointer}
-.bio-body{padding:4px 14px 24px}
-.bio-brief{color:#cbd5e1;font-size:13.5px;line-height:1.7;margin:10px 0 6px}
-.bio-bz{display:flex;gap:6px;margin:8px 0 4px}
-.bio-bz div{flex:1;text-align:center;background:#0f172a;border:1px solid #334155;border-radius:8px;padding:4px 0;color:#e2e8f0;font-size:16px;line-height:1.35}
-.bio-bz small{display:block;color:#64748b;font-size:10px}
-.bio-sec{margin-top:16px}
-.bio-sec h4{color:#fcd34d;font-size:14px;margin:0 0 6px;padding-bottom:4px;border-bottom:1px solid #a1620755}
-.bio-it{padding:6px 0;border-bottom:1px solid #33415555;font-size:13px;line-height:1.7;color:#cbd5e1}
-.bio-it b{color:#93c5fd;font-weight:600;margin-right:6px}
-.bio-q{display:inline-block;margin-left:4px;padding:0 6px;border-radius:4px;background:#7c2d12;color:#fdba74;font-size:11px;line-height:18px;vertical-align:1px}
-.bio-qt{display:block;color:#fb923c;font-size:12px;margin-top:2px}
-.bio-tl{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid #33415555;font-size:13px;line-height:1.65;color:#cbd5e1}
-.bio-tl .when{flex-shrink:0;width:78px;color:#94a3b8;font-size:12px;line-height:1.5}
-.bio-tl .when b{display:block;color:#e2e8f0;font-size:13px}
-.bio-tl .when i{font-style:normal;color:#fcd34d}
-.bio-note{color:#64748b;font-size:12px;line-height:1.7;margin-top:16px}
+.bio-chips button:active{background:#422006;color:#fcd34d}
+/* 正文 */
+.bio-brief{margin:14px 0 4px;padding:10px 12px;border-radius:10px;background:#0f172a;border-left:3px solid #a16207;color:#cbd5e1;font-size:13.5px;line-height:1.75}
+.bio-sec{margin-top:18px;scroll-margin-top:150px}
+.bio-sec h4{display:flex;align-items:center;gap:8px;color:#fcd34d;font-size:15px;margin:0 0 8px}
+.bio-sec h4::before{content:'';width:4px;height:15px;border-radius:2px;background:#d97706}
+.bio-sec h4 small{font-size:11px;color:#64748b;font-weight:400}
+.bio-card{background:#0f172a;border:1px solid #1e293b;border-radius:10px;overflow:hidden}
+.bio-it{display:grid;grid-template-columns:4.6em 1fr;gap:10px;padding:9px 12px;border-top:1px solid #1e293b;font-size:13.5px;line-height:1.75;color:#cbd5e1}
+.bio-it:first-child{border-top:none}
+.bio-it .l{color:#93c5fd;font-weight:600;font-size:13px}
+.bio-q{margin-top:5px;padding:4px 8px;border-radius:6px;background:#43140744;border-left:2px solid #ea580c;color:#fdba74;font-size:12px;line-height:1.6}
+.bio-q b{color:#fb923c;margin-right:4px}
+/* 年表：竖线 + 圆点 */
+.bio-tlw{position:relative;padding-left:4px}
+.bio-tl{position:relative;display:grid;grid-template-columns:64px 1fr;gap:12px;padding:7px 0 9px}
+.bio-tl::before{content:'';position:absolute;left:73px;top:0;bottom:0;width:1px;background:#334155}
+.bio-tl::after{content:'';position:absolute;left:70px;top:14px;width:7px;height:7px;border-radius:50%;background:#d97706;box-shadow:0 0 0 2px #1e293b}
+.bio-tl.dq::after{background:#64748b}
+.bio-tl .when{text-align:right;line-height:1.35}
+.bio-tl .yr{display:block;color:#e2e8f0;font-size:14px;font-weight:700;font-family:Georgia,serif}
+.bio-tl .md{color:#94a3b8;font-size:12px;margin-right:6px}
+.bio-tl .gz{font-family:Georgia,"Songti SC",serif;font-size:13.5px;font-weight:700}
+.bio-tl .age{color:#94a3b8;font-size:11px;margin-left:3px}
+.bio-tl .tx{padding-left:6px;color:#cbd5e1;font-size:13.5px;line-height:1.75}
+.bio-note{color:#64748b;font-size:12px;line-height:1.7;margin-top:18px;padding-top:10px;border-top:1px dashed #334155}
 .bio-empty{color:#94a3b8;text-align:center;padding:40px 10px;font-size:14px;line-height:1.8}
 .m3nb:hover{background:#273549;color:#94a3b8}
 .bz-wrap{background:#1e293b;border-radius:18px;padding:13px 10px;flex-shrink:0}
@@ -962,7 +992,6 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
       <span id="bio-title">生平</span>
       <button onclick="closeBio()">✕</button>
     </div>
-    <div class="bio-chips" id="bio-chips"></div>
     <div class="m3pick-list bio-body" id="bio-body"></div>
   </div>
 </div>
@@ -4588,7 +4617,7 @@ function m3Render(){
 
 // ── 命主生平：数据在 bio.js，第一次点「生平」才加载 ──
 const BIO_LIST=['清孝钦太后'];   // 已整理的命主（让按钮不用先加载 bio.js 就知道亮不亮）；与 bio.js 的键保持一致
-const BIO_VER=1;                // 改 bio.js 后 +1，避开微信等浏览器的旧缓存
+const BIO_VER=2;                // 改 bio.js 后 +1，避开微信等浏览器的旧缓存
 const bioKey=c=>c.n.replace(/^\d+\./,'');
 function bioBtnState(){
   const b=document.getElementById('m3-bio-btn');if(!b)return;
@@ -4614,43 +4643,86 @@ function bioGzYear(d){
   const yy=(m&&(m<2||(m===2&&dd&&dd<4)))?y-1:y;
   return {yy,gz:GAN[((yy-4)%10+10)%10]+ZHI[((yy-4)%12+12)%12]};
 }
-function bioQ(q){return q?`<span class="bio-q">存疑</span><span class="bio-qt">${q}</span>`:'';}
+const bioWx=ch=>({木:'w-mu',火:'w-huo',土:'w-tu',金:'w-jin',水:'w-shui'})[G_WX[ch]||Z_WX[ch]]||'';
+const bioGz=t=>[...t].map(ch=>`<span class="${bioWx(ch)}">${ch}</span>`).join('');
+function bioQ(q){return q?`<div class="bio-q"><b>存疑</b>${q}</div>`:'';}
 function openBio(){
-  const c=CASES[M3.idx],key=bioKey(c);
-  const ov=document.getElementById('m3-bio'),body=document.getElementById('bio-body'),chips=document.getElementById('bio-chips');
+  const c=CASES[M3.idx],key=bioKey(c),body=document.getElementById('bio-body');
   document.getElementById('bio-title').textContent=key+' · 生平';
-  chips.innerHTML='';
-  ov.style.display='flex';
+  document.getElementById('m3-bio').style.display='flex';
   if(!BIO_LIST.includes(key)){
-    body.innerHTML=`<div class="bio-empty">「${key}」的生平资料还没整理<br><span style="font-size:12px;color:#64748b">目前已整理 ${BIO_LIST.length} 位：${BIO_LIST.join('、')}</span></div>`;
+    body.innerHTML=bioChart(c)+`<div class="bio-empty">「${key}」的生平资料还没整理<br><span style="font-size:12px;color:#64748b">目前已整理 ${BIO_LIST.length} 位：${BIO_LIST.join('、')}</span></div>`;
     return;
   }
-  body.innerHTML='<div class="bio-empty">加载中…</div>';
-  loadBio().then(()=>renderBio(c,key)).catch(()=>{body.innerHTML='<div class="bio-empty">生平资料加载失败，请检查网络后重试</div>';});
+  body.innerHTML=bioChart(c)+'<div class="bio-empty">加载中…</div>';
+  loadBio().then(()=>renderBio(c,key)).catch(()=>{body.innerHTML=bioChart(c)+'<div class="bio-empty">生平资料加载失败，请检查网络后重试</div>';});
+}
+// 排大运：阳男阴女顺、阴男阳女逆，从月柱起每步进/退一位；交运年按 start 每十年一换
+function bioYunList(c,Y){
+  if(!Y)return [];
+  const b=c.b,yang=YY[b[0]]==='阳',fwd=(yang&&Y.sex==='男')||(!yang&&Y.sex==='女');
+  let gi=GAN.indexOf(b[1]),zi=ZHI.indexOf(b[5]);const out=[];
+  for(let k=0;k<9;k++){
+    gi=(gi+(fwd?1:-1)+10)%10;zi=(zi+(fwd?1:-1)+12)%12;
+    out.push({g:GAN[gi],z:ZHI[zi],y:Y.start.y+10*k,m:Y.start.m});
+  }
+  out.fwd=fwd;return out;
+}
+// 某个日期落在哪步运（交运那一年只写年份时无法判断，返回「X/Y交接」）
+function bioYunAt(list,d){
+  if(!list.length)return '';
+  const [y,m]=d.split('-').map(Number);
+  if(y<list[0].y||(y===list[0].y&&m&&m<list[0].m))return '童限';
+  for(let k=list.length-1;k>=0;k--){
+    const s=list[k];
+    if(y>s.y||(y===s.y&&m&&m>=s.m))return s.g+s.z+'运';
+    if(y===s.y&&!m)return (k?list[k-1].g+list[k-1].z:'童限')+'/'+s.g+s.z+'交接';
+  }
+  return '';
+}
+// 吸顶区：左边原局四柱（十神／干／支／支本气十神），右边大运可左右滑；五行配色
+function bioChart(c,nav,B){
+  const b=c.b,rz=b[2],P=['年柱','月柱','日柱','时柱'];
+  const col=(cls,p,g,z,ss1,yr)=>`<div class="c${cls}"><div class="p">${p}</div><div class="ss">${ss1}</div>`+
+    `<span class="g ${bioWx(g)}">${g}</span><span class="z ${bioWx(z)}">${z}</span>`+
+    `<div class="ss">${getShen(rz,ZHI_BENQI[z])}</div>${yr?`<div class="yr">${yr}</div>`:''}</div>`;
+  const cols=[0,1,2,3].map(i=>col(i===2?' day':'',P[i],b[i],b[i+4],i===2?'日主':getShen(rz,b[i]))).join('');
+  let yun='';const Y=B&&B.yun;
+  if(Y){
+    const L=bioYunList(c,Y),by=B.birth?B.birth.y:null,dy=B.timeline.length?+B.timeline[B.timeline.length-1].d.slice(0,4):null;
+    yun=`<div class="bio-yun" id="bio-yun">`+L.map(s=>col(dy&&s.y>dy?' end':'',by?(s.y-by+1)+'岁':'',s.g,s.z,getShen(rz,s.g),s.y)).join('')+'</div>';
+  }
+  const lb=Y?`<div class="bio-yunlb"><span>${Y.sex==='男'?'乾':'坤'}造 · 大运${bioYunList(c,Y).fwd?'顺':'逆'}排 · ${Y.start.y}年${Y.start.m}月起运</span><span>大运可左右滑 ›</span></div>`:'';
+  return `<div class="bio-stick"><div class="bio-top"><div class="bio-chart">${cols}</div>${yun}</div>${lb}${nav?`<div class="bio-chips">${nav}</div>`:'<div style="height:8px"></div>'}</div>`;
 }
 function renderBio(c,key){
-  const B=window.BIO[key],body=document.getElementById('bio-body'),chips=document.getElementById('bio-chips');
-  if(!B){body.innerHTML=`<div class="bio-empty">没找到「${key}」的资料</div>`;return;}
+  const B=window.BIO[key],body=document.getElementById('bio-body');
+  if(!B){body.innerHTML=bioChart(c)+`<div class="bio-empty">没找到「${key}」的资料</div>`;return;}
   document.getElementById('bio-title').textContent=B.title+' · 生平';
-  const b=c.b,P=['年','月','日','时'];
-  let h=`<div class="bio-bz">${[0,1,2,3].map(i=>`<div><small>${P[i]}</small>${b[i]}<br>${b[i+4]}</div>`).join('')}</div>`;
-  h+=`<div class="bio-brief">${B.brief}</div>`;
-  const nav=[];
+  const nav=[];let h=`<div class="bio-brief">${B.brief}</div>`;
+  const YL=bioYunList(c,B.yun);
+  if(B.yun){
+    nav.push(['bio-yunsec','大运']);
+    h+=`<div class="bio-sec" id="bio-yunsec"><h4>大运</h4><div class="bio-card">`+
+      YL.map((s,k)=>{const by=B.birth.y,a1=s.y-by+1;return `<div class="bio-it"><div class="l">${bioGz(s.g+s.z)}</div><div>${s.y}–${s.y+10} 年 · 虚岁 ${a1}–${a1+10} · <span style="color:#a78bfa">${getShen(c.b[2],s.g)} / ${getShen(c.b[2],ZHI_BENQI[s.z])}</span></div></div>`;}).join('')+
+      `<div class="bio-it"><div class="l">起运</div><div>${B.yun.note}${bioQ(B.yun.q)}</div></div></div></div>`;
+  }
   B.sections.forEach((s,i)=>{
     nav.push([`bio-s${i}`,s.k]);
-    h+=`<div class="bio-sec" id="bio-s${i}"><h4>${s.k}</h4>`+s.items.map(it=>`<div class="bio-it"><b>${it.l}</b>${it.t}${bioQ(it.q)}</div>`).join('')+'</div>';
+    h+=`<div class="bio-sec" id="bio-s${i}"><h4>${s.k}</h4><div class="bio-card">`+
+      s.items.map(it=>`<div class="bio-it"><div class="l">${it.l}</div><div>${it.t}${bioQ(it.q)}</div></div>`).join('')+'</div></div>';
   });
   nav.push(['bio-tl','大事年表']);
-  h+=`<div class="bio-sec" id="bio-tl"><h4>大事年表 <span style="font-size:11px;color:#94a3b8;font-weight:400">· 干支年按立春换年，岁数为虚岁</span></h4>`;
+  h+=`<div class="bio-sec" id="bio-tl"><h4>大事年表 <small>干支按立春换年 · 岁数为虚岁</small></h4><div class="bio-tlw">`;
   h+=B.timeline.map(e=>{
     const {yy,gz}=bioGzYear(e.d);
     const age=B.birth?yy-B.birth.y+1:null;
-    const [,mo,da]=e.d.split('-').map(Number),md=mo?(da?mo+'/'+da:mo+'月'):'';
-    return `<div class="bio-tl"><div class="when"><b>${e.d.slice(0,4)}${md?' <span style="font-weight:400;font-size:11px;color:#94a3b8">'+md+'</span>':''}</b><i>${gz}</i>${age!=null?' · '+age+'岁':''}</div><div>${e.t}${bioQ(e.q)}</div></div>`;
-  }).join('')+'</div>';
+    const [,mo,da]=e.d.split('-').map(Number),md=mo?(da?mo+'月'+da+'日':mo+'月'):'';
+    return `<div class="bio-tl${e.q?' dq':''}"><div class="when"><span class="yr">${e.d.slice(0,4)}</span><span class="gz">${bioGz(gz)}</span>${age!=null?`<span class="age">${age}岁</span>`:''}</div><div class="tx">${md?`<span class="md">${md}</span>`:''}${YL.length?`<span class="yun">${bioYunAt(YL,e.d)}</span>`:''}${e.t}${bioQ(e.q)}</div></div>`;
+  }).join('')+'</div></div>';
   if(B.refs)h+=`<div class="bio-note">资料依据：${B.refs}</div>`;
-  body.innerHTML=h;body.scrollTop=0;
-  chips.innerHTML=nav.map(([id,k])=>`<button onclick="document.getElementById('${id}').scrollIntoView({behavior:'smooth',block:'start'})">${k}</button>`).join('');
+  const navHtml=nav.map(([id,k])=>`<button onclick="document.getElementById('${id}').scrollIntoView({behavior:'smooth',block:'start'})">${k}</button>`).join('');
+  body.innerHTML=bioChart(c,navHtml,B)+h;body.scrollTop=0;
 }
 function closeBio(){document.getElementById('m3-bio').style.display='none';}
 function m3Click(ci,type,p,val){
