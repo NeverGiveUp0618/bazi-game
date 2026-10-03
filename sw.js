@@ -1,4 +1,4 @@
-const CACHE = 'bazi-v20-bio-117';
+const CACHE = 'bazi-v21-bio-audit';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './bio/meta.js'];
 
 self.addEventListener('install', e => {
