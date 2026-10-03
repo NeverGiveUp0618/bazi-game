@@ -4627,9 +4627,10 @@ function m3Render(){
   bioBtnState();
 }
 
-// ── 命主生平：数据在 bio.js，第一次点「生平」才加载 ──
-const BIO_LIST=['清孝钦太后'];   // 已整理的命主（让按钮不用先加载 bio.js 就知道亮不亮）；与 bio.js 的键保持一致
-const BIO_VER=2;                // 改 bio.js 后 +1，避开微信等浏览器的旧缓存
+// ── 命主生平：每人一个文件 bio/NNN.js，第一次点「生平」才加载 ──
+// BIO_LIST / BIO_VER 由 bio/build.py 自动改写，别手改
+const BIO_LIST=["清孝钦太后", "黄兴", "袁世凯", "冯国璋", "瞿鸿玑", "赵秉钧", "钱能训", "姜桂题"];
+const BIO_VER=5;
 const bioKey=c=>c.n.replace(/^\d+\./,'');
 function bioBtnState(){
   const b=document.getElementById('m3-bio-btn');if(!b)return;
@@ -4637,17 +4638,24 @@ function bioBtnState(){
   b.classList.toggle('none',!has);
   b.textContent=has?'📖 生平':'📖 生平（待整理）';
 }
-let _bioLoading=null;
-function loadBio(){
-  if(window.BIO)return Promise.resolve();
-  if(_bioLoading)return _bioLoading;
-  _bioLoading=new Promise((ok,fail)=>{
+window.BIO=window.BIO||{};
+// 生平文件用紧凑写法：s=[[分类,[[小标题,正文,存疑?],…]],…]，tl=[[日期,事件,存疑?],…]；这里展开成渲染用的结构
+function BIO_PUT(key,o){
+  window.BIO[key]={title:o.title,brief:o.brief,refs:o.refs,by:o.by,
+    sections:o.s.map(([k,items])=>({k,items:items.map(([l,t,q])=>({l,t,q}))})),
+    timeline:o.tl.map(([d,t,q])=>({d,t,q}))};
+}
+function bioScript(src){
+  return new Promise((ok,fail)=>{
     const sc=document.createElement('script');
-    sc.src='bio.js?v='+BIO_VER;
-    sc.onload=ok;sc.onerror=()=>{_bioLoading=null;fail();};
+    sc.src=src+'?v='+BIO_VER;sc.onload=ok;sc.onerror=fail;
     document.head.appendChild(sc);
   });
-  return _bioLoading;
+}
+let _bioMeta=null;
+function loadBio(c,key){
+  if(!_bioMeta)_bioMeta=bioScript('bio/meta.js').catch(e=>{_bioMeta=null;throw e;});
+  return _bioMeta.then(()=>window.BIO[key]?null:bioScript('bio/'+String(window.BIO_META[key].no).padStart(3,'0')+'.js'));
 }
 // 公历日期 → 年柱干支（按立春换年，立春近似取 2 月 4 日）
 function bioGzYear(d){
@@ -4663,26 +4671,26 @@ function openBio(){
   document.getElementById('bio-title').textContent=key+' · 生平';
   document.getElementById('m3-bio').style.display='flex';
   if(!BIO_LIST.includes(key)){
-    body.innerHTML=bioChart(c)+`<div class="bio-empty">「${key}」的生平资料还没整理<br><span style="font-size:12px;color:#64748b">目前已整理 ${BIO_LIST.length} 位：${BIO_LIST.join('、')}</span></div>`;
+    body.innerHTML=bioChart(c)+`<div class="bio-empty">「${key}」的生平资料还没整理<br><span style="font-size:12px;color:#64748b">已整理 ${BIO_LIST.length} / ${CASES.length} 位</span></div>`;
     return;
   }
   body.innerHTML=bioChart(c)+'<div class="bio-empty">加载中…</div>';
-  loadBio().then(()=>renderBio(c,key)).catch(()=>{body.innerHTML=bioChart(c)+'<div class="bio-empty">生平资料加载失败，请检查网络后重试</div>';});
+  loadBio(c,key).then(()=>renderBio(c,key)).catch(()=>{body.innerHTML=bioChart(c)+'<div class="bio-empty">生平资料加载失败，请检查网络后重试</div>';});
 }
-// 排大运：阳男阴女顺、阴男阳女逆，从月柱起每步进/退一位；交运年按 start 每十年一换
-function bioYunList(c,Y){
-  if(!Y)return [];
-  const b=c.b,yang=YY[b[0]]==='阳',fwd=(yang&&Y.sex==='男')||(!yang&&Y.sex==='女');
+// 排大运：方向由 build.py 按「阳男阴女顺、阴男阳女逆」算好（M.fwd），从月柱起每步进/退一位
+function bioYunList(c,M){
+  if(!M)return [];
+  const b=c.b,fwd=M.fwd!=null?M.fwd:((YY[b[0]]==='阳')===(M.sex==='男'));
   let gi=GAN.indexOf(b[1]),zi=ZHI.indexOf(b[5]);const out=[];
   for(let k=0;k<9;k++){
     gi=(gi+(fwd?1:-1)+10)%10;zi=(zi+(fwd?1:-1)+12)%12;
-    out.push({g:GAN[gi],z:ZHI[zi],y:Y.start.y+10*k,m:Y.start.m});
+    out.push({g:GAN[gi],z:ZHI[zi],y:M.start?M.start.y+10*k:null,m:M.start?M.start.m:null});
   }
   out.fwd=fwd;return out;
 }
 // 某个日期落在哪步运（交运那一年只写年份时无法判断，返回「X/Y交接」）
 function bioYunAt(list,d){
-  if(!list.length)return '';
+  if(!list.length||list[0].y==null)return '';
   const [y,m]=d.split('-').map(Number);
   if(y<list[0].y||(y===list[0].y&&m&&m<list[0].m))return '童限';
   for(let k=list.length-1;k>=0;k--){
@@ -4692,32 +4700,45 @@ function bioYunAt(list,d){
   }
   return '';
 }
-// 吸顶区：左边原局四柱（十神／干／支／支本气十神），右边大运可左右滑；五行配色
-function bioChart(c,nav,B){
+// 生年（按立春换年）：优先本盘反推的生日，盘对不上日子的用生平文件里的 by
+function bioBirthY(M,B){return M&&M.d?bioGzYear(M.d).yy:(B&&B.by)||null;}
+// 吸顶区：左边原局四柱（十神／干／支／支十神），右边大运可左右滑；五行配色
+function bioChart(c,nav,B,M){
   const b=c.b,rz=b[2],P=['年柱','月柱','日柱','时柱'];
   const col=(cls,p,g,z,ss1,yr)=>`<div class="c${cls}"><div class="p">${p}</div><div class="ss">${ss1}</div>`+
     `<span class="g ${bioWx(g)}">${g}</span><span class="z ${bioWx(z)}">${z}</span>`+
     `<div class="ss">${zhiShen(rz,z)}</div>${yr?`<div class="yr">${yr}</div>`:''}</div>`;
   const cols=[0,1,2,3].map(i=>col(i===2?' day':'',P[i],b[i],b[i+4],i===2?'日主':getShen(rz,b[i]))).join('');
-  let yun='';const Y=B&&B.yun;
-  if(Y){
-    const L=bioYunList(c,Y),by=B.birth?B.birth.y:null,dy=B.timeline.length?+B.timeline[B.timeline.length-1].d.slice(0,4):null;
-    yun=`<div class="bio-yun" id="bio-yun">`+L.map(s=>col(dy&&s.y>dy?' end':'',by?(s.y-by+1)+'岁':'',s.g,s.z,getShen(rz,s.g),s.y)).join('')+'</div>';
+  let yun='',lb='';
+  if(M){
+    const L=bioYunList(c,M),by=bioBirthY(M,B),dy=B.timeline.length?+B.timeline[B.timeline.length-1].d.slice(0,4):null;
+    yun=`<div class="bio-yun" id="bio-yun">`+L.map(s=>col(dy&&s.y&&s.y>dy?' end':'',by&&s.y?(s.y-by+1)+'岁':'大运',s.g,s.z,getShen(rz,s.g),s.y||'')).join('')+'</div>';
+    lb=`<div class="bio-yunlb"><span>${M.sex==='男'?'乾':'坤'}造 · 大运${L.fwd?'顺':'逆'}排 · ${M.start?M.start.y+'年'+M.start.m+'月起运':'起运时间无法精算'}</span><span>大运可左右滑 ›</span></div>`;
   }
-  const lb=Y?`<div class="bio-yunlb"><span>${Y.sex==='男'?'乾':'坤'}造 · 大运${bioYunList(c,Y).fwd?'顺':'逆'}排 · ${Y.start.y}年${Y.start.m}月起运</span><span>大运可左右滑 ›</span></div>`:'';
   return `<div class="bio-stick"><div class="bio-top"><div class="bio-chart">${cols}</div>${yun}</div>${lb}${nav?`<div class="bio-chips">${nav}</div>`:'<div style="height:8px"></div>'}</div>`;
 }
+// 起运说明：全由 meta 自动生成
+function bioYunNote(c,M){
+  const b=c.b,L=bioYunList(c,M);
+  let t=`${b[0]+b[4]}年生${M.sex==='男'?'男':'女'}命，${YY[b[0]]}年${M.sex}${L.fwd?'顺':'逆'}排。`;
+  if(M.start)t+=`本盘年月日三柱反推公历生日为 ${M.d}${M.est?'（盘对不上日子，借用史载生日估算）':''}，${b[7]}时；${L.fwd?'顺数到下一个':'逆数到上一个'}节「${M.jie}」（${M.jt}）约 ${M.days} 天，三天折一年，约 ${M.age} 起运，${M.start.y} 年 ${M.start.m} 月前后交第一步运，以后每十年一换。`;
+  else t+='大运干支照排，但起运岁数算不出来。';
+  const q=['时辰取时支中点估算，节气按天文公式推算，交运月份可能差一两个月'].concat(M.warn||[]);
+  if(M.hits&&M.hits.length>1)q.push(`同一组年月日三柱在 1790–1930 年间还对应 ${M.hits.filter(x=>x!==M.d).join('、')}，按命主生平选了 ${M.d}`);
+  return {t,q:q.join('；')};
+}
 function renderBio(c,key){
-  const B=window.BIO[key],body=document.getElementById('bio-body');
+  const B=window.BIO[key],M=window.BIO_META&&window.BIO_META[key],body=document.getElementById('bio-body');
   if(!B){body.innerHTML=bioChart(c)+`<div class="bio-empty">没找到「${key}」的资料</div>`;return;}
   document.getElementById('bio-title').textContent=B.title+' · 生平';
-  const nav=[];let h=`<div class="bio-brief">${B.brief}</div>`;
-  const YL=bioYunList(c,B.yun);
-  if(B.yun){
+  const nav=[],by=bioBirthY(M,B);let h=`<div class="bio-brief">${B.brief}</div>`;
+  const YL=bioYunList(c,M);
+  if(M){
     nav.push(['bio-yunsec','大运']);
+    const N=bioYunNote(c,M);
     h+=`<div class="bio-sec" id="bio-yunsec"><h4>大运</h4><div class="bio-card">`+
-      YL.map((s,k)=>{const by=B.birth.y,a1=s.y-by+1;return `<div class="bio-it"><div class="l">${bioGz(s.g+s.z)}</div><div>${s.y}–${s.y+10} 年 · 虚岁 ${a1}–${a1+10} · <span style="color:#a78bfa">${getShen(c.b[2],s.g)} / ${zhiShen(c.b[2],s.z)}</span></div></div>`;}).join('')+
-      `<div class="bio-it"><div class="l">起运</div><div>${B.yun.note}${bioQ(B.yun.q)}</div></div></div></div>`;
+      YL.map(s=>{const a1=by&&s.y?s.y-by+1:null;return `<div class="bio-it"><div class="l">${bioGz(s.g+s.z)}</div><div>${s.y?`${s.y}–${s.y+10} 年 · `:''}${a1?`虚岁 ${a1}–${a1+10} · `:''}<span style="color:#a78bfa">${getShen(c.b[2],s.g)} / ${zhiShen(c.b[2],s.z)}</span></div></div>`;}).join('')+
+      `<div class="bio-it"><div class="l">起运</div><div>${N.t}${bioQ(N.q)}</div></div></div></div>`;
   }
   B.sections.forEach((s,i)=>{
     nav.push([`bio-s${i}`,s.k]);
@@ -4728,13 +4749,14 @@ function renderBio(c,key){
   h+=`<div class="bio-sec" id="bio-tl"><h4>大事年表 <small>干支按立春换年 · 岁数为虚岁</small></h4><div class="bio-tlw">`;
   h+=B.timeline.map(e=>{
     const {yy,gz}=bioGzYear(e.d);
-    const age=B.birth?yy-B.birth.y+1:null;
+    const age=by?yy-by+1:null;
     const [,mo,da]=e.d.split('-').map(Number),md=mo?(da?mo+'月'+da+'日':mo+'月'):'';
-    return `<div class="bio-tl${e.q?' dq':''}"><div class="when"><span class="yr">${e.d.slice(0,4)}</span><span class="gz">${bioGz(gz)}</span>${age!=null?`<span class="age">${age}岁</span>`:''}</div><div class="tx">${md?`<span class="md">${md}</span>`:''}${YL.length?`<span class="yun">${bioYunAt(YL,e.d)}</span>`:''}${e.t}${bioQ(e.q)}</div></div>`;
+    const yn=bioYunAt(YL,e.d);
+    return `<div class="bio-tl${e.q?' dq':''}"><div class="when"><span class="yr">${e.d.slice(0,4)}</span><span class="gz">${bioGz(gz)}</span>${age!=null?`<span class="age">${age}岁</span>`:''}</div><div class="tx">${md?`<span class="md">${md}</span>`:''}${yn?`<span class="yun">${yn}</span>`:''}${e.t}${bioQ(e.q)}</div></div>`;
   }).join('')+'</div></div>';
   if(B.refs)h+=`<div class="bio-note">资料依据：${B.refs}</div>`;
   const navHtml=nav.map(([id,k])=>`<button onclick="document.getElementById('${id}').scrollIntoView({behavior:'smooth',block:'start'})">${k}</button>`).join('');
-  body.innerHTML=bioChart(c,navHtml,B)+h;body.scrollTop=0;
+  body.innerHTML=bioChart(c,navHtml,B,M)+h;body.scrollTop=0;
 }
 function closeBio(){document.getElementById('m3-bio').style.display='none';}
 function m3Click(ci,type,p,val){

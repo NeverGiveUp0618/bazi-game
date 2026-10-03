@@ -282,16 +282,23 @@ setTimeout(()=>{
  t('zhiShen 关键四支：甲见子正印、见午伤官、见巳食神、见亥偏印',()=>{const f=z=>E(`zhiShen('甲','${z}')`);return (f('子')==='正印'&&f('午')==='伤官'&&f('巳')==='食神'&&f('亥')==='偏印')||['子','午','巳','亥'].map(f).join()});
  t('天地阴阳诀算法与本气藏干算法 10×12 全一致',()=>{const bad=[];for(const g of E('GAN'))for(const z of E('ZHI')){const a=E(`zhiShen('${g}','${z}')`),b=E(`getShen('${g}',ZHI_BENQI['${z}'])`);if(a!==b)bad.push(g+z+':'+a+'/'+b)}return bad.length?bad.join(' '):true});
 
- console.log('\n【命主生平 bio.js】');
- w.eval(fs.readFileSync(P.replace('index.html','bio.js'),'utf8'));
- const BIO=w.BIO,BL=E('BIO_LIST'),names=E('CASES').map(c=>c.n.replace(/^\d+\./,''));
- t('BIO_LIST 与 bio.js 的键一一对应',()=>{const a=[...BL].sort().join(),b=Object.keys(BIO).sort().join();return a===b||`BIO_LIST=${a} / bio.js=${b}`});
- t('生平的键都能在 CASES 里找到',()=>{const m=BL.filter(k=>!names.includes(k));return m.length?'找不到: '+m:true});
- t('时间线日期格式 YYYY[-MM[-DD]] 且按时间排序',()=>{for(const k of BL){const tl=BIO[k].timeline;for(let i=0;i<tl.length;i++){if(!/^\d{4}(-\d{2}(-\d{2})?)?$/.test(tl[i].d))return k+' 格式错: '+tl[i].d;if(i&&tl[i].d<tl[i-1].d.slice(0,tl[i].d.length))return k+' 顺序错: '+tl[i].d}}return true});
+ console.log('\n【命主生平 bio/】');
+ const BD=P.replace('index.html','bio/');
+ w.eval(fs.readFileSync(BD+'meta.js','utf8'));
+ const BL=E('BIO_LIST'),names=E('CASES').map(c=>c.n.replace(/^\d+\./,'')),META=w.BIO_META;
+ const files=fs.readdirSync(BD).filter(f=>/^\d{3}\.js$/.test(f));
+ files.forEach(f=>w.eval(fs.readFileSync(BD+f,'utf8')));
+ const BIO=w.BIO;
+ t('meta.js 覆盖全部案例',()=>names.every(n=>META[n])||'缺: '+names.filter(n=>!META[n]));
+ t('BIO_LIST 与 bio/NNN.js 一一对应（跑过 build.py）',()=>{const a=[...BL].sort().join(),b=Object.keys(BIO).sort().join();return a===b||`BIO_LIST=${BL.length} / 文件=${Object.keys(BIO).length}，先跑 python3 bio/build.py`});
+ t('每个生平文件：文件号＝案例号',()=>{const bad=files.filter(f=>{const t=fs.readFileSync(BD+f,'utf8'),k=t.match(/BIO_PUT\('([^']+)'/)[1];return META[k].no!==+f.slice(0,3)});return bad.length?bad.join():true});
+ t('时间线日期格式 YYYY[-MM[-DD]]、按时间排序、内容不空',()=>{for(const k of BL){const B=BIO[k];if(!B.title||!B.brief||!B.sections.length)return k+' 缺标题/简介/分类';const tl=B.timeline;for(let i=0;i<tl.length;i++){if(!/^\d{4}(-\d{2}(-\d{2})?)?$/.test(tl[i].d))return k+' 格式错: '+tl[i].d;if(i&&tl[i].d<tl[i-1].d.slice(0,tl[i].d.length))return k+' 顺序错: '+tl[i].d;if(!tl[i].t)return k+' 空事件 '+tl[i].d}}return true});
+ t('生平文本不出现「视频」等禁用词',()=>{const bad=files.filter(f=>/视频|ren老/.test(fs.readFileSync(BD+f,'utf8')));return bad.length?bad.join():true});
  t('慈禧：立春换年与虚岁算对（1875-01-12 仍是甲戌·40岁）',()=>{const r=E("bioGzYear('1875-01-12')");return (r.gz==='甲戌'&&r.yy-1835+1===40)||JSON.stringify(r)});
- t('慈禧大运：阴年女顺排，戊子起、1838 交运',()=>{const L=E('bioYunList(CASES[0],window.BIO["清孝钦太后"].yun)');const g=L.slice(0,8).map(x=>x.g+x.z).join();return (L.fwd&&g==='戊子,己丑,庚寅,辛卯,壬辰,癸巳,甲午,乙未'&&L[0].y===1838)||g});
- t('年表落运：1908-11-15 在乙未运、1848 只写年算交接、1835 为童限',()=>{const L=E('bioYunList(CASES[0],window.BIO["清孝钦太后"].yun)');const f=d=>w.bioYunAt(L,d);return (f('1908-11-15')==='乙未运'&&f('1848')==='戊子/己丑交接'&&f('1835-11-29')==='童限'&&f('1838-07')==='童限'&&f('1838-09')==='戊子运')||[f('1908-11-15'),f('1848'),f('1835-11-29')].join()});
- t('打开生平能渲染出分类与年表',()=>{E('startM3(0)');E('renderBio(CASES[0],"清孝钦太后")');const n=d.querySelectorAll('#bio-body .bio-tl').length;E('closeBio()');return n===BIO['清孝钦太后'].timeline.length||'年表条数 '+n});
+ t('慈禧大运：阴年女顺排，戊子起、1838-08 交运（大雪 8.2 天）',()=>{const M=META['清孝钦太后'],L=E('bioYunList(CASES[0],window.BIO_META["清孝钦太后"])');const g=L.slice(0,8).map(x=>x.g+x.z).join();return (L.fwd&&g==='戊子,己丑,庚寅,辛卯,壬辰,癸巳,甲午,乙未'&&M.start.y===1838&&M.start.m===8&&M.jie==='大雪')||g+JSON.stringify(M.start)});
+ t('年表落运：1908-11-15 在乙未运、1848 只写年算交接、1835 为童限',()=>{const L=E('bioYunList(CASES[0],window.BIO_META["清孝钦太后"])');const f=d=>w.bioYunAt(L,d);return (f('1908-11-15')==='乙未运'&&f('1848')==='戊子/己丑交接'&&f('1835-11-29')==='童限'&&f('1838-07')==='童限'&&f('1838-09')==='戊子运')||[f('1908-11-15'),f('1848'),f('1835-11-29')].join()});
+ t('反推生日：袁世凯 1859-09-16、黎元洪 1864-10-19、溥仪 1906-02-07',()=>(META['袁世凯'].d==='1859-09-16'&&META['黎元洪'].d==='1864-10-19'&&META['宣统'].d==='1906-02-07')||'对不上');
+ t('每位已写生平的命主都能渲染',()=>{const bad=[];BL.forEach(k=>{const i=names.indexOf(k);try{E(`renderBio(CASES[${i}],${JSON.stringify(k)})`);const n=d.querySelectorAll('#bio-body .bio-tl').length;if(n!==BIO[k].timeline.length)bad.push(k)}catch(e){bad.push(k+':'+e.message)}});E('closeBio()');return bad.length?bad.join():true});
 
  console.log('\n【PWA / 资源】');
  const src=fs.readFileSync(P,'utf8');
