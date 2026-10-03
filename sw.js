@@ -1,5 +1,5 @@
-const CACHE = 'bazi-v15-tablet';
-const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
+const CACHE = 'bazi-v16-bio';
+const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './bio.js'];
 
 self.addEventListener('install', e => {
   // ⚠️ 逐个 add 各自兜底：任一资源 404 都会让整个 addAll 失败，

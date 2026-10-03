@@ -179,6 +179,29 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .m3pick-item{padding:11px 16px;border-bottom:1px solid #1e293b55;color:#94a3b8;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:10px}
 .m3pick-item:active{background:#1e3a8a55}
 .m3pick-item.cur{background:#1e3a8a;color:#93c5fd}
+/* 命主生平 */
+.bio-btn{margin-top:8px;width:100%;padding:10px;border-radius:10px;border:1px solid #a16207;background:#422006;color:#fcd34d;font-size:14px;font-weight:600;cursor:pointer}
+.bio-btn.none{border-color:#334155;background:#1e293b;color:#64748b;font-weight:400}
+.bio-modal{max-height:90vh}
+.bio-chips{display:flex;gap:6px;overflow-x:auto;padding:8px 12px;border-bottom:1px solid #334155;flex-shrink:0;-webkit-overflow-scrolling:touch}
+.bio-chips button{flex-shrink:0;background:#0f172a;border:1px solid #334155;color:#94a3b8;border-radius:14px;padding:4px 11px;font-size:12px;cursor:pointer}
+.bio-body{padding:4px 14px 24px}
+.bio-brief{color:#cbd5e1;font-size:13.5px;line-height:1.7;margin:10px 0 6px}
+.bio-bz{display:flex;gap:6px;margin:8px 0 4px}
+.bio-bz div{flex:1;text-align:center;background:#0f172a;border:1px solid #334155;border-radius:8px;padding:4px 0;color:#e2e8f0;font-size:16px;line-height:1.35}
+.bio-bz small{display:block;color:#64748b;font-size:10px}
+.bio-sec{margin-top:16px}
+.bio-sec h4{color:#fcd34d;font-size:14px;margin:0 0 6px;padding-bottom:4px;border-bottom:1px solid #a1620755}
+.bio-it{padding:6px 0;border-bottom:1px solid #33415555;font-size:13px;line-height:1.7;color:#cbd5e1}
+.bio-it b{color:#93c5fd;font-weight:600;margin-right:6px}
+.bio-q{display:inline-block;margin-left:4px;padding:0 6px;border-radius:4px;background:#7c2d12;color:#fdba74;font-size:11px;line-height:18px;vertical-align:1px}
+.bio-qt{display:block;color:#fb923c;font-size:12px;margin-top:2px}
+.bio-tl{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid #33415555;font-size:13px;line-height:1.65;color:#cbd5e1}
+.bio-tl .when{flex-shrink:0;width:78px;color:#94a3b8;font-size:12px;line-height:1.5}
+.bio-tl .when b{display:block;color:#e2e8f0;font-size:13px}
+.bio-tl .when i{font-style:normal;color:#fcd34d}
+.bio-note{color:#64748b;font-size:12px;line-height:1.7;margin-top:16px}
+.bio-empty{color:#94a3b8;text-align:center;padding:40px 10px;font-size:14px;line-height:1.8}
 .m3nb:hover{background:#273549;color:#94a3b8}
 .bz-wrap{background:#1e293b;border-radius:18px;padding:13px 10px;flex-shrink:0}
 .bz-labels{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:5px}
@@ -928,6 +951,19 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <button class="btn btn-g" onclick="openCasePicker()" style="flex:1;font-size:12px">📜 选例</button>
     <button class="btn btn-b" onclick="m3ShowAll()" style="flex:1;font-size:12px">📋 全局</button>
     <button class="btn btn-d" onclick="m3ClearSel()" style="flex:1;font-size:12px">✕ 清选</button>
+  </div>
+  <button class="bio-btn" id="m3-bio-btn" onclick="openBio()">📖 生平</button>
+</div>
+
+<!-- 命主生平（数据在 bio.js，第一次点击才加载） -->
+<div id="m3-bio" class="m3pick-overlay" style="display:none" onclick="if(event.target===this)closeBio()">
+  <div class="m3pick-modal bio-modal">
+    <div class="m3pick-hdr">
+      <span id="bio-title">生平</span>
+      <button onclick="closeBio()">✕</button>
+    </div>
+    <div class="bio-chips" id="bio-chips"></div>
+    <div class="m3pick-list bio-body" id="bio-body"></div>
   </div>
 </div>
 
@@ -3614,6 +3650,7 @@ function _restoreScreenScroll(id){
 function _applyScreen(id){
   const cur=document.querySelector('.screen.active');
   if(cur)_scrollPos[cur.id]=window.scrollY;
+  const bo=document.getElementById('m3-bio');if(bo)bo.style.display='none';   // 返回手势离开排盘时别把生平浮层留在屏上
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   if(id==='p-nb')renderNB();
@@ -4546,7 +4583,76 @@ function m3Render(){
   document.getElementById('m3-name').textContent=c.n;
   renderBaziGrid(c.b,M3.sel,M3.allView,'m3-grid','m3Click');
   m3RenderRel();
+  bioBtnState();
 }
+
+// ── 命主生平：数据在 bio.js，第一次点「生平」才加载 ──
+const BIO_LIST=['清孝钦太后'];   // 已整理的命主（让按钮不用先加载 bio.js 就知道亮不亮）；与 bio.js 的键保持一致
+const BIO_VER=1;                // 改 bio.js 后 +1，避开微信等浏览器的旧缓存
+const bioKey=c=>c.n.replace(/^\d+\./,'');
+function bioBtnState(){
+  const b=document.getElementById('m3-bio-btn');if(!b)return;
+  const has=BIO_LIST.includes(bioKey(CASES[M3.idx]));
+  b.classList.toggle('none',!has);
+  b.textContent=has?'📖 生平':'📖 生平（待整理）';
+}
+let _bioLoading=null;
+function loadBio(){
+  if(window.BIO)return Promise.resolve();
+  if(_bioLoading)return _bioLoading;
+  _bioLoading=new Promise((ok,fail)=>{
+    const sc=document.createElement('script');
+    sc.src='bio.js?v='+BIO_VER;
+    sc.onload=ok;sc.onerror=()=>{_bioLoading=null;fail();};
+    document.head.appendChild(sc);
+  });
+  return _bioLoading;
+}
+// 公历日期 → 年柱干支（按立春换年，立春近似取 2 月 4 日）
+function bioGzYear(d){
+  const [y,m,dd]=d.split('-').map(Number);
+  const yy=(m&&(m<2||(m===2&&dd&&dd<4)))?y-1:y;
+  return {yy,gz:GAN[((yy-4)%10+10)%10]+ZHI[((yy-4)%12+12)%12]};
+}
+function bioQ(q){return q?`<span class="bio-q">存疑</span><span class="bio-qt">${q}</span>`:'';}
+function openBio(){
+  const c=CASES[M3.idx],key=bioKey(c);
+  const ov=document.getElementById('m3-bio'),body=document.getElementById('bio-body'),chips=document.getElementById('bio-chips');
+  document.getElementById('bio-title').textContent=key+' · 生平';
+  chips.innerHTML='';
+  ov.style.display='flex';
+  if(!BIO_LIST.includes(key)){
+    body.innerHTML=`<div class="bio-empty">「${key}」的生平资料还没整理<br><span style="font-size:12px;color:#64748b">目前已整理 ${BIO_LIST.length} 位：${BIO_LIST.join('、')}</span></div>`;
+    return;
+  }
+  body.innerHTML='<div class="bio-empty">加载中…</div>';
+  loadBio().then(()=>renderBio(c,key)).catch(()=>{body.innerHTML='<div class="bio-empty">生平资料加载失败，请检查网络后重试</div>';});
+}
+function renderBio(c,key){
+  const B=window.BIO[key],body=document.getElementById('bio-body'),chips=document.getElementById('bio-chips');
+  if(!B){body.innerHTML=`<div class="bio-empty">没找到「${key}」的资料</div>`;return;}
+  document.getElementById('bio-title').textContent=B.title+' · 生平';
+  const b=c.b,P=['年','月','日','时'];
+  let h=`<div class="bio-bz">${[0,1,2,3].map(i=>`<div><small>${P[i]}</small>${b[i]}<br>${b[i+4]}</div>`).join('')}</div>`;
+  h+=`<div class="bio-brief">${B.brief}</div>`;
+  const nav=[];
+  B.sections.forEach((s,i)=>{
+    nav.push([`bio-s${i}`,s.k]);
+    h+=`<div class="bio-sec" id="bio-s${i}"><h4>${s.k}</h4>`+s.items.map(it=>`<div class="bio-it"><b>${it.l}</b>${it.t}${bioQ(it.q)}</div>`).join('')+'</div>';
+  });
+  nav.push(['bio-tl','大事年表']);
+  h+=`<div class="bio-sec" id="bio-tl"><h4>大事年表 <span style="font-size:11px;color:#94a3b8;font-weight:400">· 干支年按立春换年，岁数为虚岁</span></h4>`;
+  h+=B.timeline.map(e=>{
+    const {yy,gz}=bioGzYear(e.d);
+    const age=B.birth?yy-B.birth.y+1:null;
+    const [,mo,da]=e.d.split('-').map(Number),md=mo?(da?mo+'/'+da:mo+'月'):'';
+    return `<div class="bio-tl"><div class="when"><b>${e.d.slice(0,4)}${md?' <span style="font-weight:400;font-size:11px;color:#94a3b8">'+md+'</span>':''}</b><i>${gz}</i>${age!=null?' · '+age+'岁':''}</div><div>${e.t}${bioQ(e.q)}</div></div>`;
+  }).join('')+'</div>';
+  if(B.refs)h+=`<div class="bio-note">资料依据：${B.refs}</div>`;
+  body.innerHTML=h;body.scrollTop=0;
+  chips.innerHTML=nav.map(([id,k])=>`<button onclick="document.getElementById('${id}').scrollIntoView({behavior:'smooth',block:'start'})">${k}</button>`).join('');
+}
+function closeBio(){document.getElementById('m3-bio').style.display='none';}
 function m3Click(ci,type,p,val){
   M3.allView=false;
   const pos={ci,t:type,p,v:val};

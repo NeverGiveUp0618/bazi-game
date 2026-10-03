@@ -278,6 +278,15 @@ setTimeout(()=>{
    });
  }
 
+ console.log('\n【命主生平 bio.js】');
+ w.eval(fs.readFileSync(P.replace('index.html','bio.js'),'utf8'));
+ const BIO=w.BIO,BL=E('BIO_LIST'),names=E('CASES').map(c=>c.n.replace(/^\d+\./,''));
+ t('BIO_LIST 与 bio.js 的键一一对应',()=>{const a=[...BL].sort().join(),b=Object.keys(BIO).sort().join();return a===b||`BIO_LIST=${a} / bio.js=${b}`});
+ t('生平的键都能在 CASES 里找到',()=>{const m=BL.filter(k=>!names.includes(k));return m.length?'找不到: '+m:true});
+ t('时间线日期格式 YYYY[-MM[-DD]] 且按时间排序',()=>{for(const k of BL){const tl=BIO[k].timeline;for(let i=0;i<tl.length;i++){if(!/^\d{4}(-\d{2}(-\d{2})?)?$/.test(tl[i].d))return k+' 格式错: '+tl[i].d;if(i&&tl[i].d<tl[i-1].d.slice(0,tl[i].d.length))return k+' 顺序错: '+tl[i].d}}return true});
+ t('慈禧：立春换年与虚岁算对（1875-01-12 仍是甲戌·40岁）',()=>{const r=E("bioGzYear('1875-01-12')");return (r.gz==='甲戌'&&r.yy-1835+1===40)||JSON.stringify(r)});
+ t('打开生平能渲染出分类与年表',()=>{E('startM3(0)');E('renderBio(CASES[0],"清孝钦太后")');const n=d.querySelectorAll('#bio-body .bio-tl').length;E('closeBio()');return n===BIO['清孝钦太后'].timeline.length||'年表条数 '+n});
+
  console.log('\n【PWA / 资源】');
  const src=fs.readFileSync(P,'utf8');
  t('sw.js 缓存版本号与页面一致',()=>{
