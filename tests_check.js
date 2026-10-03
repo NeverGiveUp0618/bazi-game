@@ -278,6 +278,10 @@ setTimeout(()=>{
    });
  }
 
+ console.log('\n【地支十神·天地阴阳诀】');
+ t('zhiShen 关键四支：甲见子正印、见午伤官、见巳食神、见亥偏印',()=>{const f=z=>E(`zhiShen('甲','${z}')`);return (f('子')==='正印'&&f('午')==='伤官'&&f('巳')==='食神'&&f('亥')==='偏印')||['子','午','巳','亥'].map(f).join()});
+ t('天地阴阳诀算法与本气藏干算法 10×12 全一致',()=>{const bad=[];for(const g of E('GAN'))for(const z of E('ZHI')){const a=E(`zhiShen('${g}','${z}')`),b=E(`getShen('${g}',ZHI_BENQI['${z}'])`);if(a!==b)bad.push(g+z+':'+a+'/'+b)}return bad.length?bad.join(' '):true});
+
  console.log('\n【命主生平 bio.js】');
  w.eval(fs.readFileSync(P.replace('index.html','bio.js'),'utf8'));
  const BIO=w.BIO,BL=E('BIO_LIST'),names=E('CASES').map(c=>c.n.replace(/^\d+\./,''));

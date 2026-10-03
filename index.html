@@ -3290,6 +3290,18 @@ function getShen(rz,ot){
   if(WX_K[rw]===ow)return sy?'偏财':'正财';
   if(WX_K[ow]===rw)return sy?'七杀':'正官';
 }
+// 地支十神：按「天地阴阳诀」——取地支自身五行，阴阳看 YANG_ZHI（寅申巳亥辰戌为阳，子午卯酉丑未为阴）
+// ⚠️ 别改成按地支序号单双或别的阴阳口诀：子·巳·午·亥四支会全错（甲见子＝正印、见午＝伤官）
+function zhiShen(rz,z){
+  const rw=G_WX[rz],ow=Z_WX[z];if(!rw||!ow)return '';
+  const sy=YY[rz]===(YANG_ZHI.has(z)?'阳':'阴');
+  if(rw===ow)return sy?'比肩':'劫财';
+  if(WX_S[rw]===ow)return sy?'食神':'伤官';
+  if(WX_S[ow]===rw)return sy?'偏印':'正印';
+  if(WX_K[rw]===ow)return sy?'偏财':'正财';
+  if(WX_K[ow]===rw)return sy?'七杀':'正官';
+  return '';
+}
 
 // ══ MODE 3 RELATIONSHIP DETECTION ══
 const ANHE_SET=new Set(['申卯','卯申','亥午','午亥','丑寅','寅丑','子巳','巳子']);
@@ -4548,7 +4560,7 @@ function renderBaziGrid(bazi,sel,allView,gridId,clickFn){
     }
     // 地支十神 + 阴阳行
     for(let p=0;p<4;p++){
-      const z=bazi[4+p],bq=ZHI_BENQI[z],shen=bq?getShen(rz,bq)||'':'';
+      const z=bazi[4+p],shen=zhiShen(rz,z);
       const yyCol=YANG_ZHI.has(z)?'#f59e0b':'#93c5fd';
       html+=`<div class="bz-ann bz-ann-shen"><span style="color:${yyCol}">${YANG_ZHI.has(z)?'阳':'阴'}</span>${shen?'·'+shen:''}</div>`;
     }
@@ -4685,7 +4697,7 @@ function bioChart(c,nav,B){
   const b=c.b,rz=b[2],P=['年柱','月柱','日柱','时柱'];
   const col=(cls,p,g,z,ss1,yr)=>`<div class="c${cls}"><div class="p">${p}</div><div class="ss">${ss1}</div>`+
     `<span class="g ${bioWx(g)}">${g}</span><span class="z ${bioWx(z)}">${z}</span>`+
-    `<div class="ss">${getShen(rz,ZHI_BENQI[z])}</div>${yr?`<div class="yr">${yr}</div>`:''}</div>`;
+    `<div class="ss">${zhiShen(rz,z)}</div>${yr?`<div class="yr">${yr}</div>`:''}</div>`;
   const cols=[0,1,2,3].map(i=>col(i===2?' day':'',P[i],b[i],b[i+4],i===2?'日主':getShen(rz,b[i]))).join('');
   let yun='';const Y=B&&B.yun;
   if(Y){
@@ -4704,7 +4716,7 @@ function renderBio(c,key){
   if(B.yun){
     nav.push(['bio-yunsec','大运']);
     h+=`<div class="bio-sec" id="bio-yunsec"><h4>大运</h4><div class="bio-card">`+
-      YL.map((s,k)=>{const by=B.birth.y,a1=s.y-by+1;return `<div class="bio-it"><div class="l">${bioGz(s.g+s.z)}</div><div>${s.y}–${s.y+10} 年 · 虚岁 ${a1}–${a1+10} · <span style="color:#a78bfa">${getShen(c.b[2],s.g)} / ${getShen(c.b[2],ZHI_BENQI[s.z])}</span></div></div>`;}).join('')+
+      YL.map((s,k)=>{const by=B.birth.y,a1=s.y-by+1;return `<div class="bio-it"><div class="l">${bioGz(s.g+s.z)}</div><div>${s.y}–${s.y+10} 年 · 虚岁 ${a1}–${a1+10} · <span style="color:#a78bfa">${getShen(c.b[2],s.g)} / ${zhiShen(c.b[2],s.z)}</span></div></div>`;}).join('')+
       `<div class="bio-it"><div class="l">起运</div><div>${B.yun.note}${bioQ(B.yun.q)}</div></div></div></div>`;
   }
   B.sections.forEach((s,i)=>{

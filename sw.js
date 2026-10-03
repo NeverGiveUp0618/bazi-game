@@ -1,4 +1,4 @@
-const CACHE = 'bazi-v17-bio-yun';
+const CACHE = 'bazi-v18-tdyy';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './bio.js'];
 
 self.addEventListener('install', e => {
