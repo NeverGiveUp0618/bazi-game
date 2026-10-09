@@ -1,4 +1,4 @@
-// 答题后停留：答错／解析长 → 停住等「下一题」；短解析答对 → 自动跳
+// 答题后停留：答错／解析长 → 留 5 秒再自动跳（可提前跳）；短解析答对 → 1.2 秒跳
 const fs=require('fs'),path=require('path'),{JSDOM}=require('jsdom');
 const dom=new JSDOM(fs.readFileSync(path.join(__dirname,'index.html'),'utf8'),{runScripts:'dangerously',pretendToBeVisual:true,url:'http://localhost/',
   beforeParse(w){w.matchMedia=()=>({matches:false,addListener(){},addEventListener(){}});w.scrollTo=()=>{};w.HTMLElement.prototype.scrollIntoView=function(){};}});
@@ -14,13 +14,18 @@ setTimeout(()=>{
   ck(fb.textContent.includes(G1.qs[0].correct),'答错后写明正确答案');
   setTimeout(()=>{
     ck(prog()==='1/3','2.5 秒后仍停在第 1 题');
+    ck(/下一题 → \d/.test(d.getElementById('el-fb').textContent),'按钮上有倒计时');
+    setTimeout(()=>{
+    ck(prog()==='2/3','5 秒后自动跳到第 2 题');
+    w.m1Pick(1);
     d.dispatchEvent(new w.KeyboardEvent('keydown',{key:'Enter'}));
-    ck(prog()==='2/3','按回车进入下一题');
-    w.m1GoNext();ck(prog()==='2/3','重复点「下一题」不会连跳');
+    ck(prog()==='3/3','倒计时中按回车可提前跳');
+    w.m1GoNext();ck(prog()==='3/3','重复点「下一题」不会连跳');
     G1.qs=[{cat:'wx',main:['甲'],qt:'?',correct:'木',w:['火','土','金'],opts:['木','火','土','金'],exp:'短'},{cat:'wx',main:['乙'],qt:'?',correct:'木',w:['火','土','金'],opts:['木','火','土','金'],exp:''}];
     G1.cur=0;w.m1Next();w.m1Pick(0);
     ck(!d.getElementById('el-fb').querySelector('.fb-next'),'短解析答对不出按钮');
     setTimeout(()=>{ck(prog()==='2/2','短解析答对 1.2 秒后自动跳');
       console.log(fail.length?`\n❌ ${fail.length} 项失败`:'\n✅ 答题停留全部通过');process.exit(fail.length?1:0);},1500);
+    },3000);
   },2500);
 },500);

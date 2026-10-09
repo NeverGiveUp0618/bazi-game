@@ -106,6 +106,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .fb-exp{display:block;margin-top:6px;font-size:13.5px;line-height:1.75;color:#cbd5e1;text-align:left;background:rgba(148,163,184,.08);border-radius:8px;padding:8px 10px}
 .fb-next{display:block;width:100%;margin-top:10px;padding:11px 0;border:none;border-radius:10px;background:#334155;color:#f1f5f9;font-size:15px;font-weight:600;cursor:pointer}
 .fb-next:active{transform:scale(.98)}
+.fb-cd{display:inline-block;min-width:1.4em;margin-left:4px;padding:0 5px;border-radius:9px;background:rgba(255,255,255,.15);font-size:12px;font-weight:400}
 .nt-badge{text-align:center;font-size:11px;color:#f59e0b;background:#1c0f00;border-radius:8px;padding:3px 10px;margin-bottom:6px;flex-shrink:0}
 
 /* MODE 1 RESULT */
@@ -698,7 +699,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <summary class="hhist">开发时间节点<span>17 条</span></summary>
     <div style="max-height:130px;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:6px;margin-top:2px;padding-right:2px">
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.9</span><span style="color:#94a3b8;font-size:12px">📘 补薄弱章节 82 题：第8章制与做功、第9章主宾归属、第6章替身、第16章综合实战，教材知识点共 610 题</span></div>
-      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.9</span><span style="color:#94a3b8;font-size:12px">⏸ 答错、超时或解析较长时不再自动跳题，停住等你点「下一题」（电脑按回车）；解析字号放大；答错直接写明正确答案</span></div>
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.9</span><span style="color:#94a3b8;font-size:12px">⏸ 答错、超时或解析较长时留 5 秒看解析再自动跳（可点「下一题」提前跳，电脑按回车）；解析字号放大；答错直接写明正确答案</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.6</span><span style="color:#94a3b8;font-size:12px">⚠️ 新增第 10 类「特例·易错」102 题——专练教材里的例外和易混情况（冲出来≠制掉、子酉不算破、穿库开不了库、阳刃又生又制最危险……），教材知识点共 528 题</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.6</span><span style="color:#94a3b8;font-size:12px">📘 教材知识点再加 192 题（共 426 题），新增第 9 类「干支·十神类象」；作用方式、制·主宾、应期、财官婚姻灾病等各类都扩充了，全部出自教材正文、答后给章节</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.5</span><span style="color:#94a3b8;font-size:12px">📘 新增「教材知识点」8 类 234 题——从命理精讲教材 1–16 章出的四选一，答后给出处章节；自选模式、错题本、间隔复习都能用</span></div>
@@ -3991,16 +3992,24 @@ function startM1Custom(timed){
   show('p1g');m1Next();
 }
 
-// 答题后：答错、超时或解析较长时停住等手动「下一题」，短解析的答对仍自动跳
+// 答题后：答错、超时或解析较长时留 5 秒看解析再自动跳（可点「下一题」提前跳）；短解析答对 1.2 秒跳
+const M1_READ_SEC=5;
 function m1After(q,ok){
   const plain=String(q.exp||'').replace(/<[^>]+>/g,'');
   if(ok&&plain.length<=12){setTimeout(m1Next,1200);return;}
   G1.waitNext=true;
   const fb=document.getElementById('el-fb');
-  fb.insertAdjacentHTML('beforeend','<button class="fb-next" onclick="m1GoNext()">下一题 →</button>');
+  fb.insertAdjacentHTML('beforeend','<button class="fb-next" onclick="m1GoNext()">下一题 → <span class="fb-cd">'+M1_READ_SEC+'</span></button>');
   const b=fb.querySelector('.fb-next');if(b&&b.scrollIntoView)b.scrollIntoView({block:'nearest',behavior:'smooth'});
+  let left=M1_READ_SEC;clearInterval(G1.nextT);
+  G1.nextT=setInterval(()=>{
+    left--;const cd=fb.querySelector('.fb-cd');if(cd)cd.textContent=left;
+    if(left<=0)m1GoNext();
+  },1000);
 }
-function m1GoNext(){if(!G1.waitNext)return;G1.waitNext=false;m1Next();}
+function m1GoNext(){clearInterval(G1.nextT);if(!G1.waitNext)return;G1.waitNext=false;
+  const scr=document.getElementById('p1g');if(scr&&!scr.classList.contains('active'))return; // 已离开答题页就不再跳
+  m1Next();}
 function m1Next(){
   G1.waitNext=false;
   if(G1.cur>=G1.qs.length){m1End();return;}
