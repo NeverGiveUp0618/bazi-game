@@ -1,4 +1,4 @@
-// 答题后停留：答错／解析长 → 留 5 秒再自动跳（可提前跳）；短解析答对 → 1.2 秒跳
+// 答题后停留：每题都留 5 秒再自动跳（可提前跳）
 const fs=require('fs'),path=require('path'),{JSDOM}=require('jsdom');
 const dom=new JSDOM(fs.readFileSync(path.join(__dirname,'index.html'),'utf8'),{runScripts:'dangerously',pretendToBeVisual:true,url:'http://localhost/',
   beforeParse(w){w.matchMedia=()=>({matches:false,addListener(){},addEventListener(){}});w.scrollTo=()=>{};w.HTMLElement.prototype.scrollIntoView=function(){};}});
@@ -23,8 +23,8 @@ setTimeout(()=>{
     w.m1GoNext();ck(prog()==='3/3','重复点「下一题」不会连跳');
     G1.qs=[{cat:'wx',main:['甲'],qt:'?',correct:'木',w:['火','土','金'],opts:['木','火','土','金'],exp:'短'},{cat:'wx',main:['乙'],qt:'?',correct:'木',w:['火','土','金'],opts:['木','火','土','金'],exp:''}];
     G1.cur=0;w.m1Next();w.m1Pick(0);
-    ck(!d.getElementById('el-fb').querySelector('.fb-next'),'短解析答对不出按钮');
-    setTimeout(()=>{ck(prog()==='2/2','短解析答对 1.2 秒后自动跳');
+    ck(!!d.getElementById('el-fb').querySelector('.fb-next'),'答对也出倒计时按钮');
+    setTimeout(()=>{ck(prog()==='1/2','答对 1.5 秒时仍停在原题');
       console.log(fail.length?`\n❌ ${fail.length} 项失败`:'\n✅ 答题停留全部通过');process.exit(fail.length?1:0);},1500);
     },3000);
   },2500);
