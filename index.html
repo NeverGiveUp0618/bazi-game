@@ -696,8 +696,9 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   </div>
   <!-- 开发时间节点 -->
   <details class="card devlog" style="margin-bottom:9px">
-    <summary class="hhist">开发时间节点<span>17 条</span></summary>
+    <summary class="hhist">开发时间节点<span>18 条</span></summary>
     <div style="max-height:130px;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:6px;margin-top:2px;padding-right:2px">
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.14</span><span style="color:#94a3b8;font-size:12px">🔁 答完一组，结果页加「再来一组」：按原模式和计时设置直接开新一组（今日挑战改开随机题）</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.9</span><span style="color:#94a3b8;font-size:12px">📘 补薄弱章节 82 题：第8章制与做功、第9章主宾归属、第6章替身、第16章综合实战，教材知识点共 610 题</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.9</span><span style="color:#94a3b8;font-size:12px">⏸ 每题答完都留 5 秒看答案和解析再自动跳（可点「下一题」提前跳，电脑按回车）；解析字号放大；答错直接写明正确答案</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.6</span><span style="color:#94a3b8;font-size:12px">⚠️ 新增第 10 类「特例·易错」102 题——专练教材里的例外和易混情况（冲出来≠制掉、子酉不算破、穿库开不了库、阳刃又生又制最危险……），教材知识点共 528 题</span></div>
@@ -799,6 +800,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <div id="el-wq-list"></div>
     <button class="btn btn-a" onclick="addAllWrongToNB()" style="margin:6px 0" id="el-add-nb-btn">📚 一键加入错题本</button>
   </div>
+  <button class="btn btn-g" id="el-again" onclick="m1Again()" style="margin:6px 0;width:100%">🔁 再来一组</button>
   <div class="share-box" id="el-share"></div>
   <button class="btn btn-b" onclick="copyShare()" style="margin:4px 0">📋 复制结果发给队友</button>
   <button class="btn btn-g" id="el-plan-back" onclick="showPlan()" style="display:none;margin:4px 0">← 查看计划</button>
@@ -4257,6 +4259,15 @@ function m1End(){
   show('p1r');
 }
 
+// 结果页「再来一组」：按刚才的模式和计时设置重开一组新题（今日挑战题目固定，改开随机）
+function m1Again(){
+  const m=G1.mode,nt=!G1.timed;
+  if(m==='custom'||m==='custom-nt')return startM1Custom(!nt);
+  if(m==='plan')return startPlanPractice(!nt);
+  if(m==='pb-quiz')return startPBQuiz();
+  if(m==='nb')return startM1('nb');
+  startM1(nt?'free-nt':'free');
+}
 function addAllWrongToNB(){
   let added=0;
   for(const q of G1.wrongQs){

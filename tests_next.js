@@ -25,6 +25,17 @@ setTimeout(()=>{
     G1.cur=0;w.m1Next();w.m1Pick(0);
     ck(!!d.getElementById('el-fb').querySelector('.fb-next'),'答对也出倒计时按钮');
     setTimeout(()=>{ck(prog()==='1/2','答对 1.5 秒时仍停在原题');
+      // 结果页「再来一组」
+      w.eval("clearInterval(G1.nextT);G1.waitNext=false;G1.cur=G1.qs.length;m1Next()");
+      ck(d.getElementById('p1r').classList.contains('active'),'答完一组进结果页');
+      ck(!!d.getElementById('el-again'),'结果页有「再来一组」按钮');
+      for(const[m,t]of[['custom',true],['free-nt',false],['daily',true]]){
+        if(m==='custom')w.eval("CUSTOM_CATS.clear();CUSTOM_CATS.add('kq_ti')");
+        G1.mode=m;G1.timed=t;d.getElementById('el-again').click();
+        ck(d.getElementById('p1g').classList.contains('active')&&prog().startsWith('1/')&&G1.timed===t,`「再来一组」(${m})重开新一组、计时设置不变`);
+        clearInterval(G1.timer);
+      }
+      ck(G1.mode==='free','今日挑战再来一组改开随机（不重复同一组）');
       console.log(fail.length?`\n❌ ${fail.length} 项失败`:'\n✅ 答题停留全部通过');process.exit(fail.length?1:0);},1500);
     },3000);
   },2500);
