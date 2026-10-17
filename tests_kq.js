@@ -28,7 +28,7 @@ if(fs.existsSync(TB)){
   D.forEach(([c,qt,a,w,e],i)=>{
     const tag=`#${i}[${c}] ${strip(qt).slice(0,24)}`;
     for(const m of e.matchAll(/第(\d+)章§([^〕；、]+)/g)){
-      const n=+m[1],sec=m[2].replace(/[①-⑩]/g,'').trim();
+      const n=+m[1],sec=m[2].replace(/[①-⑳]/g,'').trim();
       if(!T[n]){errs.push(`${tag} 引用的第${n}章不存在`);continue;}
       if(!heads[n].some(h=>h.startsWith(sec)))errs.push(`${tag} 第${n}章找不到小节「${m[2]}」`);
     }

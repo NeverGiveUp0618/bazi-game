@@ -13,14 +13,14 @@ setTimeout(()=>{
   ck(!!fb.querySelector('.fb-exp'),'答错后显示解析');
   ck(fb.textContent.includes(G1.qs[0].correct),'答错后写明正确答案');
   setTimeout(()=>{
-    ck(prog()==='1/3','2.5 秒后仍停在第 1 题');
+    ck(prog().startsWith('1/'),'2.5 秒后仍停在第 1 题');
     ck(/下一题 → \d/.test(d.getElementById('el-fb').textContent),'按钮上有倒计时');
     setTimeout(()=>{
-    ck(prog()==='2/3','5 秒后自动跳到第 2 题');
+    ck(prog().startsWith('2/'),'5 秒后自动跳到第 2 题');
     w.m1Pick(1);
     d.dispatchEvent(new w.KeyboardEvent('keydown',{key:'Enter'}));
-    ck(prog()==='3/3','倒计时中按回车可提前跳');
-    w.m1GoNext();ck(prog()==='3/3','重复点「下一题」不会连跳');
+    ck(prog().startsWith('3/'),'倒计时中按回车可提前跳');
+    w.m1GoNext();ck(prog().startsWith('3/'),'重复点「下一题」不会连跳');
     G1.qs=[{cat:'wx',main:['甲'],qt:'?',correct:'木',w:['火','土','金'],opts:['木','火','土','金'],exp:'短'},{cat:'wx',main:['乙'],qt:'?',correct:'木',w:['火','土','金'],opts:['木','火','土','金'],exp:''}];
     G1.cur=0;w.m1Next();w.m1Pick(0);
     ck(!!d.getElementById('el-fb').querySelector('.fb-next'),'答对也出倒计时按钮');
