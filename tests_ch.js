@@ -10,7 +10,7 @@ setTimeout(()=>{
   const KQ=ev('KQ_DATA'),IDX=ev('KQ_CH_IDX');
   // 归章
   const tot=Object.values(IDX).reduce((a,b)=>a+b.length,0);
-  ck(tot===KQ.length,`教材知识点全部归到章（${tot}/${KQ.length}）`);
+  const OFF=ev("KQ_OFF.size");ck(tot===KQ.length-OFF,`教材知识点（停用 ${OFF} 道近似重复）全部归到章（${tot}/${KQ.length-OFF}）`);
   ck(Object.keys(IDX).length===16,'16 章都有题');
   ck(d.querySelectorAll('#el-ch-list .chr').length===16,'首页章节卡 16 行');
   // 开练第 8 章
