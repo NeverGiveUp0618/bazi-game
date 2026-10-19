@@ -451,6 +451,8 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .update-bar-dot{width:6px;height:6px;border-radius:50%;background:#10b981;flex-shrink:0}
 .update-bar-text{font-size:12px;color:#475569;flex:1;letter-spacing:.5px}
 .update-bar-btn{font-size:12px;color:#10b981;white-space:nowrap}
+.update-bar.fresh .update-bar-text{color:#10b981;font-weight:bold}
+.update-bar.fresh .update-bar-dot{box-shadow:0 0 0 3px rgba(16,185,129,.25)}
 .update-bar:active .update-bar-text,.update-bar:active .update-bar-btn{opacity:.6}
 /* 六十甲子 知识速查 */
 .jz-xun-block{background:#0f172a;border-radius:10px;padding:10px 12px;margin:4px 0 8px;border-left:3px solid #3b82f6}
@@ -724,8 +726,9 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   </div>
   <!-- 开发时间节点 -->
   <details class="card devlog" style="margin-bottom:9px">
-    <summary class="hhist">开发时间节点<span>28 条</span></summary>
+    <summary class="hhist">开发时间节点<span>29 条</span></summary>
     <div style="max-height:130px;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:6px;margin-top:2px;padding-right:2px">
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.19</span><span style="color:#94a3b8;font-size:12px">🔧 修「打开一会儿闪一下就回首页」：后台新版本装好时，用户已在使用就不再强刷，改为点亮顶部「有新版本」提示，自己点再刷</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.19</span><span style="color:#94a3b8;font-size:12px">🧹 查出 17 道几轮间换说法的重复题，停用不再出（编号保留，错题本不受影响）；实际在练 2425 题</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.19</span><span style="color:#94a3b8;font-size:12px">🎯 按章节练改成「保证轮得到」：没做过的先出，再出答错过的、最久没练的；每章显示已练/总数，点章节可只练某一小节</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.19</span><span style="color:#94a3b8;font-size:12px">📘 再从教材本身补 533 题（第1、6、10、12、13、14、15、16章），教材知识点共 2020 题</span></div>
@@ -6247,8 +6250,19 @@ if('serviceWorker' in navigator){
         也会触发 controllerchange——那次页面本来就是从网络拿的最新版，刷了只会让人看到几秒后「闪跳一下」
         （2026-10-03 用户报的就是这个）。 */
   const _hadSwCtrl=!!navigator.serviceWorker.controller;
+  /* ⚠️⚠️ 2026-10-19 用户报「打开一会儿闪一下就回首页，不管在哪个菜单」：新 sw 装好时（常在打开十几秒后）强刷整页。
+     fetch 是网络优先，打开时拿到的本来多半就是新版——所以：
+     用户还没动过（仍在首页、没点过东西）⇒ 悄悄刷一次；一旦开始用了 ⇒ 绝不强刷，只把顶部更新条点亮，让人自己点。 */
+  let _bzUsed=false;
+  ['pointerdown','keydown','touchstart'].forEach(ev=>addEventListener(ev,()=>{_bzUsed=true;},{capture:true,passive:true}));
   navigator.serviceWorker.addEventListener('controllerchange',()=>{
     if(!_hadSwCtrl) return;
+    const onHome=_scrStack[_scrStack.length-1]==='ph';
+    if(_bzUsed||!onHome){
+      document.querySelectorAll('.update-bar').forEach(b=>{b.classList.add('fresh');
+        const t=b.querySelector('.update-bar-text');if(t)t.textContent='有新版本，空闲时点这里刷新';});
+      return;
+    }
     try{
       if(sessionStorage.getItem('bazi_sw_reloaded')) return;
       sessionStorage.setItem('bazi_sw_reloaded','1');
