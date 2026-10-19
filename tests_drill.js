@@ -27,6 +27,9 @@ setTimeout(()=>{
     const lu=st.find(S=>S.b.includes('禄')),rk=st.find(S=>S.b.startsWith('④')),gw=st.find(S=>S.b.startsWith('⑦'));
     ck(lu&&lu.a==='寅，在年支','甲禄寅、在年支');ck(rk&&rk.a==='有所生（食伤透干）','甲见丙＝有所生');
     ck(gw&&gw.a.length===1&&gw.a[0]==='盘上没有','甲木男命无戊己辰戌丑未 ⇒ 财星盘上没有');}
+  {const ln=all.filter(c=>c.src);ck(ln.length>=30&&ln.every(c=>c.n>10000&&c.d),`课程笔记案例 ${ln.length} 例，都带断语`);
+    {const tk=new Set(all.filter(c=>!c.src).map(c=>c.g));ck(ln.every(c=>!tk.has(c.g))&&new Set(ln.map(c=>c.g)).size===ln.length,'课程笔记案例不与题库重盘、自身也不重');}
+    const nx=ln.find(c=>c.x==='—');if(nx)ck(!ev('drBuild')(nx,all,ev('mkRng')(3)).some(S=>S.b.startsWith('⑦')),'性别未说的盘不出妻星夫星题');}
   // 关系判定抽检（本站口径）
   const zr=ev('drZhiRel');
   ck(zr('子','午').includes('冲')&&zr('亥','午').includes('暗合')&&zr('亥','午').includes('绝')&&zr('子','辰').includes('半合')&&zr('申','辰').includes('拱合')&&zr('丑','戌').includes('刑')&&zr('卯','辰').includes('穿')&&!zr('丑','未').includes('刑'),'地支关系判定（冲/暗合+绝/半合/拱合/刑/穿；丑未不论刑）');
