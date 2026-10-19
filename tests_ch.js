@@ -38,7 +38,7 @@ setTimeout(()=>{
   const st=JSON.parse(w.localStorage.getItem('bazi_kq_ch')||'{}')[8];
   ck(st&&st.a===base&&st.e===1&&st.r.length===base,'第 8 章掌握度已记录（回炉不重复计）');
   ev('initHome()');
-  ck(/\d+%/.test(d.querySelectorAll('#el-ch-list .chr')[7].textContent),'首页第 8 章显示正确率');
+  ck(/近期 \d+%/.test(d.querySelectorAll('#el-ch-list .chr')[7].title),'首页第 8 章带近期正确率（悬停提示，条形颜色）');
   ck(d.getElementById('el-ch-sub').textContent.includes('第8章'),'首页提示最该练的章');
   // 只练这几道错题
   ck(d.getElementById('el-wq-section').style.display==='block'&&!!d.getElementById('el-redo-btn'),'结果页有「只练这几道错题」');
@@ -58,6 +58,21 @@ setTimeout(()=>{
   let bk=null;w.Blob=function(parts){bk=JSON.parse(parts.join(''));};w.URL.createObjectURL=()=>'blob:x';w.URL.revokeObjectURL=()=>{};
   w.HTMLAnchorElement.prototype.click=function(){};ev('exportBackup()');
   ck(bk&&bk.kq_ch&&bk.kq_ch[8]&&bk.confuse&&Object.keys(bk.confuse).length>0,'导出备份含章节掌握度与常混淆');
+  ck(bk&&bk.kq_seen&&Object.keys(bk.kq_seen).length>0,'导出备份含按题做过记录');
+  // ⭐ 按题轮换：做过的记下来，下一组先出没做过的
+  const seen=JSON.parse(w.localStorage.getItem('bazi_kq_seen')||'{}');
+  ck(Object.keys(seen).length>0,'做过的教材题按题记下（bazi_kq_seen）');
+  ev('startM1Chapter(8)');
+  ck(G1.qs.every(q=>!seen[+q._id.slice(6)]),'再练第 8 章：先出没做过的题');
+  ev('renderChHome()');
+  ck(/\d+\/\d+/.test(d.querySelectorAll('#el-ch-list .chr')[7].textContent),'首页章节显示「已练/总数」');
+  ev('openChPanel(7)');
+  const secBtns=d.querySelectorAll('.chp .sec');
+  ck(secBtns.length>5&&d.querySelector('.chp .all'),'点章节弹出小节面板（整章练＋各小节）');
+  secBtns[0].click();
+  const sc2=G1.sec;
+  ck(G1.mode==='ch'&&G1.ch===7&&sc2&&G1.qs.every(q=>ev('kqSec')(q.exp)===sc2),'选小节只出这一节的题');
+  ck(!d.querySelector('.chp-mask'),'选完面板自动关掉');
   // ?ch= 直达
   const d2=mk('http://localhost/?ch=12');
   setTimeout(()=>{
