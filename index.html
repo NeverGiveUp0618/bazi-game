@@ -95,6 +95,17 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .dr-sec h4{margin:0 0 6px;font-size:13px;color:#38bdf8}.dr-sec p{margin:0;font-size:14px;line-height:1.75;color:#cbd5e1;white-space:pre-wrap}
 .dr-tags{font-size:11px;color:#64748b;margin-top:6px}
 .dr-score{text-align:center;font-size:14px;color:#cbd5e1;margin:6px 0 10px}
+.lg-card{background:#0f172a;border:1px solid #1e293b;border-radius:11px;padding:10px 12px;margin-bottom:9px;cursor:pointer}
+.lg-card .h{display:flex;justify-content:space-between;align-items:baseline;font-size:14px;color:#e2e8f0}.lg-card .h small{color:#64748b;font-size:11px}
+.lg-card .gz{font-size:17px;letter-spacing:3px;color:#cbd5e1;margin-top:3px}.lg-card .m{font-size:11.5px;color:#64748b;margin-top:3px}
+.lg-in{width:100%;box-sizing:border-box;background:#111c30;border:1px solid #273449;border-radius:9px;color:#e2e8f0;font-size:15px;padding:9px 10px;margin-bottom:8px}
+.lg-lab{font-size:12px;color:#94a3b8;margin:6px 0 4px}
+.lg-row{background:#111c30;border:1px solid #223049;border-radius:9px;padding:8px 10px;margin-bottom:7px}
+.lg-row .t{font-size:14px;color:#e2e8f0;line-height:1.6}.lg-row .k{font-size:11px;color:#64748b;margin-top:3px}
+.lg-fb{display:flex;gap:6px;margin-top:6px}.lg-fb button{flex:1;padding:6px;border-radius:7px;border:1px solid #334155;background:#1e293b;color:#cbd5e1;font-size:12.5px;cursor:pointer}
+.lg-fb button.on.y{background:#062e22;border-color:#10b981;color:#6ee7b7}.lg-fb button.on.h{background:#2a1f07;border-color:#f59e0b;color:#fcd34d}.lg-fb button.on.n{background:#3a0d0d;border-color:#ef4444;color:#fca5a5}
+.lg-sel{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px}.lg-sel button{padding:5px 9px;border-radius:7px;border:1px solid #334155;background:#1e293b;color:#94a3b8;font-size:12px;cursor:pointer}.lg-sel button.on{border-color:#38bdf8;color:#e0f2fe;background:#0c2a3d}
+.lg-st{width:100%;border-collapse:collapse;font-size:12.5px;color:#cbd5e1;margin-bottom:10px}.lg-st td{padding:5px 4px;border-bottom:1px solid #1e293b}.lg-st td:last-child{text-align:right;color:#94a3b8}
 .chp-mask{position:fixed;inset:0;background:rgba(2,6,23,.72);z-index:300;display:flex;align-items:flex-end;justify-content:center}
 .chp{background:#0f172a;border:1px solid #273449;border-radius:14px 14px 0 0;width:100%;max-width:480px;max-height:78vh;overflow:auto;padding:14px 14px 22px}
 .chp h3{margin:0 0 4px;font-size:15px;color:#e2e8f0}.chp .s{font-size:11.5px;color:#64748b;margin-bottom:10px}
@@ -711,7 +722,8 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   <!-- 断盘陪练 -->
   <div class="mcard">
     <div class="mcard-head"><div class="mcard-icon">🧭</div><div style="flex:1"><div class="mcard-name">断盘陪练 <span class="nt-label">无计时</span></div><div class="mcard-desc" id="el-dr-sub">原书命例一步步断：虚实 → 十神 → 作用 → 对照原书断语</div></div></div>
-    <button class="btn btn-g" style="width:100%;margin-top:9px" onclick="startDrill()">开始断一盘 🧭</button>
+    <div style="display:flex;gap:8px;margin-top:9px"><button class="btn btn-g" style="flex:1" onclick="startDrill()">断原书命例 🧭</button><button class="btn btn-b" style="flex:1" onclick="openLog()">📒 我的断命记录</button></div>
+    <div class="mcard-desc" id="el-log-sub" style="margin-top:6px"></div>
   </div>
   <!-- 专项练习 -->
   <div class="mcard">
@@ -756,8 +768,9 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   </div>
   <!-- 开发时间节点 -->
   <details class="card devlog" style="margin-bottom:9px">
-    <summary class="hhist">开发时间节点<span>31 条</span></summary>
+    <summary class="hhist">开发时间节点<span>32 条</span></summary>
     <div style="max-height:130px;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:6px;margin-top:2px;padding-right:2px">
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.19</span><span style="color:#94a3b8;font-size:12px">📒 新增「我的断命记录」：录熟人的盘、逐条记断语（标作用方式与事项），等反馈标准/半准/不准，自动统计自己哪一路准、哪一路弱</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.19</span><span style="color:#94a3b8;font-size:12px">🧭 新增「断盘陪练」：原书 737 个命例一步步断——日柱虚实、十神、天干地支作用自动判分，最后对照原书断语、反馈和解</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.19</span><span style="color:#94a3b8;font-size:12px">📅 教材题按遗忘曲线复习（对了 1→3→7→15→30 天后再出，错了第二天必出）；「学新题」按第1→16章路线接着学；每章做过八成可考「过关测验」</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.19</span><span style="color:#94a3b8;font-size:12px">🔧 修「打开一会儿闪一下就回首页」：后台新版本装好时，用户已在使用就不再强刷，改为点亮顶部「有新版本」提示，自己点再刷</span></div>
@@ -2603,6 +2616,10 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   <div class="dr-step" id="dr-step"></div>
   <div class="dr-body" id="dr-body"></div>
 </div>
+<div id="p-log" class="screen">
+  <div class="tbar"><button class="tbk" onclick="goHome()">← 首页</button><div class="tbtitle">📒 我的断命记录</div><div class="tbr"></div></div>
+  <div id="lg-body" style="padding:0 2px 40px"></div>
+</div>
 <div id="p-relyx" class="screen">
   <div class="tbar"><button class="tbk" onclick="goHome()">← 首页</button><div class="tbtitle">🔗 干支关系象意</div><div class="tbr" id="ryx-p-r"></div></div>
   <div id="p-relyx-main">
@@ -3937,7 +3954,7 @@ function checkBkRemind(){
   }
 }
 function exportBackup(){
-  const data={v:1,date:todayStr(),bazi:getData(),nb:getNB(),m4saved:getSavedM4(),custom_cats:[...CUSTOM_CATS],cat_stats:getCatStats(),plan:getPlanData(),kq_ch:getChStats(),confuse:getConf(),kq_seen:getSeen(),kq_path:getPath(),drill:getDrillLog()};
+  const data={v:1,date:todayStr(),bazi:getData(),nb:getNB(),m4saved:getSavedM4(),custom_cats:[...CUSTOM_CATS],cat_stats:getCatStats(),plan:getPlanData(),kq_ch:getChStats(),confuse:getConf(),kq_seen:getSeen(),kq_path:getPath(),drill:getDrillLog(),mylog:getLog()};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
@@ -3967,6 +3984,7 @@ function importBackup(){
         if(d.kq_seen)localStorage.setItem('bazi_kq_seen',JSON.stringify(d.kq_seen));
         if(d.kq_path)localStorage.setItem('bazi_kq_path',JSON.stringify(d.kq_path));
         if(d.drill)localStorage.setItem('bazi_drill',JSON.stringify(d.drill));
+        if(d.mylog)localStorage.setItem('bazi_mylog',JSON.stringify(d.mylog));
         if(d.confuse)localStorage.setItem('bazi_confuse',JSON.stringify(d.confuse));
         localStorage.setItem(BK_DATE_KEY,todayStr());
         toast('数据已恢复！');
@@ -6315,7 +6333,7 @@ function startSingleCat(cat){
 
 
 // ══ INIT ══
-initHome();try{renderDrillHome()}catch(e){};m2SetDiff(_m2hard);gjSetMode(_gjMode);checkPlanImportURL();checkChapterURL();
+initHome();try{renderDrillHome();renderLogHome()}catch(e){};m2SetDiff(_m2hard);gjSetMode(_gjMode);checkPlanImportURL();checkChapterURL();
 
 // ══ PWA ══
 if('serviceWorker' in navigator){
@@ -6425,6 +6443,56 @@ function drReveal(){const c=DR.c,sc=DR.tot?Math.round(DR.got*100/DR.tot):0;
     ${sec('原书断',c.d)}${sec('反馈',c.f)}${sec('解',c.j)}
     <button class="dr-go" onclick="startDrill()">再断一盘 🧭</button>`;
   renderDrillHome();}
+
+// ════════════ 我的断命记录（2026-10-19）════════════
+// 断熟人的盘 → 逐条记断语（标作用方式＋事项）→ 等反馈逐条标准/半准/不准 → 统计自己哪一路准、哪一路弱
+const LG_HOW=['冲','合','穿','刑','破','绝','墓库','虚实','十神','宫位','象法','应期','其他'];
+const LG_WHAT=['财','官/事业','婚姻','六亲','身体','学业','性格','灾祸','其他'];
+function getLog(){try{return JSON.parse(localStorage.getItem('bazi_mylog')||'[]')}catch{return[]}}
+function saveLog(L){try{localStorage.setItem('bazi_mylog',JSON.stringify(L))}catch(e){toast('保存失败')}}
+function lgParse(t){const s=(t||'').replace(/[^甲乙丙丁戊己庚辛壬癸子丑寅卯辰巳午未申酉戌亥]/g,'');
+  if(s.length!==8)return null;const g=[s[0],s[2],s[4],s[6],s[1],s[3],s[5],s[7]];
+  for(let i=0;i<4;i++){if(!GAN.includes(g[i])||!ZHI.includes(g[4+i])||GAN.indexOf(g[i])%2!==ZHI.indexOf(g[4+i])%2)return null;}return g.join('');}
+function lgStats(L){const by={how:{},what:{}},tot={y:0,h:0,n:0};
+  for(const e of L)for(const r of e.items||[]){if(!r.fb)continue;tot[r.fb]++;for(const[k,v]of[['how',r.how],['what',r.what]]){const o=by[k][v]=by[k][v]||{y:0,h:0,n:0};o[r.fb]++;}}
+  return{by,tot};}
+const lgRate=o=>{const n=o.y+o.h+o.n;return n?Math.round((o.y+o.h*0.5)*100/n):null;};
+function renderLogHome(){const el=document.getElementById('el-log-sub');if(!el)return;const L=getLog();if(!L.length){el.textContent='断熟人的盘、等反馈，统计自己哪一路断得准';return;}
+  const st=lgStats(L).tot,n=st.y+st.h+st.n;el.textContent=`记录 ${L.length} 盘 · 已反馈 ${n} 条断语`+(n?` · 准确率 ${lgRate(st)}%`:'');}
+function openLog(){show('p-log');lgList();}
+function lgList(){const L=getLog(),B=document.getElementById('lg-body'),st=lgStats(L);
+  const tb=(obj)=>Object.entries(obj).map(([k,o])=>[k,o,o.y+o.h+o.n]).filter(x=>x[2]).sort((a,b)=>lgRate(a[1])-lgRate(b[1])).map(([k,o,n])=>`<tr><td>${k}</td><td>准 ${o.y}・半 ${o.h}・错 ${o.n}</td><td>${lgRate(o)}%（${n} 条）</td></tr>`).join('');
+  const n=st.tot.y+st.tot.h+st.tot.n;
+  B.innerHTML=`<button class="dr-go" onclick="lgEdit(-1)">＋ 记一个新盘</button>
+   ${n?`<div class="dr-sec"><h4>我的准确率（半准算一半 · 从低到高）</h4><div class="lg-lab">按作用方式</div><table class="lg-st">${tb(st.by.how)}</table><div class="lg-lab">按断的事项</div><table class="lg-st">${tb(st.by.what)}</table></div>`:'<div class="dr-fb">还没有反馈。断完一个盘、等对方回话后，回来逐条标「准／半准／不准」，这里就会统计出你哪一路断得准、哪一路弱。</div>'}
+   ${L.map((e,i)=>{const f=(e.items||[]).filter(r=>r.fb).length;return `<div class="lg-card" onclick="lgEdit(${i})"><div class="h"><span>${(e.name||'未命名').replace(/</g,'&lt;')} <small>${e.sex}</small></span><small>${e.date||''}</small></div><div class="gz">${e.g.slice(0,4)}　${e.g.slice(4)}</div><div class="m">断语 ${(e.items||[]).length} 条 · 已反馈 ${f} 条</div></div>`;}).reverse().join('')}`;
+  renderLogHome();}
+let LG=null;
+function lgEdit(i){const L=getLog();LG=i>=0?JSON.parse(JSON.stringify(L[i])):{name:'',sex:'乾',g:'',items:[],date:todayStr()};LG._i=i;lgForm();}
+function lgForm(){const e=LG,B=document.getElementById('lg-body');const gz=e.g?[0,1,2,3].map(k=>e.g[k]+e.g[4+k]).join(' '):'';
+  const rels=e.g?[...drRels(e.g,0),...drRels(e.g,1)].map(x=>x.s).join('、'):'';
+  B.innerHTML=`<div class="lg-lab">备注名（只存在你手机里）</div><input class="lg-in" id="lg-name" value="${(e.name||'').replace(/"/g,'&quot;')}" placeholder="如：表哥、同事小王">
+   <div class="lg-sel">${['乾','坤'].map(x=>`<button class="${e.sex===x?'on':''}" onclick="LG.sex='${x}';lgSync();lgForm()">${x}（${x==='乾'?'男':'女'}）</button>`).join('')}</div>
+   <div class="lg-lab">四柱（年月日时，如：甲子 丙寅 戊辰 庚申）</div><input class="lg-in" id="lg-gz" value="${gz}" onchange="lgSync();lgForm()">
+   ${e.g?`<div class="dr-fb">盘上的作用：${rels||'天干地支两两之间没有合冲穿破绝刑'}</div>`:''}
+   <div class="lg-lab">我的断语（一条一事；断完先别问，等反馈再来标）</div>
+   ${(e.items||[]).map((r,k)=>`<div class="lg-row"><div class="t">${r.t.replace(/</g,'&lt;')}</div><div class="k">依据：${r.how} · 事项：${r.what}　<a style="color:#ef4444" onclick="LG.items.splice(${k},1);lgForm()">删</a></div>
+     <div class="lg-fb">${[['y','✓ 准'],['h','半准'],['n','✗ 不准']].map(([v,l])=>`<button class="${r.fb===v?'on '+v:''}" onclick="LG.items[${k}].fb=LG.items[${k}].fb==='${v}'?'':'${v}';lgForm()">${l}</button>`).join('')}</div></div>`).join('')}
+   <textarea class="lg-in" id="lg-t" rows="2" placeholder="如：36 岁前不聚财（月支戌克日支亥）"></textarea>
+   <div class="lg-lab">依据的作用方式</div><div class="lg-sel" id="lg-how">${LG_HOW.map(x=>`<button onclick="lgPick(this,'lg-how')">${x}</button>`).join('')}</div>
+   <div class="lg-lab">断的事项</div><div class="lg-sel" id="lg-what">${LG_WHAT.map(x=>`<button onclick="lgPick(this,'lg-what')">${x}</button>`).join('')}</div>
+   <button class="dr-go" style="background:#38bdf8;color:#03202f" onclick="lgAdd()">＋ 加这条断语</button>
+   <button class="dr-go" onclick="lgSave()">保存这个盘</button>
+   ${e._i>=0?`<button class="dr-go" style="background:#3a0d0d;color:#fca5a5" onclick="lgDel()">删除这个盘</button>`:''}
+   <button class="dr-go" style="background:#1e293b;color:#cbd5e1" onclick="lgList()">返回列表</button>`;}
+function lgPick(b,id){document.querySelectorAll('#'+id+' button').forEach(x=>x.classList.remove('on'));b.classList.add('on');}
+function lgSync(){const n=document.getElementById('lg-name'),g=document.getElementById('lg-gz');if(n)LG.name=n.value.trim();
+  if(g&&g.value.trim()){const p=lgParse(g.value);if(p)LG.g=p;else toast('四柱要 8 个字，且干支阴阳要配（如甲子、乙丑）');}}
+function lgAdd(){lgSync();const t=document.getElementById('lg-t').value.trim();const h=document.querySelector('#lg-how .on'),w=document.querySelector('#lg-what .on');
+  if(!t){toast('先写断语');return;}if(!h||!w){toast('选一下依据和事项，统计才分得出来');return;}
+  LG.items.push({t,how:h.textContent,what:w.textContent,fb:''});lgForm();}
+function lgSave(){lgSync();if(!LG.g){toast('先填四柱');return;}const L=getLog(),i=LG._i;const e={...LG};delete e._i;if(i>=0)L[i]=e;else L.push(e);saveLog(L);toast('已保存');lgList();}
+function lgDel(){if(!confirm('确定删除这个盘的记录？'))return;const L=getLog();L.splice(LG._i,1);saveLog(L);lgList();}
 // ════════════ 意象联想训练 ════════════
 const GAN_YX=[
   {name:'甲',cat:'天干',sx:'参天大树·栋梁之才',ex:'刚直向上、开创进取，主权威领导；喜水生、火泄，怕庚金克'},
