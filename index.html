@@ -772,8 +772,9 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   </div>
   <!-- 开发时间节点 -->
   <details class="card devlog" style="margin-bottom:9px">
-    <summary class="hhist">开发时间节点<span>35 条</span></summary>
+    <summary class="hhist">开发时间节点<span>36 条</span></summary>
     <div style="max-height:130px;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:6px;margin-top:2px;padding-right:2px">
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.19</span><span style="color:#94a3b8;font-size:12px">⏳ 断盘陪练加「⑧应期」：原书写明年份的 163 个盘，遮住年份问应在哪一年，答完列出那一年干支与原局的合冲穿破绝刑</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.19</span><span style="color:#94a3b8;font-size:12px">🎯 断盘陪练再升级：加「③十干喜忌」「⑥判主线（原书抓的是哪条作用）」两步；答完把十神、禄、妻星夫星、作用标到盘上；按步统计正确率，最弱的一步可连续 10 盘专练</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.19</span><span style="color:#94a3b8;font-size:12px">🧭 断盘陪练加入学习册课程笔记里的 32 个案例（四柱齐全、题库里没有的），揭晓时标出是哪一课</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.19</span><span style="color:#94a3b8;font-size:12px">🧭 断盘陪练改按小任「入命八步」走：①认日干 ②虚实 ④入手（日干所生/所合）⑤十神与禄 ⑥作用方式 ⑦妻星夫星落在哪 ，喜忌与应期最后对照原书；每步标出是八步第几步</span></div>
@@ -6379,6 +6380,7 @@ if('serviceWorker' in navigator){
 // ════════════ 断盘陪练（2026-10-19）════════════
 // 原书命例（命理精讲 99-命例题库，drill/build.py 抽出）一步步断：
 //   能从盘上算出标准答案的步骤自动判分（虚实/十神/天干作用/地支作用，口径＝本站关系表）；
+//   2026-10-19 三轮：⑧应期（原书写明的干支年份，遮住问哪一年）
 //   2026-10-19 二轮：③十干喜忌（按表出题）、⑥判主线（原书解里点名的那条作用）、按步统计＋弱项专练、答完把答案标到盘上
 //   步骤按小任「入命八步」排（2026-10-19 改）：①日干 ②虚实 ④入手 ⑤十神·禄 ⑥作用 ⑦宫位，③喜忌⑧应期对照原书
 //   判断类（主线、喜忌、断语）对照原书「断」「反馈」「解」——外加一道客观题「原书断的是哪一条」
@@ -6444,10 +6446,19 @@ function drBuild(c,all,rng){const g=c.g,st=[],dg=g[2],P=(ps)=>PILLAR[ps%4]+(ps<4
     const ps=[0,1,3,4,5,6,7],hit=ps.filter(i=>want.includes(i<4?getShen(dg,g[i]):zhiShen(dg,g[i])));
     const lab=i=>`${P(i)} ${g[i]}`,none='盘上没有';
     st.push({b:'⑦ 宫位',k:'multi',q:`${male?'男':'女'}命看${nm}：它落在哪些位置？（多选；地支按本气）`,a:hit.length?hit.map(lab):[none],o:[...ps.map(lab),none],e:'先找星、再看宫：落在主位（日时）还是宾位（年月）、离日支夫妻宫多远——宫 ＞ 星；年 1–18、月 18–36、日 36–54、时 54 后',an:{p:Object.fromEntries(hit.map(i=>[i,male?'妻星':'夫星']))}});}
+  // ⑧ 应期：原书反馈/断语里写明了干支年份的，遮住年份问是哪一年（干扰项取前后几年，避开同句里别的年份）
+  {const Y=/([甲乙丙丁戊己庚辛壬癸])([子丑寅卯辰巳午未申酉戌亥])年/g,seg=[];
+    for(const[src,txt]of[['反馈',c.f||''],['断',c.d||'']])for(const x of txt.split(/[；;。\n　]/))if(x.match(Y)&&x.length<=70)seg.push([src,x.trim()]);
+    if(seg.length){const[src,x]=seg[Math.floor(rng()*seg.length)],ys=[...x.matchAll(Y)],m=ys[Math.floor(rng()*ys.length)],a=m[1]+m[2];
+      const i60=k=>{for(let j=0;j<60;j++)if(GAN[j%10]===k[0]&&ZHI[j%12]===k[1])return j;return -1;},ia=i60(a),other=new Set(ys.map(y=>y[1]+y[2]));
+      const near=[-3,-2,-1,1,2,3].map(d=>{const j=(ia+d+60)%60;return GAN[j%10]+ZHI[j%12];}).filter(k=>!other.has(k));
+      if(ia>=0&&near.length>=3){const q=x.replace(/(1[89]|20)\d\d\s*(年)?/g,'某某$2').split(a+'年').join('<b>（？）</b>年');   // 公历年份也遮住，否则一推就知道
+        const zr=[4,5,6,7].flatMap(i=>drZhiRel(a[1],g[i]).map(t=>`${a[1]}${g[i]}${t}（${PILLAR[i-4]}支）`)),gr=[0,1,2,3].flatMap(i=>drGanRel(a[0],g[i]).map(t=>`${a[0]}${g[i]}${t}（${PILLAR[i]}干）`)),sz=[4,5,6,7].filter(i=>g[i]===a[1]).map(i=>`${a[1]}到${PILLAR[i-4]}支（伏吟）`);
+        st.push({b:'⑧ 大运流年',k:'one',q:`原书${src}：「${q}」——应在哪一年？`,a,o:shuffle(rng,[a,...shuffle(rng,near).slice(0,3)]),e:`${a}年与原局：${[...gr,...zr,...sz].join('、')||'天干地支都没有合冲穿破绝刑'}。应期四字诀：合到 · 冲动 · 墓收 · 穿伤；原局有合逢冲应、有冲逢合应、无冲无合看到位`});}}}
   if(c.d){const cut=x=>{const m=x.split(/[；;。]\s*|　/).filter(Boolean);return m.slice(0,2).join('；').slice(0,60);};
     const others=all.filter(x=>x.n!==c.n&&x.d&&!x.tg.some(t=>c.tg.includes(t)));const pool=others.length>=3?others:all.filter(x=>x.n!==c.n&&x.d);
     const ds=shuffle(rng,pool).slice(0,3).map(x=>cut(x.d)),a=cut(c.d);
-    st.push({b:'③⑧ 喜忌·应期→对照原书',k:'one',q:'喜忌、制化、应期这些判断，先自己想一想——原书对<b>这个盘</b>断的是下面哪一条？',a,o:shuffle(rng,[a,...ds]),e:'干扰项取自考点不同的别的命例，所以只有一条属于这个盘',long:1});}
+    st.push({b:'✓ 对照原书',k:'one',q:'先自己想一想这个盘能断出什么——原书对<b>这个盘</b>断的是下面哪一条？',a,o:shuffle(rng,[a,...ds]),e:'干扰项取自考点不同的别的命例，所以只有一条属于这个盘',long:1});}
   return st;}
 function getDrStep(){try{return JSON.parse(localStorage.getItem('bazi_drill_step')||'{}')}catch{return{}}}
 // 按步统计（专练、找弱项）：{八步标签:[对,总]}

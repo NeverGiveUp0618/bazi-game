@@ -22,7 +22,7 @@ setTimeout(()=>{
   ck(n4/all.length>0.9,`九成以上命例至少 4 步（${n4}/${all.length}，共 ${nstep} 步）`);
   {const c=all[0];const st=ev('drBuild')(c,all,ev('mkRng')(1));
     ck(st.every(S=>S.b)&&st[0].b.startsWith('①'),'每步带八步标签，第一步是①天元入命');
-    const ord=st.filter(S=>!S.b.includes('对照原书')).map(S=>S.b[0]);ck(ord.join('')===ord.slice().sort().join(''),'步骤按八步顺序：'+ord.join(''));}
+    const ord=st.filter(S=>!S.b.startsWith('✓')).map(S=>S.b[0]);ck(ord.join('')===ord.slice().sort().join(''),'步骤按八步顺序：'+ord.join(''));}
   {const fake={n:-1,g:'甲丙甲庚寅午子申',x:'乾',tg:[],d:''};const st=ev('drBuild')(fake,all,ev('mkRng')(2));
     const lu=st.find(S=>S.b.includes('禄')),rk=st.find(S=>S.b.startsWith('④')),gw=st.find(S=>S.b.startsWith('⑦'));
     ck(lu&&lu.a==='寅，在年支','甲禄寅、在年支');ck(rk&&rk.a==='有所生（食伤透干）','甲见丙＝有所生');
@@ -30,6 +30,10 @@ setTimeout(()=>{
   {const ln=all.filter(c=>c.src);ck(ln.length>=30&&ln.every(c=>c.n>10000&&c.d),`课程笔记案例 ${ln.length} 例，都带断语`);
     {const tk=new Set(all.filter(c=>!c.src).map(c=>c.g));ck(ln.every(c=>!tk.has(c.g))&&new Set(ln.map(c=>c.g)).size===ln.length,'课程笔记案例不与题库重盘、自身也不重');}
     const nx=ln.find(c=>c.x==='—');if(nx)ck(!ev('drBuild')(nx,all,ev('mkRng')(3)).some(S=>S.b.startsWith('⑦')),'性别未说的盘不出妻星夫星题');}
+  {const c=all.find(x=>x.n===1),st=ev('drBuild')(c,all,ev('mkRng')(5)),y=st.find(S=>S.b.startsWith('⑧'));
+    ck(y&&y.a==='己丑'&&y.q.includes('（？）')&&!y.q.includes('己丑'),'应期题：题1「己丑年生一男孩」遮住年份、答案己丑');
+    let ny=0,bad=0;for(const c of all){const S=ev('drBuild')(c,all,ev('mkRng')(c.n)).find(S=>S.b.startsWith('⑧'));if(S){ny++;if(S.q.includes(S.a+'年')||/(19|20)\d\d/.test(S.q))bad++;}}
+    ck(ny>=100&&!bad,`应期题 ${ny} 盘能出，题面不漏答案`);}
   // 关系判定抽检（本站口径）
   const zr=ev('drZhiRel');
   ck(zr('子','午').includes('冲')&&zr('亥','午').includes('暗合')&&zr('亥','午').includes('绝')&&zr('子','辰').includes('半合')&&zr('申','辰').includes('拱合')&&zr('丑','戌').includes('刑')&&zr('卯','辰').includes('穿')&&!zr('丑','未').includes('刑'),'地支关系判定（冲/暗合+绝/半合/拱合/刑/穿；丑未不论刑）');
