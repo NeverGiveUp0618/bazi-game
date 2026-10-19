@@ -1,4 +1,4 @@
-const CACHE = 'bazi-v41-srs';
+const CACHE = 'bazi-v42-drill';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './bio/meta.js'];
 
 self.addEventListener('install', e => {
