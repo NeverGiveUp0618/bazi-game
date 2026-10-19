@@ -109,6 +109,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .qsub b{color:#e2e8f0}
 .opts{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px;flex-shrink:0}
 .opt{padding:14px 6px;font-size:24px;font-weight:bold;background:#334155;color:#e2e8f0;border:2px solid transparent;border-radius:12px;cursor:pointer;min-height:58px;display:flex;align-items:center;justify-content:center;transition:background .1s;width:100%;position:relative;-webkit-appearance:none}
+.opt .ot{text-wrap:balance;line-height:1.35}
 .opt:hover:not(:disabled){background:#3d526a}
 .opt:active:not(:disabled){transform:scale(.97)}
 .opt.correct{background:#064e3b;border-color:#10b981;color:#10b981}
@@ -716,8 +717,9 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   </div>
   <!-- 开发时间节点 -->
   <details class="card devlog" style="margin-bottom:9px">
-    <summary class="hhist">开发时间节点<span>23 条</span></summary>
+    <summary class="hhist">开发时间节点<span>24 条</span></summary>
     <div style="max-height:130px;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:6px;margin-top:2px;padding-right:2px">
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.19</span><span style="color:#94a3b8;font-size:12px">🔤 文字选项按字数缩字号、均衡折行，长选项不再折成三行掉单字</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.19</span><span style="color:#94a3b8;font-size:12px">🔍 逐课细读小任公开课、初中级、高级 35 课新版笔记，挖出细节点 802 题（如申亥穿亥伤更重、丑午穿克不到丑中金）；教材知识点共 1476 题</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.17</span><span style="color:#94a3b8;font-size:12px">📘 首页加「按教材章节练」：16 章各自的掌握度条（近 20 题正确率），点哪章练哪章；命理精讲每章末尾可直接跳来练</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.17</span><span style="color:#94a3b8;font-size:12px">🔁 本组答错的题，在这组最后再出一遍（选项重洗，不计分）；结果页加「✍️ 只练这几道错题」</span></div>
@@ -4040,6 +4042,8 @@ function m1After(q,ok){
 function m1GoNext(){clearInterval(G1.nextT);if(!G1.waitNext)return;G1.waitNext=false;
   const scr=document.getElementById('p1g');if(scr&&!scr.classList.contains('active'))return; // 已离开答题页就不再跳
   m1Next();}
+// 文字选项按字数缩字号：长选项 24px 会折成三行、最后一字孤零零掉一行（2026-10-19）
+function optFs(t){const n=String(t).replace(/<[^>]+>/g,'').length;return n>12?' style="font-size:17px"':n>8?' style="font-size:19px"':'';}
 function m1Next(){
   G1.waitNext=false;
   if(G1.cur>=G1.qs.length){m1End();return;}
@@ -4064,7 +4068,7 @@ function m1Next(){
   }
   const isMouse=window.matchMedia('(pointer:fine)').matches;
   document.getElementById('el-opts').innerHTML=q.opts.map((opt,i)=>
-    `<button class="opt" id="opt${i}" onclick="m1Pick(${i})">${isMouse?`<span class="kh">${i+1}</span>`:''}<span>${opt}</span></button>`
+    `<button class="opt" id="opt${i}" onclick="m1Pick(${i})">${isMouse?`<span class="kh">${i+1}</span>`:''}<span class="ot"${optFs(opt)}>${opt}</span></button>`
   ).join('');
   document.getElementById('el-fb').textContent='';
   document.getElementById('el-fb').className='fb';
