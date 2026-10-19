@@ -20,6 +20,13 @@ setTimeout(()=>{
   }
   ck(!bad.length,'逐例出题检查'+(bad.length?'：'+bad.slice(0,5).join('；'):''));
   ck(n4/all.length>0.9,`九成以上命例至少 4 步（${n4}/${all.length}，共 ${nstep} 步）`);
+  {const c=all[0];const st=ev('drBuild')(c,all,ev('mkRng')(1));
+    ck(st.every(S=>S.b)&&st[0].b.startsWith('①'),'每步带八步标签，第一步是①天元入命');
+    const ord=st.filter(S=>!S.b.includes('对照原书')).map(S=>S.b[0]);ck(ord.join('')===ord.slice().sort().join(''),'步骤按八步顺序：'+ord.join(''));}
+  {const fake={n:-1,g:'甲丙甲庚寅午子申',x:'乾',tg:[],d:''};const st=ev('drBuild')(fake,all,ev('mkRng')(2));
+    const lu=st.find(S=>S.b.includes('禄')),rk=st.find(S=>S.b.startsWith('④')),gw=st.find(S=>S.b.startsWith('⑦'));
+    ck(lu&&lu.a==='寅，在年支','甲禄寅、在年支');ck(rk&&rk.a==='有所生（食伤透干）','甲见丙＝有所生');
+    ck(gw&&gw.a.length===1&&gw.a[0]==='盘上没有','甲木男命无戊己辰戌丑未 ⇒ 财星盘上没有');}
   // 关系判定抽检（本站口径）
   const zr=ev('drZhiRel');
   ck(zr('子','午').includes('冲')&&zr('亥','午').includes('暗合')&&zr('亥','午').includes('绝')&&zr('子','辰').includes('半合')&&zr('申','辰').includes('拱合')&&zr('丑','戌').includes('刑')&&zr('卯','辰').includes('穿')&&!zr('丑','未').includes('刑'),'地支关系判定（冲/暗合+绝/半合/拱合/刑/穿；丑未不论刑）');
@@ -31,7 +38,7 @@ setTimeout(()=>{
     const d=w.document;ck(d.getElementById('p-drill').classList.contains('active')&&d.querySelectorAll('#dr-pan .dr-col').length===4,'进入陪练，盘面四柱');
     ck(!d.getElementById('dr-body').textContent.includes(ev('DR.c.t')),'答题前不剧透命例标题');
     let guard=0;
-    while(ev('DR.i<DR.st.length')&&guard++<10){
+    while(ev('DR.i<DR.st.length')&&guard++<20){
       const S=ev('DR.st[DR.i]');
       if(S.k==='one')ev('drPick(DR.st[DR.i].o.indexOf(DR.st[DR.i].a))');
       else{d.querySelectorAll('#dr-body .dr-chip').forEach(b=>{if(S.a.includes(S.o[+b.dataset.k]))b.classList.add('on');});ev('drMulti()');}

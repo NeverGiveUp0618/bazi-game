@@ -769,8 +769,9 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   </div>
   <!-- 开发时间节点 -->
   <details class="card devlog" style="margin-bottom:9px">
-    <summary class="hhist">开发时间节点<span>32 条</span></summary>
+    <summary class="hhist">开发时间节点<span>33 条</span></summary>
     <div style="max-height:130px;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:6px;margin-top:2px;padding-right:2px">
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.19</span><span style="color:#94a3b8;font-size:12px">🧭 断盘陪练改按小任「入命八步」走：①认日干 ②虚实 ④入手（日干所生/所合）⑤十神与禄 ⑥作用方式 ⑦妻星夫星落在哪 ，喜忌与应期最后对照原书；每步标出是八步第几步</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.19</span><span style="color:#94a3b8;font-size:12px">📒 新增「我的断命记录」：录熟人的盘、逐条记断语（标作用方式与事项），等反馈标准/半准/不准，自动统计自己哪一路准、哪一路弱</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.19</span><span style="color:#94a3b8;font-size:12px">🧭 新增「断盘陪练」：原书 737 个命例一步步断——日柱虚实、十神、天干地支作用自动判分，最后对照原书断语、反馈和解</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.19</span><span style="color:#94a3b8;font-size:12px">📅 教材题按遗忘曲线复习（对了 1→3→7→15→30 天后再出，错了第二天必出）；「学新题」按第1→16章路线接着学；每章做过八成可考「过关测验」</span></div>
@@ -6372,6 +6373,7 @@ if('serviceWorker' in navigator){
 // ════════════ 断盘陪练（2026-10-19）════════════
 // 原书命例（命理精讲 99-命例题库，drill/build.py 抽出）一步步断：
 //   能从盘上算出标准答案的步骤自动判分（虚实/十神/天干作用/地支作用，口径＝本站关系表）；
+//   步骤按小任「入命八步」排（2026-10-19 改）：①日干 ②虚实 ④入手 ⑤十神·禄 ⑥作用 ⑦宫位，③喜忌⑧应期对照原书
 //   判断类（主线、喜忌、断语）对照原书「断」「反馈」「解」——外加一道客观题「原书断的是哪一条」
 const DRILL_V='1';
 let DR=null;
@@ -6399,22 +6401,36 @@ function drFakes(g,zhi,real,rng,n){const out=[],off=zhi?4:0,f=zhi?drZhiRel:drGan
   for(let tries=0;pairs.length&&tries<80&&out.length<n;tries++){const[i,j]=pairs[Math.floor(rng()*pairs.length)],t=types[Math.floor(rng()*types.length)],a=g[off+i],b=g[off+j];
     if(f(a,b).includes(t))continue;const s=`${a}${b}${t}（${PILLAR[i]}${PILLAR[j]}）`;if(out.includes(s)||real.some(x=>x.s===s))continue;out.push(s);}
   return out;}
-function drBuild(c,all,rng){const g=c.g,st=[];
+const DR_LU={甲:'寅',乙:'卯',丙:'巳',戊:'巳',丁:'午',己:'午',庚:'申',辛:'酉',壬:'亥',癸:'子'};
+// 按小任「入命八步」排步骤，每步带 b＝八步标签；能算的自动判分，喜忌/应期等判断类放最后对照原书
+function drBuild(c,all,rng){const g=c.g,st=[],dg=g[2],P=(ps)=>PILLAR[ps%4]+(ps<4?'干':'支');
+  const yy=x=>(GAN.indexOf(x)%2?'阴':'阳')+G_WX[x],ya=yy(dg);
+  st.push({b:'① 天元入命',k:'one',q:`八步第一步先认日干：命主是日干 <b>${dg}</b>，它是什么阴阳五行？`,a:ya,o:shuffle(rng,[ya,...shuffle(rng,GAN.map(yy).filter((x,i,A)=>x!==ya&&A.indexOf(x)===i)).slice(0,3)]),e:'日柱一柱都是命主；后面定十神、喜忌、主位，都从日干出发'});
   const xs=getXuShi(g[2],g[6]),zc=g[2]+g[6];
-  if(xs&&!['戊辰','己丑'].includes(zc))st.push({k:'one',q:`日柱 <b>${zc}</b>，按单柱判是虚还是实？`,a:xs,o:['实','虚'],e:'只看本柱：坐下与天干同五行、生天干、是天干或生天干五行的墓库为实（庚戌、辛未燥土脆金论虚）'});
+  if(xs&&!['戊辰','己丑'].includes(zc))st.push({b:'② 干支虚实',k:'one',q:`日柱 <b>${zc}</b>，按单柱判是虚还是实？`,a:xs,o:['实','虚'],e:'只看本柱：坐下与天干同五行、生天干、是天干或生天干五行的墓库为实（庚戌、辛未燥土脆金论虚）'});
+  const oth=[g[0],g[1],g[3]],hs=oth.some(x=>['食神','伤官'].includes(getShen(dg,x))),hh=oth.includes(TGHE[dg]);
+  const ra=hs&&hh?'生、合都有':hs?'有所生（食伤透干）':hh?'有所合':'生、合都没有';
+  st.push({b:'④ 干支意向',k:'one',q:`入手先看日干：<b>${dg}</b> 在天干上有没有「所生」（食伤透出）或「所合」？`,a:ra,o:['有所生（食伤透干）','有所合','生、合都有','生、合都没有'],e:'入手四步：日干所生 → 日干所合 → 日支的作用 → 禄比。都没有就看日支；日干无生无合、或无根而水生不动它 ⇒ 弃日干看日支。⚠️ v课三步版是先合后生，两说'});
   const pos=shuffle(rng,[0,1,3,4,5,6,7]).slice(0,2);
-  for(const ps of pos){const ch=g[ps],ss=ps<4?getShen(g[2],ch):zhiShen(g[2],ch);if(!ss)continue;
-    st.push({k:'one',q:`${PILLAR[ps%4]}${ps<4?'干':'支'} <b>${ch}</b> 对日主 <b>${g[2]}</b> 是什么十神？`,a:ss,o:shuffle(rng,[ss,...shuffle(rng,SHENS.filter(x=>x!==ss)).slice(0,3)]),e:ps<4?'天干按五行生克＋阴阳同异':'地支按「天地阴阳诀」定阴阳：寅申巳亥辰戌为阳，子午卯酉丑未为阴'});}
+  for(const ps of pos){const ch=g[ps],ss=ps<4?getShen(dg,ch):zhiShen(dg,ch);if(!ss)continue;
+    st.push({b:'⑤ 十神格局',k:'one',q:`${P(ps)} <b>${ch}</b> 对日主 <b>${dg}</b> 是什么十神？`,a:ss,o:shuffle(rng,[ss,...shuffle(rng,SHENS.filter(x=>x!==ss)).slice(0,3)]),e:ps<4?'天干按五行生克＋阴阳同异':'地支按「天地阴阳诀」定阴阳：寅申巳亥辰戌为阳，子午卯酉丑未为阴'});}
+  {const lu=DR_LU[dg],at=[4,5,6,7].filter(i=>g[i]===lu),la=at.length?`${lu}，在${at.map(P).join('、')}`:`${lu}，盘上没有`;
+    const fk=shuffle(rng,ZHI.filter(z=>z!==lu)).slice(0,3).map(z=>{const t=[4,5,6,7].filter(i=>g[i]===z);return t.length?`${z}，在${t.map(P).join('、')}`:`${z}，盘上没有`;});
+    st.push({b:'⑤ 标替身·禄',k:'one',q:`日干 <b>${dg}</b> 的<b>禄</b>是哪个地支？盘上有没有？`,a:la,o:shuffle(rng,[la,...fk]),e:'甲禄寅 乙禄卯 丙戊禄巳 丁己禄午 庚禄申 辛禄酉 壬禄亥 癸禄子；禄是日干的替身，主位见禄＝部分归属'});}
   for(const zhi of [0,1]){const real=drRels(g,zhi);const fk=drFakes(g,zhi,real,rng,Math.max(2,5-real.length));
     const none=zhi?'地支之间没有这些作用':'天干之间没有合、冲';
     const chips=shuffle(rng,[...real.map(x=>x.s),...fk]);if(!real.length)chips.push(none);
     if(chips.length<3)continue;
     const tw=zhi&&real.some(x=>(x.t==='破'&&/子酉|酉子/.test(x.a+x.b))||(x.t==='暗合'&&/子巳|巳子/.test(x.a+x.b)));
-    st.push({k:'multi',q:zhi?'盘上<b>地支</b>之间有哪些作用？（多选；冲、合、暗合、穿、绝、破、刑、半合、拱合）':'盘上<b>天干</b>之间有哪些合、冲？（多选）',a:real.length?real.map(x=>x.s):[none],o:chips,e:zhi?'两两看：同一对字可以同时有几种作用（如亥午既暗合又绝），各论各的'+(tw?'。⚠️ 子酉破、子巳暗合是两说：本站列入，大任《初级班》与小任的暗合不含子巳、本站三破口径不含子酉':''):'天干五合：甲己 乙庚 丙辛 丁壬 戊癸；天干四冲：甲庚 乙辛 丙壬 丁癸'});}
+    st.push({b:'⑥ 作用方式',k:'multi',q:zhi?'盘上<b>地支</b>之间有哪些作用？（多选；冲、合、暗合、穿、绝、破、刑、半合、拱合）':'盘上<b>天干</b>之间有哪些合、冲？（多选）',a:real.length?real.map(x=>x.s):[none],o:chips,e:zhi?'两两看：同一对字可以同时有几种作用（如亥午既暗合又绝），各论各的'+(tw?'。⚠️ 子酉破、子巳暗合是两说：本站列入，大任《初级班》与小任的暗合不含子巳、本站三破口径不含子酉':''):'天干五合：甲己 乙庚 丙辛 丁壬 戊癸；天干四冲：甲庚 乙辛 丙壬 丁癸'});}
+  {const male=c.x==='乾',want=male?['正财','偏财']:['正官','七杀'],nm=male?'妻星（财）':'夫星（官杀）';
+    const ps=[0,1,3,4,5,6,7],hit=ps.filter(i=>want.includes(i<4?getShen(dg,g[i]):zhiShen(dg,g[i])));
+    const lab=i=>`${P(i)} ${g[i]}`,none='盘上没有';
+    st.push({b:'⑦ 宫位',k:'multi',q:`${male?'男':'女'}命看${nm}：它落在哪些位置？（多选；地支按本气）`,a:hit.length?hit.map(lab):[none],o:[...ps.map(lab),none],e:'先找星、再看宫：落在主位（日时）还是宾位（年月）、离日支夫妻宫多远——宫 ＞ 星；年 1–18、月 18–36、日 36–54、时 54 后'});}
   if(c.d){const cut=x=>{const m=x.split(/[；;。]\s*|　/).filter(Boolean);return m.slice(0,2).join('；').slice(0,60);};
     const others=all.filter(x=>x.n!==c.n&&x.d&&!x.tg.some(t=>c.tg.includes(t)));const pool=others.length>=3?others:all.filter(x=>x.n!==c.n&&x.d);
     const ds=shuffle(rng,pool).slice(0,3).map(x=>cut(x.d)),a=cut(c.d);
-    st.push({k:'one',q:'先自己想一想这个盘能断出什么——原书对<b>这个盘</b>断的是下面哪一条？',a,o:shuffle(rng,[a,...ds]),e:'干扰项取自考点不同的别的命例，所以只有一条属于这个盘',long:1});}
+    st.push({b:'③⑧ 喜忌·应期→对照原书',k:'one',q:'喜忌、制化、应期这些判断，先自己想一想——原书对<b>这个盘</b>断的是下面哪一条？',a,o:shuffle(rng,[a,...ds]),e:'干扰项取自考点不同的别的命例，所以只有一条属于这个盘',long:1});}
   return st;}
 function startDrill(){loadDrill().then(all=>{const L=getDrillLog();const rng=mkRng(Math.random()*0x100000000>>>0);
     const fresh=all.filter(c=>!L[c.n]);const c=(fresh.length?shuffle(rng,fresh):all.slice().sort((a,b)=>(L[a.n]||[0])[0]-(L[b.n]||[0])[0]))[0];
@@ -6423,7 +6439,7 @@ function drShowPan(){const c=DR.c,g=c.g,wc=x=>' style="color:'+({木:'#4ade80',�
   document.getElementById('dr-pan').innerHTML=`<div class="dr-sex">${c.x}</div>`+[0,1,2,3].map(i=>`<div class="dr-col${i===2?' rz':''}"><div class="pl">${PILLAR[i]}</div><div class="g"${wc(g[i])}>${g[i]}</div><div class="z"${wc(g[4+i])}>${g[4+i]}</div></div>`).join('');
   document.getElementById('dr-r').textContent='题'+c.n;}
 function drNext(){const S=DR.st[DR.i],B=document.getElementById('dr-body');
-  document.getElementById('dr-step').textContent=DR.i<DR.st.length?`第 ${DR.i+1} / ${DR.st.length} 步`:'对照原书';
+  document.getElementById('dr-step').textContent=DR.i<DR.st.length?`第 ${DR.i+1} / ${DR.st.length} 步 · 八步 ${S.b}`:'对照原书';
   if(!S)return drReveal();
   if(S.k==='one'){B.innerHTML=`<div class="dr-q">${S.q}</div><div class="${S.long?'dr-opts':'dr-chips'}">${S.o.map((o,k)=>`<button class="${S.long?'dr-opt':'dr-chip'}" data-k="${k}" onclick="drPick(${k})">${o}</button>`).join('')}</div><div id="dr-fb"></div>`;}
   else{B.innerHTML=`<div class="dr-q">${S.q}</div><div class="dr-chips">${S.o.map((o,k)=>`<button class="dr-chip" data-k="${k}" onclick="this.classList.toggle('on')">${o}</button>`).join('')}</div><button class="dr-go" id="dr-ok" onclick="drMulti()">确认</button><div id="dr-fb"></div>`;}}
