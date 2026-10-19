@@ -1,4 +1,4 @@
-const CACHE = 'bazi-v43-mylog';
+const CACHE = 'bazi-v44-drillui';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './bio/meta.js'];
 
 self.addEventListener('install', e => {
