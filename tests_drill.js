@@ -51,6 +51,15 @@ setTimeout(()=>{
     ck(body.includes('100 分')&&body.includes('【题'),'全答对 ⇒ 100 分并揭晓原书断语');
     ck(Object.keys(JSON.parse(w.localStorage.getItem('bazi_drill')||'{}')).length===1,'记下这一盘（bazi_drill）');
     ev('renderDrillHome()');ck(/已断 1 盘/.test(d.getElementById('el-dr-sub').textContent),'首页陪练卡显示已断盘数');
+    const T=JSON.parse(w.localStorage.getItem('bazi_drill_step')||'{}');ck(Object.keys(T).some(k=>k.startsWith('①'))&&Object.values(T).every(v=>v[0]===v[1]),'按步记下对错（bazi_drill_step）');
+    ck(/日主/.test(d.getElementById('dr-pan').textContent),'答完把标准答案标到盘上（日主等）');
+    w.localStorage.setItem('bazi_drill_step',JSON.stringify({'⑦ 宫位':[1,6],'② 干支虚实':[5,6]}));
+    ck(ev('drWeak(5)[0][0]')==='⑦ 宫位','弱项排序：正确率最低的排第一');
+    ev("startDrillFocus('⑦ 宫位')");
+    setTimeout(()=>{ck(ev('DR.focus')==='⑦ 宫位'&&ev('DR.st.length')===10&&ev("DR.st.every(S=>S.b==='⑦ 宫位'&&S.c)"),'专练：连续 10 个盘只练这一步');
+      ck(ev('new Set(DR.st.map(S=>S.c.n)).size')===10,'专练的 10 题来自 10 个不同的盘');
+      console.log(fail?`\n❌ ${fail} 项失败`:'\n✅ 断盘陪练全部通过');process.exit(fail?1:0);},200);
+    return;
     console.log(fail?`\n❌ ${fail} 项失败`:'\n✅ 断盘陪练全部通过');process.exit(fail?1:0);
   },200);
 },500);
