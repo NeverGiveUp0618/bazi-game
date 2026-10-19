@@ -73,6 +73,21 @@ setTimeout(()=>{
   const sc2=G1.sec;
   ck(G1.mode==='ch'&&G1.ch===7&&sc2&&G1.qs.every(q=>ev('kqSec')(q.exp)===sc2),'选小节只出这一节的题');
   ck(!d.querySelector('.chp-mask'),'选完面板自动关掉');
+  // ⭐ 遗忘曲线复习 / 学新题 / 过关测验
+  {const S=JSON.parse(w.localStorage.getItem('bazi_kq_seen')||'{}');const k=Object.keys(S)[0];
+   ck(S[k].length===5&&S[k][4]>S[k][0],'做题记录带复习格与到期时间');
+   S[k][4]=1;w.localStorage.setItem('bazi_kq_seen',JSON.stringify(S));
+   ck(ev('kqDue()').includes(+k),'到期的题进今日复习');
+   ev('startM1Review()');ck(G1.mode==='rv'&&G1.qs.some(q=>q._id==='m1_kq_'+k),'今日复习出的是到期题');
+   ev('startM1New()');const pn=ev('kqPathCh()');
+   ck(G1.mode==='nw'&&G1.qs.every(q=>!S[+q._id.slice(6)]&&ev('kqCh')(q.exp)===pn),'学新题：按路线出当前章没做过的');
+   ev('setM1Count(10)');ev('startChExam(3)');ck(G1.mode==='ex'&&G1.qs.length===20,'过关测验固定 20 题（不受题量设置）');
+   for(let k2=0;k2<20;k2++){const q=G1.qs[G1.cur];const i=G1.qs[G1.cur].opts.indexOf(q.correct);ev('m1Pick('+i+')');ev('m1GoNext&&m1GoNext()');if(G1.cur>=G1.qs.length)break;}
+   if(!d.getElementById('p1r').classList.contains('active'))ev('m1End()');
+   ck(JSON.parse(w.localStorage.getItem('bazi_kq_path')||'{}')[3],'全对过关 ⇒ 记下第 3 章已过关');
+   ev('renderChHome()');ck(d.querySelectorAll('#el-ch-list .chr')[2].classList.contains('pass'),'首页第 3 章打 ✓');
+   ck(/题到期|没有到期/.test(d.getElementById('el-rv-btn').textContent),'首页复习按钮显示到期数');
+  }
   // ?ch= 直达
   const d2=mk('http://localhost/?ch=12');
   setTimeout(()=>{

@@ -71,6 +71,10 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .chr-bar{width:30px;height:5px;background:#1e293b;border-radius:3px;overflow:hidden;flex-shrink:0}
 .chr-bar i{display:block;height:100%}
 .chr-p{font-size:10px;color:#64748b;min-width:34px;text-align:right;flex-shrink:0}
+.chq{display:flex;gap:8px;margin-top:9px}.chq-b{flex:1;padding:9px 6px;border-radius:9px;border:1px solid #273449;background:#111c30;color:#cbd5e1;font-size:13px;font-weight:bold;cursor:pointer}
+.chq-b.rv.due{background:#0b3b2e;border-color:#10b981;color:#6ee7b7}.chq-b small{display:block;font-weight:normal;font-size:10.5px;color:#64748b;margin-top:2px}
+.chr-s{font-size:10px;width:12px;flex-shrink:0;text-align:center}.chr.pass .chr-s{color:#10b981}.chr.cur{border-color:#10b98188}
+.chp .exam{width:100%;padding:9px;border-radius:10px;border:1px solid #f59e0b;background:#2a1f07;color:#fcd34d;font-weight:bold;font-size:13px;margin-bottom:10px;cursor:pointer}
 .chp-mask{position:fixed;inset:0;background:rgba(2,6,23,.72);z-index:300;display:flex;align-items:flex-end;justify-content:center}
 .chp{background:#0f172a;border:1px solid #273449;border-radius:14px 14px 0 0;width:100%;max-width:480px;max-height:78vh;overflow:auto;padding:14px 14px 22px}
 .chp h3{margin:0 0 4px;font-size:15px;color:#e2e8f0}.chp .s{font-size:11.5px;color:#64748b;margin-bottom:10px}
@@ -680,7 +684,8 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   </div>
   <!-- 按教材章节练 -->
   <div class="mcard">
-    <div class="mcard-head"><div class="mcard-icon">📘</div><div style="flex:1"><div class="mcard-name">按教材章节练 <span class="nt-label">无计时</span></div><div class="mcard-desc" id="el-ch-sub">看一章练一章 · 条短、颜色红的先练</div></div></div>
+    <div class="mcard-head"><div class="mcard-icon">📘</div><div style="flex:1"><div class="mcard-name">按教材章节练 <span class="nt-label">无计时</span></div><div class="mcard-desc" id="el-ch-sub">每天先复习到期的，再学新题 · ▶ 正在学 ✓ 已过关</div></div></div>
+    <div class="chq"><button class="chq-b rv" id="el-rv-btn" onclick="startM1Review()">📅 今日复习</button><button class="chq-b nw" id="el-nw-btn" onclick="startM1New()">🌱 学新题</button></div>
     <div class="chl" id="el-ch-list"></div>
   </div>
   <!-- 专项练习 -->
@@ -726,8 +731,9 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
   </div>
   <!-- 开发时间节点 -->
   <details class="card devlog" style="margin-bottom:9px">
-    <summary class="hhist">开发时间节点<span>29 条</span></summary>
+    <summary class="hhist">开发时间节点<span>30 条</span></summary>
     <div style="max-height:130px;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:6px;margin-top:2px;padding-right:2px">
+      <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.19</span><span style="color:#94a3b8;font-size:12px">📅 教材题按遗忘曲线复习（对了 1→3→7→15→30 天后再出，错了第二天必出）；「学新题」按第1→16章路线接着学；每章做过八成可考「过关测验」</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.19</span><span style="color:#94a3b8;font-size:12px">🔧 修「打开一会儿闪一下就回首页」：后台新版本装好时，用户已在使用就不再强刷，改为点亮顶部「有新版本」提示，自己点再刷</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.19</span><span style="color:#94a3b8;font-size:12px">🧹 查出 17 道几轮间换说法的重复题，停用不再出（编号保留，错题本不受影响）；实际在练 2425 题</span></div>
       <div style="display:flex;gap:8px;align-items:baseline"><span style="color:#475569;font-size:11px;flex-shrink:0">26.10.19</span><span style="color:#94a3b8;font-size:12px">🎯 按章节练改成「保证轮得到」：没做过的先出，再出答错过的、最久没练的；每章显示已练/总数，点章节可只练某一小节</span></div>
@@ -3899,7 +3905,7 @@ function checkBkRemind(){
   }
 }
 function exportBackup(){
-  const data={v:1,date:todayStr(),bazi:getData(),nb:getNB(),m4saved:getSavedM4(),custom_cats:[...CUSTOM_CATS],cat_stats:getCatStats(),plan:getPlanData(),kq_ch:getChStats(),confuse:getConf(),kq_seen:getSeen()};
+  const data={v:1,date:todayStr(),bazi:getData(),nb:getNB(),m4saved:getSavedM4(),custom_cats:[...CUSTOM_CATS],cat_stats:getCatStats(),plan:getPlanData(),kq_ch:getChStats(),confuse:getConf(),kq_seen:getSeen(),kq_path:getPath()};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
@@ -3927,6 +3933,7 @@ function importBackup(){
         if(d.plan)savePlanData(d.plan);
         if(d.kq_ch)localStorage.setItem('bazi_kq_ch',JSON.stringify(d.kq_ch));
         if(d.kq_seen)localStorage.setItem('bazi_kq_seen',JSON.stringify(d.kq_seen));
+        if(d.kq_path)localStorage.setItem('bazi_kq_path',JSON.stringify(d.kq_path));
         if(d.confuse)localStorage.setItem('bazi_confuse',JSON.stringify(d.confuse));
         localStorage.setItem(BK_DATE_KEY,todayStr());
         toast('数据已恢复！');
@@ -4188,7 +4195,9 @@ function m1End(){
   const baseRes=baseIdx.map(i=>G1.results[i]).filter(Boolean);
   const total=baseIdx.length;
   const noStat=G1.mode==='nb'||G1.mode==='redo';
+  if(G1.mode==='ex'){const ok=baseRes.filter(r=>r.ok).length;G1._pass=ok>=16;if(G1._pass){const P=getPath();P[G1.ch]=todayStr();try{localStorage.setItem('bazi_kq_path',JSON.stringify(P))}catch(e){}}}
   if(!noStat){saveM1Result(G1.score,G1.correct,G1.maxCombo,timeStr);updateCatStats(baseRes);checkMastery(baseRes);updateChStats(baseIdx.map(i=>G1.qs[i]),baseRes);}
+  try{renderChHome()}catch(e){}
   renderConfResult();
   const acc=G1.correct/total;
   const grade=acc>=.95?'🏆':acc>=.85?'🥇':acc>=.70?'🥈':acc>=.55?'🥉':acc>=.35?'🌿':'🌱';
@@ -4198,7 +4207,7 @@ function m1End(){
   document.getElementById('el-rm').textContent=G1.maxCombo;
   document.getElementById('el-rt').textContent=timeStr;
   document.getElementById('el-pb-header').style.display='none';
-  const rlbls={'nb':'错题本练习结果','redo':'错题重练结果','ch':`第${G1.ch}章练习结果`,'custom':'自选挑战结果','custom-nt':'自选挑战结果','plan':'学习计划练习结果','pb-quiz':'排盘看题结果'};
+  const rlbls={'nb':'错题本练习结果','redo':'错题重练结果','ch':`第${G1.ch}章练习结果`,'rv':'今日复习结果','nw':'学新题结果','ex':`第${G1.ch}章过关测验：`+(G1._pass?'✅ 过关':'未过关（要对 16 题）'),'custom':'自选挑战结果','custom-nt':'自选挑战结果','plan':'学习计划练习结果','pb-quiz':'排盘看题结果'};
   document.getElementById('r1-lbl').textContent=rlbls[G1.mode]||'本局结果';
 
   // category breakdown
@@ -4348,6 +4357,33 @@ function getChStats(){try{return JSON.parse(localStorage.getItem('bazi_kq_ch')||
 // ⭐ 2026-10-19 按题记录：章节练「没做过的先出 → 答错过的 → 最久没练的」，保证每题都轮得到
 const KQ_SEC_T={"1|一":"先看一个命例","1|二":"地基：八字是一幅已经画好的图","1|三":"为什么说\"取用神是一种假设\"","1|四":"分寸","1|五":"神煞：基本不用","1|六":"这套体系实际用的工具（全书预告）","1|六·B":"门里还有三种方法，本教材不展开","1|六·C":"原书前言","1|七":"三层结构","1|七·B":"看命的七条立场","1|七·C":"小任的「入命八步法」与口诀 61","1|七·D":"排盘基础","1|七·E":"几句总纲：富贵歌与化解观","1|七·F":"小任课程笔记里的细节点","1|八":"本章你现在能断什么","1|九":"自测","2|一":"理解十天干的方法","2|二":"十干的自然特性（初级班原文）","2|三":"死木与活木","2|四":"天火与地火（以及天水地水）","2|五":"戊己土、庚辛金、壬癸水的要点","2|六":"十干类象全表（高级班原文，断行业","2|七":"有一类日元\"弃而不看\"","2|七·B":"小任讲义与课时笔记补","2|七·C":"合订本补","2|七·D":"小任课程笔记里的细节点","2|八":"本章你现在能断什么","2|九":"自测","3|一":"虚实不是旺衰，这是两回事","3|二":"判据与全表","3|三":"虚实的本质","3|四":"虚透的断法","3|四·B":"虚干的两句总纲","3|五":"反常律：喜虚者见实，反为大凶","3|六":"单柱判完，还有一步","3|六·B":"天地门细则：五行各怎么连","3|七":"虚实在别处的名字","3|八":"判虚实的两个常见错误","3|八·B":"小任讲义与课时笔记补","3|八·C":"小任课程笔记里的细节点","3|九":"本章你现在能断什么","3|十":"自测","4|一":"为什么宫位排在十神前面","4|二":"宫位六层复用","4|三":"天干与地支：外与内","4|四":"宫位吉凶：吉神落在哪一柱","4|五":"远近亲疏","4|五·B":"时限理论","4|六":"宫位在断六亲时的地位","4|七":"宫位分主宾：三种切法","4|七·B":"三套阴阳分法：各管各的","4|七·C":"宫位大限与主宾的四种切法","4|七·D":"小任讲义与课时笔记补","4|七·E":"小任课程笔记里的细节点","4|八":"本章你现在能断什么","4|九":"自测","5|一":"十神是怎么来的","5|二":"十神类象简表（断人事物时回查）","5|三":"体与用：十神的底层分类","5|四":"十神组合：好的八条、坏的四条","5|四·B":"十神的四组补充","5|四·C":"面授给的十神性格与几条用法","5|五":"清纯：判层次的一把尺","5|六":"三个高频误区","5|七":"十神会\"换象\"","5|七·B":"小任讲义","5|七·C":"小任课程笔记里的细节点","5|八":"本章你现在能断什么","5|九":"自测","6|一":"为什么需要\"替身\"","6|二":"替身的三个来源","6|三":"来源1：藏干","6|四":"来源2","6|四·C":"小任高级课：禄刃解析","6|五":"来源3：带象（干生支）","6|五·B":"来源4","6|五·C":"来源5：相生就带象","6|五·D":"换个方向用替身：转换太极点","6|五·E":"面授给的替身三条实战用法","6|六":"替身的三种用法","6|七":"三个易错点","6|七·B":"小任课程笔记里的细节点","6|八":"本章你现在能断什么","6|九":"自测","7|一":"总览：作用方式一共有哪些","7|一·B":"被漏掉的两种作用：生 和 克","7|二":"16条操作提示（中级班原文，全章","7|三":"合：这套体系里最重要的作用","7|四":"冲","7|四·B":"冲的完整判法","7|五":"穿（害）","7|六":"破","7|七":"刑","7|八":"墓库、绝、自合、伏吟","7|八·A":"小任高级课：墓库玄机","7|八·B":"倒象：又生又克、与原意相违背","7|八·C":"作用方式清单的最后三项","7|八·D":"小任讲义与课时笔记补","7|八·E":"合订本补","7|八·F":"小任课程笔记里的细节点","7|八·G":"度的把握","7|九":"本章你现在能断什么","7|十":"自测","8|一":"定义：什么叫\"制\"","8|二":"反面：什么叫「差八字」","8|三":"制局十类：五组对偶","8|四":"效率量化表","8|五":"效率的四个抓手（从命例反推）","8|五·B":"三条判据","8|六":"制的禁忌：什么绝对不能制","8|六·B":"做功的三种\"矛盾结构\"","8|七":"最重要的一条保留","8|八":"做功会被大运破坏：三种机制","8|八·B":"小任课程笔记里的细节点","8|九":"本章你现在能断什么","8|十":"自测","9|一":"为什么需要这一章","9|二":"主宾的三种切法","9|三":"配合宫位的远近","9|四":"三个判断归属的实战命例","9|五":"判断归属的四个抓手","9|五·B":"主宾用法补充","9|五·C":"面授给的太极点与「谁是自己人」","9|六":"归属讲清楚了，入手流程才完整","9|️":"补","9|六·C":"体用：印比为体、财官为用","9|六·D":"小任课程笔记里的细节点","9|七":"本章你现在能断什么","9|八":"自测","10|一":"象是什么","10|二":"象法的三条铁律","10|三":"四个经典命例","10|四":"取象的具体样例（面授班）","10|五":"几类象的分工","10|六":"十二支类象简表（备查）","10|七":"三个易错点","10|七·B":"取象看搭配","10|七·C":"取象实例表","10|七·D":"小任高级课的四种取象法","10|七·E":"小任课程笔记里的细节点","10|八":"本章你现在能断什么","10|九":"自测","11|一":"什么是\"势\"","11|二":"断大命的四步套路","11|三":"成势的前提：必须有对手","11|四":"大多数八字没有势，怎么办","11|五":"抓重心：先找敏感点","11|六":"气势成局的两个变数","11|六·A":"清浊","11|六·B":"格局：五行伤官格","11|六·C":"破坏格局的还有一个：倒象","11|七·D":"面授给的阴阳平衡：另一把尺","11|七·C":"富贵／普通／差","11|七·E":"小任高级课的格局","11|七·F":"小任课程笔记里的细节点","11|七":"本章你现在能断什么","11|八":"自测","12|一":"三层结构与铁律","12|二":"流年应期的三类","12|三":"大运与流年冲突时听谁的","12|四":"大运的三种情形","12|五":"作用力方向：谁伤谁","12|六":"受伤状态的字，出现之时就是应期","12|六·B":"制的结构，喜大运把要制的字「虚透","12|七":"断年一律按交节","12|八":"定应期五步","12|八·B":"应期总提纲与四条硬规则","12|八·C":"中级班把应期归成三法","12|九":"附","12|九·B":"小任高级课补","12|九·C":"小任课程笔记里的细节点","12|十":"本章你现在能断什么","12|十一":"自测","13|一":"第一层","13|一·B·B":"三套财运口径合一","13|一·C":"v课财运九纲","13|一·C·B":"面授给的「财运七条」","13|一·D":"统局与控局：擒贼先擒王","13|二":"第二层","13|三":"第三层：有多少钱——财富级别","13|三·B":"统领门","13|三·C":"墓库门","13|四":"「不论旺衰」的唯一例外","13|四·B":"财的三种作用方式，三种读法","13|五":"求财的三个陷阱","13|五·B":"三套官运口径合一","13|六":"看官运的五条基本原则（官运篇原文","13|六·A·B":"面授给的「官运五条」","13|六·B":"v课官运要点九条","13|七":"官职大小怎么定","13|八":"十神组合与行业对照（第5章的表，","13|八·B":"小任课程笔记里的细节点","13|九":"本章你现在能断什么","13|十":"自测","14|一":"先立框架：什么是宫、什么是星","14|二":"好婚姻的三种组合（正面基准）","14|三":"怎么算\"坏了婚姻宫\"","14|四":"几次婚姻：两套并行的计数法","14|五":"怎么看对方是不是\"别人的\"","14|六":"结婚应期","14|七":"无婚姻与独身命","14|七·B":"入宫察星的完整操作","14|七·C":"面授给的婚姻判据","14|八":"六亲的取法与通则","14|八·B":"v课六亲定位法","14|八·C":"财坏印克父与印空亡的落法","14|八·D":"养子歌与六亲口诀四句","14|八·E":"小任的婚姻口诀","14|八·F":"小任课程笔记里的细节点","14|九":"六亲断法模板（从例题解归纳）","14|十":"六亲歌诀（索引，⚠️ 未逐条验证","14|十一":"本章你现在能断什么","14|十二":"自测","15|1.1":"纠偏：学历只是\"一个名\"","15|1.2":"学历星之一：印（看印的状态）","15|1.3":"断文理与专业方向（高级班）","15|1.4":"学历星有三种，不是只看印","15|1.5":"面授的「学历门」","15|2.1":"三条判断路径","15|2.1·B":"八字里没有那样东西，就去抓它的源","15|2.2":"职业断法的实战样本","15|2.3":"面授的「职业门」","15|3.1":"方法","15|3.1·B":"「铁口直断」的定义与门槛","15|3.1·C":"互患空亡与「生来带残伤」","15|3.2":"三套坐标","15|3.3":"慢性与急性的分界","15|3.4":"命例","15|4.1":"牢灾门（十八道法门 p54）","15|4.1·B":"v课牢灾门全本与讲解","15|4.1·C":"面授的「牢狱门」","15|4.2":"伤残门（十八道法门 p53）","15|4.2·B":"面授断病总纲与七条判据","15|4.3":"寿元门（十八道法门 p53）","15|4.3·B":"v课寿元门全本与「寿元星」怎么定","15|4.4":"取数","15|4.5":"面授的「车祸门」","15|4.6":"小任课程笔记里的细节点","15|五":"本章你现在能断什么","15|六":"自测","16|一":"完整断命流程（贴墙用）","16|一·B":"逐步细化：每一步到底怎么做","16|⭐":"一页纸","16|二":"完整命例一：从头断到尾","16|三":"完整命例二","16|四":"完整命例三","16|五":"常见错误自查表","16|五·B":"三种\"看着推不通、其实是自己漏了","16|五·C":"小任课程笔记里的细节点","16|六":"怎么继续练","16|七":"本教材的边界","16|八":"全书总复习：一页纸"};
 function kqSec(e){const m=/第(\d+)章§([^〕；、]+)/.exec(e||'');return m?m[2].replace(/[①-⑳]/g,'').trim():'';}
+// ⭐ 遗忘曲线：答对升一格（1→3→7→15→30 天后再出），答错回到第 0 格（第二天必出）
+const SRS_D=[1,1,3,7,15,30];
+function kqDue(){const s=getSeen(),now=Date.now()/1000;return Object.keys(s).map(Number).filter(i=>!KQ_OFF.has(i)&&KQ_DATA[i]&&(s[i][4]||s[i][0]+86400)<=now).sort((a,b)=>(s[a][4]||0)-(s[b][4]||0));}
+function kqQ(i,rng){const[c,qt,a,w,e]=KQ_DATA[i];return{cat:c,_id:'m1_kq_'+i,main:[],qt,correct:a,w,opts:shuffle(rng,[a,...w]),exp:e};}
+function startM1List(ids,mode,lbl,lim){
+  if(!ids.length){toast(mode==='rv'?'今天没有到期的题，去学新题吧':'都学过了，去复习吧');return;}
+  const rng=mkRng(Math.random()*0x100000000>>>0);
+  const qs=shuffle(rng,ids.slice(0,lim||M1_COUNT)).map(i=>kqQ(i,rng));
+  Object.assign(G1,{qs,cur:0,score:0,streak:0,maxCombo:0,correct:0,t0:Date.now(),qt0:0,timer:null,answered:false,results:[],mode,timed:false,wrongQs:[],ch:0,sec:''});
+  document.getElementById('m1-lbl').textContent=lbl;
+  document.getElementById('el-nt-badge').style.display='block';
+  document.getElementById('el-tbar-t').style.opacity='0.2';
+  show('p1g');m1Next();
+}
+function startM1Review(){startM1List(kqDue(),'rv','📅 今日复习 🔓');}
+// 学新题：按学习路线（第 1 章 → 第 16 章）接着出没做过的
+function kqPathCh(){const s=getSeen();for(let n=1;n<=16;n++){if((KQ_CH_IDX[n]||[]).some(i=>!s[i]))return n;}return 0;}
+function startM1New(){const n=kqPathCh();if(!n){toast('教材题全都做过了！');return;}
+  const s=getSeen();const ord=Object.keys(KQ_SEC_T);
+  const pos=i=>{const k=ord.indexOf(n+'|'+kqSec(KQ_DATA[i][4]));return k<0?1e9:k;};
+  const ids=(KQ_CH_IDX[n]||[]).filter(i=>!s[i]).sort((a,b)=>pos(a)-pos(b)||a-b);
+  startM1List(ids,'nw',`🌱 学新题 · 第${n}章 ${KQ_CH_T[n]} 🔓`);}
+// 过关测验：这一章抽 20 题，对 16 题记过关
+function getPath(){try{return JSON.parse(localStorage.getItem('bazi_kq_path')||'{}')}catch{return{}}}
+function startChExam(n){const rng=mkRng(Math.random()*0x100000000>>>0);
+  const ids=shuffle(rng,(KQ_CH_IDX[n]||[]).slice()).slice(0,20);
+  startM1List(ids,'ex',`🏁 第${n}章 过关测验 🔓`,20);G1.ch=n;}
 function getSeen(){try{return JSON.parse(localStorage.getItem('bazi_kq_seen')||'{}')}catch{return{}}}
 function chSeenN(n,sec){const s=getSeen();return (KQ_CH_IDX[n]||[]).filter(i=>s[i]&&(!sec||kqSec(KQ_DATA[i][4])===sec)).length;}
 function chOrder(idx,rng){const s=getSeen();
@@ -4362,6 +4398,7 @@ function openChPanel(n){
   const done=secs.reduce((a,g)=>a+g.d,0);
   const m=document.createElement('div');m.className='chp-mask';m.onclick=e=>{if(e.target===m)m.remove();};
   m.innerHTML=`<div class="chp"><h3>第${n}章 · ${KQ_CH_T[n]}</h3><div class="s">共 ${idx.length} 题，已练 ${done} 题。没做过的先出，再出答错过的、最久没练的。</div>
+  ${done>=idx.length*0.8?`<button class="exam" onclick="this.closest('.chp-mask').remove();startChExam(${n})">🏁 过关测验（抽 20 题，对 16 题过关）${getPath()[n]?' · 已过关':''}</button>`:''}
   <button class="all" onclick="this.closest('.chp-mask').remove();startM1Chapter(${n})">整章练${done<idx.length?`（还有 ${idx.length-done} 题没做过）`:''}</button>
   ${secs.map(g=>`<button class="sec${g.d>=g.n?' done':''}" onclick="this.closest('.chp-mask').remove();startM1Chapter(${n},'${g.sc}')"><b>§${g.sc}</b><span>${KQ_SEC_T[n+'|'+g.sc]||'其他'}</span><i>${g.d}/${g.n}</i></button>`).join('')}</div>`;
   document.body.appendChild(m);
@@ -4370,7 +4407,8 @@ function updateChStats(qs,results){
   const s=getChStats();let hit=0;const SEEN=getSeen();
   qs.forEach((q,i)=>{const r=results[i];if(!r||!q._id||!q._id.startsWith('m1_kq_'))return;
     const n=kqCh(q.exp);if(!n)return;hit++;
-    const qi=+q._id.slice(6);if(!isNaN(qi))SEEN[qi]=[Date.now()/1000|0,r.ok?1:0,((SEEN[qi]||[])[2]||0)+1];
+    const qi=+q._id.slice(6);if(!isNaN(qi)){const o=SEEN[qi]||[],now=Date.now()/1000|0,bx=r.ok?Math.min((o[3]||0)+1,5):0;
+      SEEN[qi]=[now,r.ok?1:0,(o[2]||0)+1,bx,now+SRS_D[bx]*86400];}
     const st=s[n]=s[n]||{a:0,e:0,r:[]};st.a++;if(!r.ok)st.e++;st.r=(st.r||[]).concat(r.ok?1:0).slice(-20);});
   if(hit)try{localStorage.setItem('bazi_kq_ch',JSON.stringify(s));localStorage.setItem('bazi_kq_seen',JSON.stringify(SEEN))}catch(e){}
 }
@@ -4382,7 +4420,11 @@ function renderChHome(){
   box.innerHTML=Array.from({length:16},(_,k)=>{const n=k+1,cnt=(KQ_CH_IDX[n]||[]).length,acc=chAcc(s[n]);
     if(acc!==null&&(!weak||acc<weak.acc))weak={n,acc};
     const col=acc===null?'#334155':acc>=80?'#10b981':acc>=60?'#f59e0b':'#ef4444';
-    return `<button class="chr" onclick="openChPanel(${n})" title="第${n}章 ${KQ_CH_T[n]} · ${cnt}题${acc===null?'':' · 近期 '+acc+'%'}"><span class="chr-n">${n}</span><span class="chr-t">${KQ_CH_T[n]}</span><span class="chr-bar"><i style="width:${acc===null?0:Math.max(acc,6)}%;background:${col}"></i></span><span class="chr-p">${chSeenN(n)}/${cnt}</span></button>`;}).join('');
+    const ps=getPath()[n],cur=kqPathCh()===n;
+    return `<button class="chr${ps?' pass':''}${cur&&!ps?' cur':''}" onclick="openChPanel(${n})" title="第${n}章 ${KQ_CH_T[n]} · ${cnt}题${acc===null?'':' · 近期 '+acc+'%'}"><span class="chr-s">${ps?'✓':cur?'▶':''}</span><span class="chr-n">${n}</span><span class="chr-t">${KQ_CH_T[n]}</span><span class="chr-bar"><i style="width:${acc===null?0:Math.max(acc,6)}%;background:${col}"></i></span><span class="chr-p">${chSeenN(n)}/${cnt}</span></button>`;}).join('');
+  const due=kqDue().length,rb=document.getElementById('el-rv-btn'),nb=document.getElementById('el-nw-btn'),pn=kqPathCh();
+  if(rb){rb.innerHTML=`📅 今日复习<small>${due?due+' 题到期':'今天没有到期'}</small>`;rb.classList.toggle('due',due>0);}
+  if(nb)nb.innerHTML=`🌱 学新题<small>${pn?'第'+pn+'章 '+KQ_CH_T[pn]:'都学过了'}</small>`;
   const sub=document.getElementById('el-ch-sub');
   if(sub&&weak)sub.textContent=`最该练：第${weak.n}章 ${KQ_CH_T[weak.n]}（近期 ${weak.acc}%）`;
 }
@@ -4433,6 +4475,9 @@ function m1Again(){
   const src=G1.mode==='redo'&&G1.prev?G1.prev:G1;
   const m=src.mode,nt=!src.timed;
   if(m==='ch')return startM1Chapter(src.ch,src.sec);
+  if(m==='rv')return startM1Review();
+  if(m==='nw')return startM1New();
+  if(m==='ex')return startChExam(src.ch);
   if(m==='custom'||m==='custom-nt')return startM1Custom(!nt);
   if(m==='plan')return startPlanPractice(!nt);
   if(m==='pb-quiz')return startPBQuiz();
