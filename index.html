@@ -928,8 +928,8 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <div class="p2grp-lbl">🌿 藏干三气</div>
     <div class="p2grp-grid">
       <button class="p2btn clr-zhi" onclick="startM2('三气·本气')"><div class="p2btn-name">三气·本气</div><div class="p2btn-n">12 对</div></button>
-      <button class="p2btn clr-zhi" onclick="startM2('三气·中气')"><div class="p2btn-name">三气·中气</div><div class="p2btn-n">9 对</div></button>
-      <button class="p2btn clr-zhi" onclick="startM2('三气·余气')"><div class="p2btn-name">三气·余气</div><div class="p2btn-n">7 对</div></button>
+      <button class="p2btn clr-zhi" onclick="startM2('三气·中气')"><div class="p2btn-name">三气·余气</div><div class="p2btn-n">9 对</div></button>
+      <button class="p2btn clr-zhi" onclick="startM2('三气·余气')"><div class="p2btn-name">三气·墓气</div><div class="p2btn-n">7 对</div></button>
     </div>
   </div>
   <div class="p2grp">
@@ -1344,9 +1344,9 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
     <div class="m5-sec" id="m5-sanqi">
       <button class="m5-tog" onclick="m5Toggle(this)">▶ 🌿 藏干三气</button>
       <div class="m5-body" style="display:none">
-        <div style="font-size:11px;color:#475569;text-align:center;padding:4px 0 6px;letter-spacing:1px">本气＞中气＞余气　力量依次递减</div>
+        <div style="font-size:11px;color:#475569;text-align:center;padding:4px 0 6px;letter-spacing:1px">本气＞余气＞墓气　力量依次递减</div>
         <div class="m5-wrap"><table class="m5-tbl" style="width:100%">
-          <thead><tr><th>地支</th><th style="color:#10b981">本气（主气）</th><th style="color:#f59e0b">中气</th><th style="color:#94a3b8">余气</th></tr></thead>
+          <thead><tr><th>地支</th><th style="color:#10b981">本气（主气）</th><th style="color:#f59e0b">余气</th><th style="color:#94a3b8">墓气</th></tr></thead>
           <tbody>
             <tr><td class="c-zhi">子</td><td class="c-bq">癸水</td><td class="c-xu">—</td><td class="c-xu">—</td></tr>
             <tr><td class="c-zhi">丑</td><td class="c-bq">己土</td><td style="color:#f59e0b">癸水</td><td style="color:#94a3b8">辛金</td></tr>
@@ -1362,7 +1362,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
             <tr><td class="c-zhi">亥</td><td class="c-bq">壬水</td><td style="color:#f59e0b">甲木</td><td class="c-xu">—</td></tr>
           </tbody>
         </table></div>
-        <div style="font-size:10px;color:#334155;text-align:center;padding:6px 0 2px;line-height:1.8;letter-spacing:.5px">子午卯酉·只有本气　　寅申巳亥·三气齐备<br>辰戌丑未·本气皆土，中气为库气（墓气）</div>
+        <div style="font-size:10px;color:#334155;text-align:center;padding:6px 0 2px;line-height:1.8;letter-spacing:.5px">子午卯酉·只有本气　　寅申巳亥·三气齐备<br>辰戌丑未·本气皆土，墓气即库气（辰癸·戌丁·丑辛·未乙）</div>
       </div>
     </div>
 
@@ -2211,7 +2211,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
             <tr><td>运冲vs岁冲</td><td style="text-align:left">运冲则冲破冲坏；岁冲则冲动冲开。</td></tr>
             <tr><td>冲合并见</td><td style="text-align:left">冲神夹于两合之间→破合论冲；冲神在外→贪合忘冲。</td></tr>
             <tr><td>冲墓库</td><td style="text-align:left">开库为活，闭墓为死。财官在墓喜刑冲开。</td></tr>
-            <tr><td>各冲藏干</td><td style="text-align:left">寅申冲：寅中丙与申中壬同伤。巳亥冲：巳中戊与亥中甲同伤。辰戌/丑未冲：土冲变虚，中气同损。</td></tr>
+            <tr><td>各冲藏干</td><td style="text-align:left">寅申冲：寅中丙与申中壬同伤。巳亥冲：巳中戊与亥中甲同伤。辰戌/丑未冲：土冲变虚，余气同损。</td></tr>
           </table></div>
         </div>
 
@@ -3163,7 +3163,7 @@ const SANHE_WX=['水','木','火','金'];
 const ZIXING_SET=new Set(['辰','午','酉','亥']);
 const YANG_ZHI=new Set(['寅','申','巳','亥','辰','戌']);
 const ZHI_NOZIXING=ZHI.filter(z=>!ZIXING_SET.has(z));
-const CAT_NAME={tf_rel:'判断题',wx:'五行归属',chong:'六冲',tghe:'天干五合',liuhe:'地支六合',tong:'干支互通',shen:'十神',sanhe:'三合补完',sanhetype:'三合识局',xing3:'三刑补完',po:'破识别',zixing:'自刑字',xushi:'虚实判断',xushi2:'实支识别',nayin:'纳音五行',anhe:'地支暗合',zihe:'干支自合',num:'数字口诀',wxs:'天干相生',wxk:'天干相克',lqs:'六亲相生',lqk:'六亲相克',tdyy:'天地阴阳',shuma:'数字编码',nfgz:'年份干支',shichen:'十二时辰',ganzang:'天干脏腑',zhizang:'地支脏腑',ws12:'旺衰十二运',ws_zhi:'旺衰地支',wx_zhi:'五行长生',ws_order:'长生顺序',yuejian:'月建',duanming:'断命步骤',wxsys:'五行系统',jieqi:'节气月建',cang:'地支藏干',cang_bq:'三气·本气',cang_zq:'三气·中气',cang_yq:'三气·余气',gan_xi:'天干喜忌',gongwei:'宫位大限',shen_yi:'十神义象',shmu:'死活木',kq_ti:'体系·排盘',kq_gan:'十干·死活木',kq_xs:'虚实·天地门',kq_gw:'宫位·十神·替身',kq_zy:'作用方式',kq_zhi:'制·主宾·象·格局',kq_yq:'大运流年·应期',kq_zt:'财官·婚姻·灾病',kq_lx:'干支·十神类象',kq_tl:'特例·易错'};
+const CAT_NAME={tf_rel:'判断题',wx:'五行归属',chong:'六冲',tghe:'天干五合',liuhe:'地支六合',tong:'干支互通',shen:'十神',sanhe:'三合补完',sanhetype:'三合识局',xing3:'三刑补完',po:'破识别',zixing:'自刑字',xushi:'虚实判断',xushi2:'实支识别',nayin:'纳音五行',anhe:'地支暗合',zihe:'干支自合',num:'数字口诀',wxs:'天干相生',wxk:'天干相克',lqs:'六亲相生',lqk:'六亲相克',tdyy:'天地阴阳',shuma:'数字编码',nfgz:'年份干支',shichen:'十二时辰',ganzang:'天干脏腑',zhizang:'地支脏腑',ws12:'旺衰十二运',ws_zhi:'旺衰地支',wx_zhi:'五行长生',ws_order:'长生顺序',yuejian:'月建',duanming:'断命步骤',wxsys:'五行系统',jieqi:'节气月建',cang:'地支藏干',cang_bq:'三气·本气',cang_zq:'三气·余气',cang_yq:'三气·墓气',gan_xi:'天干喜忌',gongwei:'宫位大限',shen_yi:'十神义象',shmu:'死活木',kq_ti:'体系·排盘',kq_gan:'十干·死活木',kq_xs:'虚实·天地门',kq_gw:'宫位·十神·替身',kq_zy:'作用方式',kq_zhi:'制·主宾·象·格局',kq_yq:'大运流年·应期',kq_zt:'财官·婚姻·灾病',kq_lx:'干支·十神类象',kq_tl:'特例·易错'};
 const GZ60=(()=>{const g=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'],z=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];return Array.from({length:60},(_,i)=>g[i%10]+z[i%12]);})();
 const YR_GZ_PAIRS=(()=>{const g=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'],z=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];return Array.from({length:151},(_,i)=>{const y=1900+i;return[String(y),g[(y-4)%10]+z[(y-4)%12]];});})();
 const SHICHEN={子:'23-1时',丑:'1-3时',寅:'3-5时',卯:'5-7时',辰:'7-9时',巳:'9-11时',午:'11-13时',未:'13-15时',申:'15-17时',酉:'17-19时',戌:'19-21时',亥:'21-23时'};
@@ -3698,9 +3698,9 @@ function buildPool(rng){
   // 三气·本气
   for(const z of ZHI){const c=ZHI_SANQI[z].本气;qs.push({cat:'cang_bq',main:[z],qt:'该地支的<b>本气</b>天干是？',correct:c,opts:mkOpts(rng,c,GAN),exp:`${z}本气＝${c}`});}
   // 三气·中气
-  for(const z of ZHI_HAS_ZQ){const c=ZHI_SANQI[z].中气;qs.push({cat:'cang_zq',main:[z],qt:'该地支的<b>中气</b>天干是？',correct:c,opts:mkOpts(rng,c,GAN),exp:`${z}中气＝${c}`});}
+  for(const z of ZHI_HAS_ZQ){const c=ZHI_SANQI[z].中气;qs.push({cat:'cang_zq',main:[z],qt:'该地支的<b>余气</b>天干是？',correct:c,opts:mkOpts(rng,c,GAN),exp:`${z}余气＝${c}`});}
   // 三气·余气
-  for(const z of ZHI_HAS_YQ){const c=ZHI_SANQI[z].余气;qs.push({cat:'cang_yq',main:[z],qt:'该地支的<b>余气</b>天干是？',correct:c,opts:mkOpts(rng,c,GAN),exp:`${z}余气＝${c}`});}
+  for(const z of ZHI_HAS_YQ){const c=ZHI_SANQI[z].余气;qs.push({cat:'cang_yq',main:[z],qt:'该地支的<b>墓气</b>天干是？',correct:c,opts:mkOpts(rng,c,GAN),exp:`${z}墓气＝${c}`});}
   // 天干喜忌（喜用 + 最忌，各16题共32题）
   for(const d of GAN_XIJI){
     const key=d.st?`${d.g}（${d.st}）`:d.g;
@@ -4623,8 +4623,8 @@ const M2_CATS={
   '节气·月份':   {label:'节气月建', maxPairs:8, pairs:[['立春','寅月'],['雨水','寅月'],['惊蛰','卯月'],['春分','卯月'],['清明','辰月'],['谷雨','辰月'],['立夏','巳月'],['小满','巳月'],['芒种','午月'],['夏至','午月'],['小暑','未月'],['大暑','未月'],['立秋','申月'],['处暑','申月'],['白露','酉月'],['秋分','酉月'],['寒露','戌月'],['霜降','戌月'],['立冬','亥月'],['小雪','亥月'],['大雪','子月'],['冬至','子月'],['小寒','丑月'],['大寒','丑月']]},
   '地支藏干':    {label:'地支藏干', pairs:ZHI.map(z=>[z,ZHI_CANG_STR[z]])},
   '三气·本气':   {label:'三气·本气', pairs:ZHI.map(z=>[z,ZHI_SANQI[z].本气])},
-  '三气·中气':   {label:'三气·中气', pairs:ZHI_HAS_ZQ.map(z=>[z,ZHI_SANQI[z].中气])},
-  '三气·余气':   {label:'三气·余气', pairs:ZHI_HAS_YQ.map(z=>[z,ZHI_SANQI[z].余气])},
+  '三气·中气':   {label:'三气·余气', pairs:ZHI_HAS_ZQ.map(z=>[z,ZHI_SANQI[z].中气])},
+  '三气·余气':   {label:'三气·墓气', pairs:ZHI_HAS_YQ.map(z=>[z,ZHI_SANQI[z].余气])},
 };
 function isM2Correct(lv,rv,cat){
   if(cat==='六冲')return CHONG[lv]===rv;
@@ -4704,8 +4704,8 @@ function getM2NbQ(lv,rv,cat){
     '节气·月份': {nbcat:'jieqi',   qt:'这个节气属于<b>哪个月建</b>？',   exp:`${lv}→${rv}`},
     '地支藏干':  {nbcat:'cang',    qt:'该地支<b>藏哪些天干</b>？',        exp:`${lv}藏${rv}`},
     '三气·本气': {nbcat:'cang_bq', qt:'该地支的<b>本气</b>天干是？',      exp:`${lv}本气＝${rv}`},
-    '三气·中气': {nbcat:'cang_zq', qt:'该地支的<b>中气</b>天干是？',      exp:`${lv}中气＝${rv}`},
-    '三气·余气': {nbcat:'cang_yq', qt:'该地支的<b>余气</b>天干是？',      exp:`${lv}余气＝${rv}`},
+    '三气·中气': {nbcat:'cang_zq', qt:'该地支的<b>余气</b>天干是？',      exp:`${lv}余气＝${rv}`},
+    '三气·余气': {nbcat:'cang_yq', qt:'该地支的<b>墓气</b>天干是？',      exp:`${lv}墓气＝${rv}`},
   };
   const i=mp[cat]||{nbcat:'liuhe',qt:'配对？',exp:`${lv}→${rv}`};
   return{id:`m2_${cat}_${lv}`,cat:i.nbcat,main:[lv],qt:i.qt,correct:rv,exp:i.exp};
