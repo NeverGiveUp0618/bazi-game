@@ -6691,5 +6691,76 @@ sendYstProgress();
 <!-- 返回五术堂首页 · portal -->
 <a href="https://nevergiveup0618.github.io/all-project/" id="wst-home-portal" aria-label="返回首页" title="返回首页" style="position:fixed;left:8px;top:50%;transform:translateY(-50%);z-index:2147483000;width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:20px;line-height:1;color:#f0d9a0;text-decoration:none;background:rgba(20,16,12,.62);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border:1px solid rgba(201,167,95,.5);border-radius:50%;box-shadow:0 2px 12px rgba(0,0,0,.4);opacity:.6;transition:opacity .2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.6" ontouchstart="this.style.opacity=1">&#8962;</a>
 <script>/*wst-frame-guard*/if(window.top!==window.self){var _p=document.getElementById("wst-home-portal");if(_p)_p.remove();}</script>
+<script>
+/* ===== 出处展开（2026-10-22 用户：题目出处「看不懂是哪里」）=====
+ * 题库里出处都是缩写〔第7章§八·F〕〔中级班 p7〕……，这里在显示时统一展开成全称；
+ * 指向教材章节的做成链接，直接跳到命理精讲对应那一节（?go= 由 bazi-course 接住）。
+ * 数据不动：只改显示，所以题库、测试、对账脚本都不受影响。 */
+(function(){
+  const COURSE='https://nevergiveup0618.github.io/bazi-course/';
+  const DR={'初级班':'03《初级班》','中级班':'15《中级班》','高级班':'05《高级班》','例题解':'04《断命例题解》',
+    '面授':'20《2012高级面授班彩色笔记》','实战技巧完整版':'16《实战技巧》完整版','实战技巧':'11《实战技巧》',
+    '财运篇':'01《财运篇》','车祸篇':'02《车祸篇》','官运篇':'06《官运篇》','婚姻篇':'07《婚姻篇》','疾病篇':'08《疾病篇》',
+    '牢狱篇':'09《牢狱篇》','六亲篇':'10《六亲篇》','寿命篇':'12《寿命篇》','学历篇':'13《学历篇》','职业篇':'14《职业篇》',
+    '四墓库':'18《地支四墓库的使用方法》','神煞':'19《神煞在实战断命时的使用方法》','刑冲破害':'17《刑冲破害的使用方法》',
+    '干支互通':'21《干支互通在实际断命时的使用条件和方法》','十八道法门':'22《十八道法门》'};
+  const pg=x=>x.replace(/p/g,'').replace(/[–-]/g,'–');
+  function expand(raw){
+    let m;
+    // 教材：第7章§八·F③ / 第1章§二、三 / 第2章
+    if((m=/^第(\d{1,2})章(?:§(.+))?$/.exec(raw))){
+      const n=+m[1], sec=m[2]||'';
+      const anc=sec.split(/[、，]/)[0].replace(/[①-⑳]+$/,'').trim();
+      const go=String(n).padStart(2,'0')+'-'+(anc?'#'+anc:'');
+      return {t:'命理精讲 · 教材第'+n+'章'+(sec?' '+sec:''),href:COURSE+'?go='+encodeURIComponent(go)};
+    }
+    if((m=/^v课\s*·\s*第\s*([\d、，\s]+)\s*讲(.*)$/.exec(raw))) return {t:'命理精讲 · v课笔记 第'+m[1].replace(/\s/g,'')+'讲'+m[2]};
+    if((m=/^第\s*(\d+)\s*讲(.*)$/.exec(raw))) return {t:'命理精讲 · v课笔记 第'+m[1]+'讲'+m[2]};
+    if((m=/^小任\s*·\s*(.+)$/.exec(raw))) return {t:'小任 '+m[1].replace(/^高级/,'高级课').replace(/^公开课/,'公开课')};
+    if((m=/^讲义\s*(p[\d–-]+)(.*)$/.exec(raw))) return {t:'小任中级班讲义 第'+pg(m[1])+'页'+m[2]};
+    if((m=/^(?:\d+)?([^\sp\d][^p]*?)\s*(p[\d–-]+(?:-p\d+)?(?:、p[\d–-]+)*)(·例(\d+))?(.*)$/.exec(raw))&&DR[m[1].trim()]){
+      return {t:'大任 '+DR[m[1].trim()]+' 第'+pg(m[2])+'页'+(m[4]?' · 第'+m[4]+'例':'')+m[5],book:m[1].trim()};
+    }
+    // 一个括号里两处出处：〔实战技巧完整版 p4；同例见 21干支互通 p28〕
+    if(raw.indexOf('；')>0){
+      const ps=raw.split('；').map(x=>x.trim()),es=ps.map(x=>expand(x.replace(/^同例见\s*/,'')));
+      if(es.every(Boolean)) return {t:es.map((e,k)=>(/^同例见/.test(ps[k])?'同例见 ':'')+e.t).join('；'),href:(es.find(e=>e.href)||{}).href};
+    }
+    return null;
+  }
+  const RE=/〔([^〔〕]{1,40})〕/g;
+  function fix(node){
+    const tx=node.nodeValue; if(!tx||tx.indexOf('〔')<0) return;
+    let out=null,last=0,mm,book=null; RE.lastIndex=0;
+    while((mm=RE.exec(tx))){
+      let r=mm[1].trim();
+      // 光写〔p6〕的，沿用同一段里前一处出处的书名
+      if(/^p[\d–-]+$/.test(r)&&book) r=book+' '+r;
+      const e=expand(r); if(!e) continue;
+      if(e.book) book=e.book;
+      out=out||document.createDocumentFragment();
+      out.appendChild(document.createTextNode(tx.slice(last,mm.index)));
+      const el=document.createElement(e.href?'a':'span');
+      el.className='src-x'; el.textContent='〔'+e.t+'〕'; el.title='原写法：'+mm[1];
+      if(e.href){el.href=e.href;el.target='_blank';el.rel='noopener';el.onclick=ev=>ev.stopPropagation();}
+      out.appendChild(el); last=mm.index+mm[0].length;
+    }
+    if(!out) return;
+    out.appendChild(document.createTextNode(tx.slice(last)));
+    node.parentNode.replaceChild(out,node);
+  }
+  function walk(root){
+    if(root.nodeType===3){ if(!(root.parentNode&&root.parentNode.closest&&root.parentNode.closest('.src-x,script,style,textarea'))) fix(root); return; }
+    if(root.nodeType!==1||/^(SCRIPT|STYLE|TEXTAREA)$/.test(root.tagName)||root.classList.contains('src-x')) return;
+    const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,null),list=[];let n;
+    while((n=w.nextNode())) if(n.nodeValue.indexOf('〔')>=0&&!n.parentNode.closest('.src-x,script,style,textarea')) list.push(n);
+    list.forEach(fix);
+  }
+  window.srcExpand=expand;
+  const go=()=>{walk(document.body);new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(walk))).observe(document.body,{childList:true,subtree:true});};
+  if(document.body) go(); else document.addEventListener('DOMContentLoaded',go);
+})();
+</script>
+<style>.src-x{color:#94a3b8;font-size:.92em}a.src-x{color:#7dd3fc;text-decoration:underline;text-underline-offset:2px}</style>
 </body>
 </html>

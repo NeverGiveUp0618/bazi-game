@@ -1,4 +1,4 @@
-const CACHE = 'bazi-v50-sanqi';
+const CACHE = 'bazi-v51-srcx';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './bio/meta.js'];
 
 self.addEventListener('install', e => {
