@@ -1,4 +1,4 @@
-const CACHE = 'bazi-v52-sanqi-pct';
+const CACHE = 'bazi-v53-manualnext';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './bio/meta.js'];
 
 self.addEventListener('install', e => {

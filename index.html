@@ -4112,18 +4112,13 @@ function startM1Custom(timed){
   show('p1g');m1Next();
 }
 
-// 答题后：每题都留 5 秒看答案与解析再自动跳（可点「下一题」提前跳）
-const M1_READ_SEC=5;
+// 答题后：停在原题看答案与解析，**自己点「下一题」才跳**（2026-10-22 用户要求取消 5 秒倒计时）
+// 键盘：回车 / 空格 / → 也算点（见 keydown 处理）
 function m1After(q,ok){
-  G1.waitNext=true;
+  G1.waitNext=true;clearInterval(G1.nextT);
   const fb=document.getElementById('el-fb');
-  fb.insertAdjacentHTML('beforeend','<button class="fb-next" onclick="m1GoNext()">下一题 → <span class="fb-cd">'+M1_READ_SEC+'</span></button>');
+  fb.insertAdjacentHTML('beforeend','<button class="fb-next" onclick="m1GoNext()">下一题 →</button>');
   const b=fb.querySelector('.fb-next');if(b&&b.scrollIntoView)b.scrollIntoView({block:'nearest',behavior:'smooth'});
-  let left=M1_READ_SEC;clearInterval(G1.nextT);
-  G1.nextT=setInterval(()=>{
-    left--;const cd=fb.querySelector('.fb-cd');if(cd)cd.textContent=left;
-    if(left<=0)m1GoNext();
-  },1000);
 }
 function m1GoNext(){clearInterval(G1.nextT);if(!G1.waitNext)return;G1.waitNext=false;
   const scr=document.getElementById('p1g');if(scr&&!scr.classList.contains('active'))return; // 已离开答题页就不再跳
