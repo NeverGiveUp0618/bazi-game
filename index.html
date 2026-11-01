@@ -3164,10 +3164,14 @@ body.entry-locked{overflow:hidden}
   const gate=document.getElementById('entryGate'),card=gate.querySelector('.entry-gate-card');
   const opts=document.getElementById('entryGateOptions'),progress=document.getElementById('entryGateProgress'),msg=document.getElementById('entryGateMsg');
   let at=0,locked=false;document.body.classList.add('entry-locked');
+  function reshuffle(){const old=[...opts.children],before=old.map(x=>x.textContent).join('|'),next=old.slice();let tries=0;
+    do{for(let i=next.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[next[i],next[j]]=[next[j],next[i]]}}while(next.map(x=>x.textContent).join('|')===before&&++tries<8);
+    if(next.length>1&&next.map(x=>x.textContent).join('|')===before)[next[0],next[1]]=[next[1],next[0]];next.forEach(x=>opts.appendChild(x))}
   order.forEach((_,i)=>{const s=document.createElement('i');s.className='entry-gate-step';s.setAttribute('aria-label',`第${i+1}步`);progress.appendChild(s)});
-  order.slice().sort(()=>Math.random()-.5).forEach(name=>{const b=document.createElement('button');b.type='button';b.className='entry-gate-option';b.textContent=name;
-    b.onclick=()=>{if(locked||b.disabled)return;if(name!==order[at]){locked=true;card.classList.add('wrong');msg.textContent='顺序不对，重新从第 1 步开始';setTimeout(()=>{at=0;locked=false;card.classList.remove('wrong');gate.querySelectorAll('.entry-gate-step').forEach(x=>x.classList.remove('on'));gate.querySelectorAll('.entry-gate-option').forEach(x=>{x.disabled=false;x.classList.remove('picked')});msg.textContent='现在请选择第 1 步'},650);return}
+  order.forEach(name=>{const b=document.createElement('button');b.type='button';b.className='entry-gate-option';b.textContent=name;
+    b.onclick=()=>{if(locked||b.disabled)return;if(name!==order[at]){locked=true;card.classList.add('wrong');msg.textContent='顺序不对，重新打乱后从第 1 步开始';setTimeout(()=>{at=0;locked=false;card.classList.remove('wrong');gate.querySelectorAll('.entry-gate-step').forEach(x=>x.classList.remove('on'));gate.querySelectorAll('.entry-gate-option').forEach(x=>{x.disabled=false;x.classList.remove('picked')});reshuffle();msg.textContent='已重新打乱，现在请选择第 1 步'},650);return}
       b.disabled=true;b.classList.add('picked');gate.querySelectorAll('.entry-gate-step')[at].classList.add('on');at++;if(at===order.length){locked=true;msg.textContent='顺序正确，进入八字日练';gate.classList.add('done');setTimeout(()=>{gate.hidden=true;document.body.classList.remove('entry-locked')},300)}else msg.textContent=`正确，请选择第 ${at+1} 步`};opts.appendChild(b)});
+  reshuffle();
 })();
 // ══ BASE DATA ══
 const GAN=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];

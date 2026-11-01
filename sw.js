@@ -1,4 +1,4 @@
-const CACHE = 'bazi-v54-entry-gate';
+const CACHE = 'bazi-v55-gate-reshuffle';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './bio/meta.js'];
 
 self.addEventListener('install', e => {
