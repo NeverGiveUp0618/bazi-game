@@ -661,8 +661,31 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .devlog[open]>summary::after{content:"收起"}
 .devlog[open]>summary{margin-bottom:8px}
 </style>
+<style>
+body.entry-locked{overflow:hidden}
+.entry-gate{position:fixed;inset:0;z-index:2147483647;display:grid;place-items:center;padding:20px;background:#0f172a;color:#e2e8f0}
+.entry-gate[hidden]{display:none}
+.entry-gate.done{opacity:0;pointer-events:none;transition:opacity .28s ease}
+.entry-gate-card{width:min(100%,480px);max-height:calc(100dvh - 40px);overflow:auto;padding:26px 20px 22px;border:1px solid #334155;border-radius:20px;background:#172033;box-shadow:0 18px 60px rgba(0,0,0,.45)}
+.entry-gate-kicker{text-align:center;color:#fbbf24;font-size:12px;letter-spacing:3px}.entry-gate h2{margin:5px 0 4px;text-align:center;font-size:26px;color:#34d399;letter-spacing:2px}
+.entry-gate-tip{margin:0 auto 18px;max-width:390px;text-align:center;color:#94a3b8;font-size:14px;line-height:1.65}
+.entry-gate-progress{display:grid;grid-template-columns:repeat(8,1fr);gap:5px;margin-bottom:16px}.entry-gate-step{height:7px;border-radius:8px;background:#0f172a;border:1px solid #334155}.entry-gate-step.on{background:#10b981;border-color:#10b981}
+.entry-gate-options{display:grid;grid-template-columns:1fr 1fr;gap:10px}.entry-gate-option{min-height:52px;padding:10px 8px;border:1px solid #334155;border-radius:12px;background:#1e293b;color:#e2e8f0;font-size:15px;font-weight:600;cursor:pointer}.entry-gate-option:active{transform:scale(.98)}.entry-gate-option.picked{border-color:#10b981;background:#063b2d;color:#6ee7b7}
+.entry-gate-card.wrong{animation:entry-shake .3s ease}.entry-gate-card.wrong .entry-gate-msg{color:#f87171}.entry-gate-msg{min-height:24px;margin:15px 0 0;text-align:center;color:#64748b;font-size:13px}
+@keyframes entry-shake{25%{transform:translateX(-7px)}50%{transform:translateX(7px)}75%{transform:translateX(-4px)}}
+@media(max-width:360px){.entry-gate-options{gap:7px}.entry-gate-option{font-size:14px;padding:8px 5px}}
+</style>
 </head>
 <body>
+<div class="entry-gate" id="entryGate" role="dialog" aria-modal="true" aria-labelledby="entryGateTitle">
+  <div class="entry-gate-card">
+    <div class="entry-gate-kicker">每日入门自检</div><h2 id="entryGateTitle">论命八步法</h2>
+    <p class="entry-gate-tip">请按正确顺序依次点选。顺序错误，就从第一步重新开始。</p>
+    <div class="entry-gate-progress" id="entryGateProgress" aria-live="polite"></div>
+    <div class="entry-gate-options" id="entryGateOptions"></div>
+    <p class="entry-gate-msg" id="entryGateMsg" aria-live="assertive">现在请选择第 1 步</p>
+  </div>
+</div>
 <div class="app">
 
 <!-- HOME -->
@@ -3135,6 +3158,17 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 </div>
 
 <script>
+/* 论命八步法入站自检：不留免答记录，每次重新加载都要作答。 */
+(function(){
+  const order=['天元入命','确定状态','确定喜忌','干支意向','十神格局','作用方式','宫位大限','大运流年'];
+  const gate=document.getElementById('entryGate'),card=gate.querySelector('.entry-gate-card');
+  const opts=document.getElementById('entryGateOptions'),progress=document.getElementById('entryGateProgress'),msg=document.getElementById('entryGateMsg');
+  let at=0,locked=false;document.body.classList.add('entry-locked');
+  order.forEach((_,i)=>{const s=document.createElement('i');s.className='entry-gate-step';s.setAttribute('aria-label',`第${i+1}步`);progress.appendChild(s)});
+  order.slice().sort(()=>Math.random()-.5).forEach(name=>{const b=document.createElement('button');b.type='button';b.className='entry-gate-option';b.textContent=name;
+    b.onclick=()=>{if(locked||b.disabled)return;if(name!==order[at]){locked=true;card.classList.add('wrong');msg.textContent='顺序不对，重新从第 1 步开始';setTimeout(()=>{at=0;locked=false;card.classList.remove('wrong');gate.querySelectorAll('.entry-gate-step').forEach(x=>x.classList.remove('on'));gate.querySelectorAll('.entry-gate-option').forEach(x=>{x.disabled=false;x.classList.remove('picked')});msg.textContent='现在请选择第 1 步'},650);return}
+      b.disabled=true;b.classList.add('picked');gate.querySelectorAll('.entry-gate-step')[at].classList.add('on');at++;if(at===order.length){locked=true;msg.textContent='顺序正确，进入八字日练';gate.classList.add('done');setTimeout(()=>{gate.hidden=true;document.body.classList.remove('entry-locked')},300)}else msg.textContent=`正确，请选择第 ${at+1} 步`};opts.appendChild(b)});
+})();
 // ══ BASE DATA ══
 const GAN=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
 const ZHI=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
