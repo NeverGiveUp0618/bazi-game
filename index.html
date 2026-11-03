@@ -422,7 +422,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .sq-tip{font-size:11px;color:#475569;text-align:center;padding:4px 0 6px;letter-spacing:1px}
 .sq-note{font-size:10px;color:#334155;text-align:center;padding:6px 0 2px;line-height:1.8;letter-spacing:.5px}
 .sq-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
-.sq-table{width:100%;border-collapse:collapse;font-size:13px;min-width:260px}
+.sq-table{width:max-content;min-width:100%;border-collapse:collapse;font-size:13px}
 .sq-table th{background:#1e293b;color:#64748b;font-size:10px;padding:7px 10px;text-align:center;letter-spacing:1px;border-bottom:2px solid #334155;white-space:nowrap}
 .sq-table td{padding:8px 10px;text-align:center;border-bottom:1px solid #1e293b}
 .sq-table tr:nth-child(even) td{background:#161f2e}
@@ -622,7 +622,9 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .bdl-row{display:flex;gap:7px;margin:7px 0;align-items:flex-start}
 .bdl-lbl{background:#0f172a;color:#64748b;padding:2px 7px;border-radius:4px;font-size:10px;white-space:nowrap;flex-shrink:0;margin-top:3px;border:1px solid #1e293b}
 .bdl-v{color:#94a3b8;flex:1;font-size:12px;line-height:1.8}
-.bdl-tbl{width:100%;border-collapse:collapse;font-size:11px;margin:6px 0}
+.bdl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:6px 0}
+.bdl-tbl{width:max-content;min-width:100%;border-collapse:collapse;font-size:11px;margin:0}
+.bdl-tbl th,.bdl-tbl td{min-width:3.2em}
 .bdl-tbl th{background:#1e293b;color:#64748b;padding:5px 6px;text-align:center;font-weight:normal;border:1px solid #334155}
 .bdl-tbl td{padding:5px 6px;text-align:center;border:1px solid #1e293b;color:#94a3b8;line-height:1.5}
 .bdl-tbl td.g{color:#10b981;font-weight:bold}.bdl-tbl td.p{color:#c4b5fd}.bdl-tbl td.y{color:#fcd34d}.bdl-tbl td.r{color:#f87171}
@@ -6795,5 +6797,7 @@ sendYstProgress();
 })();
 </script>
 <style>.src-x{color:#94a3b8;font-size:.92em}a.src-x{color:#7dd3fc;text-decoration:underline;text-underline-offset:2px}</style>
+<script>/* 表格统一做法：外层横向滑动，表格按内容撑开，不把单元格挤成一字一行 */
+(function(){function w(){[].forEach.call(document.querySelectorAll('table.bdl-tbl'),function(t){if(t.parentNode.classList.contains('bdl-wrap'))return;var d=document.createElement('div');d.className='bdl-wrap';t.parentNode.insertBefore(d,t);d.appendChild(t)})}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',w);else w()})();</script>
 </body>
 </html>
