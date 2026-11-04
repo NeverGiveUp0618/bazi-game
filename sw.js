@@ -1,4 +1,4 @@
-const CACHE = 'bazi-v57-home-stat';
+const CACHE = 'bazi-v58-sq-dedupe';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './bio/meta.js'];
 
 self.addEventListener('install', e => {

@@ -240,7 +240,7 @@ setTimeout(()=>{
    return bad.length?'表中未见: '+bad.join(' '):true});
  t('六穿生克分类与 CHUAN_S/K_CANON 一致',()=>{
    const txt=block('地支关系');
-   const bad=['寅巳生穿','酉戌生穿','丑午生穿','申亥生穿','卯辰克穿','子未克穿'].filter(x=>!txt.includes(x));
+   const bad=['寅巳生穿','申亥生穿','卯辰克穿','子未克穿','丑午克穿','酉戌克穿'].filter(x=>!txt.includes(x));
    return bad.length?'表中未见: '+bad.join(' '):true});
  t('禄位表（两行制）逐位与 LU 一致',()=>{
    const L={甲:'寅',乙:'卯',丙:'巳',丁:'午',戊:'巳',己:'午',庚:'申',辛:'酉',壬:'亥',癸:'子'};
