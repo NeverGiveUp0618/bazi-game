@@ -6442,6 +6442,20 @@ function drBuild(c,all,rng){const g=c.g,st=[],dg=g[2],P=(ps)=>PILLAR[ps%4]+(ps<4
     const yes=rs.filter(said),no=rs.filter(x=>!said(x)&&!yes.some(y=>y.s===x.s));
     if(yes.length&&no.length>=2){const a=yes[Math.floor(rng()*yes.length)].s;
       st.push({b:'⑥ 判主线',k:'one',q:'盘上这几条作用都真实存在——<b>原书解这个盘</b>时抓来断事的是哪一条？',a,o:shuffle(rng,[a,...shuffle(rng,no).slice(0,3).map(x=>x.s)]),e:'作用会有好几条，断命要找主线（多是制、合）；其余几条盘上也有，但原书没拿来断这件事',an:{rel:[a+' ★']}});}}
+  // ⑥·B 判制：效率表（第8章·大任15中级班 p7/p9）——只按表里写明的档次出题，不跨「合／冲」比高低
+  {const HE={巳申:[1,'最高档（作用最高，原神藏干全能制死）'],卯戌:[2,'很高档（次于巳申合）'],卯申:[2,'很高档（次于巳申合）'],午亥:[2,'很高档（次于巳申合）'],巳酉:[2,'很高档（半合，效率也很高）'],
+      子丑:[3,'略差档'],寅丑:[3,'略差档'],寅亥:[4,'较低档'],辰酉:[4,'较低档'],午戌:[4,'较低档'],卯未:[4,'较低档'],亥未:[4,'较低档'],午未:[5,'不制（两字相生）']};
+    const CH={丑未:[1,'库冲——冲刑里最高档'],辰戌:[1,'库冲——冲刑里最高档'],丑戌:[1,'库刑——冲刑里最高档'],寅申:[2,'也很高（次于库冲）'],巳亥:[2,'也很高（次于库冲）'],子午:[3,'略低于寅申、巳亥冲'],卯酉:[3,'略低于寅申、巳亥冲']};
+    const key=(a,b)=>[a+b,b+a].find(k=>HE[k]||CH[k])||'';
+    const cand=drRels(g,1).filter(x=>x.a).map(x=>{const k=key(x.a,x.b);if(!k)return null;
+      if(['合','暗合','半合','拱合'].includes(x.t)&&HE[k])return{s:x.s,fam:'合',v:HE[k],k};
+      if(['冲','刑'].includes(x.t)&&CH[k])return{s:x.s,fam:'冲刑',v:CH[k],k};return null;}).filter(Boolean);
+    if(cand.length){const it=cand[Math.floor(rng()*cand.length)];
+      const ALL=it.fam==='合'?['最高档（作用最高，原神藏干全能制死）','很高档（次于巳申合）','略差档','较低档','不制（两字相生）']:['库冲——冲刑里最高档','也很高（次于库冲）','略低于寅申、巳亥冲'];
+      const lab=v=>it.fam==='合'?(v[0]===2&&/半合/.test(v[1])?'很高档（次于巳申合）':v[1]):v[1];
+      const a=lab(it.v),o=shuffle(rng,[a,...shuffle(rng,ALL.filter(x=>x!==a)).slice(0,3)]);
+      if(o.length>=3)st.push({b:'⑥ 判制',k:'one',q:`效率表：盘上这组作用 <b>${it.s}</b>，制的力量属于哪一档？（只比${it.fam==='合'?'合':'冲刑'}这一类）`,a,o,
+        e:it.fam==='合'?'合制五档：①巳申合最高（原神藏干全能制死）②卯戌、卯申、午亥、巳酉半合很高 ③子丑、寅丑略差 ④寅亥、辰酉、午戌、卯未／亥未较低 ⑤午未不制（相生）。看「打得实不实」，不看合的名分':'冲刑档次：丑未、辰戌冲库与丑戌刑库最高；寅申、巳亥冲也很高；子午、卯酉略低。⚠️ 前提是一方之势一定大于另一方，否则都不能作用；克制是最低档',an:{rel:[it.s+' ★']}});}}
   if(c.x==='乾'||c.x==='坤'){const male=c.x==='乾',want=male?['正财','偏财']:['正官','七杀'],nm=male?'妻星（财）':'夫星（官杀）';
     const ps=[0,1,3,4,5,6,7],hit=ps.filter(i=>want.includes(i<4?getShen(dg,g[i]):zhiShen(dg,g[i])));
     const lab=i=>`${P(i)} ${g[i]}`,none='盘上没有';
