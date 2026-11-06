@@ -1,4 +1,4 @@
-const CACHE = 'bazi-v62-vgj';
+const CACHE = 'bazi-v63-zhi2';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './bio/meta.js'];
 
 self.addEventListener('install', e => {
