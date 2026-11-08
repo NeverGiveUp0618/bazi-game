@@ -166,7 +166,7 @@ body{font-family:'Microsoft YaHei','微软雅黑','PingFang SC',sans-serif;backg
 .kh{position:absolute;top:5px;left:7px;font-size:10px;color:#475569;font-weight:normal}
 .fb{text-align:center;margin-top:10px;font-size:12px;min-height:28px;color:#64748b;line-height:1.5;flex-shrink:0}
 .fb-ok{color:#10b981}.fb-err{color:#ef4444}
-.fb-exp{display:block;margin-top:6px;font-size:13.5px;line-height:1.75;color:#cbd5e1;text-align:left;background:rgba(148,163,184,.08);border-radius:8px;padding:8px 10px}
+.fb-exp{cursor:pointer;display:block;margin-top:6px;font-size:13.5px;line-height:1.75;color:#cbd5e1;text-align:left;background:rgba(148,163,184,.08);border-radius:8px;padding:8px 10px}
 .fb-next{display:block;width:100%;margin-top:10px;padding:11px 0;border:none;border-radius:10px;background:#334155;color:#f1f5f9;font-size:15px;font-weight:600;cursor:pointer}
 .fb-next:active{transform:scale(.98)}
 .fb-cd{display:inline-block;min-width:1.4em;margin-left:4px;padding:0 5px;border-radius:9px;background:rgba(255,255,255,.15);font-size:12px;font-weight:400}
@@ -6844,13 +6844,24 @@ sendYstProgress();
   }
   function clear(){try{localStorage.removeItem(K)}catch(e){}}
   document.addEventListener('click',e=>{const a=e.target.closest&&e.target.closest('a.src-x[href]');if(a)snap('link');},true);
-  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')snap('hide');});
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState!=='hidden')return;
+    try{const pg=document.getElementById('p1g');
+      if(!pg||!pg.classList.contains('active')){const d=JSON.parse(localStorage.getItem(K)||'null');if(d&&d.via==='hide')clear();return;}
+      const d=JSON.parse(localStorage.getItem(K)||'null');
+      if(d&&d.via==='link'&&Date.now()-d.at<60000)return;   /* 刚点过教材链接：切走是去看教材，保留那条断点 */
+    }catch(e){}
+    snap('hide');});
+  /* 点「讲解」整块也能跳到教材：优先用里面已展开的出处链接，没有就按章号直达 */
+  document.addEventListener('click',e=>{const fx=e.target.closest&&e.target.closest('.fb-exp');if(!fx||e.target.closest('a'))return;
+    const a=fx.querySelector('a.src-x[href]');if(a){a.click();return;}
+    try{const n=typeof kqCh==='function'?kqCh(fx.textContent):0;if(n>=1&&n<=16){snap('link');window.open('https://nevergiveup0618.github.io/bazi-course/?go='+encodeURIComponent(String(n).padStart(2,'0')+'-'),'_blank');}}catch(_){}
+  });
   if(typeof m1End==='function'){const _e=m1End;m1End=function(){clear();return _e.apply(this,arguments);};}
   window.addEventListener('load',()=>{
     try{
       if(location.search)return;
       const d=JSON.parse(localStorage.getItem(K)||'null');
-      if(!d||Date.now()-d.at>TTL||d.via!=='link')return;
+      if(!d||Date.now()-d.at>TTL)return;
       clear();
       Object.assign(G1,d.g,{qt0:0,timer:null,answered:false,waitNext:false});
       document.getElementById('m1-lbl').textContent=d.lbl;

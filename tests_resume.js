@@ -11,7 +11,9 @@ setTimeout(()=>{
   const G=ev('G1');const q=G.qs[0];w.m1Pick(w.eval('_opts').indexOf(q.correct));
   const a=w.document.createElement('a');a.className='src-x';a.href='https://nevergiveup0618.github.io/bazi-course/?go=08-';w.document.body.appendChild(a);
   a.addEventListener('click',e=>e.preventDefault());a.click();
+  Object.defineProperty(w.document,'visibilityState',{value:'hidden',configurable:true});w.document.dispatchEvent(new w.Event('visibilitychange'));  // 去看教材时页面被切到后台
   const saved=w.localStorage.getItem('bazi_m1_resume');
+  ck(JSON.parse(saved).via==='link','切后台没有覆盖掉「点链接」的断点');
   ck(!!saved,'点链接时存了断点');
   const sc=G.score,cur=G.cur;
   const d2=mk(saved);
