@@ -1,4 +1,4 @@
-const CACHE = 'bazi-v64-resume-b2611080948';
+const CACHE = 'bazi-v65-gate-b2611090900';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './bio/meta.js'];
 
 self.addEventListener('install', e => {
